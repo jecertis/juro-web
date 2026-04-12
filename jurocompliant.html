@@ -6,6 +6,7 @@
 <title>Jurocompliant — DPDP Compliance Scanner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/config.js"></script>
 <style>
   :root {
     --navy: #0F1E35;
@@ -682,158 +683,7 @@
 </div>
 
 <script>
-const SITES = {
-  'kapiva.in': {
-    posture: [
-      { label: 'Consent mechanism', s: 'red' },
-      { label: 'Privacy notice (DPDP)', s: 'red' },
-      { label: 'Third-party trackers', s: 'red' },
-      { label: 'Data retention policy', s: 'amber' },
-      { label: 'Cross-border transfer', s: 'amber' },
-      { label: 'Data subject rights', s: 'amber' },
-    ],
-    findings: [
-      {
-        id: 'F-001', sev: 'critical',
-        title: 'Tracker fires on privacy policy page before any consent',
-        rule: 'DPDP Act § 6(1) — Consent required before processing',
-        desc: 'A Facebook tracking pixel (ID: 390667011670069) is embedded in the HTML of the privacy policy page itself and fires on page load — before any user consent interaction. This constitutes processing of personal data (IP address, device fingerprint, browsing behaviour) without valid consent. Notably, this violation occurs on the page where users go to understand their privacy rights.',
-        location: 'https://kapiva.in/privacy-policy/ — page load, network layer',
-        remediation: 'Implement a consent management platform. Block all third-party scripts including analytics pixels until the user has given explicit, granular consent for the "advertising" category. Consent must be an affirmative action — not implied by page load.'
-      },
-      {
-        id: 'F-002', sev: 'critical',
-        title: 'Privacy policy references IT Act 2000 only — DPDP Act absent',
-        rule: 'DPDP Act § 5 — Privacy notice mandatory disclosures',
-        desc: 'The published privacy policy at kapiva.in/privacy-policy references only the Information Technology Act 2000 and SPDI Rules 2011. The Digital Personal Data Protection Act 2023 and Rules 2025 are not mentioned anywhere in the document. The mandatory Section 5 disclosures — specific data categories, granular processing purposes, retention periods per category, and DPDP data subject rights — are absent or non-compliant.',
-        location: 'https://kapiva.in/privacy-policy/ — full document',
-        remediation: 'Engage a qualified DPDP legal professional to rewrite the privacy notice. The new notice must explicitly reference the DPDP Act 2023, name all data categories collected, state specific purposes for each, define retention periods, and describe how users can exercise their rights under Sections 12–14 of the Act.'
-      },
-      {
-        id: 'F-003', sev: 'critical',
-        title: 'Blanket consent via website usage — invalid under DPDP § 6(4)',
-        rule: 'DPDP Act § 6(4) — Bundled consent prohibited',
-        desc: 'The privacy policy states: "By using our Website and/or by providing your personal information... you consent to the collection and use of the information." Section 6(4) of the DPDP Act 2023 explicitly prohibits bundled consent — consent tied to the use of a service or acceptance of terms. Each processing purpose requires a separate, specific, affirmative consent action.',
-        location: 'https://kapiva.in/privacy-policy/ — Consent section',
-        remediation: 'Remove all bundled consent language. Replace with granular consent checkboxes at each point of data collection (account registration, checkout, newsletter, promotional communications). Each checkbox must clearly state the purpose and must be unchecked by default.'
-      },
-      {
-        id: 'F-004', sev: 'high',
-        title: 'Newsletter form collects email without consent statement',
-        rule: 'DPDP Act § 6(1) — Consent at point of collection',
-        desc: 'The "Join Our Mailing List" form in the page footer collects email addresses without displaying a consent statement, privacy notice link, or opt-in checkbox at the point of data collection. Users submitting this form have not provided valid DPDP consent for their email to be used for marketing communications.',
-        location: 'https://kapiva.in/ — footer, email subscription form',
-        remediation: 'Add immediately below the email input field: a brief statement of purpose ("We will send you product updates and offers"), a link to the privacy policy, and an explicit opt-in checkbox. The checkbox must not be pre-ticked.'
-      },
-      {
-        id: 'F-005', sev: 'high',
-        title: 'Cross-border data transfer — inadequate disclosure and safeguards',
-        rule: 'DPDP Act § 16 — Cross-border transfer restrictions',
-        desc: 'The privacy policy discloses that data is stored on BigCommerce servers but does not specify the country or countries of storage, does not confirm whether BigCommerce storage locations are on India\'s approved cross-border transfer list, and does not document what contractual or technical safeguards apply to the international transfer.',
-        location: 'https://kapiva.in/privacy-policy/ — "How we secure" section',
-        remediation: 'Identify and disclose the specific countries where customer data is stored by BigCommerce. If these countries are not on the approved list under § 16, obtain explicit consent for the transfer and implement standard contractual clauses or equivalent safeguards. Document these in the privacy notice.'
-      }
-    ]
-  },
-
-  'abhyaas.org': {
-    posture: [
-      { label: 'Consent mechanism', s: 'red' },
-      { label: 'Privacy notice (DPDP)', s: 'red' },
-      { label: 'Data retention policy', s: 'red' },
-      { label: 'Cookie consent', s: 'red' },
-      { label: 'Cross-border transfer', s: 'amber' },
-      { label: 'Data subject rights', s: 'amber' },
-    ],
-    findings: [
-      {
-        id: 'F-001', sev: 'critical',
-        title: 'Data retention: "no period defined" for all categories including users',
-        rule: 'DPDP Act § 8(6) — Retention limit obligation',
-        desc: 'The platform\'s publicly accessible data retention registry (abhyaas.org/admin/tool/dataprivacy/summary.php) explicitly shows "No retention period was defined" for every single data category: Site, Users, Course categories, Courses, Activity modules, and Blocks. Section 8(6) of the DPDP Act requires that personal data not be retained beyond the period necessary for the stated purpose. A platform collecting personal data from teachers and students across India with no defined retention policy is in direct violation.',
-        location: 'https://abhyaas.org/admin/tool/dataprivacy/summary.php — publicly accessible',
-        remediation: 'Define and configure specific retention periods in Moodle\'s data privacy tool for each category. Recommended: user accounts — retain for 3 years post last login; course completion records — retain per curriculum requirements; activity logs — retain for 12 months. These must also be disclosed in the privacy notice.'
-      },
-      {
-        id: 'F-002', sev: 'critical',
-        title: 'Registration form collects PII without any consent mechanism',
-        rule: 'DPDP Act § 6(1) — Affirmative consent before processing',
-        desc: 'The account creation form at /login/signup.php collects first name, last name, email address, city, and country. There is no consent checkbox, no privacy notice reference at the point of collection, and no affirmative action required beyond clicking "Create account." Account creation does not constitute valid consent under the DPDP Act — consent must be specific, informed, and given through a clear affirmative action separate from service access.',
-        location: 'https://abhyaas.org/login/signup.php — registration form',
-        remediation: 'Add a consent checkbox immediately above the submit button: "I have read and agree to the Privacy Policy [link] and consent to the collection of my personal data for the purposes described." This checkbox must be unchecked by default and must be mandatory for form submission.'
-      },
-      {
-        id: 'F-003', sev: 'high',
-        title: 'Privacy policy hosted on external Google Drive — not on platform domain',
-        rule: 'DPDP Act § 5 — Accessible and authoritative privacy notice',
-        desc: 'The privacy policy link in the site footer opens a Google Drive document hosted externally. This creates three compliance risks: the document can be modified without version tracking on the platform; Google Drive links may become inaccessible; and the notice is not served under the same domain as the service that processes the data, creating potential authenticity questions in any regulatory proceeding.',
-        location: 'https://abhyaas.org/ — footer "Privacy Policy" link → Google Drive',
-        remediation: 'Host the privacy policy directly on abhyaas.org/privacy-policy. Maintain dated versions. Ensure the policy is accessible from every page that collects personal data — at minimum the registration page, login page, and homepage footer.'
-      },
-      {
-        id: 'F-004', sev: 'high',
-        title: 'Session cookies set before any consent on login and homepage',
-        rule: 'DPDP Act § 6(1) — Processing requires prior consent',
-        desc: 'The login page and homepage set session and tracking cookies on page load without presenting a consent banner or requesting permission. Cookies that can identify a user across sessions or link to a user account constitute personal data processing under the DPDP Act and require prior consent unless strictly necessary for service delivery.',
-        location: 'https://abhyaas.org/login/index.php — page load, cookie inspection',
-        remediation: 'Install and configure a Moodle-compatible cookie consent plugin. Strictly necessary session cookies (MoodleSession) may be exempt but must be disclosed. All other cookies — analytics, tracking, third-party — must be blocked until the user grants consent via a compliant banner.'
-      },
-      {
-        id: 'F-005', sev: 'medium',
-        title: 'Privacy notice in English only — multilingual platform serving regional users',
-        rule: 'DPDP Act § 5 — Privacy notice must be comprehensible',
-        desc: 'The platform supports Hindi, Marathi, and Bengali, and serves educators and students across India in their regional languages. The privacy policy is available in English only. For users whose primary language is not English, the privacy notice may not be meaningfully comprehensible, undermining the informed consent requirement.',
-        location: 'https://abhyaas.org/ — language selector (4 languages supported)',
-        remediation: 'Provide the privacy notice in all four supported languages: English, Hindi, Marathi, and Bengali. This is also aligned with DPDP Act principles of transparency and the platform\'s mission of serving educators across India.'
-      }
-    ]
-  },
-
-  'jiohotstar.com': {
-    posture: [
-      { label: 'Consent mechanism', s: 'amber' },
-      { label: 'Privacy notice (DPDP)', s: 'amber' },
-      { label: 'Tracker consent sequence', s: 'amber' },
-      { label: 'SDF audit readiness', s: 'red' },
-      { label: 'Data subject rights', s: 'amber' },
-      { label: 'Security safeguards', s: 'green' },
-    ],
-    findings: [
-      {
-        id: 'F-001', sev: 'critical',
-        title: 'Likely Significant Data Fiduciary — mandatory Rule 13 annual audit',
-        rule: 'DPDP Rules 2025 Rule 13 — SDF independent audit obligation',
-        desc: 'Based on scale of Indian user data processing, breadth of sensitive data categories (viewing history, payment information, location, device data), and estimated revenue thresholds, this platform is highly likely to be designated a Significant Data Fiduciary by the DPBI. SDF designation triggers: mandatory independent data protection audit at least annually; audit findings submitted to the Data Protection Board of India; and a Data Protection Officer appointment. Penalty for non-compliance with SDF obligations: up to ₹150 crore.',
-        location: 'Platform-wide assessment — scale, data sensitivity, and revenue indicators',
-        remediation: 'Engage legal counsel immediately to assess SDF designation likelihood. If designated, commission an independent data protection audit before the next regulatory review cycle. Establish an internal DPO function. Note: Juro Technical Compliance Reports can serve as the technical evidence layer for the independent auditor\'s submission to the DPBI.'
-      },
-      {
-        id: 'F-002', sev: 'high',
-        title: 'Tracker consent firing sequence — requires live verification',
-        rule: 'DPDP Act § 6(1) + BRDCMS April 2025 — Consent before processing',
-        desc: 'Known third-party trackers are present on the platform including Google Analytics (_ga, _gid cookies), DoubleClick advertising trackers, and social platform pixels. The BRDCMS issued by MeitY on April 15 2025 requires consent management systems to implement granular cookie categories, real-time withdrawal, and automated compliance logging. Whether these trackers fire before or after user consent acceptance requires live browser testing with network interception — this finding flags the risk pending verification.',
-        location: 'https://jiohotstar.com — network layer, page load sequence (requires live scan)',
-        remediation: 'Conduct a technical consent audit with network interception to verify the exact firing sequence of all third-party trackers relative to user consent actions. Update the consent management platform to meet BRDCMS April 2025 requirements: granular categories, one-click withdrawal, and automated timestamped consent logs.'
-      },
-      {
-        id: 'F-003', sev: 'high',
-        title: 'Cookie consent granularity — BRDCMS April 2025 compliance gap',
-        rule: 'DPDP Rules 2025 — Consent Manager obligations (Phase 2 Nov 2026)',
-        desc: 'The BRDCMS (Broad Requirements for Digital Consent Management Systems) published by MeitY in April 2025 sets technical requirements for consent management systems including: granular consent by cookie category (strictly necessary, functional, analytics, advertising); real-time consent withdrawal with immediate effect; interoperability with consent managers; and automated compliance audit logs. Phase 2 of DPDP enforcement activating November 2026 makes these requirements mandatory. The existing consent mechanism must be assessed against these specifications.',
-        location: 'https://jiohotstar.com — cookie consent interface and management system',
-        remediation: 'Review the current consent management platform against the full BRDCMS April 2025 specification. Identify gaps in granularity, withdrawal mechanisms, and logging. Upgrade or replace the CMP before November 2026 Phase 2 enforcement. Maintain consent audit logs for a minimum of 24 months.'
-      }
-    ]
-  }
-};
-
-function getSiteKey(url) {
-  const clean = url.replace(/^https?:\/\//,'').toLowerCase();
-  for (const k of Object.keys(SITES)) {
-    if (clean.includes(k)) return k;
-  }
-  return null;
-}
+const API_BASE = window.JURO_API_URL ?? 'http://localhost:3000';
 
 function setUrl(u) {
   document.getElementById('urlInput').value = u;
@@ -887,7 +737,7 @@ async function startScan() {
   }, 800);
 
   try {
-    const response = await fetch('/api/scan', {
+    const response = await fetch(API_BASE + '/api/scan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: raw })
@@ -950,9 +800,10 @@ function renderResults(data, url, elapsed) {
   data.posture.forEach(p => {
     const row = document.createElement('div');
     row.className = 'posture-row';
-    const pillClass = `pill-${p.s}`;
-    const pillText = p.s === 'red' ? 'Non-compliant' : p.s === 'amber' ? 'At risk' : 'Compliant';
-    row.innerHTML = `<span class="posture-label">${p.label}</span><span class="status-pill ${pillClass}">${pillText}</span>`;
+    const color = p.status === 'fail' ? 'red' : 'green';
+    const pillClass = `pill-${color}`;
+    const pillText = p.status === 'fail' ? 'Non-compliant' : 'Compliant';
+    row.innerHTML = `<span class="posture-label">${p.rule}</span><span class="status-pill ${pillClass}">${pillText}</span>`;
     pr.appendChild(row);
   });
 
