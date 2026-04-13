@@ -178,29 +178,23 @@
   .scan-btn:active { background: #1E40AF; }
   .scan-btn:disabled { background: #94A3B8; cursor: not-allowed; }
 
-  .quick-picks {
+  .consent-check {
     max-width: 640px;
-    margin: 12px auto 0;
+    margin: 14px auto 0;
     display: flex;
+    align-items: center;
     gap: 8px;
-    justify-content: center;
-  }
-
-  .quick-pick {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: #64748B;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 4px 10px;
-    border-radius: var(--radius);
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+    font-size: 12px;
+    color: #94A3B8;
+    user-select: none;
   }
 
-  .quick-pick:hover {
-    background: rgba(255,255,255,0.12);
-    color: #CBD5E1;
+  .consent-check input[type="checkbox"] {
+    accent-color: #60A5FA;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
   }
 
   /* ── Progress ── */
@@ -608,11 +602,10 @@
     <button class="scan-btn" id="scanBtn" onclick="startScan()">Scan now →</button>
   </div>
 
-  <div class="quick-picks">
-    <span class="quick-pick" onclick="setUrlAndScan('kapiva.in')">kapiva.in</span>
-    <span class="quick-pick" onclick="setUrlAndScan('abhyaas.org')">abhyaas.org</span>
-    <span class="quick-pick" onclick="setUrlAndScan('jiohotstar.com')">jiohotstar.com</span>
-  </div>
+  <label class="consent-check" id="consentLabel">
+    <input type="checkbox" id="consentBox"/>
+    <span>I confirm I am authorised to scan this domain</span>
+  </label>
 
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-bar-bg">
@@ -685,22 +678,28 @@
 <script>
 const API_BASE = window.JURO_API_URL ?? 'http://localhost:3000';
 
-function setUrl(u) {
-  document.getElementById('urlInput').value = u;
-  document.getElementById('urlInput').focus();
-}
-
-function setUrlAndScan(u) {
-  setUrl(u);
-  startScan();
-}
-
 let scanning = false;
+let lastScanTime = 0;
+const SCAN_COOLDOWN_MS = 60000;
 
 async function startScan() {
   if (scanning) return;
   const raw = document.getElementById('urlInput').value.trim();
   if (!raw) return;
+
+  if (!document.getElementById('consentBox').checked) {
+    alert('Please confirm you are authorised to scan this domain.');
+    return;
+  }
+
+  const now = Date.now();
+  const elapsed = now - lastScanTime;
+  if (lastScanTime && elapsed < SCAN_COOLDOWN_MS) {
+    const wait = Math.ceil((SCAN_COOLDOWN_MS - elapsed) / 1000);
+    alert('Please wait ' + wait + ' seconds before scanning again.');
+    return;
+  }
+  lastScanTime = now;
 
   scanning = true;
   const btn = document.getElementById('scanBtn');

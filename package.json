@@ -1,0 +1,16 @@
+{
+  "name": "juro-web",
+  "version": "1.0.0",
+  "description": "This repository is reserved as the canonical web frontend repository (`juro-web`) for `jurocompliant.com`.",
+  "main": "config.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0"
+  }
+}
