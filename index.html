@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurocompliant — DPDP Compliance Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/config.js"></script>
+<style>
+  :root {
+    --navy: #0F1E35;
+    --blue: #1C4ED8;
+    --blue-light: #EFF6FF;
+    --blue-mid: #BFDBFE;
+    --red: #DC2626;
+    --red-light: #FEF2F2;
+    --amber: #D97706;
+    --amber-light: #FFFBEB;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--navy);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .logo .accent { color: #60A5FA; }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+
+  .framework-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: #93C5FD;
+    background: rgba(147, 197, 253, 0.1);
+    border: 1px solid rgba(147, 197, 253, 0.2);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .framework-tag:hover {
+    background: rgba(147, 197, 253, 0.2);
+    color: #fff;
+  }
+
+  /* ── Hero scan area ── */
+  .hero {
+    background: var(--navy);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .hero-title {
+    font-size: 28px;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .hero-title strong {
+    font-weight: 600;
+    color: #60A5FA;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: #94A3B8;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .scan-input-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    transition: border-color 0.2s;
+  }
+
+  .scan-input-wrap:focus-within {
+    border-color: #60A5FA;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+  }
+
+  .scan-protocol {
+    background: var(--gray-100);
+    border-right: 1px solid var(--gray-200);
+    padding: 0 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  #urlInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 12px 14px;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--gray-900);
+    background: transparent;
+  }
+
+  #urlInput::placeholder { color: var(--gray-400); }
+
+  .scan-btn {
+    background: #1C4ED8;
+    color: #fff;
+    border: none;
+    padding: 0 24px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+
+  .scan-btn:hover { background: #1D4BBF; }
+  .scan-btn:active { background: #1E40AF; }
+  .scan-btn:disabled { background: #94A3B8; cursor: not-allowed; }
+
+  .quick-picks {
+    max-width: 640px;
+    margin: 12px auto 0;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .quick-pick {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #64748B;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .quick-pick:hover {
+    background: rgba(255,255,255,0.12);
+    color: #CBD5E1;
+  }
+
+  /* ── Progress ── */
+  .progress-wrap {
+    max-width: 640px;
+    margin: 16px auto 0;
+    display: none;
+  }
+
+  .progress-bar-bg {
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #60A5FA, #34D399);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-status {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #64748B;
+    margin-top: 8px;
+    text-align: left;
+  }
+
+  .progress-status::before {
+    content: '▶ ';
+    color: #60A5FA;
+  }
+
+  /* ── Main content ── */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--gray-400);
+  }
+
+  .empty-state-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    opacity: 0.3;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* ── Summary strip ── */
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .metric-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .metric-num {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    font-family: var(--mono);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-500);
+    margin-top: 4px;
+  }
+
+  .metric-critical .metric-num { color: var(--red); }
+  .metric-high .metric-num { color: var(--amber); }
+  .metric-medium .metric-num { color: var(--blue); }
+  .metric-total .metric-num { color: var(--gray-900); }
+
+  /* ── Two column layout ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* ── Posture panel ── */
+  .panel {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .panel-title {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-500);
+    border-bottom: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+
+  .posture-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 13px;
+  }
+
+  .posture-row:last-child { border-bottom: none; }
+
+  .posture-label { color: var(--gray-700); }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-red { background: var(--red); }
+  .dot-amber { background: var(--amber); }
+  .dot-green { background: var(--green); }
+
+  .status-pill {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    letter-spacing: 0.3px;
+  }
+
+  .pill-red { background: var(--red-light); color: var(--red); }
+  .pill-amber { background: var(--amber-light); color: var(--amber); }
+  .pill-green { background: var(--green-light); color: var(--green); }
+
+  /* ── Findings list ── */
+  .findings-wrap { display: flex; flex-direction: column; gap: 10px; }
+
+  .finding-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .finding-card.visible { opacity: 1; transform: translateY(0); }
+  .finding-card.critical { border-left-color: var(--red); }
+  .finding-card.high { border-left-color: var(--amber); }
+  .finding-card.medium { border-left-color: var(--blue); }
+
+  .finding-head {
+    padding: 14px 16px 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .finding-id {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray-400);
+    margin-bottom: 3px;
+  }
+
+  .finding-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-900);
+    line-height: 1.4;
+  }
+
+  .sev-pill {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .sev-critical { background: var(--red-light); color: var(--red); }
+  .sev-high { background: var(--amber-light); color: var(--amber); }
+  .sev-medium { background: var(--blue-light); color: var(--blue); }
+
+  .finding-body {
+    padding: 0 16px 14px;
+    border-top: 1px solid var(--gray-100);
+    display: none;
+  }
+
+  .finding-body.open { display: block; }
+
+  .finding-desc {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.6;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .finding-meta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .finding-meta-item {
+    font-size: 11px;
+    color: var(--gray-500);
+  }
+
+  .finding-meta-item strong {
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+
+  .rule-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: #1D4BBF;
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    padding: 3px 10px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+  }
+
+  .remediation-box {
+    background: var(--green-light);
+    border: 1px solid #A7F3D0;
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #065F46;
+    line-height: 1.5;
+  }
+
+  .remediation-box .rem-label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--green);
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    display: none;
+  }
+
+  .cta-text .cta-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #60A5FA;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .cta-text .cta-headline {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .cta-text .cta-sub {
+    font-size: 12px;
+    color: #94A3B8;
+    line-height: 1.5;
+    max-width: 420px;
+  }
+
+  .cta-action-btn {
+    background: #1C4ED8;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+
+  .cta-action-btn:hover { background: #1D4BBF; }
+
+  /* ── Scan target label ── */
+  .scan-target-bar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gray-700);
+  }
+
+  .scan-target-bar .target-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .scan-time {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--gray-400);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .two-col { grid-template-columns: 1fr; }
+    .summary-strip { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding: 2rem 1.25rem 1.75rem; }
+    .main { padding: 1.25rem; }
+    .cta-block { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">juro<span class="accent">compliant</span></div>
+  <div class="header-right">
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
+  </div>
+</div>
+
+<div class="hero">
+  <h1 class="hero-title">Is your website <strong>DPDP compliant?</strong></h1>
+  <p class="hero-sub">Scan any URL for real technical compliance gaps — mapped to specific DPDP provisions</p>
+
+  <div class="scan-input-wrap">
+    <div class="scan-protocol">https://</div>
+    <input type="text" id="urlInput" placeholder="yourcompany.com" autocomplete="off" spellcheck="false"/>
+    <button class="scan-btn" id="scanBtn" onclick="startScan()">Scan now →</button>
+  </div>
+
+  <div class="quick-picks">
+    <span class="quick-pick" onclick="setUrlAndScan('kapiva.in')">kapiva.in</span>
+    <span class="quick-pick" onclick="setUrlAndScan('abhyaas.org')">abhyaas.org</span>
+    <span class="quick-pick" onclick="setUrlAndScan('jiohotstar.com')">jiohotstar.com</span>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-status" id="progressStatus">Initialising scanner</div>
+  </div>
+</div>
+
+<div class="main">
+  <div id="emptyState" class="empty-state">
+    <svg class="empty-state-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/>
+      <path d="M16 24h16M16 18h10M16 30h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <p>Enter your website URL above and click Scan now.<br>Findings appear in real time as the scanner runs.</p>
+  </div>
+
+  <div id="resultsArea" style="display:none">
+
+    <div class="scan-target-bar" id="scanTargetBar">
+      <div class="target-dot"></div>
+      <span id="scanTargetLabel">Scan complete</span>
+      <span class="scan-time" id="scanTimeLabel"></span>
+    </div>
+
+    <div class="summary-strip">
+      <div class="metric-card metric-critical">
+        <div class="metric-num" id="cCount">0</div>
+        <div class="metric-label">Critical</div>
+      </div>
+      <div class="metric-card metric-high">
+        <div class="metric-num" id="hCount">0</div>
+        <div class="metric-label">High</div>
+      </div>
+      <div class="metric-card metric-medium">
+        <div class="metric-num" id="mCount">0</div>
+        <div class="metric-label">Medium</div>
+      </div>
+      <div class="metric-card metric-total">
+        <div class="metric-num" id="tCount">0</div>
+        <div class="metric-label">Total findings</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="panel" id="posturePanel">
+          <div class="panel-title">Compliance posture</div>
+          <div id="postureRows"></div>
+        </div>
+      </div>
+      <div>
+        <div class="findings-wrap" id="findingsList"></div>
+      </div>
+    </div>
+
+    <div class="cta-block" id="ctaBlock">
+      <div class="cta-text">
+        <div class="cta-eyebrow">Next step</div>
+        <div class="cta-headline">Get the full technical assessment</div>
+        <div class="cta-sub">These are the website-layer findings. The most serious DPDP violations — missing consent in backend APIs, PII in logs, unencrypted data columns — live in your codebase. A full scan costs ₹75,000 and delivers within 10 working days.</div>
+      </div>
+      <button class="cta-action-btn" onclick="requestFullScan()">Request full scan →</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API_BASE = window.JURO_API_URL ?? 'http://localhost:3000';
+
+function setUrl(u) {
+  document.getElementById('urlInput').value = u;
+  document.getElementById('urlInput').focus();
+}
+
+function setUrlAndScan(u) {
+  setUrl(u);
+  startScan();
+}
+
+let scanning = false;
+
+async function startScan() {
+  if (scanning) return;
+  const raw = document.getElementById('urlInput').value.trim();
+  if (!raw) return;
+
+  scanning = true;
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = 'Scanning...';
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'block';
+
+  const fill = document.getElementById('progressFill');
+  const status = document.getElementById('progressStatus');
+
+  const steps = [
+    [8,  'Resolving URL and checking connectivity...'],
+    [18, 'Loading page with headless Chromium...'],
+    [30, 'Intercepting network requests and cookie jar...'],
+    [44, 'Analysing consent management implementation...'],
+    [56, 'Detecting third-party tracker firing sequence...'],
+    [68, 'Checking privacy notice against DPDP § 5 requirements...'],
+    [78, 'Scanning form fields for consent compliance...'],
+    [87, 'Mapping findings to DPDP Act provisions...'],
+    [94, 'Calculating obligation-level compliance posture...'],
+    [100,'Scan complete — building findings report...'],
+  ];
+
+  let stepIdx = 0;
+  const progressInterval = setInterval(() => {
+    if (stepIdx < steps.length - 1) {
+      fill.style.width = steps[stepIdx][0] + '%';
+      status.textContent = steps[stepIdx][1];
+      stepIdx++;
+    }
+  }, 800);
+
+  try {
+    const response = await fetch(API_BASE + '/api/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: raw })
+    });
+    
+    const data = await response.json();
+    
+    clearInterval(progressInterval);
+    fill.style.width = '100%';
+    status.textContent = 'Scan complete — building findings report...';
+
+    if (data.error) {
+       alert('Scan failed: ' + data.error);
+    } else {
+       setTimeout(() => {
+         renderResults(data, data.url, data.elapsed);
+         document.getElementById('progressWrap').style.display = 'none';
+       }, 500);
+    }
+  } catch (err) {
+    clearInterval(progressInterval);
+    alert('Failed to connect to scanner API. Ensure the backend is running.');
+  } finally {
+    scanning = false;
+    btn.disabled = false;
+    btn.textContent = 'Scan again';
+  }
+}
+
+function renderResults(data, url, elapsed) {
+  document.getElementById('resultsArea').style.display = 'block';
+
+  const bar = document.getElementById('scanTargetBar');
+  bar.style.display = 'flex';
+  document.getElementById('scanTargetLabel').textContent = url.replace(/^https?:\/\//,'');
+  document.getElementById('scanTimeLabel').textContent = `Completed in ${elapsed}s`;
+
+  if (!data || !data.findings) {
+    document.getElementById('cCount').textContent = 0;
+    document.getElementById('hCount').textContent = 0;
+    document.getElementById('mCount').textContent = 0;
+    document.getElementById('tCount').textContent = 0;
+    document.getElementById('postureRows').innerHTML = '';
+    document.getElementById('findingsList').innerHTML = '<div style="padding:2rem;text-align:center;color:#9CA3AF;font-size:13px;background:#fff;border:1px solid #E5E7EB;border-radius:10px">No findings for this URL.</div>';
+    document.getElementById('ctaBlock').style.display = 'none';
+    return;
+  }
+
+  const crit = data.findings.filter(f=>f.sev==='critical').length;
+  const high = data.findings.filter(f=>f.sev==='high').length;
+  const med  = data.findings.filter(f=>f.sev==='medium').length;
+
+  document.getElementById('cCount').textContent = crit;
+  document.getElementById('hCount').textContent = high;
+  document.getElementById('mCount').textContent = med;
+  document.getElementById('tCount').textContent = data.findings.length;
+
+  const pr = document.getElementById('postureRows');
+  pr.innerHTML = '';
+  data.posture.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'posture-row';
+    const color = p.status === 'fail' ? 'red' : 'green';
+    const pillClass = `pill-${color}`;
+    const pillText = p.status === 'fail' ? 'Non-compliant' : 'Compliant';
+    row.innerHTML = `<span class="posture-label">${p.rule}</span><span class="status-pill ${pillClass}">${pillText}</span>`;
+    pr.appendChild(row);
+  });
+
+  const fl = document.getElementById('findingsList');
+  fl.innerHTML = '';
+
+  data.findings.forEach((f, idx) => {
+    const card = document.createElement('div');
+    card.className = `finding-card ${f.sev}`;
+    card.innerHTML = `
+      <div class="finding-head" onclick="toggleFinding(this)">
+        <div>
+          <div class="finding-id">${f.id}</div>
+          <div class="finding-title">${f.title}</div>
+        </div>
+        <span class="sev-pill sev-${f.sev}">${f.sev}</span>
+      </div>
+      <div class="finding-body${idx === 0 ? ' open' : ''}">
+        <div class="finding-desc">${f.desc}</div>
+        <div class="finding-meta-row">
+          <div class="finding-meta-item"><strong>Location:</strong> ${f.location}</div>
+        </div>
+        <div><span class="rule-chip">§ ${f.rule}</span></div>
+        <div class="remediation-box">
+          <span class="rem-label">Remediation</span>
+          ${f.remediation}
+        </div>
+      </div>
+    `;
+    fl.appendChild(card);
+    setTimeout(() => card.classList.add('visible'), 80 + idx * 160);
+  });
+
+  setTimeout(() => {
+    document.getElementById('ctaBlock').style.display = 'flex';
+  }, 80 + data.findings.length * 160 + 500);
+}
+
+function toggleFinding(headEl) {
+  const body = headEl.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+function requestFullScan() {
+  const url = document.getElementById('urlInput').value.trim() || 'your website';
+  alert('Full scan request noted for: ' + url + '\n\nIn the live product, this triggers a ₹75,000 full assessment including codebase scan, delivered within 10 working days.\n\nContact: hello@jurocompliant.com');
+}
+
+document.getElementById('urlInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startScan();
+});
+</script>
+</body>
+</html>
