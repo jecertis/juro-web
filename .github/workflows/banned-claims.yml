@@ -1,0 +1,39 @@
+name: Banned claims check
+
+on:
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'package.json'
+      - '*.html'
+      - 'index.html'
+      - 'jurocompliant.html'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout juro-web
+        uses: actions/checkout@v4
+
+      - name: Checkout juro-platform (for check script)
+        uses: actions/checkout@v4
+        with:
+          repository: jecertis/juro-platform
+          path: juro-platform
+
+      - name: Collect files to check
+        id: files
+        run: |
+          set -e
+          files=()
+          [[ -f README.md ]] && files+=("README.md")
+          [[ -f package.json ]] && files+=("package.json")
+          while IFS= read -r -d '' f; do files+=("$f"); done < <(find . -maxdepth 2 -name '*.html' -not -path './node_modules/*' -print0 2>/dev/null || true)
+          printf '%s\n' "${files[@]}" > files.txt
+          cat files.txt
+
+      - name: Run banned-claims check
+        run: |
+          chmod +x juro-platform/scripts/check-banned-claims.sh
+          xargs -a files.txt juro-platform/scripts/check-banned-claims.sh
