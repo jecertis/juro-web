@@ -1,4 +1,4 @@
-name: Banned claims check
+name: Workspace compliance checks
 
 on:
   pull_request:
@@ -8,6 +8,8 @@ on:
       - '*.html'
       - 'index.html'
       - 'jurocompliant.html'
+      - 'CLAUDE.md'
+      - 'AGENTS.md'
 
 jobs:
   check:
@@ -16,13 +18,16 @@ jobs:
       - name: Checkout juro-web
         uses: actions/checkout@v4
 
-      - name: Checkout juro-platform (for check script)
+      - name: Checkout juro-platform (for check scripts)
         uses: actions/checkout@v4
         with:
           repository: jecertis/juro-platform
           path: juro-platform
 
-      - name: Collect files to check
+      - name: Make scripts executable
+        run: chmod +x juro-platform/scripts/check-banned-claims.sh juro-platform/scripts/check-agent-preamble.sh
+
+      - name: Collect files for banned-claims check
         id: files
         run: |
           set -e
@@ -34,6 +39,7 @@ jobs:
           cat files.txt
 
       - name: Run banned-claims check
-        run: |
-          chmod +x juro-platform/scripts/check-banned-claims.sh
-          xargs -a files.txt juro-platform/scripts/check-banned-claims.sh
+        run: xargs -a files.txt juro-platform/scripts/check-banned-claims.sh
+
+      - name: Run agent-preamble check
+        run: juro-platform/scripts/check-agent-preamble.sh CLAUDE.md AGENTS.md
