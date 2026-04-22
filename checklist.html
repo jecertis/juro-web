@@ -7,6 +7,7 @@
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
+<script src="/config.js"></script>
 <style>
   :root {
     /* Colour */
@@ -1031,20 +1032,23 @@ async function submitGapEmail(event) {
   btn.disabled = true;
   btn.textContent = 'Sending…';
 
-  const allQ = getAllQuestions();
-  const gapCount = allQ.filter(q => answers[q.id] === 'no' || answers[q.id] === 'unsure').length;
+  const API_BASE = window.JURO_API_URL || 'http://localhost:3000';
+  const q = new URLSearchParams(window.location.search);
 
   try {
-    await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+    await fetch(API_BASE + '/api/v1/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         email,
-        name: name || '(not provided)',
-        gap_count: gapCount,
-        gap_summary: buildGapSummary(),
-        _subject: `Gap assessment — ${gapCount} gap${gapCount !== 1 ? 's' : ''} identified`
-      })
+        name: name || undefined,
+        source: 'checklist',
+        consent_version: '2026-04',
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined,
+      }),
     });
   } catch (_) { /* fail silently — show success anyway */ }
 
