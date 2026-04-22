@@ -442,7 +442,18 @@
     border-radius: var(--radius-lg);
     padding: var(--s4);
     text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    position: relative;
   }
+
+  .metric-card:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
+  .metric-card:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+  .metric-card.is-active { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
+  .metric-card.is-empty { opacity: 0.45; cursor: not-allowed; }
+  .metric-card.is-empty:hover { transform: none; box-shadow: none; }
 
   .metric-num {
     font-size: var(--text-2xl);
@@ -473,9 +484,21 @@
   /* ── Two column layout ── */
   .two-col {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 2rem;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 2.5rem;
     align-items: start;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .two-col > :first-child > .panel {
+    position: sticky;
+    top: var(--s3);
+  }
+
+  @media (max-width: 860px) {
+    .two-col { grid-template-columns: 1fr; gap: var(--s3); }
+    .two-col > :first-child > .panel { position: static; }
   }
 
   /* ── Posture panel ── */
@@ -924,7 +947,14 @@
     <span>I confirm I am authorised to scan this domain</span>
   </label>
 
-  <div class="stakes-strip">
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-status" id="progressStatus">Initialising scanner</div>
+  </div>
+
+  <div class="stakes-strip" id="stakesStrip">
     <div class="stake">
       <div class="stake-num">₹250 Cr</div>
       <div class="stake-label">Max fine per instance under DPDP for consent violations</div>
@@ -937,13 +967,6 @@
       <div class="stake-num">72 hrs</div>
       <div class="stake-label">Your window to notify the Data Protection Board after a breach</div>
     </div>
-  </div>
-
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-status" id="progressStatus">Initialising scanner</div>
   </div>
 </div>
 
@@ -1029,20 +1052,20 @@
       <span class="scan-time" id="scanTimeLabel"></span>
     </div>
 
-    <div class="summary-strip">
-      <div class="metric-card metric-critical">
+    <div class="summary-strip" id="severityFilters" role="group" aria-label="Filter findings by severity">
+      <div class="metric-card metric-critical" role="button" tabindex="0" data-filter="critical" aria-pressed="false">
         <div class="metric-num" id="cCount">0</div>
         <div class="metric-label">Critical</div>
       </div>
-      <div class="metric-card metric-high">
+      <div class="metric-card metric-high" role="button" tabindex="0" data-filter="high" aria-pressed="false">
         <div class="metric-num" id="hCount">0</div>
         <div class="metric-label">High</div>
       </div>
-      <div class="metric-card metric-medium">
+      <div class="metric-card metric-medium" role="button" tabindex="0" data-filter="medium" aria-pressed="false">
         <div class="metric-num" id="mCount">0</div>
         <div class="metric-label">Medium</div>
       </div>
-      <div class="metric-card metric-total">
+      <div class="metric-card metric-total is-active" role="button" tabindex="0" data-filter="all" aria-pressed="true">
         <div class="metric-num" id="tCount">0</div>
         <div class="metric-label">Total findings</div>
       </div>
@@ -1215,6 +1238,7 @@ async function runScan(raw) {
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('resultsArea').style.display = 'none';
   document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('stakesStrip').style.display = 'none';
 
   const fill = document.getElementById('progressFill');
   const status = document.getElementById('progressStatus');
@@ -1266,6 +1290,8 @@ async function runScan(raw) {
   } catch (err) {
     clearInterval(progressInterval);
     alert('Failed to connect to scanner API. Ensure the backend is running.');
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('stakesStrip').style.display = '';
   } finally {
     scanning = false;
     btn.disabled = false;
@@ -1300,6 +1326,8 @@ function renderResults(data, url, elapsed) {
   document.getElementById('hCount').textContent = high;
   document.getElementById('mCount').textContent = med;
   document.getElementById('tCount').textContent = data.findings.length;
+
+  resetSeverityFilter({ critical: crit, high: high, medium: med, total: data.findings.length });
 
   const pr = document.getElementById('postureRows');
   pr.innerHTML = '';
@@ -1432,6 +1460,40 @@ document.getElementById('emailForm').addEventListener('submit', async function(e
 
 document.getElementById('urlInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') startScan();
+});
+
+function applySeverityFilter(filter) {
+  const tiles = document.querySelectorAll('#severityFilters .metric-card');
+  tiles.forEach(t => {
+    const active = t.dataset.filter === filter;
+    t.classList.toggle('is-active', active);
+    t.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+  const cards = document.querySelectorAll('#findingsList .finding-card');
+  cards.forEach(c => {
+    const match = filter === 'all' || c.classList.contains(filter);
+    c.style.display = match ? '' : 'none';
+  });
+}
+
+function resetSeverityFilter(counts) {
+  const map = { critical: counts.critical, high: counts.high, medium: counts.medium, all: counts.total };
+  document.querySelectorAll('#severityFilters .metric-card').forEach(t => {
+    const n = map[t.dataset.filter] ?? 0;
+    t.classList.toggle('is-empty', t.dataset.filter !== 'all' && n === 0);
+  });
+  applySeverityFilter('all');
+}
+
+document.querySelectorAll('#severityFilters .metric-card').forEach(tile => {
+  const activate = () => {
+    if (tile.classList.contains('is-empty')) return;
+    applySeverityFilter(tile.dataset.filter);
+  };
+  tile.addEventListener('click', activate);
+  tile.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+  });
 });
 </script>
 </body>
