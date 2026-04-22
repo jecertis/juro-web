@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Notice — Jurocompliant</title>
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --yellow: #F5C400;
+    --gray-100: #F5F5F5;
+    --gray-200: #E5E5E5;
+    --gray-400: #A3A3A3;
+    --gray-500: #737373;
+    --gray-700: #404040;
+    --gray-900: #0A0A0A;
+
+    --text-xs:   11px;
+    --text-sm:   14px;
+    --text-base: 16px;
+    --text-lg:   20px;
+    --text-xl:   28px;
+
+    --lh-tight:   1.05;
+    --lh-snug:    1.5;
+    --lh-reading: 1.7;
+
+    --ls-label:   0.08em;
+    --ls-display: -0.04em;
+
+    --s1:   8px; --s2:  16px; --s3:  24px; --s4:  32px;
+    --s5:  48px; --s6:  64px; --s7:  96px; --s8: 128px;
+
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: #111111;
+    color: var(--gray-900);
+    min-height: 100vh;
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+  }
+
+  .header {
+    background: var(--ink);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 0;
+  }
+
+  .logo .accent { color: var(--yellow); }
+
+  .nav-link {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nav-link:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  .main {
+    max-width: 680px;
+    margin: var(--s5) auto;
+    padding: var(--s6) var(--s6);
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+  }
+
+  .page-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--s1);
+  }
+
+  h1 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: var(--ls-display);
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+  }
+
+  .updated {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--gray-400);
+    margin-bottom: var(--s5);
+  }
+
+  h2 {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--gray-500);
+    margin-top: var(--s5);
+    margin-bottom: var(--s1);
+    padding-bottom: var(--s1);
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  p { color: var(--gray-700); margin-bottom: var(--s1); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--s2);
+    font-size: var(--text-sm);
+  }
+
+  th {
+    background: var(--gray-100);
+    padding: var(--s1) 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--gray-500);
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-200);
+    padding: 2px 8px;
+    border-radius: var(--radius);
+  }
+
+  a { color: var(--gray-900); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--gray-700); }
+
+  .contact-block {
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: var(--s3);
+    margin-top: var(--s5);
+  }
+
+  .contact-block p { color: rgba(255,255,255,0.72); margin-bottom: 6px; }
+  .contact-block a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+  .contact-block a:hover { color: var(--yellow); text-decoration: none; }
+
+  .footer {
+    max-width: 680px;
+    margin: var(--s2) auto 0;
+    padding: 0 2rem var(--s6);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.28);
+  }
+  .footer a { color: rgba(255,255,255,0.28); }
+  .footer a:hover { color: rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/" class="logo">juro<span class="accent">compliant</span></a>
+  <a href="/" class="nav-link">← Back to scanner</a>
+</div>
+
+<div class="main">
+  <div class="page-label">Legal</div>
+  <h1>Privacy Notice</h1>
+  <div class="updated">Last updated: April 2026 &nbsp;·&nbsp; Applies to jurocompliant.com</div>
+
+  <h2>Who we are</h2>
+  <p>Jurocompliant is operated by Juro Compliance Ltd. We build non-custodial compliance scanning tools. Our contact is <a href="mailto:hello@jurocompliant.com">hello@jurocompliant.com</a>.</p>
+
+  <h2>What this notice covers</h2>
+  <p>This notice explains what personal data we collect when you use jurocompliant.com, why we collect it, and your rights. It does not cover data collected by the scanner about third-party websites — the scanner processes URLs you submit but does not store or transmit the content of those websites beyond the active scan session.</p>
+
+  <h2>What we collect and why</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>When</th>
+        <th>Purpose</th>
+        <th>Lawful basis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Email address</td>
+        <td>When you submit the email form after a scan</td>
+        <td>To send you remediation guidance for the gaps found</td>
+        <td><span class="chip">Consent</span></td>
+      </tr>
+      <tr>
+        <td>Name (optional)</td>
+        <td>When you submit the email form</td>
+        <td>To personalise our response</td>
+        <td><span class="chip">Consent</span></td>
+      </tr>
+      <tr>
+        <td>Domain scanned</td>
+        <td>Submitted with email form</td>
+        <td>To contextualise the remediation guidance we send</td>
+        <td><span class="chip">Consent</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>We do not use analytics scripts, advertising pixels, or tracking cookies. We do not set cookies on this site. The only third-party request made on page load is for self-hosted fonts served from this domain.</p>
+
+  <h2>Who we share data with</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Processor</th>
+        <th>Purpose</th>
+        <th>Privacy policy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Formspree</td>
+        <td>Form submission handling — receives email, name, domain when you submit the email form</td>
+        <td><a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">formspree.io/legal/privacy-policy</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>We do not sell personal data. We do not share it with any party other than the processor listed above.</p>
+
+  <h2>How long we keep data</h2>
+  <p>Email submissions are retained in Formspree for up to 90 days, after which they are deleted. We do not maintain a separate database of email addresses collected through this site.</p>
+
+  <h2>Your rights</h2>
+  <p>Under GDPR (if you are in the EU/EEA/UK) and DPDP Act 2023 (if you are in India), you have the right to:</p>
+  <table>
+    <thead>
+      <tr><th>Right</th><th>How to exercise it</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Access the data we hold about you</td><td rowspan="5">Email <a href="mailto:hello@jurocompliant.com">hello@jurocompliant.com</a>. We will respond within 48 hours.</td></tr>
+      <tr><td>Correct inaccurate data</td></tr>
+      <tr><td>Request erasure of your data</td></tr>
+      <tr><td>Withdraw consent at any time</td></tr>
+      <tr><td>Lodge a complaint with a supervisory authority</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Scanner data</h2>
+  <p>When you submit a URL for scanning, the scanner visits that URL using a headless browser. The fetched page content, cookies, and network requests observed during the scan are processed in memory to generate findings and are not stored or logged after the scan completes. We do not retain a copy of any page content, user data belonging to third-party website visitors, or infrastructure details of the scanned site.</p>
+  <p>By submitting a URL, you confirm that you are authorised to scan that domain. Scanning a domain you do not own or have permission to scan may violate the target site's terms of service and applicable law.</p>
+
+  <h2>Changes to this notice</h2>
+  <p>We will update this notice if our data practices change. The "last updated" date at the top will reflect any changes. Material changes will be announced at <a href="mailto:hello@jurocompliant.com">hello@jurocompliant.com</a> to anyone who has submitted their email.</p>
+
+  <div class="contact-block">
+    <p><strong style="color:#E2E8F0">Questions or requests?</strong></p>
+    <p>Email us at <a href="mailto:hello@jurocompliant.com">hello@jurocompliant.com</a>. We respond to all data-related requests within 48 hours.</p>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2026 Jurocompliant &nbsp;·&nbsp; <a href="/" style="color:inherit">Scanner</a> &nbsp;·&nbsp; <a href="/checklist.html" style="color:inherit">Gap Assessment</a>
+</div>
+
+</body>
+</html>
