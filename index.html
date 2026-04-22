@@ -1496,6 +1496,8 @@ async function runScan(raw) {
   document.getElementById('resultsArea').style.display = 'none';
   document.getElementById('progressWrap').style.display = 'block';
   document.getElementById('stakesStrip').style.display = 'none';
+  document.getElementById('heroOr').style.display = 'none';
+  document.getElementById('altOption').style.display = 'none';
 
   const fill = document.getElementById('progressFill');
   const status = document.getElementById('progressStatus');
@@ -1539,6 +1541,8 @@ async function runScan(raw) {
        showNotice(data.error, { eyebrow: 'Scan failed', tone: 'error' });
        document.getElementById('progressWrap').style.display = 'none';
        document.getElementById('stakesStrip').style.display = '';
+       document.getElementById('heroOr').style.display = '';
+       document.getElementById('altOption').style.display = '';
     } else {
        localStorage.setItem('juro_has_scanned', '1');
        setTimeout(() => {
@@ -1551,6 +1555,8 @@ async function runScan(raw) {
     showNotice('Failed to connect to scanner API. Ensure the backend is running.', { eyebrow: 'Connection failed', tone: 'error' });
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('stakesStrip').style.display = '';
+    document.getElementById('heroOr').style.display = '';
+    document.getElementById('altOption').style.display = '';
   } finally {
     scanning = false;
     btn.disabled = false;
