@@ -884,6 +884,78 @@
   }
   .modal-dismiss:hover { color: var(--gray-700); }
 
+  /* ── Notice dialog (themed alert replacement) ── */
+  .notice-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+  }
+  .notice-overlay.is-open { display: flex; }
+
+  .notice-card {
+    background: #0F0F10;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s4) var(--s3);
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+    color: #fff;
+  }
+
+  .notice-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .notice-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--yellow);
+    box-shadow: 0 0 8px var(--yellow);
+  }
+
+  .notice-card.is-error .notice-eyebrow { color: var(--red); }
+  .notice-card.is-error .notice-eyebrow::before { background: var(--red); box-shadow: 0 0 8px var(--red); }
+
+  .notice-message {
+    font-size: var(--text-base);
+    line-height: var(--lh-snug);
+    color: rgba(255,255,255,0.92);
+    margin-bottom: var(--s3);
+  }
+
+  .notice-actions { display: flex; justify-content: flex-end; }
+
+  .notice-ok {
+    background: var(--yellow);
+    color: var(--ink);
+    border: none;
+    padding: 8px 20px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .notice-ok:hover { background: var(--yellow-dark); }
+  .notice-ok:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
   /* ── Footer ── */
   .site-footer {
     border-top: 1px solid rgba(255,255,255,0.07);
@@ -1121,6 +1193,16 @@
   </div>
 </div>
 
+<div id="noticeDialog" class="notice-overlay" role="alertdialog" aria-modal="true" aria-labelledby="noticeMessage">
+  <div class="notice-card" id="noticeCard">
+    <div class="notice-eyebrow" id="noticeEyebrow">Notice</div>
+    <div class="notice-message" id="noticeMessage"></div>
+    <div class="notice-actions">
+      <button type="button" class="notice-ok" id="noticeOk">OK</button>
+    </div>
+  </div>
+</div>
+
 <footer class="site-footer">
   <span>&copy; 2026 Jurocompliant</span>
   <span style="display:flex;gap:1.5rem">
@@ -1204,7 +1286,7 @@ async function startScan() {
   if (!raw) return;
 
   if (!document.getElementById('consentBox').checked) {
-    alert('Please confirm you are authorised to scan this domain.');
+    showNotice('Please confirm you are authorised to scan this domain.', { eyebrow: 'Confirm authorisation' });
     return;
   }
 
@@ -1225,7 +1307,7 @@ async function runScan(raw) {
   const elapsed = now - lastScanTime;
   if (lastScanTime && elapsed < SCAN_COOLDOWN_MS) {
     const wait = Math.ceil((SCAN_COOLDOWN_MS - elapsed) / 1000);
-    alert('Please wait ' + wait + ' seconds before scanning again.');
+    showNotice('Please wait ' + wait + ' seconds before scanning again.', { eyebrow: 'Cooldown' });
     return;
   }
   lastScanTime = now;
@@ -1279,7 +1361,9 @@ async function runScan(raw) {
     status.textContent = 'Scan complete — building findings report...';
 
     if (data.error) {
-       alert('Scan failed: ' + data.error);
+       showNotice(data.error, { eyebrow: 'Scan failed', tone: 'error' });
+       document.getElementById('progressWrap').style.display = 'none';
+       document.getElementById('stakesStrip').style.display = '';
     } else {
        localStorage.setItem('juro_has_scanned', '1');
        setTimeout(() => {
@@ -1289,7 +1373,7 @@ async function runScan(raw) {
     }
   } catch (err) {
     clearInterval(progressInterval);
-    alert('Failed to connect to scanner API. Ensure the backend is running.');
+    showNotice('Failed to connect to scanner API. Ensure the backend is running.', { eyebrow: 'Connection failed', tone: 'error' });
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('stakesStrip').style.display = '';
   } finally {
@@ -1494,6 +1578,32 @@ document.querySelectorAll('#severityFilters .metric-card').forEach(tile => {
   tile.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
   });
+});
+
+function showNotice(message, opts = {}) {
+  const overlay = document.getElementById('noticeDialog');
+  const card = document.getElementById('noticeCard');
+  const eyebrow = document.getElementById('noticeEyebrow');
+  document.getElementById('noticeMessage').textContent = message;
+  eyebrow.textContent = opts.eyebrow || (opts.tone === 'error' ? 'Error' : 'Notice');
+  card.classList.toggle('is-error', opts.tone === 'error');
+  overlay.classList.add('is-open');
+  const ok = document.getElementById('noticeOk');
+  ok.focus();
+}
+
+function closeNotice() {
+  document.getElementById('noticeDialog').classList.remove('is-open');
+}
+
+document.getElementById('noticeOk').addEventListener('click', closeNotice);
+document.getElementById('noticeDialog').addEventListener('click', e => {
+  if (e.target.id === 'noticeDialog') closeNotice();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('noticeDialog').classList.contains('is-open')) {
+    closeNotice();
+  }
 });
 </script>
 </body>
