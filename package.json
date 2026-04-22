@@ -4,13 +4,14 @@
   "description": "This repository is reserved as the canonical web frontend repository (`juro-web`) for `jurocompliant.com`.",
   "main": "config.js",
   "scripts": {
-    "test": "jest"
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^30.3.0",
-    "jest-environment-jsdom": "^30.3.0"
+    "@playwright/test": "^1.59.1"
   }
 }

@@ -401,6 +401,72 @@
     color: var(--yellow);
   }
 
+  /* ── Hero "or" divider + self-assessment card ── */
+  .hero-or {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    max-width: 640px;
+    margin: var(--s4) auto var(--s3);
+    color: rgba(255,255,255,0.35);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+  }
+  .hero-or::before,
+  .hero-or::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .alt-option {
+    max-width: 640px;
+    margin: 0 auto var(--s4);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--s3);
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    background: rgba(255,255,255,0.02);
+    text-align: left;
+  }
+  .alt-option-text { flex: 1; }
+  .alt-option-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .alt-option-sub {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.55);
+    line-height: var(--lh-reading);
+  }
+  .alt-option-btn {
+    background: transparent;
+    border: 1px solid var(--yellow);
+    color: var(--yellow);
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  .alt-option-btn:hover { background: var(--yellow); color: var(--ink); }
+
+  @media (max-width: 620px) {
+    .alt-option { flex-direction: column; align-items: stretch; text-align: center; }
+    .alt-option-text { text-align: center; }
+  }
+
   /* ── Main content ── */
   .main {
     max-width: 900px;
@@ -1052,7 +1118,7 @@
 <div class="header">
   <div class="logo">juro<span class="accent">compliant</span></div>
   <div class="header-right">
-    <a href="/checklist.html" class="nav-link">Gap Assessment →</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
     <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="framework-tag">DPDP Act 2023</a>
     <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
     <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
@@ -1074,6 +1140,16 @@
     <input type="checkbox" id="consentBox"/>
     <span>I confirm I am authorised to scan this domain</span>
   </label>
+
+  <div class="hero-or" id="heroOr"><span>or</span></div>
+
+  <div class="alt-option" id="altOption">
+    <div class="alt-option-text">
+      <div class="alt-option-title">Prefer a structured self-assessment?</div>
+      <div class="alt-option-sub">A 10-minute checklist on your organisation's data practices — covers DPDP, GDPR, and DORA end-to-end. No URL needed.</div>
+    </div>
+    <a href="/checklist.html" class="alt-option-btn" id="altOptionBtn">Take the self-assessment →</a>
+  </div>
 
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-bar-bg">
@@ -1262,7 +1338,7 @@
 <footer class="site-footer">
   <span>&copy; 2026 Jurocompliant</span>
   <span style="display:flex;gap:1.5rem">
-    <a href="/checklist.html">Gap Assessment</a>
+    <a href="/checklist.html">Self Assessment</a>
     <a href="/privacy.html">Privacy notice</a>
     <a href="mailto:hello@jurocompliant.com">Contact</a>
   </span>
@@ -1305,6 +1381,40 @@ function markEmailProvided() {
   localStorage.setItem('juro_email_provided', '1');
 }
 
+const PERSONAL_MAIL_DOMAINS = new Set([
+  'gmail.com', 'googlemail.com',
+  'yahoo.com', 'yahoo.co.in', 'yahoo.co.uk', 'ymail.com',
+  'outlook.com', 'hotmail.com', 'live.com', 'msn.com',
+  'icloud.com', 'me.com', 'mac.com',
+  'protonmail.com', 'proton.me',
+  'aol.com',
+  'rediffmail.com', 'zoho.com',
+]);
+
+function emailDomain(email) {
+  const at = (email || '').lastIndexOf('@');
+  if (at < 0) return '';
+  return email.slice(at + 1).trim().toLowerCase();
+}
+
+function isPersonalMailProvider(email) {
+  return PERSONAL_MAIL_DOMAINS.has(emailDomain(email));
+}
+
+function normaliseDomain(d) {
+  return (d || '').trim().toLowerCase().replace(/^www\./, '');
+}
+
+function shouldWarnAboutEmail(email, scanDomain) {
+  const ed = emailDomain(email);
+  const sd = normaliseDomain(scanDomain);
+  if (!ed || !sd) return false;
+  if (ed === sd) return false;
+  return isPersonalMailProvider(email);
+}
+
+window.__juroEmailHelpers = { emailDomain, isPersonalMailProvider, shouldWarnAboutEmail };
+
 function showPreScanGate(domain) {
   document.getElementById('gateDomainField').value = domain;
   document.getElementById('gateForm').style.display = 'flex';
@@ -1317,6 +1427,15 @@ document.getElementById('gateForm').addEventListener('submit', async function(e)
   e.preventDefault();
   const email = document.getElementById('gateEmail').value;
   if (!email) return;
+
+  const scanDomain = document.getElementById('gateDomainField').value;
+  if (this.dataset.mailWarned !== email && shouldWarnAboutEmail(email, scanDomain)) {
+    this.dataset.mailWarned = email;
+    showNotice(`Heads up — we’d prefer a work email at @${normaliseDomain(scanDomain)}. If you still want to use ${emailDomain(email)}, just submit again.`, { eyebrow: 'Work email preferred' });
+    return;
+  }
+  this.dataset.mailWarned = '';
+
   const btn = this.querySelector('.modal-submit');
   btn.disabled = true;
   btn.textContent = 'Saving...';
@@ -1607,6 +1726,15 @@ document.getElementById('emailForm').addEventListener('submit', async function(e
   e.preventDefault();
   const email = document.getElementById('modalEmail').value;
   if (!email) return;
+
+  const scanDomain = document.getElementById('modalDomainField').value;
+  if (this.dataset.mailWarned !== email && shouldWarnAboutEmail(email, scanDomain)) {
+    this.dataset.mailWarned = email;
+    showNotice(`Heads up — we’d prefer a work email at @${normaliseDomain(scanDomain)}. If you still want to use ${emailDomain(email)}, just submit again.`, { eyebrow: 'Work email preferred' });
+    return;
+  }
+  this.dataset.mailWarned = '';
+
   const btn = this.querySelector('.modal-submit');
   btn.disabled = true;
   btn.textContent = 'Sending...';

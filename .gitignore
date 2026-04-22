@@ -40,3 +40,5 @@ pnpm-debug.log*
 .DS_Store
 .DS_Store?
 Thumbs.db
+test-results/
+playwright-report/
