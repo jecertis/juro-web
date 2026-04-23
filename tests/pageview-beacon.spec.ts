@@ -41,22 +41,34 @@ test.describe('P — pageview beacon', () => {
     expect(beacon.body.referrer).toBeUndefined();
   });
 
-  test('P43: beacon does not leak any cookie or localStorage value (nothing stored client-side)', async ({ page, siteUrl }) => {
+  test('P43: beacon code path does not write to localStorage or sessionStorage during page load', async ({ page, siteUrl }) => {
+    // Install a spy on Storage.prototype.setItem BEFORE any page script runs.
+    // This is the real invariant — "the beacon doesn't call setItem" — not
+    // "a blank page has blank storage" (which would be trivially true).
+    await page.addInitScript(() => {
+      (window as any).__storageWrites = [];
+      const orig = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (key: string, value: string) {
+        const which = this === window.localStorage ? 'local' : 'session';
+        (window as any).__storageWrites.push({ storage: which, key });
+        return orig.apply(this, [key, value] as any);
+      };
+    });
+
     await page.goto(siteUrl + '/');
     await page.waitForLoadState('networkidle');
 
-    const cookies = await page.context().cookies();
-    const localStorageKeys = await page.evaluate(() => Object.keys(window.localStorage));
-    const sessionStorageKeys = await page.evaluate(() => Object.keys(window.sessionStorage));
+    const writes = await page.evaluate(() => (window as any).__storageWrites);
+    // No inline script (including the beacon) should write to storage on a
+    // plain homepage load. If the gate/scan flow runs later, it may write
+    // juro_email_provided / juro_has_scanned — that's a separate path.
+    expect(writes).toEqual([]);
 
-    // No analytics-shaped cookies should appear.
+    // Sanity: also confirm no analytics cookies landed via nested requests.
+    const cookies = await page.context().cookies();
     const analyticsCookies = cookies
       .map((c) => c.name)
       .filter((n) => /^(_ga|_gid|_fbp|_gcl|ajs_|mp_|amplitude|ph_)/i.test(n));
     expect(analyticsCookies).toEqual([]);
-
-    // A fresh homepage load (no gate flow, no scan) leaves storage empty.
-    expect(localStorageKeys).toEqual([]);
-    expect(sessionStorageKeys).toEqual([]);
   });
 });
