@@ -58,6 +58,11 @@ export interface LeadRequest {
   body: any;
 }
 
+export interface PageviewRequest {
+  url: string;
+  body: any;
+}
+
 export interface MockApi {
   respondWith(body: ScanResponse, status?: number): void;
   respondError(status: number, body?: string): void;
@@ -69,6 +74,12 @@ export interface MockApi {
    * shape here to guard the client-side submitLead() contract.
    */
   leadsRequests(): LeadRequest[];
+  /**
+   * Captured POSTs to /api/v1/pageview (fire-and-forget beacon). Body may
+   * be null when the beacon went out via navigator.sendBeacon with a Blob
+   * payload — tests should fall back to asserting the URL was hit.
+   */
+  pageviewRequests(): PageviewRequest[];
 }
 
 type Fixtures = {
@@ -100,6 +111,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
     let shouldFail = false;
     const captured: Array<{ url: string; body: any }> = [];
     const leadsCaptured: LeadRequest[] = [];
+    const pageviewCaptured: PageviewRequest[] = [];
 
     await page.route('**/api/scan', async (route) => {
       try {
@@ -140,6 +152,30 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
       });
     });
 
+    await page.route('**/api/v1/pageview', async (route) => {
+      // sendBeacon sends a Blob payload; postDataJSON() parses it if the
+      // content-type is application/json (which the client explicitly sets).
+      let body: any = null;
+      try {
+        body = route.request().postDataJSON();
+      } catch {
+        // Fall back to raw text — some browsers/transport paths leave
+        // the body as a string instead of parsed JSON.
+        try {
+          const raw = route.request().postData();
+          body = raw ? JSON.parse(raw) : null;
+        } catch {
+          body = null;
+        }
+      }
+      pageviewCaptured.push({ url: route.request().url(), body });
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ok: true }),
+      });
+    });
+
     const api: MockApi = {
       respondWith(body, status = 200) {
         next = { status, body };
@@ -158,6 +194,9 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
       },
       leadsRequests() {
         return [...leadsCaptured];
+      },
+      pageviewRequests() {
+        return [...pageviewCaptured];
       },
     };
     await use(api);
