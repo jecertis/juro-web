@@ -146,3 +146,70 @@ test.describe('D-11 — gate modal soft-notice', () => {
     await expect(page.locator('#resultsArea')).toBeVisible({ timeout: 15_000 });
   });
 });
+
+test.describe('H — lead submission POST body', () => {
+  test('H30: post-scan modal submit posts email/source/consent_version with utm_* from query string', async ({ page, siteUrl, mockApi }) => {
+    mockApi.respondWith(SAMPLE_FINDINGS_RESPONSE);
+    await page.goto(`${siteUrl}/?utm_source=hn&utm_medium=post&utm_campaign=launch-week`);
+    await page.locator('#urlInput').fill('example.com');
+    await page.locator('#consentBox').check();
+    await page.locator('#scanBtn').click();
+    await expect(page.locator('#resultsArea')).toBeVisible();
+    await expect(page.locator('#emailModal')).toBeVisible({ timeout: 8_000 });
+
+    await page.locator('#modalEmail').fill('ceo@example.com');
+    await page.locator('#emailForm .modal-submit').click();
+    await expect(page.locator('#modalSuccess')).toBeVisible({ timeout: 5_000 });
+
+    const leads = mockApi.leadsRequests();
+    expect(leads).toHaveLength(1);
+    expect(leads[0].url).toMatch(/\/api\/v1\/leads$/);
+    expect(leads[0].body).toMatchObject({
+      email: 'ceo@example.com',
+      source: 'homepage',
+      consent_version: '2026-04',
+      utm_source: 'hn',
+      utm_medium: 'post',
+      utm_campaign: 'launch-week',
+    });
+  });
+
+  test('H31: pre-scan gate submit posts email/source=homepage/consent_version', async ({ page, siteUrl, mockApi }) => {
+    mockApi.respondWith(SAMPLE_FINDINGS_RESPONSE);
+    await page.addInitScript(() => localStorage.setItem('juro_has_scanned', '1'));
+    await page.goto(siteUrl);
+    await page.locator('#urlInput').fill('example.com');
+    await page.locator('#consentBox').check();
+    await page.locator('#scanBtn').click();
+    await expect(page.locator('#gateModal')).toBeVisible();
+
+    await page.locator('#gateEmail').fill('ceo@example.com');
+    await page.locator('#gateForm .modal-submit').click();
+    await expect(page.locator('#resultsArea')).toBeVisible({ timeout: 15_000 });
+
+    const leads = mockApi.leadsRequests();
+    expect(leads.length).toBeGreaterThanOrEqual(1);
+    expect(leads[0].body).toMatchObject({
+      email: 'ceo@example.com',
+      source: 'homepage',
+      consent_version: '2026-04',
+    });
+  });
+
+  test('H32: soft-notice path does not post a lead (no body leaks during warn)', async ({ page, siteUrl, mockApi }) => {
+    mockApi.respondWith(SAMPLE_FINDINGS_RESPONSE);
+    await page.goto(siteUrl);
+    await page.locator('#urlInput').fill('example.com');
+    await page.locator('#consentBox').check();
+    await page.locator('#scanBtn').click();
+    await expect(page.locator('#resultsArea')).toBeVisible();
+    await expect(page.locator('#emailModal')).toBeVisible({ timeout: 8_000 });
+
+    await page.locator('#modalEmail').fill('ceo@gmail.com');
+    await page.locator('#emailForm .modal-submit').click();
+    await expect(page.locator('#noticeDialog')).toHaveClass(/is-open/);
+
+    // The warn intercepts before submitLead() is called — no POST should have left.
+    expect(mockApi.leadsRequests()).toHaveLength(0);
+  });
+});
