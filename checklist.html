@@ -1068,6 +1068,10 @@ async function submitGapEmail(event) {
 
 <script>
 // First-party pageview beacon. No cookies, no localStorage — see privacy.html.
+// Uses fetch + keepalive rather than navigator.sendBeacon: sendBeacon with
+// application/json Blob doesn't perform the CORS preflight correctly in
+// Chromium and silently drops. fetch handles the preflight and lets a
+// failure surface via .catch (still swallowed — fire-and-forget).
 (function beacon() {
   try {
     var base = (window.JURO_API_URL) || 'http://localhost:3000';
@@ -1079,18 +1083,14 @@ async function submitGapEmail(event) {
       utm_medium: q.get('utm_medium') || undefined,
       utm_campaign: q.get('utm_campaign') || undefined,
     };
-    var body = JSON.stringify(payload);
-    var url = base + '/api/v1/pageview';
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
-    } else {
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body,
-        keepalive: true,
-      }).catch(function () {});
-    }
+    fetch(base + '/api/v1/pageview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+      mode: 'cors',
+      credentials: 'omit',
+    }).catch(function () { /* fire-and-forget */ });
   } catch (_) { /* never block the page */ }
 })();
 </script>
