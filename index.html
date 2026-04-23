@@ -1306,7 +1306,6 @@
     <h2 class="modal-title" id="gateHeading">Enter your email to continue</h2>
     <p class="modal-sub">You'll get a copy of each scan result. One follow-up from us — no spam. <a href="/privacy.html" target="_blank" style="color:var(--gray-700)">Privacy notice →</a></p>
     <form id="gateForm" class="modal-form">
-      <input type="hidden" name="_subject" value="Juro scan gate — email capture"/>
       <input type="hidden" id="gateDomainField" name="domain" value=""/>
       <div class="modal-field">
         <label for="gateName">Name <span class="field-opt">(optional)</span></label>
@@ -1350,7 +1349,6 @@
     <h2 class="modal-title" id="modalHeading">Get your remediation checklist</h2>
     <p class="modal-sub">We'll send tailored remediation guidance for the gaps we found on <strong id="modalDomainLabel"></strong>. We won't spam you — one follow-up, that's it. <a href="/privacy.html" target="_blank" style="color:var(--gray-700)">Privacy notice →</a></p>
     <form id="emailForm" class="modal-form">
-      <input type="hidden" name="_subject" value="Juro scan — remediation checklist request"/>
       <input type="hidden" id="modalDomainField" name="domain" value=""/>
       <div class="modal-field">
         <label for="modalName">Name <span class="field-opt">(optional)</span></label>
@@ -1415,6 +1413,27 @@ function shouldWarnAboutEmail(email, scanDomain) {
 
 window.__juroEmailHelpers = { emailDomain, isPersonalMailProvider, shouldWarnAboutEmail };
 
+const LEADS_CONSENT_VERSION = '2026-04';
+
+async function submitLead({ email, name, source }) {
+  const q = new URLSearchParams(window.location.search);
+  const payload = {
+    email,
+    name: name || undefined,
+    source,
+    consent_version: LEADS_CONSENT_VERSION,
+    referrer: document.referrer || undefined,
+    utm_source: q.get('utm_source') || undefined,
+    utm_medium: q.get('utm_medium') || undefined,
+    utm_campaign: q.get('utm_campaign') || undefined,
+  };
+  return fetch(API_BASE + '/api/v1/leads', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+}
+
 function showPreScanGate(domain) {
   document.getElementById('gateDomainField').value = domain;
   document.getElementById('gateForm').style.display = 'flex';
@@ -1440,10 +1459,10 @@ document.getElementById('gateForm').addEventListener('submit', async function(e)
   btn.disabled = true;
   btn.textContent = 'Saving...';
   try {
-    await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-      method: 'POST',
-      body: new FormData(this),
-      headers: { 'Accept': 'application/json' }
+    await submitLead({
+      email,
+      name: document.getElementById('gateName').value,
+      source: 'homepage',
     });
   } catch (_) { /* silent — don't block the user */ }
   markEmailProvided();
@@ -1745,10 +1764,10 @@ document.getElementById('emailForm').addEventListener('submit', async function(e
   btn.disabled = true;
   btn.textContent = 'Sending...';
   try {
-    const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-      method: 'POST',
-      body: new FormData(this),
-      headers: { 'Accept': 'application/json' }
+    const res = await submitLead({
+      email,
+      name: document.getElementById('modalName').value,
+      source: 'homepage',
     });
     if (res.ok) {
       markEmailProvided();
