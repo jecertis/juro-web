@@ -1065,5 +1065,34 @@ async function submitGapEmail(event) {
     <a href="mailto:hello@jurocompliant.com" style="color:inherit;text-decoration:none">Contact</a>
   </span>
 </footer>
+
+<script>
+// First-party pageview beacon. No cookies, no localStorage — see privacy.html.
+(function beacon() {
+  try {
+    var base = (window.JURO_API_URL) || 'http://localhost:3000';
+    var q = new URLSearchParams(window.location.search);
+    var payload = {
+      path: window.location.pathname,
+      referrer: document.referrer || undefined,
+      utm_source: q.get('utm_source') || undefined,
+      utm_medium: q.get('utm_medium') || undefined,
+      utm_campaign: q.get('utm_campaign') || undefined,
+    };
+    var body = JSON.stringify(payload);
+    var url = base + '/api/v1/pageview';
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
+    } else {
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+        keepalive: true,
+      }).catch(function () {});
+    }
+  } catch (_) { /* never block the page */ }
+})();
+</script>
 </body>
 </html>

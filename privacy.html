@@ -249,19 +249,26 @@
       </tr>
       <tr>
         <td>Hashed IP address</td>
-        <td>Captured automatically with form submission</td>
+        <td>Captured automatically with form submission and with pageview beacon</td>
         <td>Spam and abuse prevention. Stored only as a daily-salted SHA-256 hash — the raw IP is never written to disk, and yesterday's hash cannot be linked to today's.</td>
+        <td><span class="chip">Legitimate interests</span></td>
+      </tr>
+      <tr>
+        <td>Pageview beacon</td>
+        <td>On each page load, one request is sent to our own API recording the path visited, the referring URL, UTM parameters, a daily-salted hash of your IP, and a daily-salted hash of your User-Agent string.</td>
+        <td>To understand which content and channels are working without running third-party analytics. Used for aggregate traffic counts only — no individual profile is built and no cross-site tracking occurs.</td>
         <td><span class="chip">Legitimate interests</span></td>
       </tr>
     </tbody>
   </table>
-  <p>We do not use analytics scripts, advertising pixels, or tracking cookies. We do not set cookies on this site. The only third-party request made on page load is for self-hosted fonts served from this domain.</p>
+  <p>We do not use third-party analytics, advertising pixels, or tracking cookies. We do not set any cookies on this site, and we do not write to your browser's localStorage or sessionStorage for tracking purposes. The pageview beacon described above sends one request to our own API (<code>api.jurocompliant.com</code>) and stores no identifiers on your device — because nothing is written to your device, the ePrivacy Directive Article 5(3) consent requirement does not apply to this mechanism. The only other third-party request made on page load is for self-hosted fonts served from this domain.</p>
 
   <h2>Who we share data with</h2>
   <p>Email submissions are received and stored directly on infrastructure we operate — we do not use a third-party form handler. We do not sell personal data, and we do not share it with any other party.</p>
 
   <h2>How long we keep data</h2>
   <p>Email submissions are kept for up to 24 months from the date you last interacted with us, then hard-deleted. You can request earlier deletion at any time — see "Your rights" below. When you request erasure, we mark the record deleted immediately and hard-purge it within 30 days.</p>
+  <p>Pageview beacon records are kept for 90 days, then hard-deleted. Because the stored identifiers are daily-salted hashes that rotate at UTC midnight, rows older than the current day are effectively unlinkable to any individual.</p>
 
   <h2>Your rights</h2>
   <p>Under GDPR (if you are in the EU/EEA/UK) and DPDP Act 2023 (if you are in India), you have the right to:</p>
