@@ -53,11 +53,22 @@ export interface ScanResponse {
   error?: string;
 }
 
+export interface LeadRequest {
+  url: string;
+  body: any;
+}
+
 export interface MockApi {
   respondWith(body: ScanResponse, status?: number): void;
   respondError(status: number, body?: string): void;
   fail(): void;
   requests(): Array<{ url: string; body: any }>;
+  /**
+   * Captured POSTs to /api/v1/leads, in order. The mock always 200s with
+   * `{ok:true}` so the UI's success path runs; tests assert the payload
+   * shape here to guard the client-side submitLead() contract.
+   */
+  leadsRequests(): LeadRequest[];
 }
 
 type Fixtures = {
@@ -88,6 +99,7 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
     let next: { status: number; body: string | ScanResponse } | null = null;
     let shouldFail = false;
     const captured: Array<{ url: string; body: any }> = [];
+    const leadsCaptured: LeadRequest[] = [];
 
     await page.route('**/api/scan', async (route) => {
       try {
@@ -115,8 +127,17 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
       });
     });
 
-    await page.route('**formspree.io/**', async (route) => {
-      await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' });
+    await page.route('**/api/v1/leads', async (route) => {
+      try {
+        leadsCaptured.push({ url: route.request().url(), body: route.request().postDataJSON() });
+      } catch {
+        leadsCaptured.push({ url: route.request().url(), body: null });
+      }
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ok: true }),
+      });
     });
 
     const api: MockApi = {
@@ -134,6 +155,9 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
       },
       requests() {
         return [...captured];
+      },
+      leadsRequests() {
+        return [...leadsCaptured];
       },
     };
     await use(api);
