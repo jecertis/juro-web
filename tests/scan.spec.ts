@@ -12,6 +12,69 @@ test.describe('A — pre-scan validation', () => {
     await expect(dialog.locator('#noticeMessage')).toContainText('authorised');
     expect(mockApi.requests()).toHaveLength(0);
   });
+
+  test('A2: empty URL → silent no-op, no notice, no API call', async ({ page, siteUrl, mockApi }) => {
+    await page.goto(siteUrl);
+    await page.locator('#consentBox').check();
+    // urlInput intentionally left empty
+    await page.locator('#scanBtn').click();
+
+    await expect(page.locator('#noticeDialog')).not.toHaveClass(/is-open/);
+    expect(mockApi.requests()).toHaveLength(0);
+  });
+
+  test('A3: malformed URL → "Check the URL" notice, no API call', async ({ page, siteUrl, mockApi }) => {
+    await page.goto(siteUrl);
+    await page.locator('#urlInput').fill('not a domain');
+    await page.locator('#consentBox').check();
+    await page.locator('#scanBtn').click();
+
+    const dialog = page.locator('#noticeDialog');
+    await expect(dialog).toHaveClass(/is-open/);
+    await expect(dialog.locator('#noticeMessage')).toContainText('domain');
+    expect(mockApi.requests()).toHaveLength(0);
+  });
+
+  test('A4: URL with protocol still passes validation (server normalises)', async ({ page, siteUrl, mockApi }) => {
+    mockApi.respondWith(SAMPLE_FINDINGS_RESPONSE);
+    await page.addInitScript(() => localStorage.setItem('juro_email_provided', '1'));
+
+    await page.goto(siteUrl);
+    await page.locator('#urlInput').fill('https://example.com/');
+    await page.locator('#consentBox').check();
+    await page.locator('#scanBtn').click();
+
+    // Validation passed → API was called. Body sent verbatim; server strips
+    // protocol + trailing slash.
+    await expect(page.locator('#progressWrap')).toBeVisible();
+    expect(mockApi.requests()).toHaveLength(1);
+    expect(mockApi.requests()[0].body).toEqual({ url: 'https://example.com/' });
+  });
+
+  test('A5: validator helpers exposed via window.__juroScanHelpers', async ({ page, siteUrl }) => {
+    await page.goto(siteUrl);
+    const verdicts = await page.evaluate(() => {
+      const h = (window as any).__juroScanHelpers;
+      return {
+        bare: h.isValidScanDomain('example.com'),
+        protocol: h.isValidScanDomain('https://example.com/'),
+        subdomain: h.isValidScanDomain('app.example.co.uk'),
+        empty: h.isValidScanDomain(''),
+        spaces: h.isValidScanDomain('not a domain'),
+        noTld: h.isValidScanDomain('localhost'),
+        leadingDash: h.isValidScanDomain('-bad.com'),
+      };
+    });
+    expect(verdicts).toEqual({
+      bare: true,
+      protocol: true,
+      subdomain: true,
+      empty: false,
+      spaces: false,
+      noTld: false,
+      leadingDash: false,
+    });
+  });
 });
 
 test.describe('B — scan happy path', () => {
