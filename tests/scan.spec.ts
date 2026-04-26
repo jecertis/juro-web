@@ -1,4 +1,4 @@
-import { test, expect, SAMPLE_FINDINGS_RESPONSE, EMPTY_FINDINGS_RESPONSE } from './fixtures';
+import { test, expect, SAMPLE_FINDINGS_RESPONSE, EMPTY_FINDINGS_RESPONSE, makeCachedResponse } from './fixtures';
 
 test.describe('A — pre-scan validation', () => {
   test('A1: click Scan without consent → themed notice, no API call', async ({ page, siteUrl, mockApi }) => {
@@ -123,6 +123,54 @@ test.describe('B — scan happy path', () => {
     await expect(cards).toHaveCount(3);
 
     await expect(page.locator('#ctaBlock')).toBeVisible();
+  });
+
+  test('B7: cached response renders "Scanned N min ago" badge instead of elapsed', async ({ page, siteUrl, mockApi }) => {
+    mockApi.respondWith(makeCachedResponse(7));
+    await page.addInitScript(() => localStorage.setItem('juro_email_provided', '1'));
+
+    await page.goto(siteUrl);
+    await page.locator('#urlInput').fill('example.com');
+    await page.locator('#consentBox').check();
+    await page.locator('#scanBtn').click();
+
+    await expect(page.locator('#resultsArea')).toBeVisible();
+    // 7 minutes ago → "Scanned 7 min ago"; tolerate ±1 min for test execution drift.
+    await expect(page.locator('#scanTimeLabel')).toHaveText(/Scanned [678] min ago/);
+    await expect(page.locator('#scanTimeLabel')).not.toContainText('Completed in');
+  });
+
+  test('B8: formatScannedAgo helper covers boundary buckets', async ({ page, siteUrl }) => {
+    await page.goto(siteUrl);
+    const labels = await page.evaluate(() => {
+      const h = (window as any).__juroScanHelpers;
+      // Anchor "now" so the test is deterministic across runs.
+      const now = Date.parse('2026-04-26T12:00:00Z');
+      const at = (offsetSec: number) =>
+        new Date(now - offsetSec * 1000).toISOString().slice(0, 19).replace('T', ' ');
+      return {
+        seconds: h.formatScannedAgo(at(30), now),
+        oneMin: h.formatScannedAgo(at(75), now),
+        minutes: h.formatScannedAgo(at(15 * 60), now),
+        oneHour: h.formatScannedAgo(at(60 * 60), now),
+        hours: h.formatScannedAgo(at(5 * 60 * 60), now),
+        oneDay: h.formatScannedAgo(at(24 * 60 * 60), now),
+        days: h.formatScannedAgo(at(3 * 24 * 60 * 60), now),
+        missing: h.formatScannedAgo(undefined, now),
+        garbage: h.formatScannedAgo('not-a-date', now),
+      };
+    });
+    expect(labels).toEqual({
+      seconds: 'Scanned moments ago',
+      oneMin: 'Scanned 1 min ago',
+      minutes: 'Scanned 15 min ago',
+      oneHour: 'Scanned 1 hr ago',
+      hours: 'Scanned 5 hr ago',
+      oneDay: 'Scanned 1 day ago',
+      days: 'Scanned 3 days ago',
+      missing: '',
+      garbage: '',
+    });
   });
 
   test('B6: findings:[] renders zero-findings explainer, email modal does NOT open', async ({ page, siteUrl, mockApi }) => {
