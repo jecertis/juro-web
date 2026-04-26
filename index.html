@@ -1375,6 +1375,26 @@ let scanning = false;
 let lastScanTime = 0;
 const SCAN_COOLDOWN_MS = 60000;
 
+// UX gate only — server's DOMAIN_REGEX in juro/src/routes/scans.ts is
+// authoritative. Mirror its normalization so https://example.com/ passes
+// the same on both sides.
+function normaliseScanInput(raw) {
+  return (raw || '')
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\//, '')
+    .replace(/\/+$/, '');
+}
+
+const DOMAIN_REGEX = /^(?=.{1,255}$)(?!-)([a-z0-9-]{1,63}(?<!-)\.)+[a-z]{2,}$/i;
+
+function isValidScanDomain(raw) {
+  const normalised = normaliseScanInput(raw);
+  return !!normalised && DOMAIN_REGEX.test(normalised);
+}
+
+window.__juroScanHelpers = { normaliseScanInput, isValidScanDomain };
+
 function markEmailProvided() {
   localStorage.setItem('juro_email_provided', '1');
 }
@@ -1478,6 +1498,11 @@ async function startScan() {
   if (scanning) return;
   const raw = document.getElementById('urlInput').value.trim();
   if (!raw) return;
+
+  if (!isValidScanDomain(raw)) {
+    showNotice('Enter a domain like example.com — without the protocol.', { eyebrow: 'Check the URL' });
+    return;
+  }
 
   if (!document.getElementById('consentBox').checked) {
     showNotice('Please confirm you are authorised to scan this domain.', { eyebrow: 'Confirm authorisation' });
