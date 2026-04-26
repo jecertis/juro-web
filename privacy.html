@@ -265,6 +265,12 @@
         <td>To understand which domains prospects ask us to scan and how the scanner is being used. Used for aggregate funnel measurement only — no individual profile is built.</td>
         <td><span class="chip">Legitimate interests</span></td>
       </tr>
+      <tr>
+        <td>Scan result cache</td>
+        <td>When a scan completes, we store its findings (the rule violations observed, severity ratings, and remediation guidance) keyed on the domain you submitted. Subsequent visits within 18 minutes — including yours, after a refresh — are served this cached result instead of re-running the scanner.</td>
+        <td>To return results instantly when the same domain is viewed again, without spinning up the headless browser repeatedly. The cache contains only analysis output describing the public site's compliance posture — no page content, no cookies, no third-party visitor data.</td>
+        <td><span class="chip">Legitimate interests</span></td>
+      </tr>
     </tbody>
   </table>
   <p>We do not use third-party analytics, advertising pixels, or tracking cookies. We do not set any cookies on this site, and we do not write to your browser's localStorage or sessionStorage for tracking purposes. The pageview beacon described above sends one request to our own API (<code>api.jurocompliant.com</code>) and stores no identifiers on your device — because nothing is written to your device, the ePrivacy Directive Article 5(3) consent requirement does not apply to this mechanism. The only other third-party request made on page load is for self-hosted fonts served from this domain.</p>
@@ -274,7 +280,7 @@
 
   <h2>How long we keep data</h2>
   <p>Email submissions are kept for up to 24 months from the date you last interacted with us, then hard-deleted. You can request earlier deletion at any time — see "Your rights" below. When you request erasure, we mark the record deleted immediately and hard-purge it within 30 days.</p>
-  <p>Pageview beacon records and scan submission records are kept for 90 days, then hard-deleted. Because the stored identifiers are daily-salted hashes that rotate at UTC midnight, rows older than the current day are effectively unlinkable to any individual.</p>
+  <p>Pageview beacon records, scan submission records, and scan result cache entries are kept for 90 days, then hard-deleted. Because the stored identifiers are daily-salted hashes that rotate at UTC midnight, rows older than the current day are effectively unlinkable to any individual. The scan result cache holds no identifier at all — only the domain and the findings.</p>
 
   <h2>Your rights</h2>
   <p>Under GDPR (if you are in the EU/EEA/UK) and DPDP Act 2023 (if you are in India), you have the right to:</p>
@@ -292,7 +298,7 @@
   </table>
 
   <h2>Scanner data</h2>
-  <p>When you submit a URL for scanning, the scanner visits that URL using a headless browser. The fetched page content, cookies, and network requests observed during the scan are processed in memory to generate findings and are not stored or logged after the scan completes. We do not retain a copy of any page content, user data belonging to third-party website visitors, or infrastructure details of the scanned site.</p>
+  <p>When you submit a URL for scanning, the scanner visits that URL using a headless browser. The fetched page content, cookies, and network requests observed during the scan are processed in memory to generate findings, then discarded — they are never stored or logged. The findings themselves (rule violations and remediation text describing the public site's compliance posture) are cached for 90 days; see "Scan result cache" in the data table above. We do not retain a copy of any page content, user data belonging to third-party website visitors, or infrastructure details of the scanned site.</p>
   <p>By submitting a URL, you confirm that you are authorised to scan that domain. Scanning a domain you do not own or have permission to scan may violate the target site's terms of service and applicable law.</p>
 
   <h2>Changes to this notice</h2>
