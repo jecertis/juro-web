@@ -50,6 +50,8 @@ export interface ScanResponse {
     location: string;
     remediation: string;
   }>;
+  cached?: boolean;
+  scanned_at?: string;
   error?: string;
 }
 
@@ -254,3 +256,20 @@ export const EMPTY_FINDINGS_RESPONSE: ScanResponse = {
   ],
   findings: [],
 };
+
+/**
+ * Returns a SAMPLE_FINDINGS_RESPONSE-shaped payload with cached:true and a
+ * scanned_at timestamp `agoMin` minutes before now (UTC, server format
+ * 'YYYY-MM-DD HH:MM:SS'). Used to drive the "Scanned N min ago" badge.
+ */
+export function makeCachedResponse(agoMin: number): ScanResponse {
+  const t = new Date(Date.now() - agoMin * 60_000)
+    .toISOString()
+    .slice(0, 19)
+    .replace('T', ' ');
+  return {
+    ...SAMPLE_FINDINGS_RESPONSE,
+    cached: true,
+    scanned_at: t,
+  };
+}

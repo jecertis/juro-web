@@ -1590,7 +1590,7 @@ async function runScan(raw) {
     } else {
        localStorage.setItem('juro_has_scanned', '1');
        setTimeout(() => {
-         renderResults(data, data.url, data.elapsed);
+         renderResults(data, data.url);
          document.getElementById('progressWrap').style.display = 'none';
        }, 500);
     }
@@ -1608,13 +1608,44 @@ async function runScan(raw) {
   }
 }
 
-function renderResults(data, url, elapsed) {
+// Server stores scanned_at as a UTC string in the form
+// 'YYYY-MM-DD HH:MM:SS'. JS Date() parses that as local time on most
+// engines, so append the 'Z' to force UTC. Returns ms-since-epoch, or
+// NaN if the input is missing/malformed (caller must handle).
+function parseScannedAt(s) {
+  if (!s || typeof s !== 'string') return NaN;
+  const iso = s.includes('T') ? s : s.replace(' ', 'T');
+  return Date.parse(iso.endsWith('Z') ? iso : iso + 'Z');
+}
+
+function formatScannedAgo(scannedAt, now = Date.now()) {
+  const t = parseScannedAt(scannedAt);
+  if (!Number.isFinite(t)) return '';
+  const diffSec = Math.max(0, Math.round((now - t) / 1000));
+  if (diffSec < 60) return 'Scanned moments ago';
+  const diffMin = Math.round(diffSec / 60);
+  if (diffMin < 60) return `Scanned ${diffMin} min ago`;
+  const diffHr = Math.round(diffMin / 60);
+  if (diffHr < 24) return `Scanned ${diffHr} hr ago`;
+  const diffDay = Math.round(diffHr / 24);
+  return `Scanned ${diffDay} day${diffDay === 1 ? '' : 's'} ago`;
+}
+
+window.__juroScanHelpers = Object.assign(window.__juroScanHelpers || {}, {
+  formatScannedAgo,
+  parseScannedAt,
+});
+
+function renderResults(data, url) {
   document.getElementById('resultsArea').style.display = 'block';
 
   const bar = document.getElementById('scanTargetBar');
   bar.style.display = 'flex';
   document.getElementById('scanTargetLabel').textContent = url.replace(/^https?:\/\//,'');
-  document.getElementById('scanTimeLabel').textContent = `Completed in ${elapsed}s`;
+  const timeLabel = data && data.cached
+    ? formatScannedAgo(data.scanned_at)
+    : `Completed in ${data ? data.elapsed : ''}s`;
+  document.getElementById('scanTimeLabel').textContent = timeLabel;
 
   if (!data || !data.findings) {
     document.getElementById('cCount').textContent = 0;
