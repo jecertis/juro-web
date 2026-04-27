@@ -10,6 +10,9 @@ on:
       - 'jurocompliant.html'
       - 'CLAUDE.md'
       - 'AGENTS.md'
+      - '.github/scripts/**'
+      - '.github/contracts/**'
+      - '.github/workflows/banned-claims.yml'
 
 jobs:
   check:
@@ -18,14 +21,12 @@ jobs:
       - name: Checkout juro-web
         uses: actions/checkout@v5
 
-      - name: Checkout juro-platform (for check scripts)
-        uses: actions/checkout@v5
-        with:
-          repository: jecertis/juro-platform
-          path: juro-platform
-
       - name: Make scripts executable
-        run: chmod +x juro-platform/scripts/check-banned-claims.sh juro-platform/scripts/check-agent-preamble.sh
+        # Scripts are vendored from juro-platform/scripts/. juro-platform
+        # is private, so cross-repo checkout would require a PAT secret.
+        # See .github/scripts/check-banned-claims.sh header for re-vendor
+        # protocol when the canonical list changes.
+        run: chmod +x .github/scripts/check-banned-claims.sh .github/scripts/check-agent-preamble.sh
 
       - name: Collect files for banned-claims check
         id: files
@@ -39,7 +40,7 @@ jobs:
           cat files.txt
 
       - name: Run banned-claims check
-        run: xargs -a files.txt juro-platform/scripts/check-banned-claims.sh
+        run: xargs -a files.txt .github/scripts/check-banned-claims.sh
 
       - name: Run agent-preamble check
-        run: juro-platform/scripts/check-agent-preamble.sh CLAUDE.md AGENTS.md
+        run: .github/scripts/check-agent-preamble.sh CLAUDE.md AGENTS.md
