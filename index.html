@@ -3,1127 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jurocompliant — GDPR · DORA · DPDP Compliance Scanner</title>
+<title>Jurocompliant — Free GDPR · DORA · DPDP Compliance Scanner</title>
+<meta name="description" content="Scan any website for GDPR, DORA, and DPDP compliance violations in 60 seconds. Free, no account required. Find real technical gaps mapped to specific regulatory provisions.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="Juro Compliance Ltd">
+<link rel="canonical" href="https://jurocompliant.com/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jurocompliant.com/">
+<meta property="og:title" content="Jurocompliant — Free GDPR · DORA · DPDP Compliance Scanner">
+<meta property="og:description" content="Scan any website for GDPR, DORA, and DPDP compliance violations in 60 seconds. Free, no account required.">
+<meta property="og:site_name" content="Jurocompliant">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jurocompliant — Free GDPR · DORA · DPDP Compliance Scanner">
+<meta name="twitter:description" content="Scan any website for GDPR, DORA, and DPDP compliance violations in 60 seconds.">
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts/fonts.css">
 <script src="/config.js"></script>
-<style>
-  :root {
-    /* Colour */
-    --ink: #0A0A0A;
-    --yellow: #F5C400;
-    --yellow-dark: #D4A800;
-    --red: #DC2626;
-    --red-light: #FEF2F2;
-    --amber: #D97706;
-    --amber-light: #FFFBEB;
-    --green: #059669;
-    --green-light: #ECFDF5;
-    --gray-100: #F5F5F5;
-    --gray-200: #E5E5E5;
-    --gray-400: #A3A3A3;
-    --gray-500: #737373;
-    --gray-700: #404040;
-    --gray-900: #0A0A0A;
-
-    /* Type scale — Perfect Fourth (×1.333) */
-    --text-xs:   11px;   /* mono labels, uppercased only   */
-    --text-sm:   14px;   /* secondary / muted text         */
-    --text-base: 16px;   /* body copy                      */
-    --text-lg:   20px;   /* lead / sub-headlines           */
-    --text-xl:   28px;   /* modal titles, card headlines   */
-    --text-2xl:  42px;   /* metric numbers                 */
-    --text-3xl:  64px;   /* hero display                   */
-
-    /* Line-height — three values only */
-    --lh-tight:   1.05;  /* display type 40px+             */
-    --lh-snug:    1.5;   /* UI elements, labels            */
-    --lh-reading: 1.7;   /* body paragraphs                */
-
-    /* Letter-spacing — em so it scales */
-    --ls-label:   0.08em;   /* uppercase mono labels       */
-    --ls-display: -0.04em;  /* large display type          */
-
-    /* Spacing — 8 px base */
-    --s1:   8px;
-    --s2:  16px;
-    --s3:  24px;
-    --s4:  32px;
-    --s5:  48px;
-    --s6:  64px;
-    --s7:  96px;
-    --s8: 128px;
-
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
-    --radius: 6px;
-    --radius-lg: 10px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: var(--sans);
-    background: #111111;
-    color: var(--gray-900);
-    min-height: 100vh;
-    font-size: var(--text-base);
-    line-height: var(--lh-reading);
-  }
-
-  /* ── Header ── */
-  .header {
-    background: var(--ink);
-    padding: 0 2rem;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: var(--mono);
-    font-size: var(--text-base);
-    font-weight: 500;
-    color: #fff;
-    letter-spacing: 0;
-  }
-
-  .logo .accent { color: var(--yellow); }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .framework-tag {
-    font-size: var(--text-xs);
-    font-weight: 500;
-    color: rgba(255,255,255,0.55);
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 4px 10px;
-    border-radius: var(--radius);
-    text-decoration: none;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .framework-tag:hover {
-    color: #fff;
-    border-color: rgba(255,255,255,0.35);
-  }
-
-  /* ── Hero scan area ── */
-  .hero {
-    background: var(--ink);
-    padding: var(--s8) 2rem 0;
-    text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
-
-  .urgency-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(245,196,0,0.12);
-    border: 1px solid rgba(245,196,0,0.4);
-    color: var(--yellow);
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    padding: 6px 16px;
-    border-radius: 99px;
-    margin-bottom: var(--s4);
-  }
-  .urgency-pill .u-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--yellow);
-    animation: upulse 1.8s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-  @keyframes upulse {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.2; }
-  }
-
-  .hero-title {
-    font-size: var(--text-3xl);
-    font-weight: 600;
-    color: #fff;
-    letter-spacing: var(--ls-display);
-    margin-bottom: var(--s3);
-    line-height: var(--lh-tight);
-  }
-
-  .hero-title strong {
-    font-weight: 600;
-    color: var(--yellow);
-  }
-
-  .hero-sub {
-    font-size: var(--text-lg);
-    color: rgba(255,255,255,0.7);
-    margin-bottom: var(--s5);
-    font-weight: 400;
-    line-height: var(--lh-reading);
-    max-width: 580px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* ── Stakes strip ── */
-  .stakes-strip {
-    max-width: 640px;
-    margin: 2.5rem auto 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  .stake {
-    padding: 22px 22px;
-    border-right: 1px solid rgba(255,255,255,0.08);
-    text-align: left;
-  }
-  .stake:last-child { border-right: none; }
-  .stake-num {
-    font-family: var(--mono);
-    font-size: var(--text-xl);
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: var(--s2);
-    line-height: var(--lh-tight);
-  }
-  .stake-label {
-    font-size: var(--text-sm);
-    color: rgba(255,255,255,0.65);
-    line-height: var(--lh-snug);
-  }
-
-  /* ── How it works ── */
-  .how-it-works {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: var(--s5);
-  }
-  .how-step { background: #fff; padding: 2rem; }
-  .how-step-num {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    color: var(--gray-400);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    margin-bottom: var(--s2);
-  }
-  .how-step-title {
-    font-size: var(--text-base);
-    font-weight: 600;
-    color: var(--gray-900);
-    margin-bottom: var(--s1);
-  }
-  .how-step-desc {
-    font-size: var(--text-sm);
-    color: var(--gray-500);
-    line-height: var(--lh-reading);
-  }
-
-  /* ── Example badge ── */
-  .example-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .example-badge {
-    font-family: var(--mono);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    color: var(--yellow);
-    background: rgba(245,196,0,0.1);
-    border: 1px solid rgba(245,196,0,0.3);
-    padding: 4px 12px;
-    border-radius: 99px;
-  }
-  .example-note {
-    font-size: var(--text-base);
-    color: rgba(255,255,255,0.6);
-  }
-
-  /* ── Business impact box ── */
-  .business-impact-box {
-    border-top: 1px solid var(--gray-100);
-    padding: var(--s2) 0;
-    margin-bottom: 0;
-    font-size: var(--text-base);
-    color: var(--gray-700);
-    line-height: var(--lh-reading);
-  }
-  .impact-label {
-    font-weight: 600;
-    font-size: var(--text-base);
-    color: var(--gray-900);
-    display: block;
-    margin-bottom: 4px;
-    text-transform: none;
-    letter-spacing: 0;
-    font-family: var(--sans);
-  }
-
-  .scan-input-wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    display: flex;
-    gap: 0;
-    background: #fff;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1.5px solid rgba(255,255,255,0.12);
-    transition: border-color 0.2s;
-  }
-
-  .scan-input-wrap:focus-within {
-    border-color: rgba(255,255,255,0.5);
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
-  }
-
-  .scan-protocol {
-    background: var(--gray-100);
-    border-right: 1px solid var(--gray-200);
-    padding: 0 12px;
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    color: var(--gray-500);
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-  }
-
-  #urlInput {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 12px 14px;
-    font-family: var(--mono);
-    font-size: var(--text-sm);
-    color: var(--gray-900);
-    background: transparent;
-  }
-
-  #urlInput::placeholder { color: var(--gray-400); }
-
-  .scan-btn {
-    background: var(--yellow);
-    color: var(--ink);
-    border: none;
-    padding: 0 28px;
-    font-family: var(--sans);
-    font-size: var(--text-base);
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0;
-    transition: background 0.15s;
-    white-space: nowrap;
-  }
-
-  .scan-btn:hover { background: var(--yellow-dark); }
-  .scan-btn:active { background: #BF9700; }
-  .scan-btn:disabled { background: #E5E5E5; color: #A3A3A3; cursor: not-allowed; }
-
-  .consent-check {
-    max-width: 640px;
-    margin: var(--s3) auto 0;
-    display: flex;
-    align-items: center;
-    gap: var(--s1);
-    cursor: pointer;
-    font-size: var(--text-sm);
-    color: rgba(255,255,255,0.65);
-    user-select: none;
-  }
-
-  .consent-check input[type="checkbox"] {
-    accent-color: var(--ink);
-    width: 14px;
-    height: 14px;
-    cursor: pointer;
-  }
-
-  /* ── Progress ── */
-  .progress-wrap {
-    max-width: 640px;
-    margin: 28px auto 0;
-    display: none;
-  }
-
-  .progress-bar-bg {
-    height: 2px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--yellow);
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-
-  .progress-status {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    color: rgba(255,255,255,0.7);
-    margin-top: var(--s1);
-    text-align: left;
-  }
-
-  .progress-status::before {
-    content: '▶ ';
-    color: var(--yellow);
-  }
-
-  /* ── Hero "or" divider + self-assessment card ── */
-  .hero-or {
-    display: flex;
-    align-items: center;
-    gap: var(--s2);
-    max-width: 640px;
-    margin: var(--s4) auto var(--s3);
-    color: rgba(255,255,255,0.35);
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-  }
-  .hero-or::before,
-  .hero-or::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(255,255,255,0.1);
-  }
-
-  .alt-option {
-    max-width: 640px;
-    margin: 0 auto var(--s4);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--radius-lg);
-    padding: var(--s3);
-    display: flex;
-    align-items: center;
-    gap: var(--s3);
-    background: rgba(255,255,255,0.02);
-    text-align: left;
-  }
-  .alt-option-text { flex: 1; }
-  .alt-option-title {
-    font-size: var(--text-base);
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-  .alt-option-sub {
-    font-size: var(--text-sm);
-    color: rgba(255,255,255,0.55);
-    line-height: var(--lh-reading);
-  }
-  .alt-option-btn {
-    background: transparent;
-    border: 1px solid var(--yellow);
-    color: var(--yellow);
-    padding: 10px 20px;
-    border-radius: var(--radius);
-    font-family: var(--sans);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.15s, color 0.15s;
-    white-space: nowrap;
-    display: inline-block;
-  }
-  .alt-option-btn:hover { background: var(--yellow); color: var(--ink); }
-
-  @media (max-width: 620px) {
-    .alt-option { flex-direction: column; align-items: stretch; text-align: center; }
-    .alt-option-text { text-align: center; }
-  }
-
-  /* ── Main content ── */
-  .main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: var(--s7) 2rem;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: rgba(255,255,255,0.25);
-  }
-
-  .empty-state-icon {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 1rem;
-    opacity: 0.15;
-  }
-
-  .empty-state p {
-    font-size: var(--text-sm);
-    line-height: var(--lh-reading);
-    max-width: 320px;
-    margin: 0 auto;
-  }
-
-  /* ── Summary strip ── */
-  .summary-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--s2);
-    margin-bottom: var(--s6);
-  }
-
-  .metric-card {
-    background: #fff;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    padding: var(--s4);
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    position: relative;
-  }
-
-  .metric-card:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
-  .metric-card:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
-
-  .metric-card.is-active { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
-  .metric-card.is-empty { opacity: 0.45; cursor: not-allowed; }
-  .metric-card.is-empty:hover { transform: none; box-shadow: none; }
-
-  .metric-num {
-    font-size: var(--text-2xl);
-    font-weight: 600;
-    line-height: var(--lh-tight);
-    font-family: var(--mono);
-  }
-
-  .metric-label {
-    font-size: var(--text-xs);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    color: var(--gray-500);
-    margin-top: var(--s1);
-  }
-
-  .metric-critical { border-top: 3px solid var(--red); }
-  .metric-high     { border-top: 3px solid var(--amber); }
-  .metric-medium   { border-top: 3px solid var(--gray-400); }
-  .metric-total    { border-top: 3px solid var(--yellow); }
-
-  .metric-critical .metric-num { color: var(--gray-900); }
-  .metric-high .metric-num     { color: var(--gray-900); }
-  .metric-medium .metric-num   { color: var(--gray-900); }
-  .metric-total .metric-num    { color: var(--gray-900); }
-
-  /* ── Two column layout ── */
-  .two-col {
-    display: grid;
-    grid-template-columns: 320px minmax(0, 1fr);
-    gap: 2.5rem;
-    align-items: start;
-    max-width: 1120px;
-    margin: 0 auto;
-  }
-
-  .two-col > :first-child > .panel {
-    position: sticky;
-    top: var(--s3);
-  }
-
-  @media (max-width: 860px) {
-    .two-col { grid-template-columns: 1fr; gap: var(--s3); }
-    .two-col > :first-child > .panel { position: static; }
-  }
-
-  /* ── Posture panel ── */
-  .panel {
-    background: #fff;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .panel-title {
-    padding: var(--s2) var(--s3);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    color: var(--gray-500);
-    border-bottom: 1px solid var(--gray-100);
-    background: var(--gray-100);
-  }
-
-  .posture-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--s2) var(--s3);
-    border-bottom: 1px solid var(--gray-100);
-    font-size: var(--text-sm);
-  }
-
-  .posture-row:last-child { border-bottom: none; }
-
-  .posture-label { color: var(--gray-700); }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .dot-red { background: var(--red); }
-  .dot-amber { background: var(--amber); }
-  .dot-green { background: var(--green); }
-
-  .status-pill {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 99px;
-    letter-spacing: var(--ls-label);
-  }
-
-  .pill-red { background: var(--red-light); color: var(--red); }
-  .pill-amber { background: var(--amber-light); color: var(--amber); }
-  .pill-green { background: var(--green-light); color: var(--green); }
-
-  /* ── Findings list ── */
-  .findings-wrap { display: flex; flex-direction: column; gap: var(--s2); }
-
-  .finding-card {
-    background: #fff;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .finding-card.visible { opacity: 1; transform: translateY(0); }
-
-  .finding-head {
-    padding: var(--s3);
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--s2);
-    cursor: pointer;
-  }
-
-  .finding-id {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-
-  /* Severity color lives only on the ID — the sole colour cue */
-  .finding-card.critical .finding-id { color: var(--red); }
-  .finding-card.high     .finding-id { color: var(--amber); }
-  .finding-card.medium   .finding-id { color: var(--gray-400); }
-
-  .finding-title {
-    font-size: var(--text-base);
-    font-weight: 500;
-    color: var(--gray-900);
-    line-height: var(--lh-snug);
-  }
-
-  /* Severity: plain mono text, no badge */
-  .sev-pill {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding-top: 2px;
-  }
-
-  .sev-critical { color: var(--red); }
-  .sev-high     { color: var(--amber); }
-  .sev-medium   { color: var(--gray-400); }
-
-  .finding-body {
-    padding: 0 var(--s3) var(--s3);
-    border-top: 1px solid var(--gray-100);
-    display: none;
-  }
-
-  .finding-body.open { display: block; }
-
-  .finding-desc {
-    font-size: var(--text-base);
-    color: var(--gray-700);
-    line-height: var(--lh-reading);
-    padding: var(--s2) 0;
-  }
-
-  .finding-meta-row {
-    display: flex;
-    gap: var(--s2);
-    flex-wrap: wrap;
-    border-top: 1px solid var(--gray-100);
-    padding: var(--s2) 0;
-  }
-
-  .finding-meta-item {
-    font-size: var(--text-xs);
-    color: var(--gray-500);
-  }
-
-  .finding-meta-item strong {
-    color: var(--gray-700);
-    font-weight: 500;
-  }
-
-  /* Citation: no chip, just inline mono text */
-  .rule-chip {
-    display: inline;
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    color: var(--gray-500);
-    border-top: 1px solid var(--gray-100);
-    padding-top: var(--s2);
-    margin-bottom: var(--s2);
-    display: block;
-  }
-
-  /* Remediation: plain ruled section, no green box */
-  .remediation-box {
-    border-top: 1px solid var(--gray-100);
-    padding: var(--s2) 0 0;
-    font-size: var(--text-base);
-    color: var(--gray-700);
-    line-height: var(--lh-reading);
-    background: none;
-  }
-
-  .remediation-box .rem-label {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 4px;
-    font-size: var(--text-base);
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--gray-900);
-    font-family: var(--sans);
-  }
-
-  /* ── CTA ── */
-  .cta-block {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-lg);
-    padding: var(--s5);
-    margin-top: var(--s5);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s4);
-    display: none;
-  }
-
-  .cta-text .cta-eyebrow {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    color: rgba(255,255,255,0.62);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    margin-bottom: var(--s1);
-  }
-
-  .cta-text .cta-headline {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: var(--s1);
-    line-height: var(--lh-snug);
-  }
-
-  .cta-text .cta-sub {
-    font-size: var(--text-sm);
-    color: rgba(255,255,255,0.7);
-    line-height: var(--lh-snug);
-    max-width: 420px;
-  }
-
-  .cta-action-btn {
-    background: var(--yellow);
-    color: var(--ink);
-    border: none;
-    padding: var(--s2) var(--s4);
-    border-radius: var(--radius);
-    font-family: var(--sans);
-    font-size: var(--text-base);
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.15s;
-  }
-
-  .cta-action-btn:hover { background: var(--yellow-dark); }
-
-  /* ── Scan target label ── */
-  .scan-target-bar {
-    display: none;
-    align-items: center;
-    gap: var(--s1);
-    padding: var(--s2) var(--s3);
-    background: #fff;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--s5);
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    color: var(--gray-700);
-  }
-
-  .scan-target-bar .target-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .scan-time {
-    margin-left: auto;
-    font-size: var(--text-xs);
-    color: var(--gray-400);
-  }
-
-  /* ── Nav link ── */
-  .nav-link {
-    font-size: var(--text-xs);
-    font-weight: 500;
-    color: rgba(255,255,255,0.75);
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 4px 12px;
-    border-radius: var(--radius);
-    text-decoration: none;
-    transition: color 0.2s, border-color 0.2s;
-    white-space: nowrap;
-  }
-  .nav-link:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
-
-  /* ── Email capture modal ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 1rem;
-    backdrop-filter: blur(2px);
-  }
-  .modal-card {
-    background: #fff;
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    max-width: 440px;
-    width: 100%;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.28);
-  }
-  .modal-eyebrow {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    color: var(--gray-400);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    margin-bottom: var(--s1);
-  }
-  .modal-title {
-    font-size: var(--text-xl);
-    font-weight: 600;
-    color: var(--gray-900);
-    margin-bottom: var(--s1);
-    line-height: var(--lh-snug);
-  }
-  .modal-sub {
-    font-size: var(--text-base);
-    color: var(--gray-500);
-    margin-bottom: var(--s3);
-    line-height: var(--lh-snug);
-  }
-  .modal-form { display: flex; flex-direction: column; gap: var(--s2); }
-  .modal-field { display: flex; flex-direction: column; gap: 6px; }
-  .modal-field label { font-size: var(--text-xs); font-weight: 500; color: var(--gray-700); }
-  .field-opt { font-weight: 400; color: var(--gray-400); }
-  .field-req { color: var(--red); }
-  .modal-field input {
-    border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius);
-    padding: var(--s2) var(--s2);
-    font-family: var(--sans);
-    font-size: var(--text-base);
-    color: var(--gray-900);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .modal-field input:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(245,196,0,0.15); }
-  .modal-submit {
-    background: var(--yellow);
-    color: var(--ink);
-    border: none;
-    padding: var(--s2);
-    border-radius: var(--radius);
-    font-family: var(--sans);
-    font-size: var(--text-base);
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s;
-    margin-top: 4px;
-  }
-  .modal-submit:hover { background: var(--yellow-dark); }
-  .modal-success {
-    text-align: center;
-    padding: var(--s2) 0;
-    color: var(--gray-700);
-    font-size: var(--text-sm);
-    line-height: var(--lh-reading);
-  }
-  .modal-success-tick {
-    font-size: var(--text-xl);
-    color: var(--green);
-    margin-bottom: var(--s1);
-  }
-  .modal-dismiss {
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-top: var(--s2);
-    font-size: var(--text-xs);
-    color: var(--gray-400);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    text-decoration: underline;
-    font-family: var(--sans);
-  }
-  .modal-dismiss:hover { color: var(--gray-700); }
-
-  /* ── Notice dialog (themed alert replacement) ── */
-  .notice-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.72);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1100;
-    padding: 1rem;
-    backdrop-filter: blur(4px);
-  }
-  .notice-overlay.is-open { display: flex; }
-
-  .notice-card {
-    background: #0F0F10;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-lg);
-    padding: var(--s4) var(--s4) var(--s3);
-    max-width: 420px;
-    width: 100%;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.55);
-    color: #fff;
-  }
-
-  .notice-eyebrow {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    color: var(--yellow);
-    margin-bottom: var(--s1);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .notice-eyebrow::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--yellow);
-    box-shadow: 0 0 8px var(--yellow);
-  }
-
-  .notice-card.is-error .notice-eyebrow { color: var(--red); }
-  .notice-card.is-error .notice-eyebrow::before { background: var(--red); box-shadow: 0 0 8px var(--red); }
-
-  .notice-message {
-    font-size: var(--text-base);
-    line-height: var(--lh-snug);
-    color: rgba(255,255,255,0.92);
-    margin-bottom: var(--s3);
-  }
-
-  .notice-actions { display: flex; justify-content: flex-end; }
-
-  .notice-ok {
-    background: var(--yellow);
-    color: var(--ink);
-    border: none;
-    padding: 8px 20px;
-    border-radius: var(--radius);
-    font-family: var(--sans);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .notice-ok:hover { background: var(--yellow-dark); }
-  .notice-ok:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-
-  /* ── Zero-findings explainer ── */
-  .zero-findings {
-    background: #fff;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    padding: var(--s4);
-    color: var(--gray-900);
-  }
-  .zero-findings-eyebrow {
-    font-family: var(--mono);
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    color: var(--gray-500);
-    margin-bottom: var(--s1);
-  }
-  .zero-findings-title {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    line-height: var(--lh-snug);
-    margin-bottom: var(--s2);
-  }
-  .zero-findings-lede {
-    font-size: var(--text-base);
-    color: var(--gray-700);
-    line-height: var(--lh-reading);
-    margin-bottom: var(--s3);
-  }
-  .zero-findings-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--s3);
-    margin-bottom: var(--s2);
-  }
-  @media (max-width: 620px) {
-    .zero-findings-cols { grid-template-columns: 1fr; }
-  }
-  .zero-col h4 {
-    font-size: var(--text-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    color: var(--gray-700);
-    margin: 0 0 var(--s1);
-  }
-  .zero-col ul {
-    margin: 0;
-    padding-left: 1.1rem;
-    color: var(--gray-700);
-    font-size: var(--text-sm);
-    line-height: var(--lh-reading);
-  }
-  .zero-col li { margin-bottom: 4px; }
-  .zero-col.checked ul { list-style: '✓  '; }
-  .zero-col.unchecked ul { list-style: '—  '; color: var(--gray-500); }
-
-  /* ── Footer ── */
-  .site-footer {
-    border-top: 1px solid rgba(255,255,255,0.07);
-    padding: var(--s5) 2rem;
-    margin-top: var(--s5);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s2);
-    font-size: var(--text-xs);
-    color: rgba(255,255,255,0.28);
-    flex-wrap: wrap;
-  }
-  .site-footer a { color: rgba(255,255,255,0.28); text-decoration: none; }
-  .site-footer a:hover { color: rgba(255,255,255,0.65); }
-
-  /* ── Responsive ── */
-  @media (max-width: 680px) {
-    .two-col { grid-template-columns: 1fr; }
-    .summary-strip { grid-template-columns: repeat(2, 1fr); }
-    .hero { padding: var(--s6) 1.25rem 0; }
-    .main { padding: var(--s4) 1.25rem; }
-    .cta-block { flex-direction: column; padding: var(--s4); }
-    .stakes-strip { grid-template-columns: 1fr; }
-    .stake { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: var(--s3); }
-    .stake:last-child { border-bottom: none; }
-    .how-it-works { grid-template-columns: 1fr; }
-    .how-step { padding: var(--s3); }
-    .hero-title { font-size: 36px; letter-spacing: var(--ls-display); }
-    .metric-card { padding: var(--s3); }
-    .finding-head { padding: var(--s2) var(--s2) var(--s1); }
-    .finding-body { padding: 0 var(--s2) var(--s3); }
-  }
-</style>
+<style>:root{--ink:#0A0A0A;--yellow:#F5C400;--yellow-dark:#D4A800;--red:#DC2626;--red-light:#FEF2F2;--amber:#D97706;--amber-light:#FFFBEB;--green:#059669;--green-light:#ECFDF5;--gray-100:#F5F5F5;--gray-200:#E5E5E5;--gray-400:#A3A3A3;--gray-500:#737373;--gray-700:#404040;--gray-900:#0A0A0A;--text-xs:11px;--text-sm:14px;--text-base:16px;--text-lg:20px;--text-xl:28px;--text-2xl:42px;--text-3xl:64px;--lh-tight:1.05;--lh-snug:1.5;--lh-reading:1.7;--ls-label:0.08em;--ls-display:-0.04em;--s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:96px;--s8:128px;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--radius:6px;--radius-lg:10px}*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--sans);background:#111111;color:var(--gray-900);min-height:100vh;font-size:var(--text-base);line-height:var(--lh-reading)}.header{background:var(--ink);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}.logo{font-family:var(--mono);font-size:var(--text-base);font-weight:500;color:#fff;letter-spacing:0}.logo .accent{color:var(--yellow)}.header-right{display:flex;align-items:center;gap:12px}.nav-link{font-size:var(--text-xs);font-weight:500;color:rgba(255,255,255,0.75);background:transparent;border:1px solid rgba(255,255,255,0.2);padding:4px 12px;border-radius:var(--radius);text-decoration:none;transition:color 0.2s,border-color 0.2s;white-space:nowrap}.nav-link:hover{color:#fff;border-color:rgba(255,255,255,0.4)}.framework-tag{font-size:var(--text-xs);font-weight:500;color:rgba(255,255,255,0.55);background:transparent;border:1px solid rgba(255,255,255,0.15);padding:4px 10px;border-radius:var(--radius);text-decoration:none;transition:color 0.2s,border-color 0.2s}.framework-tag:hover{color:#fff;border-color:rgba(255,255,255,0.35)}.hero{background:var(--ink);padding:var(--s8) 2rem 0;text-align:center;border-bottom:1px solid rgba(255,255,255,0.07)}.urgency-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(245,196,0,0.12);border:1px solid rgba(245,196,0,0.4);color:var(--yellow);font-family:var(--mono);font-size:var(--text-xs);font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-label);padding:6px 16px;border-radius:99px;margin-bottom:var(--s4)}.urgency-pill .u-dot{width:7px;height:7px;border-radius:50%;background:var(--yellow);animation:upulse 1.8s ease-in-out infinite;flex-shrink:0}@keyframes upulse{0%,100%{opacity:1}50%{opacity:0.2}}.hero-title{font-size:var(--text-3xl);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3);line-height:var(--lh-tight)}.hero-title strong{font-weight:600;color:var(--yellow)}.hero-sub{font-size:var(--text-lg);color:rgba(255,255,255,0.7);margin-bottom:var(--s5);font-weight:400;line-height:var(--lh-reading);max-width:580px;margin-left:auto;margin-right:auto}.stakes-strip{max-width:640px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);overflow:hidden}.stake{padding:22px 22px;border-right:1px solid rgba(255,255,255,0.08);text-align:left}.stake:last-child{border-right:none}.stake-num{font-family:var(--mono);font-size:var(--text-xl);font-weight:600;color:#fff;margin-bottom:var(--s2);line-height:var(--lh-tight)}.stake-label{font-size:var(--text-sm);color:rgba(255,255,255,0.65);line-height:var(--lh-snug)}.scan-input-wrap{max-width:640px;margin:0 auto;display:flex;gap:0;background:#fff;border-radius:var(--radius-lg);overflow:hidden;border:1.5px solid rgba(255,255,255,0.12);transition:border-color 0.2s}.scan-input-wrap:focus-within{border-color:rgba(255,255,255,0.5);box-shadow:0 0 0 3px rgba(255,255,255,0.08)}.scan-protocol{background:var(--gray-100);border-right:1px solid var(--gray-200);padding:0 12px;font-family:var(--mono);font-size:var(--text-xs);color:var(--gray-500);display:flex;align-items:center;white-space:nowrap}#urlInput{flex:1;border:none;outline:none;padding:12px 14px;font-family:var(--mono);font-size:var(--text-sm);color:var(--gray-900);background:transparent}#urlInput::placeholder{color:var(--gray-400)}.scan-btn{background:var(--yellow);color:var(--ink);border:none;padding:0 28px;font-family:var(--sans);font-size:var(--text-base);font-weight:700;cursor:pointer;letter-spacing:0;transition:background 0.15s;white-space:nowrap}.scan-btn:hover{background:var(--yellow-dark)}.scan-btn:active{background:#BF9700}.scan-btn:disabled{background:#E5E5E5;color:#A3A3A3;cursor:not-allowed}.consent-check{max-width:640px;margin:var(--s3) auto 0;display:flex;align-items:center;gap:var(--s1);cursor:pointer;font-size:var(--text-sm);color:rgba(255,255,255,0.65);user-select:none}.consent-check input[type="checkbox"]{accent-color:var(--ink);width:14px;height:14px;cursor:pointer}.hero-or{display:flex;align-items:center;gap:var(--s2);max-width:640px;margin:var(--s4) auto var(--s3);color:rgba(255,255,255,0.35);font-family:var(--mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--ls-label)}.hero-or::before,.hero-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1)}.alt-option{max-width:640px;margin:0 auto var(--s4);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-lg);padding:var(--s3);display:flex;align-items:center;gap:var(--s3);background:rgba(255,255,255,0.02);text-align:left}.alt-option-text{flex:1}.alt-option-title{font-size:var(--text-base);font-weight:600;color:#fff;margin-bottom:4px}.alt-option-sub{font-size:var(--text-sm);color:rgba(255,255,255,0.55);line-height:var(--lh-reading)}.alt-option-btn{background:transparent;border:1px solid var(--yellow);color:var(--yellow);padding:10px 20px;border-radius:var(--radius);font-family:var(--sans);font-size:var(--text-sm);font-weight:600;text-decoration:none;transition:background 0.15s,color 0.15s;white-space:nowrap;display:inline-block}.alt-option-btn:hover{background:var(--yellow);color:var(--ink)}.progress-wrap{max-width:640px;margin:28px auto 0;display:none}.progress-bar-bg{height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}.progress-bar-fill{height:100%;background:var(--yellow);border-radius:2px;width:0%;transition:width 0.4s ease}.progress-status{font-family:var(--mono);font-size:var(--text-xs);color:rgba(255,255,255,0.7);margin-top:var(--s1);text-align:left}.progress-status::before{content:'▶ ';color:var(--yellow)}</style>
+<link rel="preload" href="/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/main.css"></noscript>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://jurocompliant.com/#organization",
+      "name": "Jurocompliant",
+      "legalName": "Juro Compliance Ltd",
+      "url": "https://jurocompliant.com",
+      "email": "hello@jurocompliant.com",
+      "description": "Non-custodial compliance scanning for GDPR, DORA, and DPDP with signed, deterministic, verifiable artifacts.",
+      "foundingDate": "2025",
+      "sameAs": []
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://jurocompliant.com/#software",
+      "name": "Jurocompliant Scanner",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "ComplianceScanner",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript",
+      "url": "https://jurocompliant.com",
+      "description": "Free online scanner that checks any website for GDPR, DORA, and DPDP compliance violations. Maps findings to specific regulatory provisions with remediation guidance.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "featureList": [
+        "Headless browser crawl",
+        "Consent flow validation",
+        "Third-party tracker detection",
+        "Regulatory provision mapping",
+        "Signed compliance artifacts"
+      ],
+      "creator": { "@id": "https://jurocompliant.com/#organization" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://jurocompliant.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Jurocompliant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jurocompliant is a free online scanner that checks any website for GDPR, DORA, and DPDP compliance violations. It uses a headless browser to analyze consent flows, tracker behavior, and privacy notices, then maps findings to specific regulatory provisions with remediation guidance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is DPDP compliance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DPDP (Digital Personal Data Protection Act 2023) is India's data protection law. It requires websites to obtain explicit user consent before collecting personal data, provide clear privacy notices, and implement data security measures. Fines reach 250 crore rupees per violation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the Jurocompliant scanner work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Enter any URL and the scanner uses a headless Chromium browser to load the page exactly as a real visitor would. It intercepts network requests, checks cookie timing, validates consent banners, and detects third-party trackers firing before consent. Findings are mapped to specific GDPR, DORA, or DPDP provisions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the Jurocompliant scanner free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The surface scanner is completely free with no account required. It checks website-layer compliance gaps including consent flows, tracker timing, and privacy notice presence."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between GDPR, DORA, and DPDP?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GDPR (General Data Protection Regulation) is the EU's data protection law. DORA (Digital Operational Resilience Act) is the EU's financial sector cybersecurity regulation. DPDP (Digital Personal Data Protection Act) is India's data protection law. Jurocompliant scans for all three simultaneously."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
-<div class="header">
+<header class="header">
   <div class="logo">juro<span class="accent">compliant</span></div>
-  <div class="header-right">
+  <nav class="header-right" aria-label="Primary">
     <a href="/checklist.html" class="nav-link">Self Assessment →</a>
     <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="framework-tag">DPDP Act 2023</a>
     <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
     <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
-  </div>
-</div>
+  </nav>
+</header>
 
 <div class="hero">
   <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
@@ -1174,7 +177,7 @@
   </div>
 </div>
 
-<div class="main">
+<main class="main">
   <div id="emptyState">
 
     <div class="how-it-works">
@@ -1297,7 +300,44 @@
     </div>
 
   </div>
-</div>
+
+  <!-- FAQ — always visible for SEO + AEO -->
+  <section class="faq-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="faq-heading">Frequently asked questions</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-question">What is Jurocompliant?</summary>
+        <div class="faq-answer">
+          <p>Jurocompliant is a free online scanner that checks any website for GDPR, DORA, and DPDP compliance violations. It uses a headless browser to analyze consent flows, tracker behavior, and privacy notices — then maps findings to specific regulatory provisions with remediation guidance.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What is DPDP compliance?</summary>
+        <div class="faq-answer">
+          <p>DPDP (Digital Personal Data Protection Act 2023) is India's data protection law. It requires websites to obtain explicit user consent before collecting personal data, provide clear privacy notices, and implement data security measures. Fines reach ₹250 crore per violation, and Data Fiduciaries are personally liable.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">How does the scanner work?</summary>
+        <div class="faq-answer">
+          <p>Enter any URL and the scanner uses a headless Chromium browser to load the page exactly as a real visitor would. It intercepts network requests, checks cookie timing, validates consent banners, and detects third-party trackers firing before consent. Findings are mapped to specific GDPR, DORA, or DPDP provisions.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Is the scanner free?</summary>
+        <div class="faq-answer">
+          <p>Yes. The surface scanner is completely free with no account required. It checks website-layer compliance including consent flows, tracker timing, and privacy notice presence. For deeper infrastructure assessments, contact us.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What is the difference between GDPR, DORA, and DPDP?</summary>
+        <div class="faq-answer">
+          <p>GDPR (General Data Protection Regulation) is the EU's data protection law. DORA (Digital Operational Resilience Act) is the EU's financial sector cybersecurity regulation. DPDP (Digital Personal Data Protection Act) is India's data protection law. The scanner checks for all three simultaneously.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
 
 <!-- Pre-scan email gate (fires on 2nd scan if no email given) -->
 <div id="gateModal" class="modal-overlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="gateHeading">
@@ -1368,570 +408,6 @@
   </div>
 </div>
 
-<script>
-const API_BASE = window.JURO_API_URL ?? 'http://localhost:3000';
-
-let scanning = false;
-let lastScanTime = 0;
-const SCAN_COOLDOWN_MS = 60000;
-
-// UX gate only — server's DOMAIN_REGEX in juro/src/routes/scans.ts is
-// authoritative. Mirror its normalization so https://example.com/ passes
-// the same on both sides.
-function normaliseScanInput(raw) {
-  return (raw || '')
-    .trim()
-    .toLowerCase()
-    .replace(/^https?:\/\//, '')
-    .replace(/\/+$/, '');
-}
-
-const DOMAIN_REGEX = /^(?=.{1,255}$)(?!-)([a-z0-9-]{1,63}(?<!-)\.)+[a-z]{2,}$/i;
-
-function isValidScanDomain(raw) {
-  const normalised = normaliseScanInput(raw);
-  return !!normalised && DOMAIN_REGEX.test(normalised);
-}
-
-window.__juroScanHelpers = { normaliseScanInput, isValidScanDomain };
-
-function markEmailProvided() {
-  localStorage.setItem('juro_email_provided', '1');
-}
-
-const PERSONAL_MAIL_DOMAINS = new Set([
-  'gmail.com', 'googlemail.com',
-  'yahoo.com', 'yahoo.co.in', 'yahoo.co.uk', 'ymail.com',
-  'outlook.com', 'hotmail.com', 'live.com', 'msn.com',
-  'icloud.com', 'me.com', 'mac.com',
-  'protonmail.com', 'proton.me',
-  'aol.com',
-  'rediffmail.com', 'zoho.com',
-]);
-
-function emailDomain(email) {
-  const at = (email || '').lastIndexOf('@');
-  if (at < 0) return '';
-  return email.slice(at + 1).trim().toLowerCase();
-}
-
-function isPersonalMailProvider(email) {
-  return PERSONAL_MAIL_DOMAINS.has(emailDomain(email));
-}
-
-function normaliseDomain(d) {
-  return (d || '').trim().toLowerCase().replace(/^www\./, '');
-}
-
-function shouldWarnAboutEmail(email, scanDomain) {
-  const ed = emailDomain(email);
-  const sd = normaliseDomain(scanDomain);
-  if (!ed || !sd) return false;
-  if (ed === sd) return false;
-  return isPersonalMailProvider(email);
-}
-
-window.__juroEmailHelpers = { emailDomain, isPersonalMailProvider, shouldWarnAboutEmail };
-
-const LEADS_CONSENT_VERSION = '2026-04';
-
-async function submitLead({ email, name, source }) {
-  const q = new URLSearchParams(window.location.search);
-  const payload = {
-    email,
-    name: name || undefined,
-    source,
-    consent_version: LEADS_CONSENT_VERSION,
-    referrer: document.referrer || undefined,
-    utm_source: q.get('utm_source') || undefined,
-    utm_medium: q.get('utm_medium') || undefined,
-    utm_campaign: q.get('utm_campaign') || undefined,
-  };
-  return fetch(API_BASE + '/api/v1/leads', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-}
-
-function showPreScanGate(domain) {
-  document.getElementById('gateDomainField').value = domain;
-  document.getElementById('gateForm').style.display = 'flex';
-  document.getElementById('gateForm').style.flexDirection = 'column';
-  document.getElementById('gateSuccess').style.display = 'none';
-  document.getElementById('gateModal').style.display = 'flex';
-}
-
-document.getElementById('gateForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const email = document.getElementById('gateEmail').value;
-  if (!email) return;
-
-  const scanDomain = document.getElementById('gateDomainField').value;
-  if (this.dataset.mailWarned !== email && shouldWarnAboutEmail(email, scanDomain)) {
-    this.dataset.mailWarned = email;
-    showNotice(`Heads up — we’d prefer a work email at @${normaliseDomain(scanDomain)}. If you still want to use ${emailDomain(email)}, just submit again.`, { eyebrow: 'Work email preferred' });
-    return;
-  }
-  this.dataset.mailWarned = '';
-
-  const btn = this.querySelector('.modal-submit');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
-  try {
-    await submitLead({
-      email,
-      name: document.getElementById('gateName').value,
-      source: 'homepage',
-    });
-  } catch (_) { /* silent — don't block the user */ }
-  markEmailProvided();
-  document.getElementById('gateForm').style.display = 'none';
-  document.getElementById('gateSuccess').style.display = 'block';
-  setTimeout(() => {
-    document.getElementById('gateModal').style.display = 'none';
-    runScan(document.getElementById('urlInput').value.trim());
-  }, 1200);
-});
-
-async function startScan() {
-  if (scanning) return;
-  const raw = document.getElementById('urlInput').value.trim();
-  if (!raw) return;
-
-  if (!isValidScanDomain(raw)) {
-    showNotice('Enter a domain like example.com — without the protocol.', { eyebrow: 'Check the URL' });
-    return;
-  }
-
-  if (!document.getElementById('consentBox').checked) {
-    showNotice('Please confirm you are authorised to scan this domain.', { eyebrow: 'Confirm authorisation' });
-    return;
-  }
-
-  // Email gate: required from 2nd scan onwards
-  const hasScanned = localStorage.getItem('juro_has_scanned');
-  const hasEmail = localStorage.getItem('juro_email_provided');
-  if (hasScanned && !hasEmail) {
-    showPreScanGate(raw.replace(/^https?:\/\//, ''));
-    return;
-  }
-
-  runScan(raw);
-}
-
-async function runScan(raw) {
-
-  const now = Date.now();
-  const elapsed = now - lastScanTime;
-  if (lastScanTime && elapsed < SCAN_COOLDOWN_MS) {
-    const wait = Math.ceil((SCAN_COOLDOWN_MS - elapsed) / 1000);
-    showNotice('Please wait ' + wait + ' seconds before scanning again.', { eyebrow: 'Cooldown' });
-    return;
-  }
-  lastScanTime = now;
-
-  scanning = true;
-  const btn = document.getElementById('scanBtn');
-  btn.disabled = true;
-  btn.textContent = 'Scanning...';
-
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('resultsArea').style.display = 'none';
-  document.getElementById('progressWrap').style.display = 'block';
-  document.getElementById('stakesStrip').style.display = 'none';
-  document.getElementById('heroOr').style.display = 'none';
-  document.getElementById('altOption').style.display = 'none';
-
-  const fill = document.getElementById('progressFill');
-  const status = document.getElementById('progressStatus');
-
-  const steps = [
-    [8,  'Resolving URL and checking connectivity...'],
-    [18, 'Loading page with headless Chromium...'],
-    [30, 'Intercepting network requests and cookie jar...'],
-    [44, 'Analysing consent management implementation...'],
-    [56, 'Detecting third-party tracker firing sequence...'],
-    [68, 'Checking privacy notice against DPDP § 5 requirements...'],
-    [78, 'Scanning form fields for consent compliance...'],
-    [87, 'Mapping findings to DPDP Act provisions...'],
-    [94, 'Calculating obligation-level compliance posture...'],
-    [100,'Scan complete — building findings report...'],
-  ];
-
-  let stepIdx = 0;
-  const progressInterval = setInterval(() => {
-    if (stepIdx < steps.length - 1) {
-      fill.style.width = steps[stepIdx][0] + '%';
-      status.textContent = steps[stepIdx][1];
-      stepIdx++;
-    }
-  }, 800);
-
-  try {
-    const response = await fetch(API_BASE + '/api/scan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: raw })
-    });
-    
-    const data = await response.json();
-    
-    clearInterval(progressInterval);
-    fill.style.width = '100%';
-    status.textContent = 'Scan complete — building findings report...';
-
-    if (data.error) {
-       showNotice(data.error, { eyebrow: 'Scan failed', tone: 'error' });
-       document.getElementById('progressWrap').style.display = 'none';
-       document.getElementById('stakesStrip').style.display = '';
-       document.getElementById('heroOr').style.display = '';
-       document.getElementById('altOption').style.display = '';
-    } else {
-       localStorage.setItem('juro_has_scanned', '1');
-       setTimeout(() => {
-         renderResults(data, data.url);
-         document.getElementById('progressWrap').style.display = 'none';
-       }, 500);
-    }
-  } catch (err) {
-    clearInterval(progressInterval);
-    showNotice('Failed to connect to scanner API. Ensure the backend is running.', { eyebrow: 'Connection failed', tone: 'error' });
-    document.getElementById('progressWrap').style.display = 'none';
-    document.getElementById('stakesStrip').style.display = '';
-    document.getElementById('heroOr').style.display = '';
-    document.getElementById('altOption').style.display = '';
-  } finally {
-    scanning = false;
-    btn.disabled = false;
-    btn.textContent = 'Scan again';
-  }
-}
-
-// Server stores scanned_at as a UTC string in the form
-// 'YYYY-MM-DD HH:MM:SS'. JS Date() parses that as local time on most
-// engines, so append the 'Z' to force UTC. Returns ms-since-epoch, or
-// NaN if the input is missing/malformed (caller must handle).
-function parseScannedAt(s) {
-  if (!s || typeof s !== 'string') return NaN;
-  const iso = s.includes('T') ? s : s.replace(' ', 'T');
-  return Date.parse(iso.endsWith('Z') ? iso : iso + 'Z');
-}
-
-function formatScannedAgo(scannedAt, now = Date.now()) {
-  const t = parseScannedAt(scannedAt);
-  if (!Number.isFinite(t)) return '';
-  const diffSec = Math.max(0, Math.round((now - t) / 1000));
-  if (diffSec < 60) return 'Scanned moments ago';
-  const diffMin = Math.round(diffSec / 60);
-  if (diffMin < 60) return `Scanned ${diffMin} min ago`;
-  const diffHr = Math.round(diffMin / 60);
-  if (diffHr < 24) return `Scanned ${diffHr} hr ago`;
-  const diffDay = Math.round(diffHr / 24);
-  return `Scanned ${diffDay} day${diffDay === 1 ? '' : 's'} ago`;
-}
-
-window.__juroScanHelpers = Object.assign(window.__juroScanHelpers || {}, {
-  formatScannedAgo,
-  parseScannedAt,
-});
-
-function renderResults(data, url) {
-  document.getElementById('resultsArea').style.display = 'block';
-
-  const bar = document.getElementById('scanTargetBar');
-  bar.style.display = 'flex';
-  document.getElementById('scanTargetLabel').textContent = url.replace(/^https?:\/\//,'');
-  const timeLabel = data && data.cached
-    ? formatScannedAgo(data.scanned_at)
-    : `Completed in ${data ? data.elapsed : ''}s`;
-  document.getElementById('scanTimeLabel').textContent = timeLabel;
-
-  if (!data || !data.findings) {
-    document.getElementById('cCount').textContent = 0;
-    document.getElementById('hCount').textContent = 0;
-    document.getElementById('mCount').textContent = 0;
-    document.getElementById('tCount').textContent = 0;
-    document.getElementById('postureRows').innerHTML = '';
-    document.getElementById('findingsList').innerHTML = '<div style="padding:2rem;text-align:center;color:#9CA3AF;font-size:13px;background:#fff;border:1px solid #E5E7EB;border-radius:10px">No findings for this URL.</div>';
-    document.getElementById('ctaBlock').style.display = 'none';
-    return;
-  }
-
-  const crit = data.findings.filter(f=>f.sev==='critical').length;
-  const high = data.findings.filter(f=>f.sev==='high').length;
-  const med  = data.findings.filter(f=>f.sev==='medium').length;
-
-  document.getElementById('cCount').textContent = crit;
-  document.getElementById('hCount').textContent = high;
-  document.getElementById('mCount').textContent = med;
-  document.getElementById('tCount').textContent = data.findings.length;
-
-  resetSeverityFilter({ critical: crit, high: high, medium: med, total: data.findings.length });
-
-  const pr = document.getElementById('postureRows');
-  pr.innerHTML = '';
-  data.posture.forEach(p => {
-    const row = document.createElement('div');
-    row.className = 'posture-row';
-    const color = p.status === 'fail' ? 'red' : 'green';
-    const pillClass = `pill-${color}`;
-    const pillText = p.status === 'fail' ? 'Gap found' : 'No issue detected';
-    row.innerHTML = `<span class="posture-label">${p.rule}</span><span class="status-pill ${pillClass}">${pillText}</span>`;
-    pr.appendChild(row);
-  });
-
-  const fl = document.getElementById('findingsList');
-  fl.innerHTML = '';
-
-  if (data.findings.length === 0) {
-    fl.innerHTML = `
-      <div class="zero-findings">
-        <div class="zero-findings-eyebrow">Surface scan · 0 findings</div>
-        <div class="zero-findings-title">No website-layer gaps caught — but this isn't a clean bill.</div>
-        <div class="zero-findings-lede">Our surface scanner only sees what a browser sees. It ran the three checks below and didn't hit any of them. The gaps that usually matter live below the surface, where this scan can't reach.</div>
-        <div class="zero-findings-cols">
-          <div class="zero-col checked">
-            <h4>Checked on this URL</h4>
-            <ul>
-              <li>Third-party analytics firing before consent</li>
-              <li>Tracking cookies set before consent</li>
-              <li>Presence of a consent mechanism</li>
-            </ul>
-          </div>
-          <div class="zero-col unchecked">
-            <h4>Not checked (out of scope)</h4>
-            <ul>
-              <li>Consent captured in backend APIs</li>
-              <li>Personal data stored unencrypted at rest</li>
-              <li>PII landing in application logs</li>
-              <li>Cross-border transfer documentation</li>
-              <li>Breach-notification workflow</li>
-              <li>Retention and erasure policies</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    `;
-    document.getElementById('ctaBlock').style.display = 'flex';
-    return;
-  }
-
-  data.findings.forEach((f, idx) => {
-    const card = document.createElement('div');
-    card.className = `finding-card ${f.sev}`;
-    const impact = getBusinessImpact(f.rule, f.sev);
-    const impactHtml = impact
-      ? `<div class="business-impact-box"><span class="impact-label">Business impact</span>${impact}</div>`
-      : '';
-    const capSev = f.sev.charAt(0).toUpperCase() + f.sev.slice(1);
-    card.innerHTML = `
-      <div class="finding-head" onclick="toggleFinding(this)">
-        <div>
-          <div class="finding-id">${f.id}</div>
-          <div class="finding-title">${f.title}</div>
-        </div>
-        <span class="sev-pill sev-${f.sev}">${capSev}</span>
-      </div>
-      <div class="finding-body${idx === 0 ? ' open' : ''}">
-        <div class="finding-desc">${f.desc}</div>
-        ${impactHtml}
-        <div class="finding-meta-row">
-          <div class="finding-meta-item"><strong>Location:</strong> ${f.location}</div>
-        </div>
-        <span class="rule-chip">§ ${f.rule}</span>
-        <div class="remediation-box">
-          <span class="rem-label">Fix</span>
-          ${f.remediation}
-        </div>
-      </div>
-    `;
-    fl.appendChild(card);
-    setTimeout(() => card.classList.add('visible'), 80 + idx * 160);
-  });
-
-  const ctaDelay = 80 + data.findings.length * 160 + 500;
-  setTimeout(() => {
-    document.getElementById('ctaBlock').style.display = 'flex';
-  }, ctaDelay);
-  setTimeout(() => {
-    showEmailModal(url.replace(/^https?:\/\//, ''));
-  }, ctaDelay + 2000);
-}
-
-function getBusinessImpact(rule, sev) {
-  if (sev !== 'critical' && sev !== 'high') return null;
-  const r = (rule || '').toLowerCase();
-  if (r.includes('§') || r.includes('dpdp')) {
-    return 'Under DPDP, each affected user can file a complaint with the Data Protection Board — no minimum threshold. Fines reach ₹250 crore per instance. Data Fiduciaries are personally liable under DPDP Rules 2025.';
-  }
-  if (r.includes('art.') || r.includes('gdpr')) {
-    return 'GDPR fines reach €20M or 4% of global annual turnover — whichever is higher. Supervisory authorities are actively enforcing consent violations and can order you to stop processing entirely.';
-  }
-  if (r.includes('dora')) {
-    return 'DORA non-compliance triggers mandatory incident reporting obligations and potential action from financial competent authorities. ICT risk gaps are treated as systemic failures, not isolated issues.';
-  }
-  return 'This gap represents regulatory exposure. Document and remediate before your next external audit or customer due-diligence review.';
-}
-
-function toggleFinding(headEl) {
-  const body = headEl.nextElementSibling;
-  body.classList.toggle('open');
-}
-
-function requestFullScan() {
-  const url = document.getElementById('urlInput').value.trim() || 'our website';
-  window.location.href = 'mailto:hello@jurocompliant.com'
-    + '?subject=' + encodeURIComponent('Technical readiness assessment — ' + url)
-    + '&body=' + encodeURIComponent('Hi,\n\nI just scanned ' + url + ' using Jurocompliant and would like to discuss a full technical assessment.\n\n');
-}
-
-function showEmailModal(domain) {
-  document.getElementById('modalDomainLabel').textContent = domain;
-  document.getElementById('modalDomainField').value = domain;
-  document.getElementById('emailForm').style.display = 'flex';
-  document.getElementById('emailForm').style.flexDirection = 'column';
-  document.getElementById('modalSuccess').style.display = 'none';
-  document.getElementById('emailModal').style.display = 'flex';
-}
-
-function closeModal() {
-  document.getElementById('emailModal').style.display = 'none';
-}
-
-document.getElementById('emailModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-
-document.getElementById('emailForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const email = document.getElementById('modalEmail').value;
-  if (!email) return;
-
-  const scanDomain = document.getElementById('modalDomainField').value;
-  if (this.dataset.mailWarned !== email && shouldWarnAboutEmail(email, scanDomain)) {
-    this.dataset.mailWarned = email;
-    showNotice(`Heads up — we’d prefer a work email at @${normaliseDomain(scanDomain)}. If you still want to use ${emailDomain(email)}, just submit again.`, { eyebrow: 'Work email preferred' });
-    return;
-  }
-  this.dataset.mailWarned = '';
-
-  const btn = this.querySelector('.modal-submit');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  try {
-    const res = await submitLead({
-      email,
-      name: document.getElementById('modalName').value,
-      source: 'homepage',
-    });
-    if (res.ok) {
-      markEmailProvided();
-      document.getElementById('emailForm').style.display = 'none';
-      document.getElementById('modalSuccess').style.display = 'block';
-      setTimeout(closeModal, 3500);
-    } else {
-      btn.disabled = false;
-      btn.textContent = 'Send me the checklist →';
-    }
-  } catch (_) {
-    btn.disabled = false;
-    btn.textContent = 'Send me the checklist →';
-  }
-});
-
-document.getElementById('urlInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') startScan();
-});
-
-function applySeverityFilter(filter) {
-  const tiles = document.querySelectorAll('#severityFilters .metric-card');
-  tiles.forEach(t => {
-    const active = t.dataset.filter === filter;
-    t.classList.toggle('is-active', active);
-    t.setAttribute('aria-pressed', active ? 'true' : 'false');
-  });
-  const cards = document.querySelectorAll('#findingsList .finding-card');
-  cards.forEach(c => {
-    const match = filter === 'all' || c.classList.contains(filter);
-    c.style.display = match ? '' : 'none';
-  });
-}
-
-function resetSeverityFilter(counts) {
-  const map = { critical: counts.critical, high: counts.high, medium: counts.medium, all: counts.total };
-  document.querySelectorAll('#severityFilters .metric-card').forEach(t => {
-    const n = map[t.dataset.filter] ?? 0;
-    t.classList.toggle('is-empty', t.dataset.filter !== 'all' && n === 0);
-  });
-  applySeverityFilter('all');
-}
-
-document.querySelectorAll('#severityFilters .metric-card').forEach(tile => {
-  const activate = () => {
-    if (tile.classList.contains('is-empty')) return;
-    applySeverityFilter(tile.dataset.filter);
-  };
-  tile.addEventListener('click', activate);
-  tile.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
-  });
-});
-
-function showNotice(message, opts = {}) {
-  const overlay = document.getElementById('noticeDialog');
-  const card = document.getElementById('noticeCard');
-  const eyebrow = document.getElementById('noticeEyebrow');
-  document.getElementById('noticeMessage').textContent = message;
-  eyebrow.textContent = opts.eyebrow || (opts.tone === 'error' ? 'Error' : 'Notice');
-  card.classList.toggle('is-error', opts.tone === 'error');
-  overlay.classList.add('is-open');
-  const ok = document.getElementById('noticeOk');
-  ok.focus();
-}
-
-function closeNotice() {
-  document.getElementById('noticeDialog').classList.remove('is-open');
-}
-
-document.getElementById('noticeOk').addEventListener('click', closeNotice);
-document.getElementById('noticeDialog').addEventListener('click', e => {
-  if (e.target.id === 'noticeDialog') closeNotice();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && document.getElementById('noticeDialog').classList.contains('is-open')) {
-    closeNotice();
-  }
-});
-</script>
-
-<script>
-// First-party pageview beacon. No cookies, no localStorage — see privacy.html.
-// Uses fetch + keepalive rather than navigator.sendBeacon: sendBeacon with
-// application/json Blob doesn't perform the CORS preflight correctly in
-// Chromium and silently drops. fetch handles the preflight and lets a
-// failure surface via .catch (still swallowed — fire-and-forget).
-(function beacon() {
-  try {
-    var base = (window.JURO_API_URL) || 'http://localhost:3000';
-    var q = new URLSearchParams(window.location.search);
-    var payload = {
-      path: window.location.pathname,
-      referrer: document.referrer || undefined,
-      utm_source: q.get('utm_source') || undefined,
-      utm_medium: q.get('utm_medium') || undefined,
-      utm_campaign: q.get('utm_campaign') || undefined,
-    };
-    fetch(base + '/api/v1/pageview', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      keepalive: true,
-      mode: 'cors',
-      credentials: 'omit',
-    }).catch(function () { /* fire-and-forget */ });
-  } catch (_) { /* never block the page */ }
-})();
-</script>
+<script src="/js/main.js" defer></script>
 </body>
 </html>
