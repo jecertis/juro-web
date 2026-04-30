@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Deploy — Installation Guide · Jurocompliant</title>
+<meta name="description" content="Step-by-step guide to installing and running the Juro Private Deploy agent in your AWS account.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://jurocompliant.com/deploy-evergent.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/ibm-plex-sans.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+  :root {
+    --ink:       #0A0A0A;
+    --yellow:    #F5C400;
+    --yellow-dk: #D4A800;
+    --green:     #059669;
+    --red:       #DC2626;
+    --gray-100:  #F5F5F5;
+    --gray-200:  #E5E5E5;
+    --gray-400:  #A3A3A3;
+    --gray-500:  #737373;
+    --gray-700:  #404040;
+    --gray-900:  #0A0A0A;
+
+    --text-xs:   11px;
+    --text-sm:   14px;
+    --text-base: 16px;
+    --text-lg:   20px;
+    --text-xl:   28px;
+
+    --lh-tight:   1.05;
+    --lh-snug:    1.5;
+    --lh-reading: 1.7;
+    --ls-label:   0.08em;
+    --ls-display: -0.04em;
+
+    --s1:  8px;  --s2: 16px; --s3: 24px; --s4: 32px;
+    --s5: 48px;  --s6: 64px; --s7: 96px;
+
+    --mono:      'IBM Plex Mono', monospace;
+    --sans:      'IBM Plex Sans', sans-serif;
+    --radius:    6px;
+    --radius-lg: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: #111111;
+    color: var(--gray-900);
+    min-height: 100vh;
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--ink);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 0;
+  }
+  .logo .accent { color: var(--yellow); }
+  .nav-link {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-link:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* ── Main card ── */
+  .main {
+    max-width: 720px;
+    margin: var(--s5) auto;
+    padding: var(--s6);
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+  }
+
+  /* ── Page header ── */
+  .page-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--s1);
+  }
+  h1 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: var(--ls-display);
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+  }
+  .updated {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--gray-400);
+    margin-bottom: var(--s4);
+  }
+
+  /* ── Non-custodial callout ── */
+  .callout {
+    background: var(--gray-100);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s5);
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--lh-reading);
+  }
+  .callout strong { color: var(--gray-900); }
+
+  /* ── Section headings ── */
+  h2 {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--gray-500);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    padding-bottom: var(--s1);
+    border-bottom: 1px solid var(--gray-200);
+  }
+  p { color: var(--gray-700); margin-bottom: var(--s2); }
+  a { color: var(--gray-900); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--gray-700); }
+
+  /* ── Checklist ── */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: var(--s3);
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--lh-snug);
+  }
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: #fff;
+  }
+  .checklist code {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    background: var(--gray-100);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--gray-900);
+  }
+
+  /* ── Steps ── */
+  .step {
+    margin-top: var(--s5);
+    padding-top: var(--s4);
+    border-top: 1px solid var(--gray-100);
+  }
+  .step-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s2);
+    margin-bottom: var(--s2);
+  }
+  .step-num {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--yellow-dk);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.3);
+    padding: 2px 8px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+  h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--gray-900);
+    line-height: var(--lh-snug);
+  }
+  .step-desc {
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+  .step-note {
+    font-size: var(--text-xs);
+    color: var(--gray-500);
+    font-style: italic;
+    margin-top: var(--s2);
+    line-height: var(--lh-reading);
+  }
+
+  /* ── Code blocks ── */
+  .code-block {
+    background: #111;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--s3);
+  }
+  .code-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05);
+    padding: 6px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+  pre {
+    margin: 0;
+    padding: var(--s3) var(--s3);
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: #E5E5E5;
+  }
+  .cmd {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-sm);
+    background: var(--ink);
+    color: var(--yellow);
+    padding: 10px var(--s3);
+    border-radius: var(--radius);
+    margin-bottom: var(--s2);
+    letter-spacing: 0;
+  }
+  .cmd::before { content: '$ '; color: rgba(255,255,255,0.3); }
+  code {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    background: var(--gray-100);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--gray-900);
+  }
+
+  /* ── Output preview ── */
+  .output-block {
+    background: #111;
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-top: var(--s2);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+  }
+  .output-ok  { color: #4ade80; }
+  .output-skip { color: rgba(255,255,255,0.35); }
+
+  /* ── Review halt box ── */
+  .halt-box {
+    background: rgba(245,196,0,0.06);
+    border: 1px solid rgba(245,196,0,0.3);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin: var(--s2) 0 var(--s3);
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--lh-reading);
+  }
+  .halt-box strong { color: var(--gray-900); }
+
+  /* ── FAQ ── */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: var(--s2);
+  }
+  details.faq-item {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--gray-100);
+  }
+  summary.faq-question {
+    padding: var(--s2) var(--s3);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--gray-900);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s2);
+    user-select: none;
+    transition: background 0.15s;
+  }
+  summary.faq-question::-webkit-details-marker { display: none; }
+  summary.faq-question::after {
+    content: '+';
+    font-family: var(--mono);
+    font-size: var(--text-lg);
+    color: var(--gray-400);
+    flex-shrink: 0;
+    width: 1.2em;
+    text-align: center;
+    transition: color 0.15s;
+  }
+  details.faq-item[open] summary.faq-question {
+    background: #fff;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  details.faq-item[open] summary.faq-question::after { content: '−'; color: var(--gray-500); }
+  .faq-answer {
+    padding: var(--s2) var(--s3) var(--s3);
+    font-size: var(--text-sm);
+    color: var(--gray-700);
+    line-height: var(--lh-reading);
+    background: #fff;
+  }
+  .faq-answer p { margin-bottom: var(--s1); }
+  .faq-answer p:last-child { margin-bottom: 0; }
+  .faq-answer code {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    background: var(--gray-100);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Contact block ── */
+  .contact-block {
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: var(--s3);
+    margin-top: var(--s5);
+  }
+  .contact-block p { color: rgba(255,255,255,0.72); margin-bottom: 6px; }
+  .contact-block p:last-child { margin-bottom: 0; }
+  .contact-block a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+  .contact-block a:hover { color: var(--yellow); text-decoration: none; }
+  .contact-block strong { color: #E2E8F0; }
+
+  /* ── Footer ── */
+  .footer {
+    max-width: 720px;
+    margin: var(--s2) auto 0;
+    padding: 0 2rem var(--s6);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.28);
+  }
+  .footer a { color: rgba(255,255,255,0.28); }
+  .footer a:hover { color: rgba(255,255,255,0.65); }
+
+  @media (max-width: 680px) {
+    .main { margin: var(--s3) var(--s2); padding: var(--s4) var(--s3); }
+    pre { font-size: 12px; padding: var(--s2); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/" class="logo">juro<span class="accent">compliant</span></a>
+  <a href="/" class="nav-link">← Back to scanner</a>
+</div>
+
+<div class="main">
+  <div class="page-label">Private Deploy · AWS · Design Partner</div>
+  <h1>Installation Guide</h1>
+  <div class="updated">April 2026 &nbsp;·&nbsp; Shared privately — not for redistribution</div>
+
+  <div class="callout">
+    <strong>Non-custodial by design.</strong> The Juro agent runs entirely inside your AWS account under a read-only IAM role you provision and control. No scan data, no infrastructure state, and no findings ever leave your perimeter. Juro receives only what you choose to publish — a hash and signature — to an append-only transparency log.
+  </div>
+
+  <!-- ── Prerequisites ── -->
+  <h2>Before you begin</h2>
+  <ul class="checklist">
+    <li>
+      <span class="check-icon"></span>
+      <span><strong>Docker and Docker Compose v2+</strong> installed on the host that will run the agent stack.</span>
+    </li>
+    <li>
+      <span class="check-icon"></span>
+      <span><strong>AWS CLI v2</strong> configured with credentials that have permission to create an IAM role and attach an inline policy.</span>
+    </li>
+    <li>
+      <span class="check-icon"></span>
+      <span><strong>Node.js 18+</strong> to install and run the <code>juro-deploy</code> CLI.</span>
+    </li>
+    <li>
+      <span class="check-icon"></span>
+      <span><strong>Signed DPA on file with Juro.</strong> The agent must not be run before the data processing agreement is signed. Contact <a href="mailto:hello@jurocompliant.com">hello@jurocompliant.com</a> if you need it resent.</span>
+    </li>
+    <li>
+      <span class="check-icon"></span>
+      <span><strong>Rule-pack SHA and image digest</strong> provided by Juro (sent alongside this guide). You will paste these into <code>juro-deploy.yaml</code> in Step 1.</span>
+    </li>
+  </ul>
+
+  <p>Run the host prerequisite check at any time:</p>
+  <div class="cmd">juro-deploy doctor</div>
+
+  <!-- ── Step 0 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 0</span>
+      <h3>Provision the IAM role</h3>
+    </div>
+    <p class="step-desc">Create a role named <code>juro-agent</code> in your AWS account and attach the inline policy below. The trust policy should allow EC2, ECS, or whichever compute type you will use to assume the role. The agent authenticates via the role attached to the instance — no static credentials, ever.</p>
+
+    <div class="code-block">
+      <div class="code-label">IAM inline policy — paste into AWS Console or Terraform</div>
+      <pre>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "JuroAgentAllow",
+      "Effect": "Allow",
+      "Action": [
+        "rds:DescribeDBInstances",
+        "rds:DescribeDBClusters",
+        "rds:DescribeDBClusterMembers",
+        "dynamodb:ListTables",
+        "dynamodb:DescribeTable",
+        "dynamodb:ListGlobalTables",
+        "s3:ListAllMyBuckets",
+        "s3:GetBucketLocation",
+        "s3:GetBucketEncryption",
+        "s3:GetBucketAcl",
+        "s3:GetBucketPolicy",
+        "s3:GetBucketPublicAccessBlock",
+        "s3:GetBucketVersioning",
+        "s3:GetBucketTagging",
+        "lambda:ListFunctions",
+        "lambda:GetFunction",
+        "lambda:GetFunctionConfiguration",
+        "lambda:ListLayerVersions",
+        "secretsmanager:ListSecrets",
+        "secretsmanager:DescribeSecret",
+        "ssm:DescribeParameters",
+        "cloudfront:ListDistributions",
+        "cloudfront:GetDistribution",
+        "cloudfront:ListTagsForResource",
+        "apigateway:GET",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeNetworkAcls",
+        "ec2:DescribeFlowLogs",
+        "ec2:DescribeInstances",
+        "ec2:DescribeNetworkInterfaces",
+        "cloudtrail:DescribeTrails",
+        "cloudtrail:GetTrailStatus",
+        "cloudtrail:ListTrails",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams",
+        "logs:DescribeMetricFilters"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "JuroAgentExplicitDeny",
+      "Effect": "Deny",
+      "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:BatchGetSecretValue",
+        "secretsmanager:GetResourcePolicy",
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath",
+        "ssm:GetParameterHistory",
+        "rds-db:connect",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "lambda:InvokeFunction",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:Query",
+        "dynamodb:BatchGetItem",
+        "iam:CreateAccessKey",
+        "iam:CreateUser",
+        "iam:AttachUserPolicy",
+        "iam:AttachRolePolicy",
+        "sts:AssumeRole",
+        "iam:PassRole",
+        "logs:GetLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre>
+    </div>
+
+    <p class="step-note">The Deny block is not negotiable — it is the enforcement layer for the non-custodial guarantee. It explicitly blocks every action that could return secret values, data-plane content, or escalate identity, even if those actions were accidentally added to the Allow list later. Copy the role ARN once it is created — you will need it in the next step.</p>
+  </div>
+
+  <!-- ── Step 1 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 1</span>
+      <h3>Create <code>juro-deploy.yaml</code></h3>
+    </div>
+    <p class="step-desc">Create this file in your infrastructure repo. Replace the placeholder values with what Juro sent you and your own ARNs. Commit it to source control — it is the versioned record of your engagement configuration.</p>
+
+    <div class="code-block">
+      <div class="code-label">juro-deploy.yaml</div>
+      <pre>engagement_slug: your-org-aws           # lowercase kebab-case, e.g. evergent-aws
+cloud: aws
+rule_pack_sha: "sha256:JURO_PROVIDED"   # from the digest sheet Juro sent you
+scanner_image_digest: "sha256:JURO_PROVIDED"
+signer_key_id: "arn:aws:kms:REGION:ACCOUNT:key/YOUR_KEY_ID"
+tl_endpoint: "https://transparency-log.juro.dev"
+agent_role_arn: "arn:aws:iam::ACCOUNT:role/juro-agent"
+
+scope:
+  services:
+    - rds
+    - s3
+    - lambda
+    - dynamodb
+    - secretsmanager
+    - ssm
+    - cloudfront
+    - apigateway
+    - vpc
+  regions:
+    - us-east-1         # add every region where you run regulated workloads
+    - ap-south-1        # ap-south-1 and ap-south-2 map to DPDP automatically
+
+# Optional — bring your own LLM for triage (recommended if you have a GPU instance).
+# Without this, the stack starts a local Ollama sidecar inside the compose network.
+# triage_llm_url: "http://your-gpu-host:11434"
+# triage_model: "llama3.2:3b"</pre>
+    </div>
+  </div>
+
+  <!-- ── Step 2 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 2</span>
+      <h3>Initialise the stack</h3>
+    </div>
+    <p class="step-desc">Pulls the pinned agent image, renders a Docker Compose file, and starts the stack. Creates a working directory at <code>~/juro-engagement/&lt;slug&gt;/</code>.</p>
+    <div class="cmd">juro-deploy init --config juro-deploy.yaml</div>
+    <div class="output-block">
+      <span class="output-ok">✓</span> image pulled: ghcr.io/jecertis/cloud-scanner@sha256:…<br>
+      <span class="output-ok">✓</span> compose written: ~/juro-engagement/your-org-aws/docker-compose.yml<br>
+      <span class="output-ok">✓</span> stack started — scanner listening on localhost:3100
+    </div>
+  </div>
+
+  <!-- ── Step 3 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 3</span>
+      <h3>Run preflight checks</h3>
+    </div>
+    <p class="step-desc">Validates that all 35 required IAM actions are allowed under <code>agent_role_arn</code> and that the transparency log endpoint is reachable. Do not proceed until every check passes.</p>
+    <div class="cmd">juro-deploy preflight --slug your-org-aws</div>
+    <div class="output-block">
+      <span class="output-ok">✓</span> iam:all-actions — 35 actions simulated, all ALLOWED<br>
+      <span class="output-ok">✓</span> egress:transparency-log — HTTP 200<br>
+      <span class="output-skip">—</span> oidc:token-exchange — deferred (M5)<br>
+      <span class="output-skip">—</span> artifact-store:write — deferred (M5)<br>
+      preflight: 2 passed, 2 skipped
+    </div>
+    <p class="step-note">If any IAM check fails, open the AWS IAM console, locate the <code>juro-agent</code> role, and confirm the inline policy matches the JSON in Step 0 exactly. Common cause: a service-control policy (SCP) at the organisation level overriding the allow.</p>
+  </div>
+
+  <!-- ── Step 4 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 4</span>
+      <h3>Run the discovery scan</h3>
+    </div>
+    <p class="step-desc">Sweeps all configured services and regions using read-only API calls. Writes a residency map — a structured inventory of every resource the agent found — to your working directory. No rule pack is active at this stage; this is a pure discovery pass.</p>
+    <div class="cmd">juro-deploy scan --slug your-org-aws</div>
+    <div class="output-block">
+      <span class="output-ok">✓</span> scan complete — 247 resources discovered<br>
+      residency_map.json → ~/juro-engagement/your-org-aws/residency_map.json
+    </div>
+
+    <div class="halt-box">
+      <strong>Review required before proceeding.</strong> Open <code>residency_map.json</code> and confirm the listed services and regions match what you expect. If regulated workloads are missing, widen the scope in <code>juro-deploy.yaml</code> and re-run. Your compliance team should sign off on this file before you move to rule assignment.
+    </div>
+  </div>
+
+  <!-- ── Step 5 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 5</span>
+      <h3>Generate the rule pack suggestion</h3>
+    </div>
+    <p class="step-desc">Reads the residency map and maps each region to its applicable regulation: <code>ap-south-1</code> and <code>ap-south-2</code> → DPDP; <code>eu-*</code> regions → GDPR. DORA is not auto-detected — add it manually if it applies to your organisation. Writes a draft <code>rules.yaml</code> for your review.</p>
+    <div class="cmd">juro-deploy rules suggest --slug your-org-aws</div>
+    <div class="output-block">
+      rules.yaml → ~/juro-engagement/your-org-aws/rules.yaml
+    </div>
+
+    <div class="halt-box">
+      <strong>Edit before signing.</strong> Open <code>rules.yaml</code> and replace every <code>sha256:PENDING-*</code> placeholder with the real rule-pack digest Juro sent you. Add DORA if required. For any resource listed under <code>unmapped_surfaces</code>, assign it to a regulation manually. Commit the edited file to source control before running the next step.
+    </div>
+  </div>
+
+  <!-- ── Step 6 ── -->
+  <div class="step">
+    <div class="step-header">
+      <span class="step-num">Step 6</span>
+      <h3>Sign the configuration</h3>
+    </div>
+    <p class="step-desc">Computes a deterministic hash of <code>rules.yaml</code> and writes a signing bundle. This bundle is the compliance evidence artifact — the tamper-evident record that a specific, reviewed rule configuration was committed at a specific point in time.</p>
+    <div class="cmd">juro-deploy config sign rules.yaml --slug your-org-aws --output artifacts/signing-bundle.json</div>
+    <div class="output-block">
+      config_hash: sha256:7e1b2c3d…<br>
+      <span class="output-ok">✓</span> signing-bundle.json written to artifacts/
+    </div>
+    <p class="step-note">The current signing status is <code>hash_committed</code>. KMS-backed cryptographic signing (using the <code>signer_key_id</code> KMS key you configured) ships in the next milestone. Store <code>signing-bundle.json</code> in your artifact store — it is the record you produce for an auditor.</p>
+  </div>
+
+  <!-- ── FAQ ── -->
+  <h2>Frequently asked questions</h2>
+  <div class="faq-list">
+
+    <details class="faq-item">
+      <summary class="faq-question">Does Juro see our cloud data?</summary>
+      <div class="faq-answer">
+        <p>No. The agent runs inside your AWS account and makes read-only API calls directly to AWS. It never proxies traffic through Juro infrastructure. Juro has no network path into your VPC and no credentials that would allow one.</p>
+        <p>The only thing that leaves your environment is a hash and a digital signature — not findings, not resource names, not configuration values. Even those are optional: you control whether the signing bundle is published to the transparency log.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">What data leaves our environment?</summary>
+      <div class="faq-answer">
+        <p>By default: nothing. All scan artifacts — the residency map, rules.yaml, and the signing bundle — are written to <code>~/juro-engagement/&lt;slug&gt;/</code> on the host that runs the agent.</p>
+        <p>If you configure a transparency log endpoint (<code>tl_endpoint</code>), only the <strong>hash</strong> and <strong>signature</strong> of the signing bundle are published — never the content of the bundle itself. The transparency log entry proves the artifact existed at a point in time without revealing what it contains.</p>
+        <p>There is no telemetry channel, no call-home mechanism, and no background process that contacts Juro servers.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">My preflight failed on an IAM check — what do I do?</summary>
+      <div class="faq-answer">
+        <p>The most common cause is a Service Control Policy (SCP) at the AWS organisation level that denies the action before the role policy can allow it. Check your organisation's SCPs in AWS Organizations and confirm none of them deny the failing action.</p>
+        <p>If there is no SCP issue, open the <code>juro-agent</code> role in IAM and confirm the inline policy matches the JSON in Step 0 exactly. A missing action or a resource-level restriction (e.g., <code>"Resource": "arn:aws:s3:::specific-bucket"</code> instead of <code>"*"</code>) will cause a simulation failure.</p>
+        <p>Re-run <code>juro-deploy preflight --slug your-org-aws</code> after any policy change.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Which AWS regions are supported?</summary>
+      <div class="faq-answer">
+        <p>Any AWS region can be added to the <code>scope.regions</code> list in <code>juro-deploy.yaml</code>. There is no agent-side restriction on regions.</p>
+        <p>For regulation auto-detection: <code>ap-south-1</code> and <code>ap-south-2</code> map to DPDP; all <code>eu-*</code> regions map to GDPR. Resources in other regions will appear under <code>unmapped_surfaces</code> in <code>rules.yaml</code> — assign them to a regulation manually before signing.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">Which regulations does the agent check?</summary>
+      <div class="faq-answer">
+        <p>The current rule packs cover <strong>GDPR</strong> (EU General Data Protection Regulation), <strong>DORA</strong> (EU Digital Operational Resilience Act), and <strong>DPDP</strong> (India's Digital Personal Data Protection Act 2023).</p>
+        <p>GDPR and DPDP are auto-detected from the region of each resource. DORA must be added manually in <code>rules.yaml</code> — it applies at the organisational level, not per-region.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">We have a GPU instance — can we use our own LLM for triage?</summary>
+      <div class="faq-answer">
+        <p>Yes. Uncomment the <code>triage_llm_url</code> and <code>triage_model</code> fields in <code>juro-deploy.yaml</code> and point them at your Ollama endpoint:</p>
+        <p><code>triage_llm_url: "http://your-gpu-host:11434"</code><br><code>triage_model: "llama3.2:3b"</code></p>
+        <p>When these are set, <code>juro-deploy init</code> renders a three-service compose stack (scanner + RAG + your external LLM endpoint) instead of starting a local Ollama sidecar. The LLM is used only for advisory triage — it never affects the signed finding set.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">What is the residency map, and do I need to review it before proceeding?</summary>
+      <div class="faq-answer">
+        <p>The residency map (<code>residency_map.json</code>) is a structured inventory of every resource the agent found during the discovery scan — grouped by service and region. No rule pack is active at this stage; it is purely a record of what exists.</p>
+        <p>You should review it before moving to Step 5 for two reasons: first, to confirm that all regulated workloads are present (if something is missing, widen the scope and re-scan); second, to give your compliance team an opportunity to confirm the resource list matches their expectations before the rule configuration is locked and signed.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary class="faq-question">How do I verify the signed artifacts later?</summary>
+      <div class="faq-answer">
+        <p>Once the standalone verifier ships, any party — including an auditor with no Juro account — will be able to verify any artifact using a single command:</p>
+        <p><code>juro verify /path/to/signing-bundle.json</code></p>
+        <p>The verifier checks that the config hash matches the file content and (once KMS signing is live) that the cryptographic signature is valid against the public key registered to your KMS key. It has no network dependency beyond optionally checking the transparency log entry.</p>
+        <p>The standalone verifier is in development. In the meantime, the <code>config_hash</code> field in the signing bundle can be independently verified with <code>sha256sum</code>.</p>
+      </div>
+    </details>
+
+  </div>
+
+  <div class="contact-block">
+    <p><strong>Questions during setup?</strong></p>
+    <p>Email <a href="mailto:hello@jurocompliant.com">hello@jurocompliant.com</a> — we respond within a few hours. For anything blocking the install, include the output of <code>juro-deploy preflight --slug &lt;slug&gt;</code> and your <code>juro-deploy.yaml</code> (redact the KMS key ARN and account ID if preferred).</p>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2026 Jurocompliant &nbsp;·&nbsp; <a href="/" style="color:inherit">Scanner</a> &nbsp;·&nbsp; <a href="/checklist.html" style="color:inherit">Gap Assessment</a> &nbsp;·&nbsp; <a href="/privacy.html" style="color:inherit">Privacy</a>
+</div>
+
+</body>
+</html>
