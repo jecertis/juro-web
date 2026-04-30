@@ -475,6 +475,7 @@
         "s3:GetBucketPublicAccessBlock",
         "s3:GetBucketVersioning",
         "s3:GetBucketTagging",
+        "s3:ListBucket",
         "lambda:ListFunctions",
         "lambda:GetFunction",
         "lambda:GetFunctionConfiguration",
@@ -498,7 +499,8 @@
         "cloudtrail:ListTrails",
         "logs:DescribeLogGroups",
         "logs:DescribeLogStreams",
-        "logs:DescribeMetricFilters"
+        "logs:DescribeMetricFilters",
+        "iam:SimulatePrincipalPolicy"
       ],
       "Resource": "*"
     },
@@ -599,10 +601,10 @@ scope:
       <span class="step-num">Step 3</span>
       <h3>Run preflight checks</h3>
     </div>
-    <p class="step-desc">Validates that all 35 required IAM actions are allowed under <code>agent_role_arn</code> and that the transparency log endpoint is reachable. Do not proceed until every check passes.</p>
+    <p class="step-desc">Validates that all 40 required IAM actions are allowed under <code>agent_role_arn</code> and that the transparency log endpoint is reachable. Do not proceed until every check passes.</p>
     <div class="cmd">juro-deploy preflight --slug your-org-aws</div>
     <div class="output-block">
-      <span class="output-ok">✓</span> iam:all-actions — 35 actions simulated, all ALLOWED<br>
+      <span class="output-ok">✓</span> iam:all-actions — 40 actions simulated, all ALLOWED<br>
       <span class="output-ok">✓</span> egress:transparency-log — HTTP 200<br>
       <span class="output-skip">—</span> oidc:token-exchange — deferred (M5)<br>
       <span class="output-skip">—</span> artifact-store:write — deferred (M5)<br>
