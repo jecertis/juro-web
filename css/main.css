@@ -58,9 +58,6 @@
 }
 
 
-/* Screen-reader only — visible to AI crawlers, not to users */
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
 /* Regulatory sources */
 .reg-sources{max-width:720px;margin:var(--s4) auto 0;text-align:center}
 .reg-sources-label{font-family:var(--mono);font-size:var(--text-xs);color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:var(--ls-label);margin-bottom:var(--s1)}
