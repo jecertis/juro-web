@@ -42,3 +42,4 @@ pnpm-debug.log*
 Thumbs.db
 test-results/
 playwright-report/
+CLAUDE.md
