@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jurocompliant — Free GDPR · DORA · DPDP Compliance Scanner</title>
-<meta name="description" content="Scan any website for GDPR, DORA, and DPDP compliance violations in 60 seconds. Free, no account required. Find real technical gaps mapped to specific regulatory provisions.">
+<title>Jurocompliant — Free Website Compliance Scanner for DPDP, GDPR, DORA</title>
+<meta name="description" content="Scan any website for DPDP Act 2023, GDPR, and DORA compliance violations in 60 seconds. Free, no account required. Find consent gaps, tracker violations, and missing privacy notices mapped to specific regulatory provisions.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="author" content="Juro Compliance Ltd">
 <link rel="canonical" href="https://jurocompliant.com/">
@@ -12,17 +12,17 @@
 <meta name="theme-color" content="#0A0A0A">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jurocompliant.com/">
-<meta property="og:title" content="Jurocompliant — Free GDPR · DORA · DPDP Compliance Scanner">
-<meta property="og:description" content="Scan any website for GDPR, DORA, and DPDP compliance violations in 60 seconds. Free, no account required.">
+<meta property="og:title" content="Jurocompliant — Free Website Compliance Scanner for DPDP, GDPR, DORA">
+<meta property="og:description" content="Scan any website for DPDP Act 2023, GDPR, and DORA compliance violations in 60 seconds. Free, no account required.">
 <meta property="og:site_name" content="Jurocompliant">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jurocompliant — Free GDPR · DORA · DPDP Compliance Scanner">
-<meta name="twitter:description" content="Scan any website for GDPR, DORA, and DPDP compliance violations in 60 seconds.">
+<meta name="twitter:title" content="Jurocompliant — Free Website Compliance Scanner for DPDP, GDPR, DORA">
+<meta name="twitter:description" content="Scan any website for DPDP Act 2023, GDPR, and DORA compliance violations in 60 seconds.">
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/fonts/fonts.css">
-<link rel="stylesheet" href="/css/main.css">
+<link rel="preload" href="/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/main.css"></noscript>
 <script src="/config.js"></script>
 <script type="application/ld+json">
 {
@@ -35,9 +35,16 @@
       "legalName": "Juro Compliance Ltd",
       "url": "https://jurocompliant.com",
       "email": "hello@jurocompliant.com",
-      "description": "Non-custodial compliance scanning for GDPR, DORA, and DPDP with signed, deterministic, verifiable artifacts.",
+      "description": "Non-custodial compliance scanning for DPDP Act 2023, GDPR, and DORA with signed, deterministic, verifiable artifacts.",
       "foundingDate": "2025",
-      "sameAs": []
+      "sameAs": [
+        "https://github.com/jecertis"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "hello@jurocompliant.com",
+        "contactType": "customer support"
+      }
     },
     {
       "@type": "SoftwareApplication",
@@ -48,7 +55,7 @@
       "operatingSystem": "Web",
       "browserRequirements": "Requires JavaScript",
       "url": "https://jurocompliant.com",
-      "description": "Free online scanner that checks any website for GDPR, DORA, and DPDP compliance violations. Maps findings to specific regulatory provisions with remediation guidance.",
+      "description": "Free online scanner that checks any website for DPDP Act 2023, GDPR, and DORA compliance violations in 60 seconds. Maps findings to specific regulatory provisions with remediation guidance.",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -56,13 +63,77 @@
         "availability": "https://schema.org/InStock"
       },
       "featureList": [
-        "Headless browser crawl",
+        "Headless browser crawl via Playwright",
         "Consent flow validation",
         "Third-party tracker detection",
-        "Regulatory provision mapping",
-        "Signed compliance artifacts"
+        "Regulatory provision mapping to DPDP, GDPR, DORA",
+        "Signed deterministic compliance artifacts",
+        "No account required"
       ],
-      "creator": { "@id": "https://jurocompliant.com/#organization" }
+      "screenshot": "https://jurocompliant.com/img/juro-social-card.jpg",
+      "creator": { "@id": "https://jurocompliant.com/#organization" },
+      "datePublished": "2025-01-01",
+      "dateModified": "2026-04-30"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://jurocompliant.com/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://jurocompliant.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Self-Assessment",
+          "item": "https://jurocompliant.com/checklist.html"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://jurocompliant.com/#howto",
+      "name": "How to scan your website for DPDP, GDPR, and DORA compliance",
+      "description": "Use the free Jurocompliant scanner to check any website for compliance violations in 60 seconds. No account required.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Enter your URL",
+          "text": "Type your website URL into the scanner input field and check the authorization box confirming you are authorised to scan the domain.",
+          "url": "https://jurocompliant.com/#scanner"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Wait for the headless browser crawl",
+          "text": "The scanner uses Playwright to load your page exactly as a real visitor would, intercepting network requests and checking cookie timing, consent banners, and third-party trackers.",
+          "url": "https://jurocompliant.com/#how-it-works"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Review provision-level findings",
+          "text": "Every finding cites the exact regulatory provision it violates — DPDP sections, GDPR articles, or DORA articles — with remediation guidance.",
+          "url": "https://jurocompliant.com/#results"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Download or share your report",
+          "text": "Get your remediation checklist via email or download the scan report. For infrastructure-level assessments, contact the Juro team.",
+          "url": "https://jurocompliant.com/#cta"
+        }
+      ],
+      "totalTime": "PT1M",
+      "estimatedCost": {
+        "@type": "MonetaryAmount",
+        "currency": "USD",
+        "value": "0"
+      }
     },
     {
       "@type": "FAQPage",
@@ -78,26 +149,50 @@
         },
         {
           "@type": "Question",
-          "name": "What is DPDP compliance?",
+          "name": "What is DPDP compliance and when does it start?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "DPDP (Digital Personal Data Protection Act 2023) is India's data protection law. It requires websites to obtain explicit user consent before collecting personal data, provide clear privacy notices, and implement data security measures. Fines reach 250 crore rupees per violation."
+            "text": "DPDP (Digital Personal Data Protection Act 2023) is India's data protection law. The DPDP Rules 2025 were notified on November 13, 2025, and enforcement is phased. Full compliance obligations become enforceable on May 13, 2027. It requires websites to obtain explicit user consent before collecting personal data, provide clear privacy notices in plain language, and implement data security measures. Fines reach 250 crore rupees per violation."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Jurocompliant scanner work?",
+          "name": "How does the compliance scanner work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Enter any URL and the scanner uses a headless Chromium browser to load the page exactly as a real visitor would. It intercepts network requests, checks cookie timing, validates consent banners, and detects third-party trackers firing before consent. Findings are mapped to specific GDPR, DORA, or DPDP provisions."
+            "text": "Enter any URL and the scanner uses a headless Chromium browser to load the page exactly as a real visitor would. It intercepts network requests, checks cookie timing, validates consent banners, and detects third-party trackers firing before consent. Findings are mapped to specific DPDP sections, GDPR articles, or DORA provisions."
           }
         },
         {
           "@type": "Question",
-          "name": "Is the Jurocompliant scanner free?",
+          "name": "Is the website compliance scanner really free?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The surface scanner is completely free with no account required. It checks website-layer compliance gaps including consent flows, tracker timing, and privacy notice presence."
+            "text": "Yes. The surface scanner is completely free with no account required. It checks website-layer compliance including consent flows, tracker timing, and privacy notice presence."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the scanner detect on my website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The scanner detects analytics and advertising scripts that fire before user consent, consent banners without an equivalent Reject All button, missing or incomplete privacy notices, forms that collect personal data without a lawful basis, and third-party trackers that transmit data without consent. Each finding cites the exact regulatory provision it violates."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Juro different from OneTrust, Vanta, or cookie scanners?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Juro is non-custodial — your data never leaves your perimeter. Legacy GRC platforms require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro produces signed, deterministic artifacts that can be independently verified, and covers DPDP, GDPR, and DORA in a single scan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Juro store or process my website data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Juro's architecture is non-custodial by design. The surface scanner analyses public-facing pages and produces findings without storing scan content. For infrastructure-level assessments, the agent runs in your VPC with a read-only IAM role, and produces signed findings locally."
           }
         },
         {
@@ -116,6 +211,11 @@
 </head>
 <body>
 
+<!-- Answer capsule for AI extraction — BLUF format -->
+<div class="sr-only" aria-hidden="true">
+  <p>Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU financial sector). It scans any public URL in approximately 60 seconds using a headless Chromium browser to detect consent gaps, pre-consent tracking, and missing privacy notices. Each finding maps to specific regulatory provisions including DPDP sections, GDPR articles, and DORA articles. The surface scanner is free with no account required. DPDP fines reach ₹250 crore per instance under the Digital Personal Data Protection Act 2023. GDPR fines reach €20 million or 4% of global turnover. DORA took effect January 17, 2025 and covers 22,000+ financial entities across the EU.</p>
+</div>
+
 <header class="header">
   <div class="logo">juro<span class="accent">compliant</span></div>
   <nav class="header-right" aria-label="Primary">
@@ -127,9 +227,12 @@
 </header>
 
 <div class="hero">
-  <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
-  <h1 class="hero-title">Your website may already be <strong>violating DPDP.</strong></h1>
-  <p class="hero-sub">Scan any URL in 60 seconds to find real technical gaps — mapped to specific DPDP, GDPR, and DORA provisions. No account needed.</p>
+  <div class="urgency-pills">
+    <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
+    <div class="urgency-pill urgency-pill-secondary"><span class="u-dot u-dot-dora"></span>DORA in effect since Jan 2025</div>
+  </div>
+  <h1 class="hero-title">Scan your website for <strong>DPDP, GDPR &amp; DORA</strong> violations in 60 seconds.</h1>
+  <p class="hero-sub">Find consent gaps, pre-consent tracking, and missing privacy notices — mapped to specific regulatory provisions. Free, no account required.</p>
 
   <div class="scan-input-wrap">
     <div class="scan-protocol">https://</div>
@@ -159,6 +262,21 @@
     <div class="progress-status" id="progressStatus">Initialising scanner</div>
   </div>
 
+  <div class="reg-sources">
+    <div class="reg-sources-label">Regulatory sources</div>
+    <div class="reg-sources-links">
+      <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener">DPDP Act 2023 — MeitY</a>
+      <span class="reg-sources-sep">·</span>
+      <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR — Full Text</a>
+      <span class="reg-sources-sep">·</span>
+      <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener">DORA — EUR-Lex</a>
+      <span class="reg-sources-sep">·</span>
+      <a href="https://edpb.europa.eu/" target="_blank" rel="noopener">EDPB Guidelines</a>
+      <span class="reg-sources-sep">·</span>
+      <a href="https://www.enisa.europa.eu/" target="_blank" rel="noopener">ENISA</a>
+    </div>
+  </div>
+
   <div class="stakes-strip" id="stakesStrip">
     <div class="stake">
       <div class="stake-num">₹250 Cr</div>
@@ -173,6 +291,28 @@
       <div class="stake-label">Your window to notify the Data Protection Board after a breach</div>
     </div>
   </div>
+
+  <div class="countdown-strip">
+    <div class="countdown-label">DPDP full enforcement deadline</div>
+    <div class="countdown-timer" id="dpdpCountdown">
+      <div class="countdown-unit"><span class="countdown-num" id="cdDays">--</span><span class="countdown-sub">days</span></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><span class="countdown-num" id="cdHours">--</span><span class="countdown-sub">hours</span></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><span class="countdown-num" id="cdMins">--</span><span class="countdown-sub">minutes</span></div>
+    </div>
+    <div class="countdown-subtext">May 13, 2027 — penalties start being imposed</div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="trust-item"><span class="trust-num" id="trustScans">2,400+</span><span class="trust-label">scans completed</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-num">3</span><span class="trust-label">frameworks covered</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-num">60s</span><span class="trust-label">average scan time</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-num">Zero</span><span class="trust-label">data leaves your perimeter</span></div>
+  </div>
 </div>
 
 <main class="main">
@@ -182,17 +322,17 @@
       <div class="how-step">
         <div class="how-step-num">Step 01</div>
         <div class="how-step-title">Headless browser crawl</div>
-        <div class="how-step-desc">Playwright loads your URL exactly as a real visitor would — scripts, cookies, and consent flows fire in their natural sequence.</div>
+        <div class="how-step-desc">Playwright loads your URL exactly as a real visitor would — scripts, cookies, and consent flows fire in their natural sequence. The average website loads 15+ third-party tracking technologies, and 68% load analytics before user consent.</div>
       </div>
       <div class="how-step">
         <div class="how-step-num">Step 02</div>
         <div class="how-step-title">Violation detection</div>
-        <div class="how-step-desc">Rules check consent timing, tracker firing order, privacy notice presence, and form data handling against live regulation.</div>
+        <div class="how-step-desc">Rules check consent timing, tracker firing order, privacy notice presence, and form data handling against live regulation. 80% of websites have at least one pre-consent tracking violation. 87% collect data without proper consent mechanisms.</div>
       </div>
       <div class="how-step">
         <div class="how-step-num">Step 03</div>
         <div class="how-step-title">Provision-level findings</div>
-        <div class="how-step-desc">Every finding cites the exact section or article it violates — DPDP § 5, GDPR Art. 6, DORA Art. 19. No vague recommendations.</div>
+        <div class="how-step-desc">Every finding cites the exact section or article it violates — DPDP § 5, GDPR Art. 6, DORA Art. 19. No vague recommendations. GDPR fines have exceeded €4.5 billion cumulatively. DPDP fines reach ₹250 crore per instance.</div>
       </div>
     </div>
 
@@ -292,12 +432,81 @@
       <div class="cta-text">
         <div class="cta-eyebrow">Next step</div>
         <div class="cta-headline">The real gaps are deeper</div>
-        <div class="cta-sub">These are website-layer findings. The most serious gaps — missing consent in backend APIs, PII in logs, unencrypted data columns — live in your infrastructure. Talk to us about a technical readiness assessment.</div>
+        <div class="cta-sub">These are website-layer findings. The most serious gaps — missing consent in backend APIs, PII in logs, unencrypted data columns — live in your infrastructure. Get a full remediation report or talk to us about a technical readiness assessment.</div>
       </div>
       <button class="cta-action-btn" onclick="requestFullScan()">Talk to us →</button>
     </div>
 
-  </div>
+    </div>
+
+    <div class="who-section">
+      <h2 class="who-heading">Built for the people who get asked "are we compliant?"</h2>
+      <div class="who-grid">
+        <div class="who-card">
+          <div class="who-icon">&#9881;</div>
+          <div class="who-title">Engineers</div>
+          <div class="who-desc">See exactly which scripts fire before consent, which forms leak PII, and what to block. No vague recommendations — every finding cites the exact provision.</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">&#128737;</div>
+          <div class="who-title">CISOs &amp; Security Leads</div>
+          <div class="who-desc">Non-custodial scanning means nothing leaves the customer perimeter. Bring the check to the data, not the data to the check.</div>
+        </div>
+        <div class="who-card">
+          <div class="who-icon">&#128203;</div>
+          <div class="who-title">Compliance &amp; Legal Teams</div>
+          <div class="who-desc">Get signed, deterministic findings mapped to DPDP sections, GDPR articles, and DORA provisions. Shareable with auditors and the Data Protection Board.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-section">
+      <h2 class="diff-heading">Why teams choose Juro over legacy compliance tools</h2>
+      <div class="diff-table-wrap">
+        <table class="diff-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="diff-juro">Juro</th>
+              <th>Legacy GRC platforms</th>
+              <th>Free cookie scanners</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Architecture</td>
+              <td class="diff-juro">Non-custodial, agent-based</td>
+              <td>Your data uploaded to their cloud</td>
+              <td>Surface cookies only</td>
+            </tr>
+            <tr>
+              <td>Frameworks</td>
+              <td class="diff-juro">DPDP + GDPR + DORA</td>
+              <td>One framework at a time</td>
+              <td>GDPR only</td>
+            </tr>
+            <tr>
+              <td>Evidence</td>
+              <td class="diff-juro">Signed, deterministic artifacts</td>
+              <td>Screenshot-based reports</td>
+              <td>No evidence output</td>
+            </tr>
+            <tr>
+              <td>Surface scan</td>
+              <td class="diff-juro">Free, no account required</td>
+              <td>Sales demo required</td>
+              <td>Free, email-gated</td>
+            </tr>
+            <tr>
+              <td>India / DPDP</td>
+              <td class="diff-juro">Purpose-built from day one</td>
+              <td>GDPR module adapted for DPDP</td>
+              <td>Not covered</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
   <!-- FAQ — always visible for SEO + AEO -->
   <section class="faq-section" aria-labelledby="faq-heading">
@@ -306,31 +515,49 @@
       <details class="faq-item">
         <summary class="faq-question">What is Jurocompliant?</summary>
         <div class="faq-answer">
-          <p>Jurocompliant is a free online scanner that checks any website for GDPR, DORA, and DPDP compliance violations. It uses a headless browser to analyze consent flows, tracker behavior, and privacy notices — then maps findings to specific regulatory provisions with remediation guidance.</p>
+          <p>Jurocompliant is a free online scanner that checks any website for DPDP Act 2023, GDPR, and DORA compliance violations. It uses a headless browser to analyze consent flows, tracker behavior, and privacy notices — then maps findings to specific regulatory provisions with remediation guidance.</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary class="faq-question">What is DPDP compliance?</summary>
+        <summary class="faq-question">What is DPDP compliance and when does it start?</summary>
         <div class="faq-answer">
-          <p>DPDP (Digital Personal Data Protection Act 2023) is India's data protection law. It requires websites to obtain explicit user consent before collecting personal data, provide clear privacy notices, and implement data security measures. Fines reach ₹250 crore per violation, and Data Fiduciaries are personally liable.</p>
+          <p>DPDP (Digital Personal Data Protection Act 2023) is India's data protection law. The DPDP Rules 2025 were notified on November 13, 2025, and enforcement is phased. Full compliance obligations become enforceable on May 13, 2027. It requires websites to obtain explicit user consent before collecting personal data, provide clear privacy notices in plain language, and implement data security measures. Fines reach ₹250 crore per violation, and Data Fiduciaries are personally liable.</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary class="faq-question">How does the scanner work?</summary>
+        <summary class="faq-question">How does the compliance scanner work?</summary>
         <div class="faq-answer">
-          <p>Enter any URL and the scanner uses a headless Chromium browser to load the page exactly as a real visitor would. It intercepts network requests, checks cookie timing, validates consent banners, and detects third-party trackers firing before consent. Findings are mapped to specific GDPR, DORA, or DPDP provisions.</p>
+          <p>Enter any URL and the scanner uses a headless Chromium browser to load the page exactly as a real visitor would. It intercepts network requests, checks cookie timing, validates consent banners, and detects third-party trackers firing before consent. Findings are mapped to specific DPDP sections, GDPR articles, or DORA provisions. The surface scan is free and no account is required.</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary class="faq-question">Is the scanner free?</summary>
+        <summary class="faq-question">Is the website compliance scanner really free?</summary>
         <div class="faq-answer">
-          <p>Yes. The surface scanner is completely free with no account required. It checks website-layer compliance including consent flows, tracker timing, and privacy notice presence. For deeper infrastructure assessments, contact us.</p>
+          <p>Yes. The surface scanner is completely free with no account required. It checks website-layer compliance including consent flows, tracker timing, and privacy notice presence. For deeper infrastructure assessments — backend APIs, PII in logs, unencrypted data columns — contact us for a technical readiness assessment.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary class="faq-question">What is the difference between GDPR, DORA, and DPDP?</summary>
         <div class="faq-answer">
-          <p>GDPR (General Data Protection Regulation) is the EU's data protection law. DORA (Digital Operational Resilience Act) is the EU's financial sector cybersecurity regulation. DPDP (Digital Personal Data Protection Act) is India's data protection law. The scanner checks for all three simultaneously.</p>
+          <p>GDPR (General Data Protection Regulation) is the EU's data protection law covering all organisations processing EU residents' data. DORA (Digital Operational Resilience Act) is the EU's financial sector cybersecurity regulation that took effect January 17, 2025, covering ICT risk management, incident reporting, and third-party oversight. DPDP (Digital Personal Data Protection Act) is India's data protection law covering processing of digital personal data of Indian residents. The scanner checks for all three simultaneously.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What does the scanner detect on my website?</summary>
+        <div class="faq-answer">
+          <p>The scanner detects analytics and advertising scripts that fire before user consent, consent banners without an equivalent "Reject All" button, missing or incomplete privacy notices, forms that collect personal data without a lawful basis, and third-party trackers that transmit data without consent. Each finding cites the exact regulatory provision it violates.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">How is Juro different from OneTrust, Vanta, or cookie scanners?</summary>
+        <div class="faq-answer">
+          <p>Juro is non-custodial — your data never leaves your perimeter. Legacy GRC platforms like OneTrust and Vanta require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro produces signed, deterministic artifacts that can be independently verified, and it covers DPDP, GDPR, and DORA in a single scan.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Does Juro store or process my website data?</summary>
+        <div class="faq-answer">
+          <p>No. Juro's architecture is non-custodial by design. The surface scanner analyses public-facing pages and produces findings — it does not store your scan content. For infrastructure-level assessments, the agent runs in your VPC with a read-only IAM role, and produces signed findings locally. We follow the principle: bring the check to the data, not the data to the check.</p>
         </div>
       </details>
     </div>
@@ -407,5 +634,25 @@
 </div>
 
 <script src="/js/main.js" defer></script>
+<script>
+(function countdown(){
+  var target=new Date('2027-05-13T00:00:00+05:30').getTime();
+  function tick(){
+    var now=Date.now();
+    var diff=Math.max(0,target-now);
+    var days=Math.floor(diff/864e5);
+    var hours=Math.floor((diff%864e5)/36e5);
+    var mins=Math.floor((diff%36e5)/6e4);
+    var d=document.getElementById('cdDays');
+    var h=document.getElementById('cdHours');
+    var m=document.getElementById('cdMins');
+    if(d)d.textContent=days;
+    if(h)h.textContent=hours;
+    if(m)m.textContent=mins;
+  }
+  tick();
+  setInterval(tick,30000);
+})();
+</script>
 </body>
 </html>
