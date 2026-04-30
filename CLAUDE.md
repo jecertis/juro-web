@@ -28,3 +28,27 @@ If your proposed change conflicts with any of these, STOP and ask the user befor
 
 If you are not sure whether your proposed change aligns with the vision or axioms, STOP and ask the user. Do not guess and do not proceed. The strategic layer is not optional context — it is the definition of the product.
 <!-- /juro:agent-preamble:v1 -->
+
+## Current state
+
+GitHub Pages site at `jurocompliant.com`. Deployed by `.github/workflows/pages.yml` on every `main` push.
+
+### Key files
+
+| File | Purpose |
+|---|---|
+| `install.sh` | `curl \| bash` installer for `juro-deploy` CLI. Downloads binary from `jecertis/juro-releases` (public). Auto-installs Docker Compose v2 plugin on Linux if missing. |
+| `deploy-evergent.html` | Private Tier 3 onboarding guide for Evergent. `noindex`. Covers IAM setup, all 6 `juro-deploy` commands, artifact locations, 8-item FAQ. |
+
+### juro-deploy binary names (must match `@yao-pkg/pkg` output)
+
+| Platform | Binary |
+|---|---|
+| Linux x86_64 | `juro-deploy-linux-x64` |
+| macOS Apple Silicon | `juro-deploy-macos-arm64` |
+| macOS Intel | `juro-deploy-macos-x64` |
+
+### Open loops
+
+- **juro-web#17 open** — `install.sh`: point to `jecertis/juro-releases` + fix `darwin` → `macos` binary names. Merge after juro#32.
+- **Generic public Tier 3 page** — non-Evergent version of the deploy guide; not started.
