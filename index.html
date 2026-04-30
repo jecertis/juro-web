@@ -19,11 +19,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Jurocompliant — Free Website Compliance Scanner for DPDP, GDPR, DORA">
 <meta name="twitter:description" content="Scan any website for DPDP Act 2023, GDPR, and DORA compliance violations in 60 seconds.">
+<style>:root{--ink:#0A0A0A;--yellow:#F5C400;--yellow-dark:#D4A800;--red:#DC2626;--red-light:#FEF2F2;--amber:#D97706;--amber-light:#FFFBEB;--green:#059669;--green-light:#ECFDF5;--gray-100:#F5F5F5;--gray-200:#E5E5E5;--gray-400:#A3A3A3;--gray-500:#737373;--gray-700:#404040;--gray-900:#0A0A0A;--text-xs:11px;--text-sm:14px;--text-base:16px;--text-lg:20px;--text-xl:28px;--text-2xl:42px;--text-3xl:64px;--lh-tight:1.05;--lh-snug:1.5;--lh-reading:1.7;--ls-label:0.08em;--ls-display:-0.04em;--s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:96px;--s8:128px;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--radius:6px;--radius-lg:10px}*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--sans);background:#111111;color:var(--gray-900);min-height:100vh;font-size:var(--text-base);line-height:var(--lh-reading)}.header{background:var(--ink);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}.logo{font-family:var(--mono);font-size:var(--text-base);font-weight:500;color:#fff;letter-spacing:0}.logo .accent{color:var(--yellow)}.header-right{display:flex;align-items:center;gap:12px}.framework-tag{font-size:var(--text-xs);font-weight:500;color:rgba(255,255,255,0.55);background:transparent;border:1px solid rgba(255,255,255,0.15);padding:4px 10px;border-radius:var(--radius);text-decoration:none}.hero{background:var(--ink);padding:var(--s8) 2rem 0;text-align:center;border-bottom:1px solid rgba(255,255,255,0.07)}.urgency-pills{display:flex;align-items:center;justify-content:center;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s4)}.urgency-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(245,196,0,0.12);border:1px solid rgba(245,196,0,0.4);color:var(--yellow);font-family:var(--mono);font-size:var(--text-xs);font-weight:500;text-transform:uppercase;letter-spacing:var(--ls-label);padding:6px 16px;border-radius:99px;margin-bottom:0}.urgency-pill .u-dot{width:7px;height:7px;border-radius:50%;background:var(--yellow);animation:upulse 1.8s ease-in-out infinite;flex-shrink:0}@keyframes upulse{0%,100%{opacity:1}50%{opacity:0.2}}.hero-title{font-size:var(--text-3xl);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3);line-height:var(--lh-tight)}.hero-title strong{font-weight:600;color:var(--yellow)}.hero-sub{font-size:var(--text-lg);color:rgba(255,255,255,0.7);margin-bottom:var(--s5);font-weight:400;line-height:var(--lh-reading);max-width:580px;margin-left:auto;margin-right:auto}.scan-input-wrap{max-width:640px;margin:0 auto;display:flex;gap:0;background:#fff;border-radius:var(--radius-lg);overflow:hidden;border:1.5px solid rgba(255,255,255,0.12)}.scan-protocol{background:var(--gray-100);border-right:1px solid var(--gray-200);padding:0 12px;font-family:var(--mono);font-size:var(--text-xs);color:var(--gray-500);display:flex;align-items:center;white-space:nowrap}#urlInput{flex:1;border:none;outline:none;padding:12px 14px;font-family:var(--mono);font-size:var(--text-sm);color:var(--gray-900);background:transparent}#urlInput::placeholder{color:var(--gray-400)}.scan-btn{background:var(--yellow);color:var(--ink);border:none;padding:0 28px;font-family:var(--sans);font-size:var(--text-base);font-weight:700;cursor:pointer;letter-spacing:0;transition:background 0.15s;white-space:nowrap}.scan-btn:hover{background:var(--yellow-dark)}.scan-btn:disabled{background:#E5E5E5;color:#A3A3A3;cursor:not-allowed}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/css/main.css"></noscript>
-<script src="/config.js"></script>
+<link rel="stylesheet" href="/css/main.css">
+<script src="/config.js" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -210,11 +210,6 @@
 </script>
 </head>
 <body>
-
-<!-- Answer capsule for AI extraction — BLUF format -->
-<div class="sr-only" aria-hidden="true">
-  <p>Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU financial sector). It scans any public URL in approximately 60 seconds using a headless Chromium browser to detect consent gaps, pre-consent tracking, and missing privacy notices. Each finding maps to specific regulatory provisions including DPDP sections, GDPR articles, and DORA articles. The surface scanner is free with no account required. DPDP fines reach ₹250 crore per instance under the Digital Personal Data Protection Act 2023. GDPR fines reach €20 million or 4% of global turnover. DORA took effect January 17, 2025 and covers 22,000+ financial entities across the EU.</p>
-</div>
 
 <header class="header">
   <div class="logo">juro<span class="accent">compliant</span></div>
@@ -654,5 +649,11 @@
   setInterval(tick,30000);
 })();
 </script>
+
+<!-- Answer capsule for AI extraction — BLUF format -->
+<div class="sr-only" aria-hidden="true">
+  <p>Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU financial sector). It scans any public URL in approximately 60 seconds using a headless Chromium browser to detect consent gaps, pre-consent tracking, and missing privacy notices. Each finding maps to specific regulatory provisions including DPDP sections, GDPR articles, and DORA articles. The surface scanner is free with no account required. DPDP fines reach ₹250 crore per instance under the Digital Personal Data Protection Act 2023. GDPR fines reach €20 million or 4% of global turnover. DORA took effect January 17, 2025 and covers 22,000+ financial entities across the EU.</p>
+</div>
+
 </body>
 </html>
