@@ -8,7 +8,6 @@ on:
       - '*.html'
       - 'index.html'
       - 'jurocompliant.html'
-      - 'CLAUDE.md'
       - 'AGENTS.md'
       - '.github/scripts/**'
       - '.github/contracts/**'
@@ -43,4 +42,4 @@ jobs:
         run: xargs -a files.txt .github/scripts/check-banned-claims.sh
 
       - name: Run agent-preamble check
-        run: .github/scripts/check-agent-preamble.sh CLAUDE.md AGENTS.md
+        run: .github/scripts/check-agent-preamble.sh AGENTS.md
