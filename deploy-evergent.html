@@ -429,7 +429,9 @@
     </li>
     <li>
       <span class="check-icon"></span>
-      <span><strong>Node.js 18+</strong> to install and run the <code>juro-deploy</code> CLI.</span>
+      <span><strong><code>juro-deploy</code> CLI</strong> — install with one command (Linux or macOS):
+        <div class="cmd" style="margin-top:8px">curl -sSL https://jurocompliant.com/install.sh | sudo bash</div>
+      </span>
     </li>
     <li>
       <span class="check-icon"></span>
@@ -441,16 +443,13 @@
     </li>
   </ul>
 
-  <p>Run the host prerequisite check at any time:</p>
-  <div class="cmd">juro-deploy doctor</div>
-
   <!-- ── Step 0 ── -->
   <div class="step">
     <div class="step-header">
       <span class="step-num">Step 0</span>
       <h3>Provision the IAM role</h3>
     </div>
-    <p class="step-desc">Create a role named <code>juro-agent</code> in your AWS account and attach the inline policy below. The trust policy should allow EC2, ECS, or whichever compute type you will use to assume the role. The agent authenticates via the role attached to the instance — no static credentials, ever.</p>
+    <p class="step-desc">Create a role named <code>juro-agent</code> in your AWS account and attach the inline policy below. The EC2 instance (or ECS task) that runs the compose stack must have this role attached as an instance profile or task role — AWS credentials flow into the containers automatically. Do not set <code>AWS_ACCESS_KEY_ID</code> in the compose environment; static credentials are explicitly blocked.</p>
 
     <div class="code-block">
       <div class="code-label">IAM inline policy — paste into AWS Console or Terraform</div>
@@ -589,9 +588,8 @@ scope:
     <p class="step-desc">Pulls the pinned agent image, renders a Docker Compose file, and starts the stack. Creates a working directory at <code>~/juro-engagement/&lt;slug&gt;/</code>.</p>
     <div class="cmd">juro-deploy init --config juro-deploy.yaml</div>
     <div class="output-block">
-      <span class="output-ok">✓</span> image pulled: ghcr.io/jecertis/cloud-scanner@sha256:…<br>
-      <span class="output-ok">✓</span> compose written: ~/juro-engagement/your-org-aws/docker-compose.yml<br>
-      <span class="output-ok">✓</span> stack started — scanner listening on localhost:3100
+      init complete: your-org-aws at ~/juro-engagement/your-org-aws<br>
+      compose written: ~/juro-engagement/your-org-aws/compose.yml
     </div>
   </div>
 
@@ -605,10 +603,11 @@ scope:
     <div class="cmd">juro-deploy preflight --slug your-org-aws</div>
     <div class="output-block">
       <span class="output-ok">✓</span> iam:all-actions — 40 actions simulated, all ALLOWED<br>
-      <span class="output-ok">✓</span> egress:transparency-log — HTTP 200<br>
-      <span class="output-skip">—</span> oidc:token-exchange — deferred (M5)<br>
-      <span class="output-skip">—</span> artifact-store:write — deferred (M5)<br>
-      preflight: 2 passed, 2 skipped
+      <span class="output-ok">✓</span> egress:https://transparency-log.juro.dev — reachable<br>
+      <span class="output-skip">—</span> oidc:token-exchange — deferred to M5 (artifact ceremony + KMS signing)<br>
+      <span class="output-skip">—</span> artifact-store:write — deferred to M5<br>
+      <span class="output-skip">—</span> rule-pack:hash-match — deferred to M5<br>
+      preflight: 2 passed, 3 skipped
     </div>
     <p class="step-note">If any IAM check fails, open the AWS IAM console, locate the <code>juro-agent</code> role, and confirm the inline policy matches the JSON in Step 0 exactly. Common cause: a service-control policy (SCP) at the organisation level overriding the allow.</p>
   </div>
@@ -622,8 +621,9 @@ scope:
     <p class="step-desc">Sweeps all configured services and regions using read-only API calls. Writes a residency map — a structured inventory of every resource the agent found — to your working directory. No rule pack is active at this stage; this is a pure discovery pass.</p>
     <div class="cmd">juro-deploy scan --slug your-org-aws</div>
     <div class="output-block">
-      <span class="output-ok">✓</span> scan complete — 247 resources discovered<br>
-      residency_map.json → ~/juro-engagement/your-org-aws/residency_map.json
+      scanning aws (us-east-1, ap-south-1) ...<br>
+      scan started: scan_01HZ…<br>
+      complete: 247 resources → ~/juro-engagement/your-org-aws/residency_map.json
     </div>
 
     <div class="halt-box">
@@ -640,7 +640,10 @@ scope:
     <p class="step-desc">Reads the residency map and maps each region to its applicable regulation: <code>ap-south-1</code> and <code>ap-south-2</code> → DPDP; <code>eu-*</code> regions → GDPR. DORA is not auto-detected — add it manually if it applies to your organisation. Writes a draft <code>rules.yaml</code> for your review.</p>
     <div class="cmd">juro-deploy rules suggest --slug your-org-aws</div>
     <div class="output-block">
-      rules.yaml → ~/juro-engagement/your-org-aws/rules.yaml
+      rules written: ~/juro-engagement/your-org-aws/rules.yaml<br>
+      &nbsp; gdpr: regions=[eu-west-1, eu-central-1] services=[rds, s3, lambda, …]<br>
+      &nbsp; dpdp: regions=[ap-south-1] services=[rds, s3, lambda, …]<br>
+      &nbsp; 1 unmapped surface(s) — review rules.yaml before signing
     </div>
 
     <div class="halt-box">
@@ -655,12 +658,26 @@ scope:
       <h3>Sign the configuration</h3>
     </div>
     <p class="step-desc">Computes a deterministic hash of <code>rules.yaml</code> and writes a signing bundle. This bundle is the compliance evidence artifact — the tamper-evident record that a specific, reviewed rule configuration was committed at a specific point in time.</p>
-    <div class="cmd">juro-deploy config sign rules.yaml --slug your-org-aws --output artifacts/signing-bundle.json</div>
+    <div class="cmd">juro-deploy config sign ~/juro-engagement/your-org-aws/rules.yaml --slug your-org-aws</div>
     <div class="output-block">
+      signing bundle written: ~/juro-engagement/your-org-aws/artifacts/signing-bundle.json<br>
       config_hash: sha256:7e1b2c3d…<br>
-      <span class="output-ok">✓</span> signing-bundle.json written to artifacts/
+      signature_status: hash_committed (KMS signing ships next milestone)
     </div>
-    <p class="step-note">The current signing status is <code>hash_committed</code>. KMS-backed cryptographic signing (using the <code>signer_key_id</code> KMS key you configured) ships in the next milestone. Store <code>signing-bundle.json</code> in your artifact store — it is the record you produce for an auditor.</p>
+    <p class="step-note">The current signing status is <code>hash_committed</code>: a SHA-256 hash of the reviewed configuration is the provenance record. KMS-backed cryptographic signing using your <code>signer_key_id</code> key ships in the next milestone. Store <code>signing-bundle.json</code> in your S3 artifact store.</p>
+
+    <table class="artifact-table" style="width:100%;border-collapse:collapse;margin-top:1.5rem;font-size:var(--text-sm)">
+      <thead><tr style="border-bottom:1px solid var(--gray-200)">
+        <th style="text-align:left;padding:6px 12px 6px 0">Artifact</th>
+        <th style="text-align:left;padding:6px 12px">Location</th>
+        <th style="text-align:left;padding:6px 0">Action</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:6px 12px 6px 0"><code>residency_map.json</code></td><td style="padding:6px 12px"><code>~/juro-engagement/&lt;slug&gt;/</code></td><td style="padding:6px 0">Review before proceeding to Step 5</td></tr>
+        <tr><td style="padding:6px 12px 6px 0"><code>rules.yaml</code></td><td style="padding:6px 12px"><code>~/juro-engagement/&lt;slug&gt;/</code></td><td style="padding:6px 0">Copy to infra repo for version control</td></tr>
+        <tr><td style="padding:6px 12px 6px 0"><code>signing-bundle.json</code></td><td style="padding:6px 12px"><code>~/juro-engagement/&lt;slug&gt;/artifacts/</code></td><td style="padding:6px 0">Upload to S3 artifact store</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- ── FAQ ── -->
