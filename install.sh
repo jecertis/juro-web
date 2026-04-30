@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RELEASE_BASE="https://github.com/jecertis/juro/releases/latest/download"
+RELEASE_BASE="https://github.com/jecertis/juro-releases/releases/latest/download"
 INSTALL_DIR="/usr/local/bin"
 BIN_NAME="juro-deploy"
 
@@ -11,11 +11,11 @@ ARCH=$(uname -m)
 # ── Detect platform ──────────────────────────────────────────────────────────
 case "$OS/$ARCH" in
   linux/x86_64)   ASSET="juro-deploy-linux-x64" ;;
-  darwin/arm64)   ASSET="juro-deploy-darwin-arm64" ;;
-  darwin/x86_64)  ASSET="juro-deploy-darwin-x64" ;;
+  darwin/arm64)   ASSET="juro-deploy-macos-arm64" ;;
+  darwin/x86_64)  ASSET="juro-deploy-macos-x64" ;;
   *)
     echo "Unsupported platform: $OS/$ARCH" >&2
-    echo "Supported: linux/x86_64, darwin/arm64, darwin/x86_64" >&2
+    echo "Supported: linux/x86_64 (x64), darwin/arm64, darwin/x86_64" >&2
     exit 1
     ;;
 esac
