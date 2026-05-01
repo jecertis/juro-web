@@ -1,0 +1,16 @@
+# Known false positives in git history - these are example/test values only
+
+# Docs with example tokens
+**/docs/**/example*.md:curl-auth-header
+**/docs/**/*example*.md:curl-auth-header
+
+# Test files with dummy values
+**/*test*/**/*:generic-api-key
+**/*spec*/**/*:generic-api-key
+**/tests/**/*:generic-api-key
+**/__tests__/**/*:generic-api-key
+
+# Config example files
+**/*.example.*:generic-api-key
+**/*.sample.*:generic-api-key
+**/examples/**/*:generic-api-key
