@@ -35,15 +35,15 @@
 
 /* Diff section */
 .diff-section{max-width:960px;margin:var(--s7) auto 0;padding:0 2rem}
-.diff-heading{font-size:var(--text-xl);font-weight:600;color:var(--gray-900);text-align:center;margin-bottom:var(--s5);letter-spacing:var(--ls-display)}
-.diff-table-wrap{overflow-x:auto;border:1px solid var(--gray-200);border-radius:var(--radius-lg)}
+.diff-heading{font-size:var(--text-xl);font-weight:600;color:#fff;text-align:center;margin-bottom:var(--s5);letter-spacing:var(--ls-display)}
+.diff-table-wrap{overflow-x:auto;border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-lg)}
 .diff-table{width:100%;border-collapse:collapse;font-size:var(--text-sm)}
 .diff-table thead{background:var(--ink)}
 .diff-table th{padding:var(--s2) var(--s3);text-align:left;font-size:var(--text-xs);font-weight:600;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:var(--ls-label)}
 .diff-table th.diff-juro{color:var(--yellow)}
-.diff-table td{padding:var(--s2) var(--s3);border-top:1px solid var(--gray-200);color:var(--gray-700)}
-.diff-table td.diff-juro{color:var(--gray-900);font-weight:600;background:rgba(245,196,0,0.04)}
-.diff-table td:first-child{font-weight:500;color:var(--gray-900)}
+.diff-table td{padding:var(--s2) var(--s3);border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.78)}
+.diff-table td.diff-juro{color:#fff;font-weight:600;background:rgba(245,196,0,0.10)}
+.diff-table td:first-child{font-weight:500;color:rgba(255,255,255,0.6)}
 
 @media(max-width:680px){
   .urgency-pills{flex-direction:column;gap:var(--s1)}
