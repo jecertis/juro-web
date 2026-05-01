@@ -42,5 +42,7 @@ pnpm-debug.log*
 Thumbs.db
 test-results/
 playwright-report/
+.lighthouseci/
+lh-*.json
 CLAUDE.md
 AGENTS.md
