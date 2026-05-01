@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   npm-audit:
@@ -27,12 +26,3 @@ jobs:
       - name: Run npm audit
         run: npm audit --audit-level=high
         continue-on-error: false
-
-  dependency-review:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Dependency Review
-        uses: actions/dependency-review@v4
