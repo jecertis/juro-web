@@ -13,4 +13,4 @@ Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 202
 - Self-assessment: https://jurocompliant.com/checklist.html
 - Documentation: https://docs.jurocompliant.com/
 - Privacy: https://jurocompliant.com/privacy.html
-- Contact: hello@jurocompliant.com
+- Contact: help@jurocompliant.com
