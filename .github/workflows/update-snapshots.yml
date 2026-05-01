@@ -1,0 +1,83 @@
+name: Update visual snapshots
+
+# Generates platform-matched (Linux) baselines for tests/visual.spec.ts and
+# commits them back to the PR branch. Two ways to trigger:
+#
+#   1. Add the `update-snapshots` label to the PR
+#   2. Actions tab → "Update visual snapshots" → "Run workflow" → pick branch
+#
+# After this runs, push any new commit (or click "Re-run all jobs" on the
+# previously-failed Playwright workflow) so the regular test workflow picks
+# up the new baselines and turns green.
+#
+# CI auto-rerun does NOT happen on the bot's commit because the default
+# GITHUB_TOKEN cannot trigger downstream workflows — that's an intentional
+# GitHub safeguard against infinite loops.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to generate baselines on (defaults to current)"
+        required: false
+        default: ""
+  pull_request:
+    types: [labeled]
+
+jobs:
+  update:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'update-snapshots'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.inputs.branch || github.head_ref || github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Generate visual baselines (Linux platform)
+        run: npm run test:visual:update
+
+      - name: Commit updated baselines
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/__screenshots__/
+          if git diff --staged --quiet; then
+            echo "No baseline changes to commit."
+          else
+            git commit -m "chore: update visual baselines (auto)"
+            git push
+            echo "Baselines committed and pushed. Push any new commit (or re-run the failing CI job) to verify."
+          fi
+
+      - name: Remove update-snapshots label (if PR-triggered)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: 'update-snapshots',
+              });
+            } catch (e) {
+              core.info(`Label removal skipped: ${e.message}`);
+            }

@@ -6,12 +6,18 @@
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "test:visual": "playwright test tests/visual.spec.ts",
+    "test:visual:update": "playwright test tests/visual.spec.ts --update-snapshots",
+    "lint:html": "htmlhint 'index.html' 'checklist.html' 'deploy-evergent.html' 'privacy.html' 'jurocompliant.html'",
+    "lh:ci": "lhci autorun"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.59.1"
+    "@lhci/cli": "^0.14.0",
+    "@playwright/test": "^1.59.1",
+    "htmlhint": "^1.1.4"
   }
 }
