@@ -250,11 +250,32 @@
     <a href="/checklist.html" class="alt-option-btn" id="altOptionBtn">Take the self-assessment →</a>
   </div>
 
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" id="progressFill"></div>
+  <div id="scanModal" class="notice-overlay" role="dialog" aria-modal="true" aria-labelledby="scanModalTitle">
+    <div class="notice-card scan-notice-card">
+      <div class="notice-eyebrow" id="scanModalTitle">Scanning in progress</div>
+      <div class="scan-progress" id="scanProgress">
+        <div class="step-pipeline">
+          <div class="step" data-step="1"><span class="step-dot"></span><span class="step-label">Check Site</span></div>
+          <div class="step-connector"></div>
+          <div class="step" data-step="2"><span class="step-dot"></span><span class="step-label">Load Page</span></div>
+          <div class="step-connector"></div>
+          <div class="step" data-step="3"><span class="step-dot"></span><span class="step-label">Check Data Collection</span></div>
+          <div class="step-connector"></div>
+          <div class="step" data-step="4"><span class="step-dot"></span><span class="step-label">Check Permission</span></div>
+          <div class="step-connector"></div>
+          <div class="step" data-step="5"><span class="step-dot"></span><span class="step-label">Match Privacy Rules</span></div>
+          <div class="step-connector"></div>
+          <div class="step" data-step="6"><span class="step-dot"></span><span class="step-label">Show Results</span></div>
+        </div>
+        <div class="progress-status" id="progressStatus">Starting scan...</div>
+        <div class="fact-card" id="factCard">
+          <div class="fact-prefix">Did you know?</div>
+          <div class="fact-text" id="factText"></div>
+          <a class="fact-source" id="factSource" target="_blank" rel="noopener"></a>
+          <div class="fact-detail" id="factDetail"></div>
+        </div>
+      </div>
     </div>
-    <div class="progress-status" id="progressStatus">Initialising scanner</div>
   </div>
 
   <div class="reg-sources">

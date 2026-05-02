@@ -119,7 +119,9 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
 
   siteUrl: async ({ staticServer }, use) => {
     const { port } = staticServer.address() as AddressInfo;
-    await use(`http://127.0.0.1:${port}`);
+    // Use a hostname other than localhost / 127.0.0.1 so client-side scan
+    // cooldown is exercised in tests (runScan skips cooldown on those hosts).
+    await use(`http://127.0.0.1.nip.io:${port}`);
   },
 
   mockApi: async ({ page }, use) => {
