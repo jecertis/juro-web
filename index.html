@@ -392,6 +392,21 @@
       <span class="scan-time" id="scanTimeLabel"></span>
     </div>
 
+    <div class="posture-score-panel" id="postureScorePanel" style="display:none" aria-live="polite">
+      <div class="ps-scope" id="psScope"></div>
+      <div class="ps-body">
+        <div class="ps-score-block">
+          <div class="ps-score" id="psScore">—</div>
+          <div class="ps-score-out-of">/ 100</div>
+        </div>
+        <div class="ps-meta">
+          <div class="ps-brand" id="psBrand">Surface Posture · DPDP</div>
+          <div class="ps-denom" id="psDenom"></div>
+          <div class="ps-pack" id="psPack"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="summary-strip" id="severityFilters" role="group" aria-label="Filter findings by severity">
       <div class="metric-card metric-critical" role="button" tabindex="0" data-filter="critical" aria-pressed="false">
         <div class="metric-num" id="cCount">0</div>
