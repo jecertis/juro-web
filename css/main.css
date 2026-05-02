@@ -66,3 +66,21 @@
 .reg-sources-links a:hover{color:var(--yellow)}
 .reg-sources-sep{color:rgba(255,255,255,0.15)}
 @media(max-width:680px){.reg-sources-links{gap:8px}.reg-sources-links a{font-size:10px;padding:4px 6px}}
+
+/* Posture Score panel — Tier 1 surface scan headline metric.
+   Anti-overclaim discipline: scope above, denominator + rule pack + scanned date visible alongside the number.
+   Contract: juro-platform/contracts/posture-score.md. */
+.posture-score-panel{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:var(--s3) var(--s4);margin-bottom:var(--s4)}
+.posture-score-panel .ps-scope{font-size:var(--text-xs);font-family:var(--mono);text-transform:uppercase;letter-spacing:var(--ls-label);color:var(--gray-500);margin-bottom:var(--s2);line-height:var(--lh-snug)}
+.posture-score-panel .ps-body{display:flex;align-items:center;gap:var(--s4)}
+.posture-score-panel .ps-score-block{display:flex;align-items:baseline;gap:6px;flex-shrink:0}
+.posture-score-panel .ps-score{font-family:var(--mono);font-size:var(--text-3xl);font-weight:600;line-height:1;color:var(--gray-900)}
+.posture-score-panel.ps-warn .ps-score{color:var(--amber)}
+.posture-score-panel.ps-fail .ps-score{color:var(--red)}
+.posture-score-panel.ps-pass .ps-score{color:var(--green)}
+.posture-score-panel .ps-score-out-of{font-family:var(--mono);font-size:var(--text-lg);color:var(--gray-400);font-weight:500}
+.posture-score-panel .ps-meta{display:flex;flex-direction:column;gap:4px;min-width:0}
+.posture-score-panel .ps-brand{font-size:var(--text-base);font-weight:600;color:var(--gray-900);line-height:var(--lh-tight)}
+.posture-score-panel .ps-denom{font-size:var(--text-sm);color:var(--gray-700);font-family:var(--mono);line-height:var(--lh-snug)}
+.posture-score-panel .ps-pack{font-size:var(--text-xs);color:var(--gray-500);font-family:var(--mono);line-height:var(--lh-snug);overflow:hidden;text-overflow:ellipsis}
+@media (max-width:680px){.posture-score-panel .ps-body{flex-direction:column;align-items:flex-start;gap:var(--s2)}}

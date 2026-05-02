@@ -41,6 +41,20 @@ export interface ScanResponse {
   url?: string;
   elapsed?: string | number;
   posture?: Array<{ rule: string; status: 'pass' | 'fail'; description?: string }>;
+  posture_score?: {
+    regulation: 'DPDP' | 'GDPR' | 'DORA';
+    brand: string;
+    surface: 'website' | 'infrastructure';
+    rule_pack_id: string;
+    rule_pack_sha: string;
+    score: number;
+    rules_total: number;
+    rules_passed: number;
+    weighted_total: number;
+    weighted_passed: number;
+    scope_statement: string;
+    scanned_at: string;
+  } | null;
   findings?: Array<{
     id: string;
     sev: 'critical' | 'high' | 'medium';
@@ -215,6 +229,20 @@ export const SAMPLE_FINDINGS_RESPONSE: ScanResponse = {
     { rule: 'Cookie Compliance', status: 'fail' },
     { rule: 'Notice Requirements', status: 'pass' },
   ],
+  posture_score: {
+    regulation: 'DPDP',
+    brand: 'Surface Posture',
+    surface: 'website',
+    rule_pack_id: 'juro-tier1-surface@1.0.0',
+    rule_pack_sha: 'sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcd',
+    score: 20,
+    rules_total: 3,
+    rules_passed: 1,
+    weighted_total: 10,
+    weighted_passed: 2,
+    scope_statement: 'Tier 1 surface scan: public-website checks only — consent banner, analytics-before-consent, and cookies-before-consent.',
+    scanned_at: '2026-05-02T12:00:00Z',
+  },
   findings: [
     {
       id: 'F-001',
@@ -254,6 +282,20 @@ export const EMPTY_FINDINGS_RESPONSE: ScanResponse = {
     { rule: 'Cookie Compliance', status: 'pass' },
     { rule: 'Notice Requirements', status: 'pass' },
   ],
+  posture_score: {
+    regulation: 'DPDP',
+    brand: 'Surface Posture',
+    surface: 'website',
+    rule_pack_id: 'juro-tier1-surface@1.0.0',
+    rule_pack_sha: 'sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcd',
+    score: 100,
+    rules_total: 3,
+    rules_passed: 3,
+    weighted_total: 10,
+    weighted_passed: 10,
+    scope_statement: 'Tier 1 surface scan: public-website checks only — consent banner, analytics-before-consent, and cookies-before-consent.',
+    scanned_at: '2026-05-02T12:00:00Z',
+  },
   findings: [],
 };
 
