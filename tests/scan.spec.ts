@@ -46,7 +46,7 @@ test.describe('A — pre-scan validation', () => {
 
     // Validation passed → API was called. Body sent verbatim; server strips
     // protocol + trailing slash.
-    await expect(page.locator('#progressWrap')).toBeVisible();
+    await expect(page.locator('#scanModal')).toHaveClass(/is-open/);
     expect(mockApi.requests()).toHaveLength(1);
     expect(mockApi.requests()[0].body).toEqual({ url: 'https://example.com/' });
   });
@@ -98,7 +98,7 @@ test.describe('B — scan happy path', () => {
 
     await page.locator('#scanBtn').click();
 
-    await expect(page.locator('#progressWrap')).toBeVisible();
+    await expect(page.locator('#scanModal')).toHaveClass(/is-open/);
     await expect(page.locator('#stakesStrip')).toBeHidden();
     await expect(page.locator('#scanBtn')).toBeDisabled();
     await expect(page.locator('#scanBtn')).toHaveText(/Scanning/);
@@ -207,7 +207,7 @@ test.describe('C — scan errors', () => {
     await expect(dialog).toHaveClass(/is-open/);
     await expect(page.locator('#noticeCard')).toHaveClass(/is-error/);
     await expect(page.locator('#noticeMessage')).toContainText('Scan target unreachable');
-    await expect(page.locator('#progressWrap')).toBeHidden();
+    await expect(page.locator('#scanModal')).not.toHaveClass(/is-open/);
     await expect(page.locator('#stakesStrip')).toBeVisible();
   });
 
@@ -224,26 +224,26 @@ test.describe('C — scan errors', () => {
     await expect(dialog).toHaveClass(/is-open/);
     await expect(page.locator('#noticeCard')).toHaveClass(/is-error/);
     await expect(page.locator('#noticeMessage')).toContainText('Failed to connect');
-    await expect(page.locator('#progressWrap')).toBeHidden();
+    await expect(page.locator('#scanModal')).not.toHaveClass(/is-open/);
     await expect(page.locator('#stakesStrip')).toBeVisible();
   });
 });
 
 test.describe('H — progress and stakes-strip DOM order', () => {
-  test('H31: progressWrap appears before stakesStrip in DOM', async ({ page, siteUrl }) => {
+  test('H31: scanModal appears before stakesStrip in DOM', async ({ page, siteUrl }) => {
     await page.goto(siteUrl);
     const order = await page.evaluate(() => {
-      const p = document.getElementById('progressWrap');
+      const m = document.getElementById('scanModal');
       const s = document.getElementById('stakesStrip');
-      if (!p || !s) return null;
-      return p.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING ? 'progress-first' : 'strip-first';
+      if (!m || !s) return null;
+      return m.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING ? 'scan-modal-first' : 'strip-first';
     });
-    expect(order).toBe('progress-first');
+    expect(order).toBe('scan-modal-first');
   });
 
   test('H29: stakes-strip visible on initial page load', async ({ page, siteUrl }) => {
     await page.goto(siteUrl);
     await expect(page.locator('#stakesStrip')).toBeVisible();
-    await expect(page.locator('#progressWrap')).toBeHidden();
+    await expect(page.locator('#scanModal')).not.toHaveClass(/is-open/);
   });
 });
