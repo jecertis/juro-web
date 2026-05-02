@@ -40,7 +40,7 @@ function startStaticServer(): Promise<http.Server> {
 export interface ScanResponse {
   url?: string;
   elapsed?: string | number;
-  posture?: Array<{ rule: string; status: 'pass' | 'fail'; description?: string }>;
+  posture?: Array<{ rule: string; status: 'clear' | 'fail'; description?: string }>;
   findings?: Array<{
     id: string;
     sev: 'critical' | 'high' | 'medium';
@@ -213,7 +213,7 @@ export const SAMPLE_FINDINGS_RESPONSE: ScanResponse = {
   posture: [
     { rule: 'Consent Management', status: 'fail' },
     { rule: 'Cookie Compliance', status: 'fail' },
-    { rule: 'Notice Requirements', status: 'pass' },
+    { rule: 'Notice Requirements', status: 'clear' },
   ],
   findings: [
     {
@@ -250,9 +250,9 @@ export const EMPTY_FINDINGS_RESPONSE: ScanResponse = {
   url: 'https://abhyaas.org',
   elapsed: '9.9',
   posture: [
-    { rule: 'Consent Management', status: 'pass' },
-    { rule: 'Cookie Compliance', status: 'pass' },
-    { rule: 'Notice Requirements', status: 'pass' },
+    { rule: 'Consent Management', status: 'clear' },
+    { rule: 'Cookie Compliance', status: 'clear' },
+    { rule: 'Notice Requirements', status: 'clear' },
   ],
   findings: [],
 };
