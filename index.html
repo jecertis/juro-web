@@ -272,6 +272,76 @@
     </div>
   </div>
 
+  <div id="resultsArea" class="hero-results" style="display:none">
+
+    <div class="results-header">
+      <div class="results-eyebrow">Scan report</div>
+      <h2 class="results-headline">Your compliance findings</h2>
+    </div>
+
+    <div class="scan-target-bar" id="scanTargetBar">
+      <div class="target-dot"></div>
+      <span id="scanTargetLabel">Scan complete</span>
+      <span class="scan-time" id="scanTimeLabel"></span>
+    </div>
+
+    <div class="posture-score-panel" id="postureScorePanel" style="display:none" aria-live="polite">
+      <div class="ps-scope" id="psScope"></div>
+      <div class="ps-body">
+        <div class="ps-score-block">
+          <div class="ps-score" id="psScore">—</div>
+          <div class="ps-score-out-of">/ 100</div>
+        </div>
+        <div class="ps-meta">
+          <div class="ps-brand" id="psBrand">Surface Posture · DPDP</div>
+          <div class="ps-denom" id="psDenom"></div>
+          <div class="ps-pack" id="psPack"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-strip" id="severityFilters" role="group" aria-label="Filter findings by severity">
+      <div class="metric-card metric-critical" role="button" tabindex="0" data-filter="critical" aria-pressed="false">
+        <div class="metric-num" id="cCount">0</div>
+        <div class="metric-label">Critical</div>
+      </div>
+      <div class="metric-card metric-high" role="button" tabindex="0" data-filter="high" aria-pressed="false">
+        <div class="metric-num" id="hCount">0</div>
+        <div class="metric-label">High</div>
+      </div>
+      <div class="metric-card metric-medium" role="button" tabindex="0" data-filter="medium" aria-pressed="false">
+        <div class="metric-num" id="mCount">0</div>
+        <div class="metric-label">Medium</div>
+      </div>
+      <div class="metric-card metric-total is-active" role="button" tabindex="0" data-filter="all" aria-pressed="true">
+        <div class="metric-num" id="tCount">0</div>
+        <div class="metric-label">Total findings</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="panel" id="posturePanel">
+          <div class="panel-title">Compliance posture</div>
+          <div id="postureRows"></div>
+        </div>
+      </div>
+      <div>
+        <div class="findings-wrap" id="findingsList"></div>
+      </div>
+    </div>
+
+    <div class="cta-block" id="ctaBlock">
+      <div class="cta-text">
+        <div class="cta-eyebrow">Next step</div>
+        <div class="cta-headline">The real gaps are deeper</div>
+        <div class="cta-sub">These are website-layer findings. The most serious gaps — missing consent in backend APIs, PII in logs, unencrypted data columns — live in your infrastructure. Get a full remediation report or talk to us about a technical readiness assessment.</div>
+      </div>
+      <button class="cta-action-btn" onclick="requestFullScan()">Talk to us →</button>
+    </div>
+
+  </div>
+
   <div class="stakes-strip" id="stakesStrip">
     <div class="stake">
       <div class="stake-num">₹250 Cr</div>
@@ -295,6 +365,8 @@
       <div class="countdown-unit"><span class="countdown-num" id="cdHours">--</span><span class="countdown-sub">hours</span></div>
       <div class="countdown-sep">:</div>
       <div class="countdown-unit"><span class="countdown-num" id="cdMins">--</span><span class="countdown-sub">minutes</span></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><span class="countdown-num" id="cdSecs">--</span><span class="countdown-sub">seconds</span></div>
     </div>
     <div class="countdown-subtext">May 13, 2027 — penalties start being imposed</div>
   </div>
@@ -383,71 +455,6 @@
     </div>
 
   </div>
-
-  <div id="resultsArea" style="display:none">
-
-    <div class="scan-target-bar" id="scanTargetBar">
-      <div class="target-dot"></div>
-      <span id="scanTargetLabel">Scan complete</span>
-      <span class="scan-time" id="scanTimeLabel"></span>
-    </div>
-
-    <div class="posture-score-panel" id="postureScorePanel" style="display:none" aria-live="polite">
-      <div class="ps-scope" id="psScope"></div>
-      <div class="ps-body">
-        <div class="ps-score-block">
-          <div class="ps-score" id="psScore">—</div>
-          <div class="ps-score-out-of">/ 100</div>
-        </div>
-        <div class="ps-meta">
-          <div class="ps-brand" id="psBrand">Surface Posture · DPDP</div>
-          <div class="ps-denom" id="psDenom"></div>
-          <div class="ps-pack" id="psPack"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="summary-strip" id="severityFilters" role="group" aria-label="Filter findings by severity">
-      <div class="metric-card metric-critical" role="button" tabindex="0" data-filter="critical" aria-pressed="false">
-        <div class="metric-num" id="cCount">0</div>
-        <div class="metric-label">Critical</div>
-      </div>
-      <div class="metric-card metric-high" role="button" tabindex="0" data-filter="high" aria-pressed="false">
-        <div class="metric-num" id="hCount">0</div>
-        <div class="metric-label">High</div>
-      </div>
-      <div class="metric-card metric-medium" role="button" tabindex="0" data-filter="medium" aria-pressed="false">
-        <div class="metric-num" id="mCount">0</div>
-        <div class="metric-label">Medium</div>
-      </div>
-      <div class="metric-card metric-total is-active" role="button" tabindex="0" data-filter="all" aria-pressed="true">
-        <div class="metric-num" id="tCount">0</div>
-        <div class="metric-label">Total findings</div>
-      </div>
-    </div>
-
-    <div class="two-col">
-      <div>
-        <div class="panel" id="posturePanel">
-          <div class="panel-title">Compliance posture</div>
-          <div id="postureRows"></div>
-        </div>
-      </div>
-      <div>
-        <div class="findings-wrap" id="findingsList"></div>
-      </div>
-    </div>
-
-    <div class="cta-block" id="ctaBlock">
-      <div class="cta-text">
-        <div class="cta-eyebrow">Next step</div>
-        <div class="cta-headline">The real gaps are deeper</div>
-        <div class="cta-sub">These are website-layer findings. The most serious gaps — missing consent in backend APIs, PII in logs, unencrypted data columns — live in your infrastructure. Get a full remediation report or talk to us about a technical readiness assessment.</div>
-      </div>
-      <button class="cta-action-btn" onclick="requestFullScan()">Talk to us →</button>
-    </div>
-
-    </div>
 
     <div class="who-section">
       <h2 class="who-heading">Built for the people who get asked "are we compliant?"</h2>
@@ -647,21 +654,25 @@
 <script>
 (function countdown(){
   var target=new Date('2027-05-13T00:00:00+05:30').getTime();
+  function pad(n){return n<10?'0'+n:''+n;}
   function tick(){
     var now=Date.now();
     var diff=Math.max(0,target-now);
     var days=Math.floor(diff/864e5);
     var hours=Math.floor((diff%864e5)/36e5);
     var mins=Math.floor((diff%36e5)/6e4);
+    var secs=Math.floor((diff%6e4)/1e3);
     var d=document.getElementById('cdDays');
     var h=document.getElementById('cdHours');
     var m=document.getElementById('cdMins');
+    var s=document.getElementById('cdSecs');
     if(d)d.textContent=days;
-    if(h)h.textContent=hours;
-    if(m)m.textContent=mins;
+    if(h)h.textContent=pad(hours);
+    if(m)m.textContent=pad(mins);
+    if(s)s.textContent=pad(secs);
   }
   tick();
-  setInterval(tick,30000);
+  setInterval(tick,1000);
 })();
 </script>
 
