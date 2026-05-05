@@ -293,14 +293,6 @@
     </div>
   </div>
 
-  <div id="printHeader">
-    <div class="ph-brand">juro<span class="ph-accent">.</span></div>
-    <div class="ph-right">
-      <div class="ph-title">Compliance Scan Report</div>
-      <div class="ph-meta"><span id="phDomain"></span> &middot; <span id="phDate"></span></div>
-    </div>
-  </div>
-
   <div id="resultsArea" class="hero-results" style="display:none">
 
     <div class="results-header">
@@ -708,6 +700,27 @@
   setInterval(tick,1000);
 })();
 </script>
+
+<!-- Print report: hidden on screen, shown exclusively in @media print -->
+<div id="printReport" aria-hidden="true">
+  <div class="prh">
+    <div class="prh-brand">juro<span class="prh-dot">.</span></div>
+    <div class="prh-center">
+      <div class="prh-eyebrow">Compliance Scan Report</div>
+      <div class="prh-domain" id="prDomain"></div>
+    </div>
+    <div class="prh-right">
+      <div class="prh-date" id="prDate"></div>
+      <div class="prh-scope">DPDP Act 2023 · Surface Scan</div>
+    </div>
+  </div>
+  <div class="pr-summary" id="prSummary"></div>
+  <div class="pr-findings">
+    <div class="pr-findings-label">Findings</div>
+    <div id="prFindingsList"></div>
+  </div>
+  <div class="pr-disclaimer">Surface scan only · jurocompliant.com · This report does not constitute legal advice · For authorised use only</div>
+</div>
 
 <!-- Answer capsule for AI extraction — BLUF format -->
 <div class="sr-only" aria-hidden="true">
