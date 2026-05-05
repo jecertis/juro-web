@@ -293,6 +293,14 @@
     </div>
   </div>
 
+  <div id="printHeader">
+    <div class="ph-brand">juro<span class="ph-accent">.</span></div>
+    <div class="ph-right">
+      <div class="ph-title">Compliance Scan Report</div>
+      <div class="ph-meta"><span id="phDomain"></span> &middot; <span id="phDate"></span></div>
+    </div>
+  </div>
+
   <div id="resultsArea" class="hero-results" style="display:none">
 
     <div class="results-header">
@@ -304,6 +312,10 @@
       <div class="target-dot"></div>
       <span id="scanTargetLabel">Scan complete</span>
       <span class="scan-time" id="scanTimeLabel"></span>
+      <button class="download-pdf-btn" onclick="downloadReport()" title="Download PDF report">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M6.5 1v7M3.5 5.5l3 3 3-3M2 10h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download PDF
+      </button>
     </div>
 
     <div class="posture-score-panel" id="postureScorePanel" style="display:none" aria-live="polite">

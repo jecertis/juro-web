@@ -251,3 +251,130 @@
 .modal-dismiss:hover {
   color: rgba(255,255,255,0.65) !important;
 }
+
+/* ── Download PDF button ── */
+.download-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 12px;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.download-pdf-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: var(--gray-100);
+}
+
+/* ── Print header (screen: hidden) ── */
+#printHeader {
+  display: none;
+}
+
+/* ── Print styles ── */
+@media print {
+  @page { margin: 2cm 2cm 2.5cm; size: A4; }
+
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  body { background: #fff !important; }
+
+  /* Hide everything except what belongs in the report */
+  .header,
+  .hero,
+  #stakesStrip,
+  #heroOr,
+  #altOption,
+  #emptyState,
+  .faq-section,
+  .site-footer,
+  #ctaBlock,
+  .download-pdf-btn,
+  #severityFilters,
+  .modal-overlay,
+  .notice-overlay,
+  .scan-modal,
+  .results-header { display: none !important; }
+
+  /* Show branded print header */
+  #printHeader {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #0A0A0A;
+  }
+  .ph-brand {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    color: #0A0A0A;
+    letter-spacing: -0.02em;
+  }
+  .ph-accent { color: #F5C400; }
+  .ph-right { text-align: right; }
+  .ph-title {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0A0A0A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .ph-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #737373;
+    margin-top: 3px;
+  }
+
+  /* Results area */
+  #resultsArea { display: block !important; padding: 0 !important; }
+  .hero-results { background: #fff !important; padding: 0 !important; }
+
+  /* Scan target bar */
+  .scan-target-bar {
+    display: flex !important;
+    background: #F5F5F5 !important;
+    border-color: #E5E5E5 !important;
+    margin-bottom: 20px !important;
+  }
+  .target-dot { animation: none !important; }
+
+  /* Posture score */
+  #postureScorePanel { display: block !important; }
+  .posture-score-panel {
+    background: #F5F5F5 !important;
+    border-color: #E5E5E5 !important;
+  }
+  .ps-scope { color: #404040 !important; }
+
+  /* Summary strip */
+  #severityFilters { display: grid !important; break-inside: avoid; }
+  .metric-card { box-shadow: none !important; transform: none !important; }
+
+  /* Two-col layout */
+  .two-col { grid-template-columns: 260px minmax(0, 1fr) !important; gap: 1.5rem !important; }
+  .two-col > :first-child > .panel { position: static !important; }
+
+  /* Expand all finding bodies */
+  .finding-card { opacity: 1 !important; transform: none !important; break-inside: avoid; }
+  .finding-body { display: block !important; }
+
+  /* Clean up dark backgrounds inside finding cards */
+  .finding-card { background: #fff !important; border-color: #E5E5E5 !important; }
+  .finding-head { cursor: default !important; }
+}
