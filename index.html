@@ -703,16 +703,26 @@
 
 <!-- Print report: hidden on screen, shown exclusively in @media print -->
 <div id="printReport" aria-hidden="true">
+  <!-- Nav-style logo band -->
   <div class="prh">
-    <div class="prh-brand">juro<span class="prh-dot">.</span></div>
-    <div class="prh-center">
-      <div class="prh-eyebrow">Compliance Scan Report</div>
-      <div class="prh-domain" id="prDomain"></div>
+    <div class="prh-logo">
+      <svg class="prh-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+        <rect width="32" height="32" rx="6" fill="#F5C400"/>
+        <text x="16" y="24" text-anchor="middle" font-family="monospace" font-size="22" font-weight="600" fill="#0A0A0A">j</text>
+      </svg>
+      <span class="prh-brand">juro<span class="prh-dot">.</span></span>
+      <span class="prh-product">Compliance Scanner</span>
     </div>
     <div class="prh-right">
       <div class="prh-date" id="prDate"></div>
       <div class="prh-scope">DPDP Act 2023 · Surface Scan</div>
     </div>
+  </div>
+  <!-- Report heading section -->
+  <div class="prh-heading">
+    <div class="prh-heading-eyebrow">Compliance Scan Report</div>
+    <div class="prh-domain" id="prDomain"></div>
+    <div class="prh-tagline">Compliance you can prove.</div>
   </div>
   <div class="pr-summary" id="prSummary"></div>
   <div class="pr-findings">
