@@ -38,8 +38,8 @@ test.describe('PDF download — email already provided', () => {
     await runScan(page, siteUrl, mockApi);
     await page.locator('.download-pdf-btn').click();
 
-    await expect(page.locator('#phDomain')).toHaveText('example.com');
-    const dateText = await page.locator('#phDate').textContent();
+    await expect(page.locator('#prDomain')).toHaveText('example.com');
+    const dateText = await page.locator('#prDate').textContent();
     expect(dateText).toMatch(/\d{4}/);
   });
 
