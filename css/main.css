@@ -658,6 +658,11 @@
    Override to #5C5C5C which is 5.74:1 on white. */
 .who-desc { color: #5C5C5C; }
 .how-step-desc { color: #5C5C5C; }
+.rule-chip { color: #5C5C5C; }
+
+/* countdown-num: --red (#DC2626) on dark strip bg (~#170C0C) = 3.97:1 → FAIL.
+   Boost to #FF4444 which gives 5.63:1 on the same bg. */
+.countdown-num { color: #FF4444; }
 
 /* ────────────────────────────────────────────────
    Mobile-first enhancements
