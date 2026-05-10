@@ -807,3 +807,136 @@
 @media (max-width:480px) {
   .site-footer { flex-direction: column; align-items: flex-start; gap: var(--s1); }
 }
+
+/* ── Scan log + step bar (de-vibe: replaces 3-card How It Works grid) ── */
+.how-steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: var(--s3);
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+}
+.how-step-pill {
+  padding: 5px 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 99px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  white-space: nowrap;
+}
+.how-step-pill.active {
+  color: var(--yellow);
+  border-color: rgba(245,196,0,0.35);
+  background: rgba(245,196,0,0.06);
+}
+.how-step-connector {
+  width: 32px;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.scan-log {
+  background: #0D0D0D;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--s3) var(--s4);
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  overflow-x: auto;
+  margin-bottom: var(--s3);
+}
+.scan-log-header {
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-label);
+  margin-bottom: var(--s2);
+  padding-bottom: var(--s2);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.log-line {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 3px 0;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+}
+.log-line--done {
+  color: var(--green);
+}
+.log-ts {
+  color: rgba(255,255,255,0.2);
+  min-width: 72px;
+  flex-shrink: 0;
+}
+.log-icon {
+  min-width: 14px;
+  flex-shrink: 0;
+}
+.log-icon-run { color: rgba(255,255,255,0.45); }
+.log-icon-warn { color: var(--amber); }
+.log-icon-ok { color: var(--green); }
+.log-msg {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.log-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.log-tag--pre {
+  background: rgba(220,38,38,0.15);
+  color: #f87171;
+  border: 1px solid rgba(220,38,38,0.3);
+}
+
+.how-note {
+  font-size: var(--text-xs);
+  color: rgba(255,255,255,0.45);
+  line-height: var(--lh-reading);
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto var(--s5);
+}
+.stat-cite {
+  color: rgba(255,255,255,0.55);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.stat-cite:hover { color: var(--yellow); }
+.stat-source {
+  font-style: normal;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ── Diff callout — pull quote above comparison table ── */
+.diff-callout {
+  font-size: var(--text-lg);
+  color: rgba(255,255,255,0.85);
+  line-height: var(--lh-snug);
+  border-left: 3px solid var(--yellow);
+  padding: var(--s2) 0 var(--s2) var(--s3);
+  margin: 0 0 var(--s5);
+  font-style: normal;
+  max-width: 780px;
+}
+
+@media (max-width:680px) {
+  .how-steps-bar { gap: var(--s1); }
+  .how-step-connector { width: 16px; }
+  .how-step-pill { font-size: 9px; padding: 4px 10px; }
+  .scan-log { padding: var(--s2) var(--s3); }
+  .log-ts { min-width: 58px; }
+  .diff-callout { font-size: var(--text-base); }
+}
