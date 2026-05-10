@@ -29,22 +29,29 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
-      // Visual-only: high-end iOS phone (393×852 CSS px)
-      name: 'mobile-iphone15pro',
+      // Visual-only: high-end phone viewport 393×852 (iPhone 15 Pro CSS px)
+      // Uses Chromium — CI only installs Chromium, no WebKit
+      name: 'mobile-hd',
       testMatch: '**/visual.spec.ts',
-      use: { ...devices['iPhone 15 Pro'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 393, height: 852 },
+        deviceScaleFactor: 3,
+        isMobile: true,
+        hasTouch: true,
+      },
     },
     {
-      // Visual-only: high-end Android phone (360×780 CSS px)
-      name: 'mobile-galaxys24',
-      testMatch: '**/visual.spec.ts',
-      use: { ...devices['Galaxy S24'] },
-    },
-    {
-      // Visual-only: tablet (834×1194 CSS px)
+      // Visual-only: tablet viewport 834×1194 (iPad Pro CSS px)
       name: 'tablet',
       testMatch: '**/visual.spec.ts',
-      use: { ...devices['iPad Pro 11'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 834, height: 1194 },
+        deviceScaleFactor: 2,
+        isMobile: true,
+        hasTouch: true,
+      },
     },
   ],
 });
