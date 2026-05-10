@@ -682,6 +682,69 @@
     .question-top { flex-direction: column; gap: var(--s1); }
     .progress-strip { padding: var(--s1) 1.25rem; gap: var(--s3); }
   }
+
+  /* ── Mobile-first: high-end phones (393px+) ── */
+  @supports (min-height: 100dvh) {
+    body { min-height: 100dvh; }
+  }
+
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .header { padding-right: max(2rem, env(safe-area-inset-right)); padding-left: max(2rem, env(safe-area-inset-left)); }
+    .site-footer { padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+  }
+
+  /* ── Mobile nav: hamburger + drawer ── */
+  .nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .nav-hamburger span { display: block; width: 20px; height: 2px; background: rgba(255,255,255,0.85); border-radius: 1px; }
+  .mobile-nav-drawer {
+    display: none;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: var(--s2) 1.25rem;
+    z-index: 99;
+    flex-direction: column;
+    gap: 0;
+  }
+  .mobile-nav-drawer.is-open { display: flex; }
+  .drawer-link {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: var(--s2) 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: block;
+  }
+  .drawer-link:last-child { border-bottom: none; }
+  .drawer-link:hover { color: #fff; }
+
+  @media (max-width: 640px) {
+    .hero { padding: var(--s5) 1.25rem var(--s4); }
+    .hero-title { font-size: clamp(26px, 8vw, 36px); }
+    .hero-sub { font-size: var(--text-base); }
+    .header { padding: 0 1.25rem; }
+    .header-right { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+
+  @media (max-width: 480px) {
+    .tab-btn { padding: var(--s1) var(--s2); font-size: 12px; }
+    .site-footer { flex-direction: column; align-items: flex-start; }
+    .gap-detail { font-size: var(--text-xs); }
+  }
 </style>
 </head>
 <body>
@@ -691,7 +754,14 @@
   <div class="header-right">
     <a href="/" class="nav-link">← Run a scan</a>
   </div>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
 </div>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/" class="drawer-link">← Run a scan</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+</nav>
 
 <div class="hero">
   <div class="hero-eyebrow">Self-assessment · DPDP · GDPR · DORA</div>
@@ -1142,6 +1212,21 @@ async function submitGapEmail(event) {
       credentials: 'omit',
     }).catch(function () { /* fire-and-forget */ });
   } catch (_) { /* never block the page */ }
+})();
+</script>
+<script>
+(function(){
+  var ham = document.getElementById('navHamburger');
+  var drawer = document.getElementById('mobileNavDrawer');
+  if (!ham || !drawer) return;
+  function open() { drawer.classList.add('is-open'); ham.setAttribute('aria-expanded','true'); }
+  function close() { drawer.classList.remove('is-open'); ham.setAttribute('aria-expanded','false'); }
+  ham.addEventListener('click', function(){ drawer.classList.contains('is-open') ? close() : open(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  document.addEventListener('click', function(e){
+    if (!drawer.classList.contains('is-open')) return;
+    if (!drawer.contains(e.target) && !ham.contains(e.target)) close();
+  });
 })();
 </script>
 </body>

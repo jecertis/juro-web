@@ -219,7 +219,16 @@
     <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
     <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
   </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="drawer-link">DORA</a>
+</nav>
 
 <div class="hero">
   <div class="urgency-pills">
@@ -282,13 +291,13 @@
     <div class="reg-sources-label">Regulatory sources</div>
     <div class="reg-sources-links">
       <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener">DPDP Act 2023 — MeitY</a>
-      <span class="reg-sources-sep">·</span>
+      <span class="reg-sources-sep" aria-hidden="true">·</span>
       <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR — Full Text</a>
-      <span class="reg-sources-sep">·</span>
+      <span class="reg-sources-sep" aria-hidden="true">·</span>
       <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener">DORA — EUR-Lex</a>
-      <span class="reg-sources-sep">·</span>
+      <span class="reg-sources-sep" aria-hidden="true">·</span>
       <a href="https://edpb.europa.eu/" target="_blank" rel="noopener">EDPB Guidelines</a>
-      <span class="reg-sources-sep">·</span>
+      <span class="reg-sources-sep" aria-hidden="true">·</span>
       <a href="https://www.enisa.europa.eu/" target="_blank" rel="noopener">ENISA</a>
     </div>
   </div>
@@ -386,11 +395,11 @@
     <div class="countdown-label">DPDP full enforcement deadline</div>
     <div class="countdown-timer" id="dpdpCountdown">
       <div class="countdown-unit"><span class="countdown-num" id="cdDays">--</span><span class="countdown-sub">days</span></div>
-      <div class="countdown-sep">:</div>
+      <div class="countdown-sep" aria-hidden="true">:</div>
       <div class="countdown-unit"><span class="countdown-num" id="cdHours">--</span><span class="countdown-sub">hours</span></div>
-      <div class="countdown-sep">:</div>
+      <div class="countdown-sep" aria-hidden="true">:</div>
       <div class="countdown-unit"><span class="countdown-num" id="cdMins">--</span><span class="countdown-sub">minutes</span></div>
-      <div class="countdown-sep">:</div>
+      <div class="countdown-sep" aria-hidden="true">:</div>
       <div class="countdown-unit"><span class="countdown-num" id="cdSecs">--</span><span class="countdown-sub">seconds</span></div>
     </div>
     <div class="countdown-subtext">May 13, 2027 — penalties start being imposed</div>
@@ -485,17 +494,17 @@
       <h2 class="who-heading">Built for the people who get asked "are we compliant?"</h2>
       <div class="who-grid">
         <div class="who-card">
-          <div class="who-icon">&#9881;</div>
+          <div class="who-icon" aria-hidden="true">&#9881;</div>
           <div class="who-title">Engineers</div>
           <div class="who-desc">See exactly which scripts fire before consent, which forms leak PII, and what to block. No vague recommendations — every finding cites the exact provision.</div>
         </div>
         <div class="who-card">
-          <div class="who-icon">&#128737;</div>
+          <div class="who-icon" aria-hidden="true">&#128737;</div>
           <div class="who-title">CISOs &amp; Security Leads</div>
           <div class="who-desc">Non-custodial scanning means nothing leaves the customer perimeter. Bring the check to the data, not the data to the check.</div>
         </div>
         <div class="who-card">
-          <div class="who-icon">&#128203;</div>
+          <div class="who-icon" aria-hidden="true">&#128203;</div>
           <div class="who-title">Compliance &amp; Legal Teams</div>
           <div class="who-desc">Get signed, deterministic findings mapped to DPDP sections, GDPR articles, and DORA provisions. Shareable with auditors and the Data Protection Board.</div>
         </div>
@@ -731,6 +740,23 @@
   </div>
   <div class="pr-disclaimer">Surface scan only · jurocompliant.com · This report does not constitute legal advice · For authorised use only</div>
 </div>
+
+<!-- Mobile nav toggle -->
+<script>
+(function(){
+  var ham = document.getElementById('navHamburger');
+  var drawer = document.getElementById('mobileNavDrawer');
+  if (!ham || !drawer) return;
+  function open() { drawer.classList.add('is-open'); ham.setAttribute('aria-expanded','true'); }
+  function close() { drawer.classList.remove('is-open'); ham.setAttribute('aria-expanded','false'); }
+  ham.addEventListener('click', function(){ drawer.classList.contains('is-open') ? close() : open(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  document.addEventListener('click', function(e){
+    if (!drawer.classList.contains('is-open')) return;
+    if (!drawer.contains(e.target) && !ham.contains(e.target)) close();
+  });
+})();
+</script>
 
 <!-- Answer capsule for AI extraction — BLUF format -->
 <div class="sr-only" aria-hidden="true">

@@ -202,6 +202,26 @@
   }
   .footer a { color: rgba(255,255,255,0.28); }
   .footer a:hover { color: rgba(255,255,255,0.65); }
+
+  /* ── Mobile-first: phones ── */
+  @supports (min-height: 100dvh) { body { min-height: 100dvh; } }
+
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .header { padding-left: max(2rem, env(safe-area-inset-left)); padding-right: max(2rem, env(safe-area-inset-right)); }
+    .footer { padding-bottom: calc(var(--s6) + env(safe-area-inset-bottom)); }
+  }
+
+  @media (max-width: 680px) {
+    .header { padding: 0 1.25rem; }
+    .main { margin: var(--s3) var(--s2); padding: var(--s4) var(--s3); }
+    table { font-size: var(--text-xs); }
+    th, td { padding: var(--s1) 8px; }
+    .footer { padding: 0 1.25rem var(--s4); }
+  }
+
+  @media (max-width: 480px) {
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
 </style>
 </head>
 <body>

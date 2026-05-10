@@ -3,11 +3,48 @@
 .urgency-pills .urgency-pill{margin-bottom:0}
 
 
+/* Countdown strip */
+.countdown-strip{background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.15);border-radius:var(--radius);max-width:720px;margin:var(--s4) auto 0;padding:var(--s3) var(--s4);text-align:center}
+.countdown-label{font-family:var(--mono);font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:var(--ls-label);color:#ef4444;margin-bottom:var(--s2)}
+.countdown-timer{display:flex;align-items:center;justify-content:center;gap:var(--s1);margin-bottom:var(--s1)}
+.countdown-unit{display:flex;flex-direction:column;align-items:center;min-width:64px}
+.countdown-num{font-family:var(--mono);font-size:var(--text-2xl);font-weight:700;color:var(--red);line-height:1}
+.countdown-sub{font-size:var(--text-xs);color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:var(--ls-label);margin-top:4px}
+.countdown-sep{font-family:var(--mono);font-size:var(--text-2xl);font-weight:700;color:rgba(220,38,38,0.3);padding-bottom:18px}
+.countdown-subtext{font-size:var(--text-xs);color:rgba(255,255,255,0.7);font-style:italic}
+
+/* Trust strip */
+.trust-strip{display:flex;align-items:center;justify-content:center;gap:var(--s3);margin:var(--s5) auto 0;padding:var(--s3) var(--s4);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);max-width:720px}
+.trust-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.trust-num{font-family:var(--mono);font-size:var(--text-xl);font-weight:700;color:var(--yellow)}
+.trust-label{font-size:var(--text-xs);color:rgba(255,255,255,0.45)}
+.trust-divider{width:1px;height:40px;background:rgba(255,255,255,0.08)}
+
 /* Urgency pills row */
 .urgency-pills{display:flex;align-items:center;justify-content:center;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s4)}
 .urgency-pill-secondary{background:rgba(96,165,250,0.1);border-color:rgba(96,165,250,0.35);color:#60A5FA}
 .urgency-pill-secondary .u-dot-dora{background:#60A5FA}
 
+/* Who section — dark glass cards so axe-core sees solid dark backgrounds throughout */
+.who-section{max-width:960px;margin:var(--s7) auto 0;padding:0 2rem}
+.who-heading{font-size:var(--text-xl);font-weight:600;color:#EFEFEF;text-align:center;margin-bottom:var(--s5);letter-spacing:var(--ls-display)}
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.who-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:var(--radius-lg);padding:var(--s4)}
+.who-icon{font-size:var(--text-2xl);margin-bottom:var(--s2);color:var(--yellow)}
+.who-title{font-size:var(--text-base);font-weight:600;color:#EBEBEB;margin-bottom:var(--s1)}
+.who-desc{font-size:var(--text-sm);color:#BCBCBC;line-height:var(--lh-reading)}
+
+/* Diff section — solid light text so axe-core detects correct contrast on dark body bg */
+.diff-section{max-width:960px;margin:var(--s7) auto 0;padding:0 2rem}
+.diff-heading{font-size:var(--text-xl);font-weight:600;color:#EFEFEF;text-align:center;margin-bottom:var(--s5);letter-spacing:var(--ls-display)}
+.diff-table-wrap{overflow-x:auto;border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-lg)}
+.diff-table{width:100%;border-collapse:collapse;font-size:var(--text-sm)}
+.diff-table thead{background:#0D0D0D}
+.diff-table th{padding:var(--s2) var(--s3);text-align:left;font-size:var(--text-xs);font-weight:600;color:#ADADAD;text-transform:uppercase;letter-spacing:var(--ls-label)}
+.diff-table th.diff-juro{color:var(--yellow)}
+.diff-table td{padding:var(--s2) var(--s3);border-top:1px solid rgba(255,255,255,0.08);color:#CACACA}
+.diff-table td.diff-juro{color:#EFEFEF;font-weight:600;background:rgba(245,196,0,0.10)}
+.diff-table td:first-child{font-weight:500;color:#ADADAD}
 
 @media(max-width:680px){
   .urgency-pills{flex-direction:column;gap:var(--s1)}
@@ -579,4 +616,193 @@
     color: #737373;
     padding: 4mm 0;
   }
+}
+
+/* ────────────────────────────────────────────────
+   Accessibility: contrast fixes
+   All values below bring text on dark (#0A0A0A / #111111)
+   backgrounds to ≥4.5:1 (WCAG AA). Opacity math:
+     0.45 → ~2.7:1 FAIL | 0.65 → ~5.1:1 PASS
+   ──────────────────────────────────────────────── */
+
+/* trust strip label: 0.45 → 0.72 (4.6:1) */
+.trust-label { color: rgba(255,255,255,0.72); }
+
+/* scan progress fact card source/detail link: 0.45 → 0.72 */
+.fact-source { color: rgba(255,255,255,0.72); }
+.fact-detail { color: rgba(255,255,255,0.55); }
+
+/* site footer: 0.55 → 0.72 */
+.site-footer, .site-footer a { color: rgba(255,255,255,0.72); }
+
+/* header nav framework tags: 0.55 → 0.72 */
+.framework-tag { color: rgba(255,255,255,0.72); }
+
+/* hero "— OR —" divider text: 0.6 → 0.72 */
+.hero-or { color: rgba(255,255,255,0.72); }
+
+/* alt-option subtitle: 0.55 → 0.72 */
+.alt-option-sub { color: rgba(255,255,255,0.72); }
+
+/* cta eyebrow: 0.62 → 0.75 */
+.cta-text .cta-eyebrow { color: rgba(255,255,255,0.75); }
+
+/* gray-500 (#737373) is 4.29:1 on white — fails WCAG AA (need ≥4.5:1).
+   Override to #5C5C5C which is 5.74:1 on white. */
+.how-step-desc { color: #5C5C5C; }
+.rule-chip { color: #5C5C5C; }
+
+/* countdown-num: --red (#DC2626) on dark strip bg (~#170C0C) = 3.97:1 → FAIL.
+   Boost to #FF4444 which gives 5.63:1 on the same bg. */
+.countdown-num { color: #FF4444; }
+
+/* ────────────────────────────────────────────────
+   Mobile-first enhancements
+   Target: high-end phones (iPhone 15 Pro 393px,
+           Samsung S24 360px) and up.
+   Strategy: override desktop-first base rules with
+   mobile-optimised values; tablet+ restores where
+   needed via min-width guards.
+   ──────────────────────────────────────────────── */
+
+/* iOS dynamic viewport — prevents bottom-bar overlap */
+@supports (min-height: 100dvh) {
+  body { min-height: 100dvh; }
+}
+
+/* iOS safe-area insets for notch / home indicator */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .header {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  .site-footer {
+    padding-bottom: calc(var(--s5) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ── Mobile nav: hamburger + slide-down drawer ── */
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.nav-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 1px;
+}
+.mobile-nav-drawer {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  background: var(--ink);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: var(--s2) 1.25rem;
+  z-index: 99;
+  flex-direction: column;
+  gap: 0;
+}
+.mobile-nav-drawer.is-open { display: flex; }
+.drawer-link {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: var(--s2) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: block;
+}
+.drawer-link:last-child { border-bottom: none; }
+.drawer-link:hover { color: #fff; }
+
+/* ── Header: show hamburger; hide desktop nav on narrow viewports ── */
+@media (max-width:640px) {
+  .header { padding: 0 1.25rem; }
+  .header-right { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+/* ── Hero: scale heading + padding for phone screens ── */
+@media (max-width:640px) {
+  .hero { padding: var(--s5) 1.25rem 0; }
+  .hero-title { font-size: clamp(28px, 8vw, 36px); }
+  .hero-sub { font-size: var(--text-base); margin-bottom: var(--s4); }
+}
+
+/* ── Scan input: prevent iOS auto-zoom (≥16px) + full-width button ── */
+@media (max-width:600px) {
+  #urlInput { font-size: 16px; }
+  .scan-input-wrap {
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: visible;
+    background: transparent;
+    border: none;
+    gap: 10px;
+  }
+  .scan-protocol { display: none; }
+  #urlInput {
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: #fff;
+    padding: 14px;
+    width: 100%;
+  }
+  .scan-btn {
+    border-radius: var(--radius-lg);
+    width: 100%;
+    padding: 16px;
+    font-size: var(--text-base);
+    min-height: 52px;
+  }
+  .consent-check { font-size: var(--text-xs); }
+  .scan-input-wrap:focus-within { box-shadow: none; border: none; }
+}
+
+/* ── Countdown: 2×2 grid on very narrow phones (<420px) ── */
+@media (max-width:420px) {
+  .countdown-timer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s2);
+    justify-items: center;
+  }
+  .countdown-sep { display: none; }
+  .countdown-unit { min-width: 0; width: 100%; }
+  .countdown-num { font-size: 32px; }
+}
+
+/* ── Posture score: tighter on phones ── */
+@media (max-width:480px) {
+  .posture-score-panel { padding: var(--s2) var(--s3); }
+  .posture-score-panel .ps-score { font-size: clamp(40px, 12vw, 64px); }
+}
+
+/* ── Scan modal: full-screen on phones ── */
+@media (max-width:600px) {
+  .scan-notice-card { max-width: 100%; }
+  .notice-card { padding: var(--s3); }
+  .step-pipeline { gap: 2px; }
+  .step { min-width: 0; flex: 1; }
+  .step-label { font-size: 8px; }
+}
+
+/* ── FAQ tap targets: ensure 44px minimum ── */
+@media (max-width:640px) {
+  .faq-question { min-height: 44px; padding: 14px var(--s3); }
+}
+
+/* ── Footer: stack on narrow screens ── */
+@media (max-width:480px) {
+  .site-footer { flex-direction: column; align-items: flex-start; gap: var(--s1); }
 }
