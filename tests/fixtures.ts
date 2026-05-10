@@ -96,6 +96,10 @@ export interface MockApi {
    * payload — tests should fall back to asserting the URL was hit.
    */
   pageviewRequests(): PageviewRequest[];
+  /** Captured POSTs to /api/v1/scan-event (analytics lifecycle beacon). */
+  scanEventRequests(): Array<{ url: string; body: any }>;
+  /** Captured POSTs to /api/v1/client-error (JS error beacon). */
+  clientErrorRequests(): Array<{ url: string; body: any }>;
 }
 
 type Fixtures = {
@@ -130,6 +134,8 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
     const captured: Array<{ url: string; body: any }> = [];
     const leadsCaptured: LeadRequest[] = [];
     const pageviewCaptured: PageviewRequest[] = [];
+    const scanEventCaptured: Array<{ url: string; body: any }> = [];
+    const clientErrorCaptured: Array<{ url: string; body: any }> = [];
 
     await page.route('**/api/scan', async (route) => {
       try {
@@ -168,6 +174,24 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
         contentType: 'application/json',
         body: JSON.stringify({ ok: true }),
       });
+    });
+
+    await page.route('**/api/v1/scan-event', async (route) => {
+      try {
+        scanEventCaptured.push({ url: route.request().url(), body: route.request().postDataJSON() });
+      } catch {
+        scanEventCaptured.push({ url: route.request().url(), body: null });
+      }
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
+    });
+
+    await page.route('**/api/v1/client-error', async (route) => {
+      try {
+        clientErrorCaptured.push({ url: route.request().url(), body: route.request().postDataJSON() });
+      } catch {
+        clientErrorCaptured.push({ url: route.request().url(), body: null });
+      }
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
     });
 
     await page.route('**/api/v1/pageview', async (route) => {
@@ -215,6 +239,12 @@ export const test = base.extend<Fixtures, WorkerFixtures>({
       },
       pageviewRequests() {
         return [...pageviewCaptured];
+      },
+      scanEventRequests() {
+        return [...scanEventCaptured];
+      },
+      clientErrorRequests() {
+        return [...clientErrorCaptured];
       },
     };
     await use(api);
