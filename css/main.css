@@ -3,6 +3,23 @@
 .urgency-pills .urgency-pill{margin-bottom:0}
 
 
+/* Countdown strip */
+.countdown-strip{background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.15);border-radius:var(--radius);max-width:720px;margin:var(--s4) auto 0;padding:var(--s3) var(--s4);text-align:center}
+.countdown-label{font-family:var(--mono);font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:var(--ls-label);color:#ef4444;margin-bottom:var(--s2)}
+.countdown-timer{display:flex;align-items:center;justify-content:center;gap:var(--s1);margin-bottom:var(--s1)}
+.countdown-unit{display:flex;flex-direction:column;align-items:center;min-width:64px}
+.countdown-num{font-family:var(--mono);font-size:var(--text-2xl);font-weight:700;color:var(--red);line-height:1}
+.countdown-sub{font-size:var(--text-xs);color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:var(--ls-label);margin-top:4px}
+.countdown-sep{font-family:var(--mono);font-size:var(--text-2xl);font-weight:700;color:rgba(220,38,38,0.3);padding-bottom:18px}
+.countdown-subtext{font-size:var(--text-xs);color:rgba(255,255,255,0.7);font-style:italic}
+
+/* Trust strip */
+.trust-strip{display:flex;align-items:center;justify-content:center;gap:var(--s3);margin:var(--s5) auto 0;padding:var(--s3) var(--s4);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);max-width:720px}
+.trust-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.trust-num{font-family:var(--mono);font-size:var(--text-xl);font-weight:700;color:var(--yellow)}
+.trust-label{font-size:var(--text-xs);color:rgba(255,255,255,0.45)}
+.trust-divider{width:1px;height:40px;background:rgba(255,255,255,0.08)}
+
 /* Urgency pills row */
 .urgency-pills{display:flex;align-items:center;justify-content:center;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s4)}
 .urgency-pill-secondary{background:rgba(96,165,250,0.1);border-color:rgba(96,165,250,0.35);color:#60A5FA}
