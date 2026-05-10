@@ -219,7 +219,16 @@
     <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
     <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
   </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="drawer-link">DORA</a>
+</nav>
 
 <div class="hero">
   <div class="urgency-pills">
@@ -731,6 +740,23 @@
   </div>
   <div class="pr-disclaimer">Surface scan only · jurocompliant.com · This report does not constitute legal advice · For authorised use only</div>
 </div>
+
+<!-- Mobile nav toggle -->
+<script>
+(function(){
+  var ham = document.getElementById('navHamburger');
+  var drawer = document.getElementById('mobileNavDrawer');
+  if (!ham || !drawer) return;
+  function open() { drawer.classList.add('is-open'); ham.setAttribute('aria-expanded','true'); }
+  function close() { drawer.classList.remove('is-open'); ham.setAttribute('aria-expanded','false'); }
+  ham.addEventListener('click', function(){ drawer.classList.contains('is-open') ? close() : open(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  document.addEventListener('click', function(e){
+    if (!drawer.classList.contains('is-open')) return;
+    if (!drawer.contains(e.target) && !ham.contains(e.target)) close();
+  });
+})();
+</script>
 
 <!-- Answer capsule for AI extraction — BLUF format -->
 <div class="sr-only" aria-hidden="true">
