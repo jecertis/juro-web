@@ -624,3 +624,109 @@
     padding: 4mm 0;
   }
 }
+
+/* ────────────────────────────────────────────────
+   Mobile-first enhancements
+   Target: high-end phones (iPhone 15 Pro 393px,
+           Samsung S24 360px) and up.
+   Strategy: override desktop-first base rules with
+   mobile-optimised values; tablet+ restores where
+   needed via min-width guards.
+   ──────────────────────────────────────────────── */
+
+/* iOS dynamic viewport — prevents bottom-bar overlap */
+@supports (min-height: 100dvh) {
+  body { min-height: 100dvh; }
+}
+
+/* iOS safe-area insets for notch / home indicator */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .header {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  .site-footer {
+    padding-bottom: calc(var(--s5) + env(safe-area-inset-bottom));
+  }
+}
+
+/* ── Header: collapse framework tags on narrow viewports ── */
+@media (max-width:640px) {
+  .header { padding: 0 1.25rem; }
+  .framework-tag { display: none; }
+}
+
+/* ── Hero: scale heading + padding for phone screens ── */
+@media (max-width:640px) {
+  .hero { padding: var(--s5) 1.25rem 0; }
+  .hero-title { font-size: clamp(28px, 8vw, 36px); }
+  .hero-sub { font-size: var(--text-base); margin-bottom: var(--s4); }
+}
+
+/* ── Scan input: prevent iOS auto-zoom (≥16px) + full-width button ── */
+@media (max-width:600px) {
+  #urlInput { font-size: 16px; }
+  .scan-input-wrap {
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: visible;
+    background: transparent;
+    border: none;
+    gap: 10px;
+  }
+  .scan-protocol { display: none; }
+  #urlInput {
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    background: #fff;
+    padding: 14px;
+    width: 100%;
+  }
+  .scan-btn {
+    border-radius: var(--radius-lg);
+    width: 100%;
+    padding: 16px;
+    font-size: var(--text-base);
+    min-height: 52px;
+  }
+  .consent-check { font-size: var(--text-xs); }
+  .scan-input-wrap:focus-within { box-shadow: none; border: none; }
+}
+
+/* ── Countdown: 2×2 grid on very narrow phones (<420px) ── */
+@media (max-width:420px) {
+  .countdown-timer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s2);
+    justify-items: center;
+  }
+  .countdown-sep { display: none; }
+  .countdown-unit { min-width: 0; width: 100%; }
+  .countdown-num { font-size: 32px; }
+}
+
+/* ── Posture score: tighter on phones ── */
+@media (max-width:480px) {
+  .posture-score-panel { padding: var(--s2) var(--s3); }
+  .posture-score-panel .ps-score { font-size: clamp(40px, 12vw, 64px); }
+}
+
+/* ── Scan modal: full-screen on phones ── */
+@media (max-width:600px) {
+  .scan-notice-card { max-width: 100%; }
+  .notice-card { padding: var(--s3); }
+  .step-pipeline { gap: 2px; }
+  .step { min-width: 0; flex: 1; }
+  .step-label { font-size: 8px; }
+}
+
+/* ── FAQ tap targets: ensure 44px minimum ── */
+@media (max-width:640px) {
+  .faq-question { min-height: 44px; padding: 14px var(--s3); }
+}
+
+/* ── Footer: stack on narrow screens ── */
+@media (max-width:480px) {
+  .site-footer { flex-direction: column; align-items: flex-start; gap: var(--s1); }
+}
