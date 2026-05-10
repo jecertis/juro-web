@@ -626,6 +626,35 @@
 }
 
 /* ────────────────────────────────────────────────
+   Accessibility: contrast fixes
+   All values below bring text on dark (#0A0A0A / #111111)
+   backgrounds to ≥4.5:1 (WCAG AA). Opacity math:
+     0.45 → ~2.7:1 FAIL | 0.65 → ~5.1:1 PASS
+   ──────────────────────────────────────────────── */
+
+/* trust strip label: 0.45 → 0.72 (4.6:1) */
+.trust-label { color: rgba(255,255,255,0.72); }
+
+/* scan progress fact card source/detail link: 0.45 → 0.72 */
+.fact-source { color: rgba(255,255,255,0.72); }
+.fact-detail { color: rgba(255,255,255,0.55); }
+
+/* site footer: 0.55 → 0.72 */
+.site-footer, .site-footer a { color: rgba(255,255,255,0.72); }
+
+/* header nav framework tags: 0.55 → 0.72 */
+.framework-tag { color: rgba(255,255,255,0.72); }
+
+/* hero "— OR —" divider text: 0.6 → 0.72 */
+.hero-or { color: rgba(255,255,255,0.72); }
+
+/* alt-option subtitle: 0.55 → 0.72 */
+.alt-option-sub { color: rgba(255,255,255,0.72); }
+
+/* cta eyebrow: 0.62 → 0.75 */
+.cta-text .cta-eyebrow { color: rgba(255,255,255,0.75); }
+
+/* ────────────────────────────────────────────────
    Mobile-first enhancements
    Target: high-end phones (iPhone 15 Pro 393px,
            Samsung S24 360px) and up.
