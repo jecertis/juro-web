@@ -28,5 +28,23 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      // Visual-only: high-end iOS phone (393×852 CSS px)
+      name: 'mobile-iphone15pro',
+      testMatch: '**/visual.spec.ts',
+      use: { ...devices['iPhone 15 Pro'] },
+    },
+    {
+      // Visual-only: high-end Android phone (360×780 CSS px)
+      name: 'mobile-galaxys24',
+      testMatch: '**/visual.spec.ts',
+      use: { ...devices['Galaxy S24'] },
+    },
+    {
+      // Visual-only: tablet (834×1194 CSS px)
+      name: 'tablet',
+      testMatch: '**/visual.spec.ts',
+      use: { ...devices['iPad Pro 11'] },
+    },
   ],
 });

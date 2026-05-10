@@ -16,11 +16,13 @@ const PAGES = [
   { name: 'homepage', path: '/' },
   { name: 'checklist', path: '/checklist.html' },
   { name: 'deploy-evergent', path: '/deploy-evergent.html' },
+  { name: 'privacy', path: '/privacy.html' },
 ] as const;
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1280, height: 800 },
   { name: 'mobile', width: 375, height: 667 },
+  { name: 'mobile-hd', width: 393, height: 852 }, // iPhone 15 Pro — dominant high-end phone
 ] as const;
 
 // Disable animations + transitions + caret blink so screenshots are stable.
