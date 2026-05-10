@@ -822,7 +822,7 @@
   box-sizing: border-box;
 }
 .scan-log-header {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.55);
   text-transform: uppercase;
   letter-spacing: var(--ls-label);
   margin-bottom: var(--s2);
@@ -842,7 +842,7 @@
   color: var(--green);
 }
 .log-ts {
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.5);
   min-width: 72px;
   flex-shrink: 0;
 }
@@ -892,7 +892,7 @@
 .stat-cite:hover { color: var(--yellow); }
 .stat-source {
   font-style: normal;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.55);
 }
 
 /* ── Diff callout — pull quote above comparison table ── */
