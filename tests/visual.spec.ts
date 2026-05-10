@@ -26,6 +26,8 @@ const VIEWPORTS = [
 ] as const;
 
 // Disable animations + transitions + caret blink so screenshots are stable.
+// Also clip horizontal overflow so full-page screenshots are exactly viewport-
+// width wide, preventing ±1px sub-pixel rounding variation in overflow content.
 const STABILISE_CSS = `
   *, *::before, *::after {
     animation-duration: 0s !important;
@@ -34,6 +36,7 @@ const STABILISE_CSS = `
     transition-delay: 0s !important;
     caret-color: transparent !important;
   }
+  html, body { overflow-x: hidden !important; max-width: 100% !important; }
 `;
 
 for (const p of PAGES) {
@@ -44,6 +47,17 @@ for (const p of PAGES) {
       await page.waitForLoadState('networkidle');
       await page.evaluate(() => document.fonts.ready);
       await page.addStyleTag({ content: STABILISE_CSS });
+
+      // Lock countdown-strip to an integer pixel height so sub-pixel rounding
+      // in font metrics doesn't cause ±1px height variation between CI runs.
+      await page.evaluate(() => {
+        const strip = document.querySelector('.countdown-strip') as HTMLElement | null;
+        if (strip) {
+          const h = Math.round(strip.getBoundingClientRect().height);
+          strip.style.height = `${h}px`;
+          strip.style.overflow = 'hidden';
+        }
+      });
 
       // Mask dynamic content that legitimately changes between runs:
       // - countdown timer ticks every second
