@@ -654,6 +654,11 @@
 /* cta eyebrow: 0.62 → 0.75 */
 .cta-text .cta-eyebrow { color: rgba(255,255,255,0.75); }
 
+/* gray-500 (#737373) is 4.29:1 on white — fails WCAG AA (need ≥4.5:1).
+   Override to #5C5C5C which is 5.74:1 on white. */
+.who-desc { color: #5C5C5C; }
+.how-step-desc { color: #5C5C5C; }
+
 /* ────────────────────────────────────────────────
    Mobile-first enhancements
    Target: high-end phones (iPhone 15 Pro 393px,
