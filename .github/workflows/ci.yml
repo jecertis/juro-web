@@ -23,7 +23,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright tests
+      - name: Run Playwright tests (functional, excludes visual regression)
         run: npm test
 
       - name: Upload failure artifacts
