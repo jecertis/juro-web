@@ -398,6 +398,23 @@
     .main { margin: var(--s3) var(--s2); padding: var(--s4) var(--s3); }
     pre { font-size: 12px; padding: var(--s2); }
   }
+
+  /* ── Mobile-first: phones ── */
+  @supports (min-height: 100dvh) { body { min-height: 100dvh; } }
+
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .header { padding-left: max(2rem, env(safe-area-inset-left)); padding-right: max(2rem, env(safe-area-inset-right)); }
+    .footer { padding-bottom: calc(var(--s4) + env(safe-area-inset-bottom)); }
+  }
+
+  @media (max-width: 640px) {
+    .header { padding: 0 1.25rem; }
+    .main { margin: var(--s2) var(--s1); padding: var(--s3) var(--s2); }
+    h1 { font-size: clamp(22px, 7vw, 32px); }
+    h2 { font-size: clamp(16px, 5vw, 22px); }
+    pre { font-size: 11px; word-break: break-all; }
+    .code-block { border-radius: var(--radius); }
+  }
 </style>
 </head>
 <body>
