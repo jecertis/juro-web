@@ -20,11 +20,39 @@ case "$OS/$ARCH" in
     ;;
 esac
 
-# ── Docker prerequisite check ─────────────────────────────────────────────────
+# ── Docker prerequisite — auto-install on Linux if missing ───────────────────
 if ! command -v docker &>/dev/null; then
-  echo "ERROR: docker is not installed. Install Docker Engine first:" >&2
-  echo "  https://docs.docker.com/engine/install/" >&2
-  exit 1
+  if [[ "$OS" != "linux" ]]; then
+    echo "ERROR: docker is not installed. Install Docker Desktop first:" >&2
+    echo "  https://docs.docker.com/engine/install/" >&2
+    exit 1
+  fi
+  echo "Docker not found — installing Docker Engine ..."
+  if command -v dnf &>/dev/null; then
+    # Amazon Linux 2023 / Fedora / RHEL 8+
+    dnf install -y docker
+  elif command -v yum &>/dev/null; then
+    # Amazon Linux 2
+    yum install -y docker
+  elif command -v apt-get &>/dev/null; then
+    # Ubuntu / Debian
+    apt-get update -qq
+    apt-get install -y -qq ca-certificates curl gnupg
+    install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    chmod a+r /etc/apt/keyrings/docker.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+      > /etc/apt/sources.list.d/docker.list
+    apt-get update -qq
+    apt-get install -y -qq docker-ce docker-ce-cli containerd.io
+  else
+    echo "ERROR: Cannot auto-install Docker on this distro. Install manually:" >&2
+    echo "  https://docs.docker.com/engine/install/" >&2
+    exit 1
+  fi
+  systemctl enable --now docker
+  echo "Docker Engine installed."
 fi
 
 # ── Docker Compose v2 — install plugin if missing ────────────────────────────
