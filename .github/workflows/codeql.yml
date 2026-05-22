@@ -2,8 +2,18 @@ name: CodeQL SAST
 
 on:
   pull_request:
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.ts'
+      - 'package.json'
   push:
     branches: [main]
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.ts'
+      - 'package.json'
 
 permissions:
   contents: read

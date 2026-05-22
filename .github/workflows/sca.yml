@@ -2,8 +2,16 @@ name: Dependency Scan (SCA)
 
 on:
   pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'npm-shrinkwrap.json'
   push:
     branches: [main]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'npm-shrinkwrap.json'
 
 permissions:
   contents: read
