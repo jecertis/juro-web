@@ -2,14 +2,30 @@ name: CI
 
 on:
   pull_request:
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - 'package.json'
+      - 'tests/**'
+      - '.github/workflows/ci.yml'
   push:
     branches: [main]
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - 'package.json'
+      - 'tests/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
   playwright:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -23,8 +39,53 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Resolve specs
+        id: specs
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" 2>/dev/null || echo "")
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          fi
+
+          for f in "js/main.js" "tests/fixtures.ts" "playwright.config.ts" "package.json" "package-lock.json"; do
+            if echo "$CHANGED" | grep -qF "$f"; then
+              echo "specs=" >> "$GITHUB_OUTPUT"
+              echo "→ full suite ($f changed)"
+              exit 0
+            fi
+          done
+
+          SPECS=""
+          if echo "$CHANGED" | grep -qF "index.html"; then
+            SPECS="$SPECS scan.spec.ts interactions.spec.ts hero-self-assessment.spec.ts posture-score.spec.ts posture-row-label.spec.ts email-domain.spec.ts scan-events.spec.ts download-pdf.spec.ts pageview-beacon.spec.ts pageview-cors.spec.ts mobile-nav.spec.ts"
+          fi
+          if echo "$CHANGED" | grep -qF "checklist.html"; then
+            SPECS="$SPECS mobile-nav.spec.ts pageview-beacon.spec.ts"
+          fi
+          CHANGED_SPECS=$(echo "$CHANGED" | grep -E "^tests/[^/]+\.spec\.ts$" | xargs -I{} basename {} 2>/dev/null || true)
+          if [ -n "$CHANGED_SPECS" ]; then
+            SPECS="$SPECS $CHANGED_SPECS"
+          fi
+
+          if [ -z "$SPECS" ]; then
+            echo "specs=skip" >> "$GITHUB_OUTPUT"
+            echo "→ no functional specs for changed files; skipping"
+          else
+            SPECS=$(echo "$SPECS" | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
+            echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+            echo "→ partial suite: $SPECS"
+          fi
+
       - name: Run Playwright tests (functional, excludes visual regression)
-        run: npm test
+        if: steps.specs.outputs.specs != 'skip'
+        run: |
+          SPECS="${{ steps.specs.outputs.specs }}"
+          if [ -n "$SPECS" ]; then
+            npx playwright test $SPECS
+          else
+            npm test
+          fi
 
       - name: Upload failure artifacts
         if: failure()

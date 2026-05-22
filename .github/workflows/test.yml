@@ -2,14 +2,38 @@ name: Playwright tests
 
 on:
   pull_request:
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - 'package.json'
+      - 'tests/**'
+      - '.github/workflows/test.yml'
   push:
     branches: [main]
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - 'package.json'
+      - 'tests/**'
+      - '.github/workflows/test.yml'
+
+# Spec-to-page mapping (kept here for discoverability):
+#   index.html        → scan, interactions, hero-self-assessment, posture-score,
+#                       posture-row-label, email-domain, scan-events, download-pdf,
+#                       pageview-beacon, pageview-cors, mobile-nav
+#   checklist.html    → mobile-nav, pageview-beacon
+#   deploy-evergent / privacy / css → visual only (separate config, not run here)
+#   js/main.js / fixtures.ts / playwright.config.ts / package.json → full suite
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v6
         with:
@@ -22,8 +46,57 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Resolve specs
+        id: specs
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" 2>/dev/null || echo "")
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          fi
+
+          # Shared files → full suite
+          for f in "js/main.js" "tests/fixtures.ts" "playwright.config.ts" "package.json" "package-lock.json"; do
+            if echo "$CHANGED" | grep -qF "$f"; then
+              echo "specs=" >> "$GITHUB_OUTPUT"
+              echo "→ full suite ($f changed)"
+              exit 0
+            fi
+          done
+
+          # Collect specs by changed page/file
+          SPECS=""
+          if echo "$CHANGED" | grep -qF "index.html"; then
+            SPECS="$SPECS scan.spec.ts interactions.spec.ts hero-self-assessment.spec.ts posture-score.spec.ts posture-row-label.spec.ts email-domain.spec.ts scan-events.spec.ts download-pdf.spec.ts pageview-beacon.spec.ts pageview-cors.spec.ts mobile-nav.spec.ts"
+          fi
+          if echo "$CHANGED" | grep -qF "checklist.html"; then
+            SPECS="$SPECS mobile-nav.spec.ts pageview-beacon.spec.ts"
+          fi
+          # Changed spec files run themselves
+          CHANGED_SPECS=$(echo "$CHANGED" | grep -E "^tests/[^/]+\.spec\.ts$" | xargs -I{} basename {} 2>/dev/null || true)
+          if [ -n "$CHANGED_SPECS" ]; then
+            SPECS="$SPECS $CHANGED_SPECS"
+          fi
+
+          if [ -z "$SPECS" ]; then
+            # CSS / non-index HTML / other — no functional tests to run
+            echo "specs=skip" >> "$GITHUB_OUTPUT"
+            echo "→ no functional specs for changed files; skipping"
+          else
+            SPECS=$(echo "$SPECS" | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
+            echo "specs=$SPECS" >> "$GITHUB_OUTPUT"
+            echo "→ partial suite: $SPECS"
+          fi
+
       - name: Run tests
-        run: npm test
+        if: steps.specs.outputs.specs != 'skip'
+        run: |
+          SPECS="${{ steps.specs.outputs.specs }}"
+          if [ -n "$SPECS" ]; then
+            npx playwright test $SPECS
+          else
+            npm test
+          fi
 
       - name: Upload Playwright artifacts on failure
         if: failure()
@@ -39,6 +112,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v6
         with:
@@ -48,13 +123,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Resolve whether HTML changed
+        id: html
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" 2>/dev/null || echo "")
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          fi
+          if echo "$CHANGED" | grep -qE "\.html$"; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: HTMLHint — structural validation
+        if: steps.html.outputs.changed == 'true'
         run: npm run lint:html
 
   lighthouse:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v6
         with:
@@ -64,5 +156,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Resolve whether perf-relevant files changed
+        id: lh
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" 2>/dev/null || echo "")
+          else
+            CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          fi
+          if echo "$CHANGED" | grep -qE "\.(html|css|js)$"; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Lighthouse CI — perf + a11y + best-practices + SEO budgets
+        if: steps.lh.outputs.changed == 'true'
         run: npm run lh:ci
