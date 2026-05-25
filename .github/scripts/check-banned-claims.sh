@@ -39,13 +39,21 @@ BANNED_PHRASES=(
   "GRC platform"
   "complete compliance platform"
   "comprehensive compliance platform"
+  # AI Act overclaim variants — "AI Act" itself is now in scope (Art. 50 surface scanning)
+  # but compliance/certification claims are still banned (see AXIOMS.md § AI Act carve-out)
+  "AI Act compliant"
+  "AI Act certified"
+  "AI Act coverage"
+  "AI Act ready"
+  "high-risk system conformity"
 )
 
 # Regulations Juro does not support as primary targets.
-# (GDPR, DORA, DPDP are in scope — see juro-workspace/AXIOMS.md)
+# (GDPR, DORA, DPDP, UK GDPR, and EU AI Act Art. 50 surface scanning are in scope)
+# Note: "AI Act" removed from this list 2026-05-25 — narrow Art. 50 carve-out approved.
+# Overclaim variants (AI Act compliant/certified/coverage/ready) are in BANNED_PHRASES above.
 UNSUPPORTED_REGULATIONS=(
   "MiCA"
-  "AI Act"
   "HIPAA"
   "ISO 27001"
   "ISO27001"
