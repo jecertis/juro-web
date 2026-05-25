@@ -1,0 +1,59 @@
+<!-- OG image source for dora-soc2-gap page.
+     NOTE: A PNG version (1200×630) must be generated from this SVG before launch.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="1200" height="630" fill="#111111"/>
+
+  <!-- Yellow left accent bar -->
+  <rect x="72" y="200" width="4" height="120" fill="#F5C400" rx="2"/>
+
+  <!-- Yellow eyebrow label -->
+  <text
+    x="96" y="232"
+    font-family="'IBM Plex Mono', monospace"
+    font-size="18"
+    font-weight="400"
+    fill="#F5C400"
+    letter-spacing="0.08em"
+    text-transform="uppercase">DORA · SOC 2 · EU FINANCIAL SERVICES</text>
+
+  <!-- Main headline -->
+  <text
+    x="96" y="300"
+    font-family="'IBM Plex Mono', monospace"
+    font-size="56"
+    font-weight="600"
+    fill="#F5C400"
+    letter-spacing="-0.03em">DORA RTS Art. 28</text>
+
+  <!-- Subtext line 1 -->
+  <text
+    x="96" y="368"
+    font-family="'IBM Plex Mono', monospace"
+    font-size="28"
+    font-weight="400"
+    fill="#ffffff">vs SOC 2: The Gap Map</text>
+
+  <!-- Subtext line 2 -->
+  <text
+    x="96" y="408"
+    font-family="'IBM Plex Mono', monospace"
+    font-size="22"
+    font-weight="400"
+    fill="rgba(255,255,255,0.7)">4 structural gaps SOC 2 doesn't cover</text>
+
+  <!-- Domain branding -->
+  <text
+    x="96" y="540"
+    font-family="'IBM Plex Mono', monospace"
+    font-size="18"
+    font-weight="400"
+    fill="rgba(255,255,255,0.45)">jurocompliant.com</text>
+</svg>

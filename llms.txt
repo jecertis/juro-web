@@ -21,3 +21,4 @@ Technical compliance articles for CTOs and engineering leads. No consultant spea
 
 ### Published articles
 - [DPDP Phase II: Consent Manager Requirements Before November 2026](https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers) — What the consent manager framework requires from India SaaS companies, the two compliance paths (consent manager vs. §7 legitimate use), and the engineering work most teams underestimate. Published 2026-05-27.
+- [DORA RTS Article 28 vs SOC 2: The Gap Map](https://jurocompliant.com/dora-soc2-gap) — Maps the four structural gaps between DORA RTS Article 28 obligations and SOC 2 coverage: contractual audit rights, exit and transition plans, incident notification timelines, and subcontracting chain visibility. For India SaaS companies selling to EU financial entities. Published 2026-06-02.

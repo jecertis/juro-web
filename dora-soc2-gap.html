@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DORA RTS Article 28 vs SOC 2: The Gap Map | Jurocompliant</title>
+<meta name="description" content="DORA Article 28 RTS requires audit rights, exit plans, incident notification, and sub-processor visibility. SOC 2 covers none of these four obligations.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jurocompliant.com/dora-soc2-gap">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- ══ Open Graph ══ -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jurocompliant.com/dora-soc2-gap">
+<meta property="og:title" content="DORA RTS Article 28 vs SOC 2: The Gap Map">
+<meta property="og:description" content="DORA Article 28 RTS requires audit rights, exit plans, incident notification, and sub-processor visibility. SOC 2 covers none of these four obligations.">
+<meta property="og:site_name" content="Jurocompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/dora-soc2-gap.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="DORA Article 28 vs SOC 2: The Gap Map">
+<meta name="twitter:description" content="India SaaS selling to EU financial entities: four DORA obligations SOC 2 doesn't cover.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/dora-soc2-gap.png">
+
+<!-- ══ Article metadata ══ -->
+<meta property="article:published_time" content="2026-06-02">
+<meta property="article:author" content="Arsh Makker">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: Article ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "DORA RTS Article 28 vs SOC 2: The Gap Map",
+  "description": "DORA Article 28 RTS requires audit rights, exit plans, incident notification, and sub-processor visibility. SOC 2 covers none of these four obligations.",
+  "url": "https://jurocompliant.com/dora-soc2-gap",
+  "datePublished": "2026-06-02",
+  "dateModified": "2026-06-02",
+  "author": {
+    "@type": "Person",
+    "name": "Arsh Makker"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jurocompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jurocompliant.com/dora-soc2-gap"
+  }
+}
+</script>
+
+<!-- ══ Structured Data: FAQPage — matches visible FAQ section word-for-word ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does SOC 2 satisfy DORA Article 28 requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Partially. SOC 2 covers operational resilience baseline requirements — CC6 access controls, CC7 incident detection procedures, and CC9 risk management evidence all map to DORA's Security and Availability criteria. However, SOC 2 does not satisfy the four structural obligations in DORA RTS Article 28: contractual audit rights, exit and transition plans, incident notification timelines tied to EU supervisory deadlines, and sub-contracting chain visibility with contractual audit access."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are India SaaS companies subject to DORA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. If you sell infrastructure to EU-regulated financial entities — banks, payment institutions, investment firms — you are an ICT third-party provider under DORA regardless of where you are incorporated. DORA became applicable on January 17, 2025. India SaaS companies processing data for EU financial entities are in scope and will appear in those customers' DORA Register of Information."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does DORA RTS Article 28 require for audit rights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DORA RTS Article 28 requires that contracts grant the financial entity — and, where applicable, its competent supervisory authority — the right to audit the ICT third-party provider and its sub-contractors. The audit right must be contractually enforceable, not just stated in policy. SOC 2 has no equivalent mandate. A SOC 2 report is a third-party attestation; it does not grant your customer the right to audit you directly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What exit and transition plan obligations does DORA impose on ICT providers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DORA RTS Article 28 requires that ICT providers maintain documented exit strategies enabling the financial entity to migrate away without material disruption to its own operational continuity. This includes data portability timelines, knowledge transfer procedures, and transition service terms. SOC 2 has no Trust Service Criterion covering exit feasibility — this gap must be addressed through contract documentation separate from any SOC 2 report."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  /* ── Post layout ── */
+  .post-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  /* ── Post header ── */
+  .post-header {
+    margin-bottom: var(--s5);
+  }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+
+  .post-breadcrumb a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+  }
+
+  .post-breadcrumb a:hover {
+    color: rgba(255,255,255,0.85);
+  }
+
+  .post-breadcrumb-sep {
+    color: rgba(255,255,255,0.2);
+  }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+
+  .post-author {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.72);
+    font-weight: 500;
+  }
+
+  .post-date-meta {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+  }
+
+  .post-reading-time {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+  }
+
+  .post-meta-sep {
+    color: rgba(255,255,255,0.2);
+    font-size: var(--text-xs);
+  }
+
+  /* ── Audience callout ── */
+  .post-audience {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s4);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+
+  .post-audience strong {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  /* ── Article body ── */
+  .post-body {
+    color: rgba(255,255,255,0.85);
+    font-size: var(--text-base);
+    line-height: var(--lh-reading);
+  }
+
+  .post-body p {
+    margin-bottom: var(--s3);
+  }
+
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.4rem;
+    margin-bottom: var(--s3);
+    color: rgba(255,255,255,0.85);
+  }
+
+  .post-body li {
+    margin-bottom: 6px;
+    line-height: var(--lh-reading);
+  }
+
+  .post-body strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .post-body a {
+    color: var(--yellow);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .post-body a:hover {
+    color: #fff;
+  }
+
+  /* ── Pull quote ── */
+  .post-callout {
+    border-left: 3px solid var(--yellow);
+    padding: var(--s2) 0 var(--s2) var(--s3);
+    margin: var(--s4) 0;
+    font-size: var(--text-lg);
+    color: rgba(255,255,255,0.85);
+    line-height: var(--lh-snug);
+    font-style: normal;
+  }
+
+  /* ── CTA block ── */
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+
+  .post-cta h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+  }
+
+  .post-cta p {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
+    background: var(--yellow-dark);
+    color: #0A0A0A !important;
+  }
+
+  /* ── Footer rule ── */
+  .post-wrap .post-footer-rule {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin: var(--s6) 0 0;
+  }
+
+  /* ══ ACCESSIBILITY ══ */
+
+  /* Skip nav — visually hidden until focused */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  /* Focus rings for keyboard users */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .post-body a {
+      transition: none;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .post-cta { padding: var(--s3) var(--s3); }
+    .post-callout { font-size: var(--text-base); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ ACCESSIBILITY: Skip nav — must be first focusable element ══ -->
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<!-- ══ id="post-content" is the skip nav target ══ -->
+<main class="post-wrap" aria-label="Article" id="post-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>DORA RTS Article 28</span>
+    </nav>
+
+    <div class="post-tag">DORA</div>
+
+    <h1 class="post-title">DORA RTS Article 28 vs SOC 2: The Gap Map</h1>
+
+    <div class="post-meta-row">
+      <span class="post-author">Arsh Makker</span>
+      <span class="post-meta-sep">·</span>
+      <time class="post-date-meta" datetime="2026-06-02">2 June 2026</time>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~4 min read</span>
+    </div>
+  </div>
+
+  <div class="post-audience">
+    <strong>Who this is for:</strong> CTOs and Heads of Engineering at India SaaS companies that sell infrastructure or software to EU-regulated financial entities.
+  </div>
+
+  <article class="post-body">
+
+    <p>If you sell infrastructure to EU-regulated financial entities — banks, payment institutions, investment firms — you are an ICT third-party provider under DORA, regardless of where you are incorporated. India SaaS companies are in scope. DORA became applicable on January 17, 2025. The questionnaires from EU procurement teams are not optional; they are how financial entities satisfy their own supervisory obligations.</p>
+
+    <p>Most engineering teams reach for their SOC 2 Type II report first. It covers some of the ground. This article maps what it doesn't.</p>
+
+    <blockquote class="post-callout">Four obligations in DORA RTS Article 28 are load-bearing and not covered by SOC 2. Knowing which four is the starting point.</blockquote>
+
+    <h2>What DORA RTS Article 28 actually requires</h2>
+
+    <p>The Delegated Regulation (EU) 2024/1774, which sets out the Regulatory Technical Standards under <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401774" target="_blank" rel="noopener noreferrer">DORA Article 28</a>, specifies the contractual content that financial entities must secure from their ICT third-party providers. Four obligations are load-bearing and not covered by SOC 2.</p>
+
+    <p><strong>Contractual audit rights.</strong> Article 28 RTS requires that contracts grant the financial entity — and, where applicable, its competent supervisory authority — the right to audit the ICT third-party provider and its sub-contractors. The audit right must be contractually enforceable, not just stated in policy. SOC 2 has no equivalent mandate. A SOC 2 report is a third-party attestation; it does not grant your customer the right to audit you directly.</p>
+
+    <p><strong>Exit and transition plans.</strong> The RTS requires that ICT providers maintain documented exit strategies that enable the financial entity to migrate away without material disruption to its own operational continuity. This includes data portability timelines, knowledge transfer procedures, and transition service terms. SOC 2 has no Trust Service Criterion covering exit feasibility.</p>
+
+    <p><strong>Incident notification to the financial entity.</strong> DORA Article 19 requires financial entities to notify their competent authority within four hours of classifying a major ICT incident. For that clock to run, the financial entity must first receive notification from you. The RTS requires that contracts mandate timely incident notification upstream to the financial entity, on timelines aligned with DORA's regulatory deadlines. SOC 2 CC7 addresses incident response procedures, but it addresses historical control design, not real-time contractual notification obligations tied to EU supervisory timelines.</p>
+
+    <p><strong>Subcontracting chain visibility.</strong> Article 28(8) of DORA requires that the financial entity be able to identify and audit the full sub-contracting chain. SOC 2 CC9.2 covers vendor management as an optional criterion, and even where it is in scope, it does not produce a jurisdiction-level sub-processor inventory with contractual audit-access provisions — which is what the RTS requires the financial entity to hold.</p>
+
+    <h2>What SOC 2 covers — and where it stops</h2>
+
+    <p>SOC 2 is built on the AICPA Trust Service Criteria: Security (mandatory), plus Availability, Confidentiality, Processing Integrity, and Privacy (optional). A Type II report attests that your controls were operating effectively over a defined review period, typically six or twelve months.</p>
+
+    <p>That attestation is useful for the Security and Availability sections of a DORA questionnaire. Your CC6 access controls, CC7 incident detection procedures, and CC9 risk management evidence all map to DORA's operational resilience baseline.</p>
+
+    <p>The framework was designed for US enterprise software procurement. It was not designed to satisfy EU financial supervisory obligations. The four gaps listed above — audit rights, exit plans, incident notification timelines, subcontracting chain — are structural, not incidental.</p>
+
+    <h2>What this means for India SaaS companies</h2>
+
+    <p>If you process data for an EU financial entity — call recordings, transaction logs, identity verification outputs, communication records — you are in your customer's DORA Register of Information. Their procurement team is obligated to verify the four obligations above. Your SOC 2 report will satisfy part of their questionnaire. The rest requires documentation you may not have produced yet.</p>
+
+    <p>The first step is knowing what your stack currently covers. Before your EU customer's risk team sends the formal questionnaire, run a scan against your own data flows: what you collect, where it goes, which sub-processors handle it, and whether your contracts include the provisions DORA requires your customer to verify.</p>
+
+    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">Does SOC 2 satisfy DORA Article 28 requirements?</summary>
+          <div class="faq-answer">
+            <p>Partially. SOC 2 covers operational resilience baseline requirements — CC6 access controls, CC7 incident detection procedures, and CC9 risk management evidence all map to DORA's Security and Availability criteria. However, SOC 2 does not satisfy the four structural obligations in DORA RTS Article 28: contractual audit rights, exit and transition plans, incident notification timelines tied to EU supervisory deadlines, and sub-contracting chain visibility with contractual audit access.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Are India SaaS companies subject to DORA?</summary>
+          <div class="faq-answer">
+            <p>Yes. If you sell infrastructure to EU-regulated financial entities — banks, payment institutions, investment firms — you are an ICT third-party provider under DORA regardless of where you are incorporated. DORA became applicable on January 17, 2025. India SaaS companies processing data for EU financial entities are in scope and will appear in those customers' DORA Register of Information.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What does DORA RTS Article 28 require for audit rights?</summary>
+          <div class="faq-answer">
+            <p>DORA RTS Article 28 requires that contracts grant the financial entity — and, where applicable, its competent supervisory authority — the right to audit the ICT third-party provider and its sub-contractors. The audit right must be contractually enforceable, not just stated in policy. SOC 2 has no equivalent mandate. A SOC 2 report is a third-party attestation; it does not grant your customer the right to audit you directly.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What exit and transition plan obligations does DORA impose on ICT providers?</summary>
+          <div class="faq-answer">
+            <p>DORA RTS Article 28 requires that ICT providers maintain documented exit strategies enabling the financial entity to migrate away without material disruption to its own operational continuity. This includes data portability timelines, knowledge transfer procedures, and transition service terms. SOC 2 has no Trust Service Criterion covering exit feasibility — this gap must be addressed through contract documentation separate from any SOC 2 report.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">See where your gaps are now</div>
+      <h3>Scan your stack for data flow gaps</h3>
+      <p>Before your EU customer's risk team sends the formal questionnaire, know what your stack covers. Juro scans your data flows — what you collect, where it goes, which sub-processors handle it — and maps findings to specific regulatory provisions including DORA Article 28. No account required.</p>
+      <a href="https://jurocompliant.com?utm_source=blog&utm_medium=organic&utm_campaign=dora-soc2-gap" class="post-cta-btn">Scan your stack for data flow gaps →</a>
+    </div>
+
+    <h2>References</h2>
+
+    <ul>
+      <li>DORA (Regulation EU 2022/2554): <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R2554" target="_blank" rel="noopener noreferrer">EUR-Lex</a></li>
+      <li>RTS under Article 28 — Commission Delegated Regulation (EU) 2024/1774: <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202401774" target="_blank" rel="noopener noreferrer">EUR-Lex</a></li>
+      <li>ESAs DORA hub (supervisory guidance and Q&amp;A): <a href="https://www.eba.europa.eu/regulation-and-policy/digital-operational-resilience-act-dora" target="_blank" rel="noopener noreferrer">EBA</a></li>
+    </ul>
+
+  </article>
+
+  <hr class="post-footer-rule">
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every page load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  // Mobile nav hamburger
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>
