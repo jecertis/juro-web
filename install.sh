@@ -60,7 +60,7 @@ if ! docker compose version &>/dev/null 2>&1; then
   echo "Docker Compose v2 plugin not found — installing ..."
   if [[ "$OS" == "linux" ]]; then
     COMPOSE_VERSION="v2.29.2"
-    COMPOSE_DIR="/usr/local/lib/docker/cli-plugins"
+    COMPOSE_DIR="/usr/local/lib/docker/cli-plugins"  # system-wide path — requires root; EC2/Linux installs run as root by default
     mkdir -p "$COMPOSE_DIR"
     curl -fsSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-linux-x86_64" \
       -o "$COMPOSE_DIR/docker-compose"
