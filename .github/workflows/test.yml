@@ -66,7 +66,7 @@ jobs:
 
           # Collect specs by changed page/file
           SPECS=""
-          if echo "$CHANGED" | grep -qF "index.html"; then
+          if echo "$CHANGED" | grep -qFx "index.html"; then
             SPECS="$SPECS scan.spec.ts interactions.spec.ts hero-self-assessment.spec.ts posture-score.spec.ts posture-row-label.spec.ts email-domain.spec.ts scan-events.spec.ts download-pdf.spec.ts pageview-beacon.spec.ts pageview-cors.spec.ts mobile-nav.spec.ts"
           fi
           if echo "$CHANGED" | grep -qF "checklist.html"; then
