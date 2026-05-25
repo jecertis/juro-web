@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Jurocompliant</title>
+<meta name="description" content="Practical guides on DPDP, GDPR, and DORA compliance for engineering and product teams. No noise, no consultant speak.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jurocompliant.com/blog/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jurocompliant.com/blog/">
+<meta property="og:title" content="Blog — Jurocompliant">
+<meta property="og:description" content="Practical guides on DPDP, GDPR, and DORA compliance for engineering and product teams.">
+<meta property="og:site_name" content="Jurocompliant">
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+<style>
+  .blog-hero {
+    background: var(--ink);
+    padding: var(--s7) 2rem var(--s6);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .blog-hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .blog-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--yellow);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--s2);
+  }
+
+  .blog-hero h1 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+
+  .blog-hero-sub {
+    font-size: var(--text-base);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    max-width: 560px;
+  }
+
+  .blog-list {
+    max-width: 720px;
+    margin: var(--s6) auto;
+    padding: 0 2rem;
+  }
+
+  .post-card {
+    display: block;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: var(--s3);
+  }
+
+  .post-card:hover {
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    margin-bottom: var(--s2);
+  }
+
+  .post-tag {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+
+  .post-date {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+  }
+
+  .post-reading-time {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+  }
+
+  .post-meta-sep {
+    color: rgba(255,255,255,0.2);
+    font-size: var(--text-xs);
+  }
+
+  .post-card h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+    margin-bottom: var(--s1);
+  }
+
+  .post-desc {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+
+  .post-read-more {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--yellow);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .blog-hero { padding: var(--s5) 1.25rem var(--s4); }
+    .blog-list { padding: 0 1.25rem; margin: var(--s4) auto; }
+    .post-card { padding: var(--s3) var(--s3); }
+    .post-card h2 { font-size: var(--text-base); }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link" aria-current="page">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="drawer-link">DORA</a>
+</nav>
+
+<div class="blog-hero">
+  <div class="blog-hero-inner">
+    <div class="blog-eyebrow">Blog</div>
+    <h1>Compliance without the consultant speak</h1>
+    <p class="blog-hero-sub">Practical guides on DPDP, GDPR, and DORA for CTOs and engineering leads. Written by people who've read the actual regulations.</p>
+  </div>
+</div>
+
+<main class="blog-list" aria-label="Posts">
+
+  <a href="/blog/dpdp-phase-ii-consent-managers" class="post-card">
+    <div class="post-meta">
+      <span class="post-tag">DPDP</span>
+      <span class="post-meta-sep">·</span>
+      <span class="post-date">25 May 2026</span>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~5 min read</span>
+    </div>
+    <h2>India's DPDP Phase II: What Consent Managers Actually Require Before November 2026</h2>
+    <p class="post-desc">Most India SaaS founders are planning for May 2027. They should be planning for November 2026 first. The consent manager framework goes mandatory in six months — here's what that means in practice for engineering teams.</p>
+    <span class="post-read-more">Read article →</span>
+  </a>
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script>
+  // Mobile nav hamburger
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>
