@@ -519,6 +519,31 @@
   </span>
 </footer>
 
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every blog post load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
 <script>
   const btn = document.getElementById('navHamburger');
   const drawer = document.getElementById('mobileNavDrawer');
