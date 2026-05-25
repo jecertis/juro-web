@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>India's DPDP Phase II: What Consent Managers Actually Require Before November 2026 — Jurocompliant</title>
-<meta name="description" content="Most India SaaS founders are planning for May 2027. They should be planning for November 2026 first. The consent manager framework goes mandatory in six months.">
+<title>DPDP Phase II: Consent Manager Requirements Before November 2026 | Jurocompliant</title>
+<meta name="description" content="DPDP Phase II (November 2026) makes consent managers mandatory for India SaaS. DPB registration, interoperability, and two compliance paths explained.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -12,8 +12,16 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers">
 <meta property="og:title" content="India's DPDP Phase II: What Consent Managers Actually Require Before November 2026">
-<meta property="og:description" content="Most India SaaS founders are planning for May 2027. They should be planning for November 2026 first. The consent manager framework goes mandatory in six months.">
+<meta property="og:description" content="DPDP Phase II (November 2026) makes consent managers mandatory for India SaaS. Understand what DPB registration, interoperability, and audit logging require — and the two compliance paths before the deadline.">
 <meta property="og:site_name" content="Jurocompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/dpdp-phase-ii.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="DPDP Phase II: Consent Manager Requirements Before November 2026">
+<meta name="twitter:description" content="DPDP Phase II makes consent managers mandatory in November 2026. What India SaaS companies need to build before the deadline.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/dpdp-phase-ii.png">
 <meta property="article:published_time" content="2026-05-27">
 <meta property="article:author" content="Arsh Makker">
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
@@ -41,6 +49,76 @@
     "@type": "WebPage",
     "@id": "https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers"
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a consent manager under India's DPDP Act?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under the DPDP Act 2023 and DPDP Rules 2025, a consent manager is a Data Protection Board-registered intermediary that enables Data Principals to give, manage, and withdraw consent across multiple Data Fiduciaries through a single interoperable interface. It is not a cookie banner — it requires DPB registration, interoperability, and a verifiable audit trail."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does DPDP Phase II go into effect?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DPDP Phase II goes live on November 13, 2026. It mandates the consent manager framework for all Data Fiduciaries who process personal data under consent as their legal basis under the DPDP Rules 2025."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can India SaaS companies use DPDP Section 7 legitimate use instead of a consent manager?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, but only with a documented assessment. DPDP Section 7 allows processing under legitimate uses without a consent manager, but companies must conduct and date a proportionality assessment for each processing activity before Phase II goes live on November 13, 2026. Undocumented reliance on Section 7 does not constitute compliance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What engineering work is required to integrate a DPDP-compliant consent manager?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A DPDP-compliant consent flow requires four engineering components: a durable consent record store that survives database migrations; withdrawal propagation to all downstream Data Fiduciaries when a Data Principal revokes consent; an audit log producible on request to the Data Protection Board; and version tracking to re-evaluate existing consents when a privacy notice changes. This is a data architecture project, not a UI task — teams that start in October 2026 will not finish in time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the penalty for non-compliance with DPDP Phase II?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The DPDP Act 2023 provides for financial penalties up to ₹250 crore for significant data breaches and up to ₹200 crore for non-fulfilment of obligations regarding children's data. The Data Protection Board, once operational, will have adjudication powers. Penalties are assessed per violation, not per incident — companies without a documented consent framework or legitimate use assessment face compounding exposure as of November 13, 2026."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to prepare for DPDP Phase II consent manager requirements",
+  "description": "Two compliance paths for India SaaS companies to meet DPDP Phase II consent manager obligations before November 13, 2026.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "position": 1,
+      "name": "Go the consent manager route",
+      "text": "Map every processing activity that runs on consent. Identify DPB-registered consent managers and integrate before November 2026. Build withdrawal flows that are as easy as giving consent — DPDP requires parity. Set up a consent record store with audit logging and version tracking for privacy notice changes."
+    },
+    {
+      "@type": "HowToStep",
+      "position": 2,
+      "name": "Shift to DPDP Section 7 legitimate use",
+      "text": "Document the specific Section 7 ground for each processing activity. Run a balancing test showing the processing is necessary and proportionate. Have the assessment dated and signed off before Phase II goes live on November 13, 2026. Undocumented reliance on legitimate use does not constitute compliance."
+    }
+  ]
 }
 </script>
 <style>
@@ -246,23 +324,26 @@
     margin-bottom: var(--s3);
   }
 
-  .post-cta-btn {
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
     display: inline-block;
     background: var(--yellow);
-    color: var(--ink);
+    color: #0A0A0A !important;
     border: none;
-    padding: 10px 24px;
+    padding: 12px 28px;
     border-radius: var(--radius);
     font-family: var(--sans);
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     font-weight: 700;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: background 0.15s;
+    letter-spacing: 0;
   }
 
-  .post-cta-btn:hover {
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
     background: var(--yellow-dark);
-    color: var(--ink);
+    color: #0A0A0A !important;
   }
 
   /* ── Divider before footer ── */
@@ -270,6 +351,43 @@
     border: none;
     border-top: 1px solid rgba(255,255,255,0.07);
     margin: var(--s6) 0 0;
+  }
+
+  /* ── Accessibility: focus styles ── */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ── Accessibility: skip nav ── */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus {
+    top: 1rem;
+  }
+
+  /* ── Accessibility: reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .post-body a {
+      transition: none;
+    }
   }
 
   /* ── Responsive ── */
@@ -282,14 +400,16 @@
 </head>
 <body>
 
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
 <header class="header">
   <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
   <nav class="header-right" aria-label="Primary">
     <a href="/blog/" class="nav-link">Blog</a>
     <a href="/checklist.html" class="nav-link">Self Assessment →</a>
-    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="framework-tag">DPDP Act 2023</a>
-    <a href="https://gdpr-info.eu/" target="_blank" class="framework-tag">GDPR</a>
-    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="framework-tag">DORA</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
   </nav>
   <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
     <span></span><span></span><span></span>
@@ -298,12 +418,12 @@
 <nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
   <a href="/blog/" class="drawer-link">Blog</a>
   <a href="/checklist.html" class="drawer-link">Self Assessment</a>
-  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="drawer-link">DPDP Act 2023</a>
-  <a href="https://gdpr-info.eu/" target="_blank" class="drawer-link">GDPR</a>
-  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="drawer-link">DORA</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
 </nav>
 
-<main class="post-wrap" aria-label="Article">
+<main class="post-wrap" aria-label="Article" id="post-content">
 
   <div class="post-header">
     <nav class="post-breadcrumb" aria-label="Breadcrumb">
@@ -321,7 +441,7 @@
     <div class="post-meta-row">
       <span class="post-author">Arsh Makker</span>
       <span class="post-meta-sep">·</span>
-      <span class="post-date-meta">27 May 2026</span>
+      <time class="post-date-meta" datetime="2026-05-27">27 May 2026</time>
       <span class="post-meta-sep">·</span>
       <span class="post-reading-time">~5 min read</span>
     </div>
@@ -335,13 +455,15 @@
 
     <p>Most India SaaS founders I talk to are planning for May 2027. They should be planning for November 2026 first.</p>
 
-    <p>The DPDP Rules 2025 came into force in three phases. Phase I covered the Data Protection Board's formation — already done. Phase III covers the bulk of operational obligations and kicks in May 2027. Almost nobody is talking about Phase II. That's a mistake.</p>
+    <p>The <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer">DPDP Rules 2025</a> came into force in three phases. Phase I covered the Data Protection Board's formation — already done. Phase III covers the bulk of operational obligations and kicks in May 2027. Almost nobody is talking about Phase II. That's a mistake.</p>
 
     <blockquote class="post-callout">Phase II goes live November 13, 2026. It makes the consent manager framework mandatory. You've got six months.</blockquote>
 
     <h2>What a consent manager is — and what it isn't</h2>
 
     <p>A cookie banner isn't a consent manager.</p>
+
+    <p>Under the DPDP Act 2023, a consent manager is a Data Protection Board-registered intermediary through which a Data Principal gives, manages, and withdraws consent across one or more Data Fiduciaries via a single interoperable interface.</p>
 
     <p>Under DPDP §6 and the Rules notified under it, a consent manager is a registered intermediary sitting between a Data Principal (your user) and Data Fiduciaries (you and your third-party processors). It must be:</p>
 
@@ -371,18 +493,54 @@
 
     <h2>The engineering work most teams underestimate</h2>
 
-    <p>Consent manager integration isn't a two-day task.</p>
+    <p>Consent manager integration isn't a two-day task. Under DPDP, every Data Fiduciary that processes personal data under consent must connect to a registered consent manager — and that connection has to be verifiable.</p>
 
     <p>A compliant consent flow needs:</p>
 
     <ul>
       <li>A consent record store that survives database migrations</li>
-      <li>Withdrawal propagation — when a user withdraws consent, all downstream processors need to be notified and the processing has to stop</li>
+      <li>Withdrawal propagation — when a Data Principal withdraws consent, all downstream Data Fiduciaries and processors must be notified and processing must stop</li>
       <li>An audit log that can be produced on request to the Data Protection Board</li>
-      <li>Version tracking — if your privacy notice changes, existing consents need to be re-evaluated</li>
+      <li>Version tracking — if your privacy notice changes, existing consents need to be re-evaluated against the new version</li>
     </ul>
 
     <p>Most teams treat this as a UI task. It's actually a data architecture project. If you start in October 2026, you won't finish in time.</p>
+
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">What is a consent manager under India's DPDP Act?</summary>
+          <div class="faq-answer">
+            <p>Under the DPDP Act 2023 and DPDP Rules 2025, a consent manager is a Data Protection Board-registered intermediary that enables Data Principals to give, manage, and withdraw consent across multiple Data Fiduciaries through a single interoperable interface. It is not a cookie banner — it requires DPB registration, interoperability, and a verifiable audit trail.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">When does DPDP Phase II go into effect?</summary>
+          <div class="faq-answer">
+            <p>DPDP Phase II goes live on November 13, 2026. It mandates the consent manager framework for all Data Fiduciaries who process personal data under consent as their legal basis under the DPDP Rules 2025.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Can India SaaS companies use DPDP Section 7 legitimate use instead of a consent manager?</summary>
+          <div class="faq-answer">
+            <p>Yes, but only with a documented assessment. DPDP Section 7 allows processing under legitimate uses without a consent manager, but companies must conduct and date a proportionality assessment for each processing activity before Phase II goes live on November 13, 2026. Undocumented reliance on Section 7 does not constitute compliance.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What engineering work is required to integrate a DPDP-compliant consent manager?</summary>
+          <div class="faq-answer">
+            <p>A DPDP-compliant consent flow requires four engineering components: a durable consent record store that survives database migrations; withdrawal propagation to all downstream Data Fiduciaries when a Data Principal revokes consent; an audit log producible on request to the Data Protection Board; and version tracking to re-evaluate existing consents when a privacy notice changes. This is a data architecture project — teams that start in October 2026 will not finish in time.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What is the penalty for non-compliance with DPDP Phase II?</summary>
+          <div class="faq-answer">
+            <p>The DPDP Act 2023 provides for financial penalties up to ₹250 crore for significant data breaches and up to ₹200 crore for non-fulfilment of obligations regarding children's data. The Data Protection Board has adjudication powers and penalties are assessed per violation. Companies without a documented consent framework or legitimate use assessment face compounding exposure from November 13, 2026.</p>
+          </div>
+        </details>
+      </div>
+    </section>
 
     <div class="post-cta">
       <div class="post-cta-eyebrow">See where your gaps are now</div>

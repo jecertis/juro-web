@@ -11,6 +11,13 @@ Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 202
 ## Links
 - Homepage: https://jurocompliant.com/
 - Self-assessment: https://jurocompliant.com/checklist.html
+- Blog: https://jurocompliant.com/blog/
 - Documentation: https://docs.jurocompliant.com/
 - Privacy: https://jurocompliant.com/privacy.html
 - Contact: help@jurocompliant.com
+
+## Blog
+Technical compliance articles for CTOs and engineering leads. No consultant speak.
+
+### Published articles
+- [DPDP Phase II: Consent Manager Requirements Before November 2026](https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers) — What the consent manager framework requires from India SaaS companies, the two compliance paths (consent manager vs. §7 legitimate use), and the engineering work most teams underestimate. Published 2026-05-27.
