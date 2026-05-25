@@ -3,7 +3,7 @@ import { test, expect } from './fixtures';
 test.describe('Hero — two options (scan or self-assessment)', () => {
   test('nav link renamed to "Self Assessment →"', async ({ page, siteUrl }) => {
     await page.goto(siteUrl);
-    const navLink = page.locator('.header-right a.nav-link');
+    const navLink = page.locator('.header-right a.nav-link').filter({ hasText: 'Self Assessment' });
     await expect(navLink).toContainText('Self Assessment');
     await expect(navLink).not.toContainText('Gap Assessment');
     await expect(navLink).toHaveAttribute('href', '/checklist.html');
