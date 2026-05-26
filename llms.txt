@@ -1,5 +1,5 @@
 # Jurocompliant
-# Last updated: 2026-04-30
+# Last updated: 2026-05-26
 
 Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU). It scans any public URL for consent gaps, pre-consent tracking, and missing privacy notices — mapping findings to specific regulatory provisions.
 
@@ -22,3 +22,4 @@ Technical compliance articles for CTOs and engineering leads. No consultant spea
 ### Published articles
 - [DPDP Phase II: Consent Manager Requirements Before November 2026](https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers) — What the consent manager framework requires from India SaaS companies, the two compliance paths (consent manager vs. §7 legitimate use), and the engineering work most teams underestimate. Published 2026-05-27.
 - [DORA RTS Article 28 vs SOC 2: The Gap Map](https://jurocompliant.com/dora-soc2-gap) — Maps the four structural gaps between DORA RTS Article 28 obligations and SOC 2 coverage: contractual audit rights, exit and transition plans, incident notification timelines, and subcontracting chain visibility. For India SaaS companies selling to EU financial entities. Published 2026-06-02.
+- [DPDP Processor Obligations for Call Recording Stacks](https://jurocompliant.com/dpdp-processor-guide) — What India's DPDP Act 2023 requires of data processors who handle call recordings: §8(1) security safeguards, §8(7) deletion obligations, §8(6) breach notification, and §10 SDF designation risk. For CTOs and Heads of Engineering at CPaaS and cloud telephony companies. Published 2026-05-26.
