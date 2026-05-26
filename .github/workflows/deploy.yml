@@ -6,6 +6,9 @@ on:
     paths:
       - '**/*.html'
       - '**/*.css'
+      - '.well-known/**'
+      - '.nojekyll'
+      - 'install*.sh'
       - 'package.json'
       - 'npm-shrinkwrap.json'
   workflow_dispatch:
