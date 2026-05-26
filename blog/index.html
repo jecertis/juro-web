@@ -146,9 +146,33 @@
     .post-card { padding: var(--s3) var(--s3); }
     .post-card h2 { font-size: var(--text-base); }
   }
+
+  /* ── Accessibility: skip nav ── */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  /* Focus rings for keyboard users */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+  }
 </style>
 </head>
 <body>
+<a href="#main" class="skip-nav">Skip to content</a>
 
 <header class="header">
   <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
@@ -179,7 +203,7 @@
   </div>
 </div>
 
-<main class="blog-list" aria-label="Posts">
+<main id="main" class="blog-list" aria-label="Posts">
 
   <a href="/blog/dpdp-phase-ii-consent-managers.html" class="post-card">
     <div class="post-meta">
@@ -207,6 +231,30 @@
   </span>
 </footer>
 
+<script>
+  // Pageview beacon — fires on every blog index load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
 <script>
   // Mobile nav hamburger
   const btn = document.getElementById('navHamburger');
