@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "name": "Juro Compliance Scanner",
+  "description": "Non-custodial GDPR, DORA, and DPDP compliance scanner for public URLs. Produces signed, deterministic findings. Tier 1 (hosted scanning) only.",
+  "url": "https://jurocompliant.com",
+  "contact_email": "team@jurocompliant.com",
+  "mcp": {
+    "server": "juro-mcp-server",
+    "install": "npx juro-mcp-server",
+    "registry": "https://www.npmjs.com/package/juro-mcp-server",
+    "version": "3.0.0"
+  },
+  "tools": [
+    {
+      "name": "scan_url",
+      "description": "Scan a public URL for GDPR, DORA, and DPDP compliance issues. Returns posture score and detailed findings."
+    },
+    {
+      "name": "get_posture_score",
+      "description": "Get posture score only for a domain. Fast — use for a quick compliance check."
+    },
+    {
+      "name": "list_regulations",
+      "description": "List regulations Juro covers: GDPR (EU+UK), DORA (EU), DPDP (India)."
+    },
+    {
+      "name": "get_finding_detail",
+      "description": "Get regulatory citation and remediation guidance for a specific rule ID."
+    }
+  ],
+  "capabilities": {
+    "regulations": ["GDPR", "DORA", "DPDP"],
+    "jurisdictions": ["EU", "UK", "India"],
+    "scan_type": "public_url_only",
+    "custodial": false,
+    "signed_artifacts": true
+  },
+  "constraints": [
+    "Public URLs only. No customer infrastructure data.",
+    "Tier 1 hosted scanning only. For Tier 3 Private Deploy, contact team@jurocompliant.com.",
+    "No banned compliance claims: not SOC 2 certified, not ISO 27001 certified."
+  ]
+}
