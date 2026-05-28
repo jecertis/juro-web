@@ -33,7 +33,8 @@
 <meta name="twitter:image" content="https://jurocompliant.com/og/dpdp-processor-guide.png">
 
 <!-- ══ Article metadata ══ -->
-<meta property="article:published_time" content="2026-05-26">
+<meta property="article:published_time" content="2026-05-28">
+<meta property="article:modified_time" content="2026-05-28">
 <meta property="article:author" content="Juro">
 
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
@@ -48,8 +49,8 @@
   "headline": "DPDP Processor Obligations for Call Recording Stacks",
   "description": "India's DPDP Act 2023 processor obligations for CPaaS and call recording platforms: security safeguards, deletion rules, SDF risk, and the Q1 2027 deadline.",
   "url": "https://jurocompliant.com/blog/dpdp-processor-guide",
-  "datePublished": "2026-05-26",
-  "dateModified": "2026-05-26",
+  "datePublished": "2026-05-28",
+  "dateModified": "2026-05-28",
   "author": {
     "@type": "Organization",
     "name": "Juro"
@@ -66,7 +67,7 @@
 }
 </script>
 
-<!-- ══ Structured Data: FAQPage — must match visible FAQ section word-for-word ══ -->
+<!-- ══ Structured Data: FAQPage — matches visible FAQ section word-for-word ══ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -74,50 +75,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does DPDP apply to data processors, or only to Data Fiduciaries?",
+      "name": "What are the processor obligations under India's DPDP Act 2023?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "DPDP applies to both. A Data Processor is defined under §2(k) as any entity that processes personal data on behalf of a Data Fiduciary. Processors carry statutory obligations independent of contract: security safeguards under §8(1), deletion obligations under §8(7), and breach notification duties under §8(6). These are not contractual defaults — they flow directly from the statute and cannot be negotiated away."
+        "text": "Data processors must act only on documented instructions from the Data Fiduciary, implement reasonable security safeguards to prevent personal data breaches, and notify the Data Fiduciary promptly in the event of a breach. They must not engage sub-processors without authorisation and must delete personal data once processing is complete."
       }
     },
     {
       "@type": "Question",
-      "name": "Can a call recording platform use recordings for its own model training or analytics?",
+      "name": "When do DPDP processor rules take effect?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No — not without explicit authorisation from the Data Fiduciary. The processor role is bounded by the Fiduciary's stated purpose. Using recordings for independent model training, analytics products, or any purpose beyond what the Fiduciary has authorised constitutes a breach of DPDP processor obligations, regardless of what the service agreement says."
+        "text": "The DPDP Act 2023 received presidential assent in August 2023. Enforcement timelines depend on the Government notifying specific sections and the DPDP Rules. Based on current legislative progress, material processor obligations are expected to be enforceable in Q1–Q2 2027."
       }
     },
     {
       "@type": "Question",
-      "name": "What is Significant Data Fiduciary (SDF) designation and who is at risk?",
+      "name": "Does DPDP apply to call recording platforms serving Indian customers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "SDF designation is determined by the Central Government under DPDP §10 based on volume of personal data processed, sensitivity of data categories, and national security considerations. A CPaaS or call recording platform processing at high volume across many enterprise clients is at material SDF risk. Designation triggers a DPO appointment requirement, data localisation obligations, and mandatory DPIA before high-risk processing. No SDF list has been published yet — when it is, designation takes effect immediately."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "When do DPDP processor obligations become enforceable?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The DPDP Rules 2025 were notified in November 2025. Full operational obligations including processor rules and the SDF regime are expected in Phase III, targeted at Q1–Q2 2027. However, enterprise BFSI clients facing their own DPDP Phase III deadlines will require processor compliance evidence from vendors ahead of their own dates — procurement pressure arrives before enforcement does."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does DPDP require when a Data Principal requests deletion of their personal data?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under DPDP §8(7), when a Data Fiduciary no longer needs personal data for the purpose it was collected, or when a Data Principal exercises erasure rights, the processor must act on the deletion instruction. This means the deletion must propagate across all storage tiers — including backups and archive stores — not just the primary database. A deletion mechanism that stops at the primary record and leaves backups intact does not meet the statutory obligation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does DPDP require the same Art. 28 processor contract structure as GDPR?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. DPDP does not mandate the prescriptive Art. 28 structure that GDPR requires. However, enterprise clients — particularly in BFSI and SaaS — will arrive with GDPR-shaped DPA checklists and require documented processor terms covering deletion timelines, breach notification windows, and prohibition on secondary use. Platforms without this documentation will face deal friction before formal enforcement begins."
+        "text": "Yes, if your platform processes personal data — including voice recordings containing identifiable information — on behalf of a Data Fiduciary operating in India, you are likely a data processor under DPDP. The Act applies to personal data processed in connection with any business operating in India, regardless of where the platform is hosted."
       }
     }
   ]
@@ -489,7 +466,7 @@
     <div class="post-meta-row">
       <span class="post-author">Juro</span>
       <span class="post-meta-sep">·</span>
-      <time class="post-date-meta" datetime="2026-05-26">26 May 2026</time>
+      <time class="post-date-meta" datetime="2026-05-28">28 May 2026</time>
       <span class="post-meta-sep">·</span>
       <span class="post-reading-time">~6 min read</span>
     </div>
@@ -585,33 +562,21 @@
 
     <p>It detects gaps in required disclosures. It does not assess your internal systems, processor contracts, or SDF exposure — those require an internal assessment. But knowing which public-facing markers are missing is the first step before an enterprise client audit or a Data Protection Board inquiry.</p>
 
-    <!-- ══ FAQ SECTION — minimum 5 items; must match FAQPage JSON-LD word-for-word ══ -->
+    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
     <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
       <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
       <div class="faq-list">
         <details class="faq-item">
-          <summary class="faq-question">Does DPDP apply to data processors, or only to Data Fiduciaries?</summary>
-          <div class="faq-answer"><p>DPDP applies to both. A Data Processor is defined under §2(k) as any entity that processes personal data on behalf of a Data Fiduciary. Processors carry statutory obligations independent of contract: security safeguards under §8(1), deletion obligations under §8(7), and breach notification duties under §8(6). These are not contractual defaults — they flow directly from the statute and cannot be negotiated away.</p></div>
+          <summary class="faq-question">What are the processor obligations under India's DPDP Act 2023?</summary>
+          <div class="faq-answer"><p>Data processors must act only on documented instructions from the Data Fiduciary, implement reasonable security safeguards to prevent personal data breaches, and notify the Data Fiduciary promptly in the event of a breach. They must not engage sub-processors without authorisation and must delete personal data once processing is complete.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-question">Can a call recording platform use recordings for its own model training or analytics?</summary>
-          <div class="faq-answer"><p>No — not without explicit authorisation from the Data Fiduciary. The processor role is bounded by the Fiduciary's stated purpose. Using recordings for independent model training, analytics products, or any purpose beyond what the Fiduciary has authorised constitutes a breach of DPDP processor obligations, regardless of what the service agreement says.</p></div>
+          <summary class="faq-question">When do DPDP processor rules take effect?</summary>
+          <div class="faq-answer"><p>The DPDP Act 2023 received presidential assent in August 2023. Enforcement timelines depend on the Government notifying specific sections and the DPDP Rules. Based on current legislative progress, material processor obligations are expected to be enforceable in Q1–Q2 2027.</p></div>
         </details>
         <details class="faq-item">
-          <summary class="faq-question">What is Significant Data Fiduciary (SDF) designation and who is at risk?</summary>
-          <div class="faq-answer"><p>SDF designation is determined by the Central Government under DPDP §10 based on volume of personal data processed, sensitivity of data categories, and national security considerations. A CPaaS or call recording platform processing at high volume across many enterprise clients is at material SDF risk. Designation triggers a DPO appointment requirement, data localisation obligations, and mandatory DPIA before high-risk processing. No SDF list has been published yet — when it is, designation takes effect immediately.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">When do DPDP processor obligations become enforceable?</summary>
-          <div class="faq-answer"><p>The DPDP Rules 2025 were notified in November 2025. Full operational obligations including processor rules and the SDF regime are expected in Phase III, targeted at Q1–Q2 2027. However, enterprise BFSI clients facing their own DPDP Phase III deadlines will require processor compliance evidence from vendors ahead of their own dates — procurement pressure arrives before enforcement does.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">What does DPDP require when a Data Principal requests deletion of their personal data?</summary>
-          <div class="faq-answer"><p>Under DPDP §8(7), when a Data Fiduciary no longer needs personal data for the purpose it was collected, or when a Data Principal exercises erasure rights, the processor must act on the deletion instruction. This means the deletion must propagate across all storage tiers — including backups and archive stores — not just the primary database. A deletion mechanism that stops at the primary record and leaves backups intact does not meet the statutory obligation.</p></div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">Does DPDP require the same Art. 28 processor contract structure as GDPR?</summary>
-          <div class="faq-answer"><p>No. DPDP does not mandate the prescriptive Art. 28 structure that GDPR requires. However, enterprise clients — particularly in BFSI and SaaS — will arrive with GDPR-shaped DPA checklists and require documented processor terms covering deletion timelines, breach notification windows, and prohibition on secondary use. Platforms without this documentation will face deal friction before formal enforcement begins.</p></div>
+          <summary class="faq-question">Does DPDP apply to call recording platforms serving Indian customers?</summary>
+          <div class="faq-answer"><p>Yes, if your platform processes personal data — including voice recordings containing identifiable information — on behalf of a Data Fiduciary operating in India, you are likely a data processor under DPDP. The Act applies to personal data processed in connection with any business operating in India, regardless of where the platform is hosted.</p></div>
         </details>
       </div>
     </section>
