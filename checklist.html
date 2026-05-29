@@ -653,6 +653,115 @@
 
   .gap-email-scan-link:hover { background: var(--yellow-dark); }
 
+  /* ── Scan CTA (above footer form) ── */
+  .scan-report-cta {
+    background: #1A1A1A;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: var(--radius-lg);
+    padding: var(--s5);
+    margin-top: var(--s6);
+  }
+
+  .scan-report-cta .eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--s1);
+  }
+
+  .scan-report-cta .headline {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+  }
+
+  .scan-report-cta .sub {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-snug);
+    margin-bottom: var(--s4);
+    max-width: 540px;
+  }
+
+  .scan-report-form {
+    display: flex;
+    gap: var(--s1);
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+
+  .scan-report-form .scan-input {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--radius);
+    padding: 11px var(--s2);
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .scan-report-form .scan-input::placeholder { color: rgba(255,255,255,0.28); }
+  .scan-report-form .scan-input:focus { border-color: rgba(255,255,255,0.38); }
+
+  .scan-report-form .scan-submit-btn {
+    background: var(--yellow);
+    color: var(--ink);
+    border: none;
+    padding: 12px var(--s3);
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .scan-report-form .scan-submit-btn:hover { background: var(--yellow-dark); }
+  .scan-report-form .scan-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .scan-report-note {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-top: var(--s1);
+  }
+
+  .scan-report-success {
+    display: none;
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.75);
+    line-height: var(--lh-snug);
+    padding: var(--s2) 0;
+  }
+
+  .scan-report-success-tick {
+    font-size: var(--text-xl);
+    margin-bottom: var(--s1);
+  }
+
+  .scan-report-error {
+    display: none;
+    font-size: var(--text-xs);
+    color: var(--red);
+    margin-top: var(--s1);
+  }
+
+  @media (max-width: 680px) {
+    .scan-report-cta { padding: var(--s4); }
+    .scan-report-form { flex-direction: column; }
+    .scan-report-form .scan-input { min-width: 0; width: 100%; }
+    .scan-report-form .scan-submit-btn { width: 100%; }
+  }
+
   /* ── Regulation panel ── */
   .reg-panel { display: none; }
   .reg-panel.active { display: block; }
@@ -1069,6 +1178,24 @@ function renderAll() {
   });
 
   html += `
+    <div class="scan-report-cta">
+      <div class="eyebrow">Domain scan</div>
+      <div class="headline">Get a full scan of your checklist findings</div>
+      <p class="sub">Enter your domain and email — we'll run a surface scan and send you a findings report.</p>
+      <form class="scan-report-form" id="scanReportForm" onsubmit="submitScanReport(event)">
+        <input class="scan-input" type="text" id="scanDomain" name="domain" placeholder="yourdomain.com" required autocomplete="url"/>
+        <input class="scan-input" type="email" id="scanEmail" name="email" placeholder="Work email" required autocomplete="email"/>
+        <button class="scan-submit-btn" type="submit">Send my report →</button>
+      </form>
+      <div class="scan-report-note" id="scanReportNote">No account required. We scan your public-facing posture only.</div>
+      <div class="scan-report-error" id="scanReportError">Something went wrong — try again.</div>
+      <div class="scan-report-success" id="scanReportSuccess">
+        <div class="scan-report-success-tick">✓</div>
+        Thanks — we'll send your report within 24 hours.
+      </div>
+    </div>`;
+
+  html += `
     <div class="cta-footer">
       <div class="cta-footer-text">
         <div class="eyebrow">Get your gap list</div>
@@ -1140,6 +1267,44 @@ function buildGapSummary() {
 
   summary += '---\nThis is a self-assessment only. It does not constitute legal advice or a compliance attestation.\nTo get independently verifiable findings, scan your website at jurocompliant.com.';
   return summary;
+}
+
+async function submitScanReport(event) {
+  event.preventDefault();
+  const btn = event.target.querySelector('.scan-submit-btn');
+  const domain = document.getElementById('scanDomain').value.trim();
+  const email  = document.getElementById('scanEmail').value.trim();
+  if (!domain || !email) return;
+
+  const errorEl   = document.getElementById('scanReportError');
+  const successEl = document.getElementById('scanReportSuccess');
+  const noteEl    = document.getElementById('scanReportNote');
+
+  errorEl.style.display   = 'none';
+  btn.disabled             = true;
+  btn.textContent          = 'Sending…';
+
+  const API_BASE = window.JURO_API_URL || 'http://localhost:3000';
+
+  try {
+    const res = await fetch(API_BASE + '/api/v1/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email,
+        source: 'checklist-scan-cta',
+        metadata: { domain },
+      }),
+    });
+    if (!res.ok) throw new Error('non-2xx');
+    document.getElementById('scanReportForm').style.display = 'none';
+    noteEl.style.display    = 'none';
+    successEl.style.display = 'block';
+  } catch (_) {
+    btn.disabled    = false;
+    btn.textContent = 'Send my report →';
+    errorEl.style.display = 'block';
+  }
 }
 
 async function submitGapEmail(event) {
