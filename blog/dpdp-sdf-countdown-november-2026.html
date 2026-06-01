@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DPDP Significant Data Fiduciary Obligations by November 2026 | Jurocompliant</title>
+
+<meta name="description" content="SDF designation under India's DPDP Act activates immediately — no grace period. What CTOs at Indian fintech and healthtech must do before November 2026.">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://jurocompliant.com/blog/dpdp-sdf-countdown-november-2026">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- ══ Open Graph ══ -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jurocompliant.com/blog/dpdp-sdf-countdown-november-2026">
+<meta property="og:title" content="DPDP Significant Data Fiduciary Obligations by November 2026">
+<meta property="og:description" content="SDF designation under India's DPDP Act activates immediately — no grace period. What CTOs at Indian fintech and healthtech must do before November 2026.">
+<meta property="og:site_name" content="Jurocompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/dpdp-sdf-countdown-november-2026.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="DPDP Significant Data Fiduciary Obligations by November 2026">
+<meta name="twitter:description" content="SDF designation under India's DPDP Act activates immediately — no grace period. What CTOs at Indian fintech and healthtech must do before November 2026.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/dpdp-sdf-countdown-november-2026.png">
+
+<!-- ══ Article metadata ══ -->
+<meta property="article:published_time" content="2026-06-01">
+<meta property="article:modified_time" content="2026-06-01">
+<meta property="article:author" content="Juro">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: Article ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "DPDP Significant Data Fiduciary Obligations by November 2026",
+  "description": "SDF designation under India's DPDP Act activates immediately — no grace period. What CTOs at Indian fintech and healthtech must do before November 2026.",
+  "url": "https://jurocompliant.com/blog/dpdp-sdf-countdown-november-2026",
+  "datePublished": "2026-06-01",
+  "dateModified": "2026-06-01",
+  "author": {
+    "@type": "Organization",
+    "name": "Juro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jurocompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jurocompliant.com/blog/dpdp-sdf-countdown-november-2026"
+  }
+}
+</script>
+
+<!-- ══ Structured Data: FAQPage — matches visible FAQ section word-for-word ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What triggers SDF designation under India's DPDP Act?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The DPDP Act 2023 (§10) authorises the Central Government to designate a Data Fiduciary as a Significant Data Fiduciary based on factors including the volume and sensitivity of personal data processed, risk to the rights of Data Principals, potential impact on national security or public order, and the potential for harm from processing. MEITY has indicated thresholds around 50 lakh (5 million) users and sensitive data categories such as health, financial, and biometric data, but the official designation criteria have not yet been published."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What obligations does SDF designation add beyond standard Data Fiduciary requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SDF designation under §10 of the DPDP Act adds three obligations not required of standard Data Fiduciaries: appointment of a Data Protection Officer (DPO) based in India who reports to the board (§10(2)(a)); periodic Data Protection Impact Assessments (DPIAs) covering systematic processing activities and automated decision-making; and compliance with data localisation requirements for specified categories of personal data as the Central Government may prescribe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When will MEITY publish the SDF designation list?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MEITY has not published an official date for the SDF designation list. The DPDP Act's enforcement provisions are expected to be operationalised by November 2026. Companies processing data at the scale likely to trigger designation should treat the current period as their implementation window — because obligations activate upon designation, not after a separate grace period."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  /* ── Post layout ── */
+  .post-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  /* ── Post header ── */
+  .post-header { margin-bottom: var(--s5); }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+  .post-breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; }
+  .post-breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+  .post-breadcrumb-sep { color: rgba(255,255,255,0.2); }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+
+  .post-author { font-size: var(--text-xs); color: rgba(255,255,255,0.90); font-weight: 500; }
+  .post-date-meta { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-reading-time { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-meta-sep { color: rgba(255,255,255,0.2); font-size: var(--text-xs); }
+
+  /* ── Audience callout ── */
+  .post-audience {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s4);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+  .post-audience strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  /* ── Article body ── */
+  .post-body { color: rgba(255,255,255,0.85); font-size: var(--text-base); line-height: var(--lh-reading); }
+  .post-body p { margin-bottom: var(--s3); }
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .post-body h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s4);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .post-body ul, .post-body ol { padding-left: 1.4rem; margin-bottom: var(--s3); color: rgba(255,255,255,0.85); }
+  .post-body li { margin-bottom: 6px; line-height: var(--lh-reading); }
+  .post-body strong { color: #fff; font-weight: 600; }
+  .post-body a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+  .post-body a:hover { color: #fff; }
+  .post-body hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: var(--s4) 0; }
+
+  /* ── Pull quote ── */
+  .post-callout {
+    border-left: 3px solid var(--yellow);
+    padding: var(--s2) 0 var(--s2) var(--s3);
+    margin: var(--s4) 0;
+    font-size: var(--text-lg);
+    color: rgba(255,255,255,0.85);
+    line-height: var(--lh-snug);
+    font-style: normal;
+  }
+
+  /* ── Timeline checklist ── */
+  .checklist-block {
+    background: rgba(245,196,0,0.05);
+    border: 1px solid rgba(245,196,0,0.18);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s4);
+    margin: var(--s4) 0;
+  }
+  .checklist-block h3 {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s3);
+    margin-top: 0;
+  }
+  .checklist-block ul {
+    padding-left: 0;
+    margin: 0;
+    color: rgba(255,255,255,0.85);
+    list-style: none;
+  }
+  .checklist-block li {
+    margin-bottom: var(--s2);
+    line-height: var(--lh-reading);
+    font-size: var(--text-sm);
+    padding-left: 0;
+  }
+  .checklist-block li strong { color: #fff; }
+
+  /* ── CTA block ── */
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+  .post-cta h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+  }
+  .post-cta p {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
+    background: var(--yellow-dark);
+    color: #0A0A0A !important;
+  }
+
+  /* ── Footer rule ── */
+  .post-wrap .post-footer-rule {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin: var(--s6) 0 0;
+  }
+
+  /* ── FAQ ── */
+  .faq-list { display: flex; flex-direction: column; gap: var(--s2); }
+  .faq-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .faq-item[open] { border-color: rgba(245,196,0,0.25); }
+  .faq-question {
+    padding: var(--s2) var(--s3);
+    cursor: pointer;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    font-size: var(--text-sm);
+    line-height: var(--lh-snug);
+    list-style: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after {
+    content: '+';
+    float: right;
+    color: var(--yellow);
+    font-weight: 400;
+    font-family: var(--mono);
+  }
+  .faq-item[open] .faq-question::after { content: '−'; }
+  .faq-answer {
+    padding: 0 var(--s3) var(--s3);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+  }
+  .faq-answer p { margin: 0; }
+
+  /* ══ ACCESSIBILITY ══ */
+
+  /* Skip nav — visually hidden until focused */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  /* Focus rings for keyboard users */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .post-body a {
+      transition: none;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .post-cta { padding: var(--s3) var(--s3); }
+    .post-callout { font-size: var(--text-base); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ ACCESSIBILITY: Skip nav — must be first focusable element ══ -->
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<!-- ══ id="post-content" is the skip nav target ══ -->
+<main class="post-wrap" aria-label="Article" id="post-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>DPDP SDF Countdown</span>
+    </nav>
+
+    <div class="post-tag">DPDP</div>
+
+    <h1 class="post-title">DPDP Significant Data Fiduciary: Engineer for November 2026</h1>
+
+    <div class="post-meta-row">
+      <span class="post-author">Juro</span>
+      <span class="post-meta-sep">·</span>
+      <time class="post-date-meta" datetime="2026-06-01">1 Jun 2026</time>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~6 min read</span>
+    </div>
+  </div>
+
+  <div class="post-audience">
+    <strong>Who this is for:</strong> CTOs and Heads of Engineering at Indian SaaS, fintech, and healthtech companies processing personal data at scale — companies that may be designated as Significant Data Fiduciaries under the DPDP Act before enforcement begins.
+  </div>
+
+  <article class="post-body">
+
+    <p>MEITY has not published its Significant Data Fiduciary (SDF) list. When it does, obligations activate immediately — there is no separate grace period after designation. Companies processing data at the scale likely to trigger SDF status have roughly five months to get the underlying work done. That window is now.</p>
+
+    <p>Juro (<a href="https://jurocompliant.com">jurocompliant.com</a>) is a non-custodial compliance scanner for DPDP, GDPR, and DORA. It scans public-facing surfaces — privacy policies, consent flows, data disclosures — and produces signed, verifiable evidence of a company's current posture. It detects gaps; it does not certify compliance.</p>
+
+    <hr>
+
+    <h2>What SDF Designation Actually Means</h2>
+
+    <p>The Digital Personal Data Protection Act 2023 (§10) gives the Central Government authority to designate any Data Fiduciary as a Significant Data Fiduciary based on enumerated factors. The designation is an administrative act — MEITY will publish a list, and entities on that list become SDFs the moment the notification lands.</p>
+
+    <p>Factors MEITY has flagged in public consultations include volume of personal data processed, sensitivity of data categories (health, financial, biometric, location), risk to the rights of Data Principals, potential impact on national security or public order, and systemic importance of the platform.</p>
+
+    <h2>Who Is at Risk of SDF Designation?</h2>
+
+    <p>The informal threshold discussed in public consultations is 50 lakh users — 5 million — or more. But volume alone is not the only trigger. Companies processing sensitive data categories at any significant scale sit in the risk band regardless of whether they cross the user-count threshold.</p>
+
+    <p>The sectors most exposed: fintech lenders and payment platforms, health records and diagnostics platforms, biometric-driven identity verification providers, CPaaS operators with access to communication data at scale, and large edtech or e-commerce platforms that profile users for personalisation. Companies that operate as intermediaries or infrastructure for these sectors may also face SDF-equivalent scrutiny through their fiduciary customers' obligations.</p>
+
+    <blockquote class="post-callout">If your platform processes financial transaction histories, health records, or biometric data for more than a few hundred thousand users, work from the assumption that SDF designation is a live risk — do not wait for the list.</blockquote>
+
+    <h2>The Three Obligations That Go Beyond the Baseline</h2>
+
+    <p>Standard Data Fiduciaries under the DPDP Act must fulfil obligations around notice, consent, data minimisation, accuracy, storage limitation, and grievance redressal. SDFs must do all of that — and three additional obligations with no equivalent in the baseline.</p>
+
+    <h3>Data Protection Officer appointment (§10(2)(a))</h3>
+
+    <p>An SDF must appoint a Data Protection Officer (DPO) based in India who reports directly to the board of directors. This is not a delegation to a compliance team or an existing CISO role. Board-level accountability is specified in the statute, which has structural implications for organisations where data governance currently sits below that level.</p>
+
+    <p>For engineering heads: the DPO will be accountable for technical decisions about data architecture — consent flows, retention logic, access controls. The appointment lands directly in the engineering decision chain.</p>
+
+    <h3>Data Protection Impact Assessments</h3>
+
+    <p>SDFs must conduct periodic Data Protection Impact Assessments (DPIAs) covering systematic processing activities — particularly automated decision-making, profiling, and large-scale processing of sensitive personal data. The DPDP Act's implementing rules will specify periodicity and format, but the obligation is established in §10 and activates on designation.</p>
+
+    <p>A DPIA requires documented analysis of what data is processed, for what purpose, under what legal basis, what risks arise, and what controls mitigate those risks. For a fintech platform with ML-driven credit decisioning or a health platform with automated diagnostic workflows, this is engineering work — it requires documented input about model behaviour, data flows, and failure modes.</p>
+
+    <h3>Data localisation</h3>
+
+    <p>The Central Government retains authority to prescribe data localisation requirements for specified categories of personal data applicable to SDFs. The specific categories and technical standards have not been published. The power exists, it applies only to SDFs, and it could require that certain sensitive data categories be processed exclusively within Indian borders.</p>
+
+    <p>Engineering implications: cross-border data flows, cloud region configurations, and replication architecture may all be in scope. Companies relying on multi-region global infrastructure without India-resident copies of sensitive data categories should assess their exposure before the rules land.</p>
+
+    <h2>What to Do in the Next Five Months</h2>
+
+    <div class="checklist-block">
+      <h3>Five-month implementation window</h3>
+      <ul>
+        <li><strong>By end of June — scope your exposure.</strong> Map the data categories you process, the volume of Data Principals, and the jurisdictions your data transits. If you process health, biometric, or financial data for more than a few hundred thousand users, do not wait for the list to start this work.</li>
+        <li><strong>July to August — DPO readiness.</strong> Assess whether your governance structure can absorb the board-reporting DPO requirement. This is a hiring or restructuring decision, not a policy update. A qualified candidate with legal and technical depth takes time to identify and onboard.</li>
+        <li><strong>August to September — DPIA scoping.</strong> Identify processing activities that will require DPIAs: automated decision-making systems, profiling pipelines, large-scale sensitive data processing. Document the current state — inputs, outputs, data flows, retention — so the formal DPIA can be conducted against a real baseline.</li>
+        <li><strong>September to October — localisation contingency planning.</strong> Get clarity on which cloud regions hold copies of your sensitive data categories. If localisation rules require India-resident storage for health or financial records, understand what that migration looks like technically and how long it takes.</li>
+        <li><strong>October — documentation audit.</strong> Your privacy policy, consent mechanism, and data processing disclosures are the public signals that MEITY and Data Principals can inspect first. Gaps here are easier to correct before enforcement than after.</li>
+      </ul>
+    </div>
+
+    <h2>Your Public Surface Is Already Under Scrutiny</h2>
+
+    <p>Privacy regulators start with what is publicly available. Before you build the internal compliance stack, scan what your public surface currently says about your data practices.</p>
+
+    <p>Juro detects gaps in public-facing privacy documentation — inconsistencies between stated lawful basis and actual data collection, missing DPDP Act disclosures, consent mechanism issues — and produces signed, verifiable evidence of current posture.</p>
+
+    <p>The <a href="/checklist.html">DPDP compliance checklist</a> covers the baseline obligations that apply to all Data Fiduciaries. If you are at risk of SDF designation, the checklist is the floor, not the ceiling.</p>
+
+    <p>For teams doing DORA gap analysis alongside DPDP work, the <a href="/dora-soc2-gap">DORA vs SOC 2 gap map</a> covers where the frameworks diverge — relevant if you also serve EU financial entities.</p>
+
+    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">What triggers SDF designation under India's DPDP Act?</summary>
+          <div class="faq-answer"><p>The DPDP Act 2023 (§10) authorises the Central Government to designate a Data Fiduciary as a Significant Data Fiduciary based on factors including the volume and sensitivity of personal data processed, risk to the rights of Data Principals, potential impact on national security or public order, and the potential for harm from processing. MEITY has indicated thresholds around 50 lakh (5 million) users and sensitive data categories such as health, financial, and biometric data, but the official designation criteria have not yet been published.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What obligations does SDF designation add beyond standard Data Fiduciary requirements?</summary>
+          <div class="faq-answer"><p>SDF designation under §10 of the DPDP Act adds three obligations not required of standard Data Fiduciaries: appointment of a Data Protection Officer (DPO) based in India who reports to the board (§10(2)(a)); periodic Data Protection Impact Assessments (DPIAs) covering systematic processing activities and automated decision-making; and compliance with data localisation requirements for specified categories of personal data as the Central Government may prescribe.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">When will MEITY publish the SDF designation list?</summary>
+          <div class="faq-answer"><p>MEITY has not published an official date for the SDF designation list. The DPDP Act's enforcement provisions are expected to be operationalised by November 2026. Companies processing data at the scale likely to trigger designation should treat the current period as their implementation window — because obligations activate upon designation, not after a separate grace period.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ══ CTA ══ -->
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">See where your gaps are now</div>
+      <h3>Free DPDP posture scan — no account required</h3>
+      <p>Juro scans your public-facing privacy documentation for DPDP gaps — missing disclosures, consent mechanism issues, pre-Rules language — and produces signed, verifiable evidence of current posture. It won't build your DPO governance structure, but it will show you what your public surface signals to MEITY before enforcement arrives.</p>
+      <p style="font-size:var(--text-xs);color:rgba(255,255,255,0.45);margin-bottom:var(--s3)">Juro (<a href="https://jurocompliant.com" style="color:rgba(255,255,255,0.45)">jurocompliant.com</a>) is a non-custodial compliance scanner — not juro.com, which is a contract management platform.</p>
+      <a href="https://jurocompliant.com" class="post-cta-btn">Scan your site →</a>
+    </div>
+
+  </article>
+
+  <hr class="post-footer-rule">
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every blog post load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>
