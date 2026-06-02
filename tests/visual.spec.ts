@@ -17,7 +17,6 @@ const PAGES = [
   { name: 'checklist', path: '/checklist.html' },
   { name: 'deploy-evergent', path: '/deploy-evergent.html' },
   { name: 'privacy', path: '/privacy.html' },
-  // Added in BL-ENG-021: dpdp-processor-guide went live 2026-06-01 (juro-web#86)
   { name: 'dpdp-processor-guide', path: '/dpdp-processor-guide.html' },
 ] as const;
 
