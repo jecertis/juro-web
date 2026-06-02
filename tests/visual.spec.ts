@@ -17,6 +17,7 @@ const PAGES = [
   { name: 'checklist', path: '/checklist.html' },
   { name: 'deploy-evergent', path: '/deploy-evergent.html' },
   { name: 'privacy', path: '/privacy.html' },
+  { name: 'dpdp-processor-guide', path: '/dpdp-processor-guide.html' },
 ] as const;
 
 const VIEWPORTS = [
