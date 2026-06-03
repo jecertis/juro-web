@@ -7,6 +7,9 @@
  * `update-snapshots` label to a PR to (re)generate Linux-platform baselines
  * and commit them back to the branch.
  *
+ * Last regen trigger: 2026-06-03 — stale after dpdp-processor-guide, a11y
+ * contrast fixes, homepage OG tags, and AI Act posture card (feat/aiact-posture-card).
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
