@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Install juro-deploy — private compliance scanning in your VPC | Jurocompliant</title>
+<meta name="description" content="Install juro-deploy: one curl command sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jurocompliant.com/install" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- ══ Open Graph ══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jurocompliant.com/install">
+<meta property="og:title" content="Install juro-deploy — private compliance scanning in your VPC">
+<meta property="og:description" content="One curl command installs juro-deploy and sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
+<meta property="og:site_name" content="Jurocompliant">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="Install juro-deploy — private compliance scanning in your VPC">
+<meta name="twitter:description" content="One curl command installs juro-deploy and sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: WebPage ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Install juro-deploy",
+  "description": "Install juro-deploy: one curl command sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.",
+  "url": "https://jurocompliant.com/install",
+  "datePublished": "2026-06-03",
+  "dateModified": "2026-06-03",
+  "author": {
+    "@type": "Organization",
+    "name": "Juro",
+    "url": "https://jurocompliant.com"
+  }
+}
+</script>
+
+<!-- ══ Structured Data: FAQPage — matches visible FAQ section word-for-word ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does juro-deploy install?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "juro-deploy installs the juro-deploy CLI binary and pulls the agent container image. The agent runs inside your own infrastructure — Docker on your EC2 instance or local machine — and performs GDPR, DPDP, and DORA compliance scanning without sending your data or infrastructure state to external servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the prerequisites for juro-deploy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You need Docker (Engine 24+ or Docker Desktop) and AWS credentials with a read-only IAM policy scoped to the services you want to scan. See the prerequisites checklist at jurocompliant.com/checklist.html for the exact IAM permissions required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does juro-deploy send data outside my infrastructure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint written to a public notary log for artefact verification — no scan findings, no configuration, no credentials are transmitted."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  /* ── Page layout ── */
+  .install-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  /* ── Page header ── */
+  .post-header {
+    margin-bottom: var(--s5);
+  }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+
+  .post-breadcrumb a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+  }
+
+  .post-breadcrumb a:hover {
+    color: rgba(255,255,255,0.85);
+  }
+
+  .post-breadcrumb-sep {
+    color: rgba(255,255,255,0.2);
+  }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+
+  .post-date-meta {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+  }
+
+  .post-meta-sep {
+    color: rgba(255,255,255,0.2);
+    font-size: var(--text-xs);
+  }
+
+  /* ── Body ── */
+  .post-body {
+    color: rgba(255,255,255,0.85);
+    font-size: var(--text-base);
+    line-height: var(--lh-reading);
+  }
+
+  .post-body p {
+    margin-bottom: var(--s3);
+  }
+
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.4rem;
+    margin-bottom: var(--s3);
+    color: rgba(255,255,255,0.85);
+  }
+
+  .post-body li {
+    margin-bottom: 6px;
+    line-height: var(--lh-reading);
+  }
+
+  .post-body strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .post-body a {
+    color: var(--yellow);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .post-body a:hover {
+    color: #fff;
+  }
+
+  /* ── Install command block ── */
+  .install-cmd-block {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-bottom: var(--s4);
+    position: relative;
+  }
+
+  .install-cmd-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--s2);
+  }
+
+  .install-cmd {
+    font-family: var(--mono);
+    font-size: var(--text-sm);
+    color: var(--yellow);
+    word-break: break-all;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .install-copy-btn {
+    position: absolute;
+    top: var(--s3);
+    right: var(--s3);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    border-radius: var(--radius);
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--yellow);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .install-copy-btn:hover {
+    background: rgba(245,196,0,0.2);
+  }
+
+  /* ── Next-steps block ── */
+  .next-steps {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-bottom: var(--s4);
+  }
+
+  .next-steps-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    margin-bottom: var(--s3);
+  }
+
+  .next-steps ol {
+    padding-left: 1.2rem;
+    margin: 0;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .next-steps li {
+    margin-bottom: var(--s2);
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+  }
+
+  .next-steps code {
+    font-family: var(--mono);
+    font-size: 0.875em;
+    color: var(--yellow);
+    background: rgba(245,196,0,0.08);
+    border: 1px solid rgba(245,196,0,0.18);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  /* ── Divider ── */
+  .post-divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: var(--s4) 0;
+  }
+
+  /* ── CTA block ── */
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+
+  .post-cta h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+  }
+
+  .post-cta p {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
+    background: var(--yellow-dark);
+    color: #0A0A0A !important;
+  }
+
+  /* ── FAQ section ── */
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: var(--s2) 0;
+  }
+
+  .faq-item:last-child {
+    border-bottom: none;
+  }
+
+  .faq-question {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    list-style: none;
+    padding: var(--s1) 0;
+    line-height: var(--lh-snug);
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::marker { display: none; }
+
+  .faq-question::after {
+    content: ' +';
+    color: var(--yellow);
+    font-weight: 400;
+  }
+
+  details[open] .faq-question::after {
+    content: ' −';
+  }
+
+  .faq-answer {
+    padding: var(--s2) 0 var(--s1);
+    color: rgba(255,255,255,0.75);
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+  }
+
+  .faq-answer p {
+    margin-bottom: 0;
+  }
+
+  /* ── Footer rule ── */
+  .install-wrap .post-footer-rule {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin: var(--s6) 0 0;
+  }
+
+  /* ══ ACCESSIBILITY ══ */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .install-copy-btn {
+      transition: none;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .install-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .install-cmd-block { padding: var(--s3) var(--s3); }
+    .post-cta { padding: var(--s3) var(--s3); }
+    .next-steps { padding: var(--s3) var(--s3); }
+    .install-copy-btn { position: static; margin-top: var(--s2); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ ACCESSIBILITY: Skip nav — must be first focusable element ══ -->
+<a href="#install-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<main class="install-wrap" aria-label="Install juro-deploy" id="install-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>Install</span>
+    </nav>
+
+    <div class="post-tag">Install</div>
+
+    <h1 class="post-title">Install juro-deploy</h1>
+
+    <div class="post-meta-row">
+      <time class="post-date-meta" datetime="2026-06-03">3 June 2026</time>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>juro-deploy installs the Juro agent container into your own infrastructure. It runs a private, non-custodial scan for GDPR, DPDP, and DORA obligation markers — entirely inside your VPC or local machine. No scan data or infrastructure state leaves your environment.</p>
+
+    <h2>One-liner install</h2>
+
+    <div class="install-cmd-block">
+      <div class="install-cmd-label">Run in your terminal</div>
+      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | bash</pre>
+      <button class="install-copy-btn" id="copyBtn" aria-label="Copy install command">Copy</button>
+    </div>
+
+    <p>The script downloads the <code style="font-family:var(--mono);font-size:0.875em;color:var(--yellow);background:rgba(245,196,0,0.08);border:1px solid rgba(245,196,0,0.18);border-radius:4px;padding:1px 6px">juro-deploy</code> CLI binary for your platform (Linux x64, macOS arm64, macOS x64), verifies the download, and installs it to <code style="font-family:var(--mono);font-size:0.875em;color:var(--yellow);background:rgba(245,196,0,0.08);border:1px solid rgba(245,196,0,0.18);border-radius:4px;padding:1px 6px">/usr/local/bin</code>. On Linux, Docker Engine and the Compose v2 plugin are installed automatically if not already present.</p>
+
+    <hr class="post-divider">
+
+    <h2>Prerequisites</h2>
+
+    <ul>
+      <li><strong>Docker</strong> — Engine 24+ (Linux) or Docker Desktop (macOS). The installer handles Docker Engine on Amazon Linux, Ubuntu, and Debian automatically.</li>
+      <li><strong>AWS credentials with a read-only IAM policy</strong> — scoped to the services you want to scan (S3, RDS, CloudTrail, CloudWatch Logs, Config). See the <a href="/checklist.html">prerequisites checklist</a> for the exact policy document.</li>
+      <li>Supported platforms: Linux x86_64, macOS arm64, macOS x86_64.</li>
+    </ul>
+
+    <hr class="post-divider">
+
+    <h2>After install</h2>
+
+    <div class="next-steps">
+      <div class="next-steps-label">Next steps</div>
+      <ol>
+        <li>Run <code>juro-deploy init</code> — interactive setup that writes <code>juro-deploy.yml</code> with your AWS region, target account, and scan scope.</li>
+        <li>Run <code>juro-deploy scan</code> — starts the agent container, runs the scan, and writes a signed artefact to <code>./juro-output/</code>.</li>
+        <li>The artefact is a deterministic JSON file signed with an Ed25519 key. Share it with auditors or counterparties as evidence. Verify it independently with <code>juro verify &lt;artefact.json&gt;</code>.</li>
+      </ol>
+    </div>
+
+    <hr class="post-divider">
+
+    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">What does juro-deploy install?</summary>
+          <div class="faq-answer">
+            <p>juro-deploy installs the juro-deploy CLI binary and pulls the agent container image. The agent runs inside your own infrastructure — Docker on your EC2 instance or local machine — and performs GDPR, DPDP, and DORA compliance scanning without sending your data or infrastructure state to external servers.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What are the prerequisites for juro-deploy?</summary>
+          <div class="faq-answer">
+            <p>You need Docker (Engine 24+ or Docker Desktop) and AWS credentials with a read-only IAM policy scoped to the services you want to scan. See the prerequisites checklist at <a href="/checklist.html">jurocompliant.com/checklist.html</a> for the exact IAM permissions required.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Does juro-deploy send data outside my infrastructure?</summary>
+          <div class="faq-answer">
+            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint written to a public notary log for artefact verification — no scan findings, no configuration, no credentials are transmitted.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">Jurocompliant — compliance scanner</div>
+      <h3>Not sure where to start?</h3>
+      <p>Run the free Tier 1 surface scan first — no account, no install. It scans your domain's public-facing posture against GDPR, DPDP, and DORA obligation markers and produces a finding report with specific rule citations.</p>
+      <a href="https://jurocompliant.com" class="post-cta-btn">Scan your domain — jurocompliant.com →</a>
+    </div>
+
+  </div>
+
+  <hr class="post-footer-rule">
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every page load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  // Mobile nav hamburger
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+<script>
+  // Copy install command to clipboard
+  const copyBtn = document.getElementById('copyBtn');
+  const cmdEl = document.getElementById('installCmd');
+  if (copyBtn && cmdEl) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(cmdEl.textContent.trim()).then(() => {
+        copyBtn.textContent = 'Copied';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+      }).catch(() => {});
+    });
+  }
+</script>
+
+</body>
+</html>
