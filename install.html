@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Install juro-deploy — private compliance scanning in your VPC | Jurocompliant</title>
-<meta name="description" content="Install juro-deploy: one curl command sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
+<title>Install juro-deploy — private VPC compliance scanner | Jurocompliant</title>
+<meta name="description" content="Install juro-deploy: one curl command installs the CLI binary. Run juro-deploy init to pull the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://jurocompliant.com/install" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -13,15 +13,15 @@
 <!-- ══ Open Graph ══ -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jurocompliant.com/install">
-<meta property="og:title" content="Install juro-deploy — private compliance scanning in your VPC">
-<meta property="og:description" content="One curl command installs juro-deploy and sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
+<meta property="og:title" content="Install juro-deploy — private VPC compliance scanner">
+<meta property="og:description" content="One curl command installs the juro-deploy CLI binary. Run juro-deploy init to pull the agent container and start private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
 <meta property="og:site_name" content="Jurocompliant">
 
 <!-- ══ Twitter Card ══ -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@jurocompliant">
-<meta name="twitter:title" content="Install juro-deploy — private compliance scanning in your VPC">
-<meta name="twitter:description" content="One curl command installs juro-deploy and sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
+<meta name="twitter:title" content="Install juro-deploy — private VPC compliance scanner">
+<meta name="twitter:description" content="One curl command installs the juro-deploy CLI binary. Run juro-deploy init to pull the agent container and start private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.">
 
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,7 +33,7 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Install juro-deploy",
-  "description": "Install juro-deploy: one curl command sets up the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.",
+  "description": "Install juro-deploy: one curl command installs the CLI binary. Run juro-deploy init to pull the agent container for private, non-custodial GDPR, DPDP, and DORA scanning inside your own infrastructure.",
   "url": "https://jurocompliant.com/install",
   "datePublished": "2026-06-03",
   "dateModified": "2026-06-03",
@@ -56,7 +56,7 @@
       "name": "What does juro-deploy install?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "juro-deploy installs the juro-deploy CLI binary and pulls the agent container image. The agent runs inside your own infrastructure — Docker on your EC2 instance or local machine — and performs GDPR, DPDP, and DORA compliance scanning without sending your data or infrastructure state to external servers."
+        "text": "juro-deploy installs the juro-deploy CLI binary. The agent container image is pulled when you run juro-deploy init. The agent runs inside your own infrastructure — Docker on your EC2 instance or local machine — and performs GDPR, DPDP, and DORA scanning without sending your data or infrastructure state to external servers."
       }
     },
     {
@@ -503,7 +503,7 @@
 
     <div class="install-cmd-block">
       <div class="install-cmd-label">Run in your terminal</div>
-      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | bash</pre>
+      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | sudo bash</pre>
       <button class="install-copy-btn" id="copyBtn" aria-label="Copy install command">Copy</button>
     </div>
 
@@ -511,7 +511,7 @@
 
     <hr class="post-divider">
 
-    <h2>Prerequisites</h2>
+    <h2>What do I need before installing juro-deploy?</h2>
 
     <ul>
       <li><strong>Docker</strong> — Engine 24+ (Linux) or Docker Desktop (macOS). The installer handles Docker Engine on Amazon Linux, Ubuntu, and Debian automatically.</li>
@@ -541,7 +541,7 @@
         <details class="faq-item">
           <summary class="faq-question">What does juro-deploy install?</summary>
           <div class="faq-answer">
-            <p>juro-deploy installs the juro-deploy CLI binary and pulls the agent container image. The agent runs inside your own infrastructure — Docker on your EC2 instance or local machine — and performs GDPR, DPDP, and DORA compliance scanning without sending your data or infrastructure state to external servers.</p>
+            <p>juro-deploy installs the juro-deploy CLI binary. The agent container image is pulled when you run <code>juro-deploy init</code>. The agent runs inside your own infrastructure — Docker on your EC2 instance or local machine — and performs GDPR, DPDP, and DORA scanning without sending your data or infrastructure state to external servers.</p>
           </div>
         </details>
         <details class="faq-item">
@@ -550,6 +550,7 @@
             <p>You need Docker (Engine 24+ or Docker Desktop) and AWS credentials with a read-only IAM policy scoped to the services you want to scan. See the prerequisites checklist at <a href="/checklist.html">jurocompliant.com/checklist.html</a> for the exact IAM permissions required.</p>
           </div>
         </details>
+        <!-- TODO: founder to confirm notary log public verifiability before this ships -->
         <details class="faq-item">
           <summary class="faq-question">Does juro-deploy send data outside my infrastructure?</summary>
           <div class="faq-answer">
