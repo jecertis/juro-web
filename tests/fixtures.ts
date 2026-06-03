@@ -37,24 +37,27 @@ function startStaticServer(): Promise<http.Server> {
   return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(server)));
 }
 
+export interface PostureScoreEntry {
+  regulation: 'DPDP' | 'GDPR' | 'DORA' | 'EU AI Act';
+  brand: string;
+  surface: 'website' | 'infrastructure';
+  rule_pack_id: string;
+  rule_pack_sha: string;
+  score: number;
+  rules_total: number;
+  rules_passed: number;
+  weighted_total: number;
+  weighted_passed: number;
+  scope_statement: string;
+  scanned_at: string;
+}
+
 export interface ScanResponse {
   url?: string;
   elapsed?: string | number;
   posture?: Array<{ rule: string; status: 'clear' | 'fail'; description?: string }>;
-  posture_score?: {
-    regulation: 'DPDP' | 'GDPR' | 'DORA';
-    brand: string;
-    surface: 'website' | 'infrastructure';
-    rule_pack_id: string;
-    rule_pack_sha: string;
-    score: number;
-    rules_total: number;
-    rules_passed: number;
-    weighted_total: number;
-    weighted_passed: number;
-    scope_statement: string;
-    scanned_at: string;
-  } | null;
+  posture_score?: PostureScoreEntry | null;
+  posture_scores?: PostureScoreEntry[];
   findings?: Array<{
     id: string;
     sev: 'critical' | 'high' | 'medium';
@@ -329,6 +332,43 @@ export const EMPTY_FINDINGS_RESPONSE: ScanResponse = {
     scanned_at: '2026-05-02T12:00:00Z',
   },
   findings: [],
+};
+
+/**
+ * Response that includes an EU AI Act posture score entry (score 0 — AIACT-50-001
+ * fired) alongside the existing DPDP posture_score. Mirrors what the backend
+ * returns when an AI surface widget is detected on the scanned domain.
+ */
+export const AIACT_FINDINGS_RESPONSE: ScanResponse = {
+  ...SAMPLE_FINDINGS_RESPONSE,
+  posture_scores: [
+    {
+      regulation: 'EU AI Act',
+      brand: 'Surface Posture',
+      surface: 'website',
+      rule_pack_id: 'juro-aiact-art50-surface@1.1.0',
+      rule_pack_sha: 'sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789',
+      score: 0,
+      rules_total: 1,
+      rules_passed: 0,
+      weighted_total: 4,
+      weighted_passed: 0,
+      scope_statement: 'EU AI Act Art. 50 surface probe: checks for AI chatbot/assistant widgets lacking a transparency disclosure label.',
+      scanned_at: '2026-05-02T12:00:00Z',
+    },
+  ],
+  findings: [
+    ...(SAMPLE_FINDINGS_RESPONSE.findings ?? []),
+    {
+      id: 'F-004',
+      sev: 'high',
+      title: 'AI chatbot widget detected — no Art. 50 transparency label',
+      desc: 'A chat widget matching known AI assistant patterns was detected. No disclosure informing users they are interacting with an AI system was found, as required by EU AI Act Art. 50(1).',
+      rule: 'AIACT-50-001',
+      location: 'example.com',
+      remediation: 'Add a visible disclosure label near your chat or AI assistant widget informing users they are interacting with an AI system, as required by EU AI Act Art. 50(1).',
+    },
+  ],
 };
 
 /**
