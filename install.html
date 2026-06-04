@@ -72,7 +72,7 @@
       "name": "Does juro-deploy send data outside my infrastructure?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. Scan artefacts are signed with an Ed25519 key embedded in the juro-verify binary — verifiable offline, no network required. No scan findings, configuration, or credentials are transmitted."
+        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint of the signed scan bundle sent to Juro's notary endpoint for audit verification — the fingerprint contains no infrastructure state, no scan findings, no configuration, and no credentials."
       }
     }
   ]
@@ -503,7 +503,7 @@
 
     <div class="install-cmd-block">
       <div class="install-cmd-label">Run in your terminal</div>
-      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | bash</pre>
+      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | sudo bash</pre>
       <button class="install-copy-btn" id="copyBtn" aria-label="Copy install command">Copy</button>
     </div>
 
@@ -553,7 +553,7 @@
         <details class="faq-item">
           <summary class="faq-question">Does juro-deploy send data outside my infrastructure?</summary>
           <div class="faq-answer">
-            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. Scan artefacts are signed with an Ed25519 key embedded in the <code>juro-verify</code> binary — verifiable offline, no network required. No scan findings, configuration, or credentials are transmitted.</p>
+            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint of the signed scan bundle sent to Juro's notary endpoint for audit verification — the fingerprint contains no infrastructure state, no scan findings, no configuration, and no credentials.</p>
           </div>
         </details>
       </div>
