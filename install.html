@@ -72,7 +72,7 @@
       "name": "Does juro-deploy send data outside my infrastructure?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint written to a public notary log for artefact verification — no scan findings, no configuration, no credentials are transmitted."
+        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. Scan artefacts are signed with an Ed25519 key embedded in the juro-verify binary — verifiable offline, no network required. No scan findings, configuration, or credentials are transmitted."
       }
     }
   ]
@@ -503,7 +503,7 @@
 
     <div class="install-cmd-block">
       <div class="install-cmd-label">Run in your terminal</div>
-      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | sudo bash</pre>
+      <pre class="install-cmd" id="installCmd">curl -sSL https://jurocompliant.com/install.sh | bash</pre>
       <button class="install-copy-btn" id="copyBtn" aria-label="Copy install command">Copy</button>
     </div>
 
@@ -550,11 +550,10 @@
             <p>You need Docker (Engine 24+ or Docker Desktop) and AWS credentials with a read-only IAM policy scoped to the services you want to scan. See the prerequisites checklist at <a href="/checklist.html">jurocompliant.com/checklist.html</a> for the exact IAM permissions required.</p>
           </div>
         </details>
-        <!-- TODO: founder to confirm notary log public verifiability before this ships -->
         <details class="faq-item">
           <summary class="faq-question">Does juro-deploy send data outside my infrastructure?</summary>
           <div class="faq-answer">
-            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint written to a public notary log for artefact verification — no scan findings, no configuration, no credentials are transmitted.</p>
+            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. Scan artefacts are signed with an Ed25519 key embedded in the <code>juro-verify</code> binary — verifiable offline, no network required. No scan findings, configuration, or credentials are transmitted.</p>
           </div>
         </details>
       </div>
