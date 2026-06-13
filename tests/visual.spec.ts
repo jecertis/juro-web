@@ -9,6 +9,8 @@
  *
  * Last regen trigger: 2026-06-03 — stale after dpdp-processor-guide, a11y
  * contrast fixes, homepage OG tags, and AI Act posture card (feat/aiact-posture-card).
+ * Baselines for ai-act-art50-explainer not yet generated — apply the
+ * `update-snapshots` label after founder approves this PR (BL-ENG-023).
  *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
@@ -21,6 +23,7 @@ const PAGES = [
   { name: 'deploy-evergent', path: '/deploy-evergent.html' },
   { name: 'privacy', path: '/privacy.html' },
   { name: 'dpdp-processor-guide', path: '/dpdp-processor-guide.html' },
+  { name: 'ai-act-art50-explainer', path: '/blog/ai-act-art50-transparency-explainer.html' },
 ] as const;
 
 const VIEWPORTS = [
