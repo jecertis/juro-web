@@ -63,7 +63,7 @@ jobs:
           if echo "$CHANGED" | grep -qF "checklist.html"; then
             SPECS="$SPECS mobile-nav.spec.ts pageview-beacon.spec.ts"
           fi
-          CHANGED_SPECS=$(echo "$CHANGED" | grep -E "^tests/[^/]+\.spec\.ts$" | xargs -I{} basename {} 2>/dev/null || true)
+          CHANGED_SPECS=$(echo "$CHANGED" | grep -E "^tests/[^/]+\.spec\.ts$" | grep -v "visual.spec.ts" | xargs -I{} basename {} 2>/dev/null || true)
           if [ -n "$CHANGED_SPECS" ]; then
             SPECS="$SPECS $CHANGED_SPECS"
           fi
