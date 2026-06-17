@@ -638,8 +638,8 @@
 .site-footer, .site-footer a { color: rgba(255,255,255,0.72); }
 
 /* DPIIT recognition badge — entity-level, muted below footer links */
-.footer-dpiit { width: 100%; text-align: center; font-size: var(--text-xs); color: rgba(255,255,255,0.35); margin: 0.5rem 0 0; letter-spacing: 0.01em; }
-.footer-dpiit-name { color: rgba(255,255,255,0.45); font-weight: 500; }
+.footer-dpiit { width: 100%; text-align: center; font-size: var(--text-xs); color: rgba(255,255,255,0.55); margin: 0.5rem 0 0; letter-spacing: 0.01em; }
+.footer-dpiit-name { color: rgba(255,255,255,0.65); font-weight: 500; }
 
 /* header nav framework tags: 0.55 → 0.72 */
 .framework-tag { color: rgba(255,255,255,0.72); }
