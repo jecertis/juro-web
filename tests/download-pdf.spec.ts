@@ -71,12 +71,12 @@ test.describe('PDF download — email already provided', () => {
     expect(hiddenAfter).toBe(0);
   });
 
-  test('D5: calls window.print exactly once', async ({ page, siteUrl, mockApi }) => {
+  test('D5: triggers HTML file download with correct filename', async ({ page, siteUrl, mockApi }) => {
     await runScan(page, siteUrl, mockApi);
+    const downloadPromise = page.waitForEvent('download');
     await page.locator('.download-pdf-btn').click();
-
-    const printCalled = await page.evaluate(() => (window as any).__printCalled);
-    expect(printCalled).toBe(1);
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/^juro-scan-.*\.html$/);
   });
 
   test('D6: auto email modal suppressed when email already provided', async ({
@@ -115,7 +115,7 @@ test.describe('PDF download — email not yet provided (gate)', () => {
     expect(printCalled).toBe(0);
   });
 
-  test('D8: submitting email triggers print and closes modal', async ({
+  test('D8: submitting email triggers download and closes modal', async ({
     page,
     siteUrl,
     mockApi,
@@ -125,14 +125,13 @@ test.describe('PDF download — email not yet provided (gate)', () => {
     await expect(page.locator('#emailModal')).toBeVisible();
 
     await page.fill('#modalEmail', 'demo@evergent.com');
+
+    const downloadPromise = page.waitForEvent('download');
     await page.locator('#emailForm .modal-submit').click();
 
-    // Modal closes after success animation (~3.5s); print fires shortly after
     await expect(page.locator('#emailModal')).toBeHidden({ timeout: 5_000 });
-    await page.waitForTimeout(300);
-
-    const printCalled = await page.evaluate(() => (window as any).__printCalled);
-    expect(printCalled).toBe(1);
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/^juro-scan-.*\.html$/);
   });
 
   test('D9: closing modal without submitting does not print', async ({
