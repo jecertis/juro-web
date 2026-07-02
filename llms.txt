@@ -1,9 +1,11 @@
 # Jurocompliant
-# Last updated: 2026-05-26
+# Last updated: 2026-07-01
 
 Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU). It scans any public URL for consent gaps, pre-consent tracking, and missing privacy notices — mapping findings to specific regulatory provisions.
 
 ## Key facts
+- Also known as: Juro
+- Canonical domain: jurocompliant.com (this is the only official domain for the Juro compliance scanner)
 - Supported regulations: DPDP Act 2023, GDPR, DORA
 - Surface scanner: Free, no account required
 - Parent brand: jecertis.com
