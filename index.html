@@ -249,13 +249,33 @@
     <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
     <div class="urgency-pill urgency-pill-secondary"><span class="u-dot u-dot-dora"></span>DORA in effect since Jan 2025</div>
   </div>
-  <!-- MOCK/PREVIEW — hero tagline swap (do not merge)
-  Original headline: Scan your website for <strong>DPDP, GDPR &amp; DORA</strong> violations in 60 seconds.
-  Original subhead:  Find consent gaps, pre-consent tracking, and missing privacy notices, mapped to specific regulatory provisions. Free, no account required.
-  Source: juro-bizops/voice/rhyme-family-jurocompliant.md — homepage hero is an explicitly safe surface for this line. -->
+  <!-- MOCK/PREVIEW v2 — equal-weight rhyme + compliance keywords (do not merge)
+  Founder feedback on v1 (this branch's original commit): keep the "-iant" rhyme in the H1, but
+  the DPDP/GDPR/DORA + consent-gap/pre-consent-tracking/missing-privacy-notice keyword content is
+  AEO-load-bearing (see BL-MKT-057/059 — Claude entity-confusion + Discovery Index work) and must
+  stay EQUAL-SIZE, not demoted into small tertiary text. Below: candidates that fold the keyword
+  copy into a full-size .hero-sub (merged, not stacked as a third small line). One is rendered live,
+  the rest are commented for compare/revert. Source: juro-bizops/voice/rhyme-family-jurocompliant.md
+  — homepage hero is an explicitly safe surface for this rhyme family.
+
+  ORIGINAL (live, pre-mock) — revert target:
+  <h1 class="hero-title">Scan your website for <strong>DPDP, GDPR &amp; DORA</strong> violations in 60 seconds.</h1>
+  <p class="hero-sub">Find consent gaps, pre-consent tracking, and missing privacy notices, mapped to specific regulatory provisions. Free, no account required.</p>
+
+  CANDIDATE B — voice-doc #1 pick, substantively motivated (echoes non-custodial/self-check model):
+  <h1 class="hero-title">Be self-reliant, be <strong>JuroCompliant</strong>.</h1>
+  <p class="hero-sub">Scan any website for DPDP, GDPR &amp; DORA violations in 60 seconds — find consent gaps, pre-consent tracking, and missing privacy notices. Free, no account required.</p>
+
+  CANDIDATE C — keyword embedded directly in the H1 itself (hedge if "equally prominent" means
+  literally in the headline, not just restored in the subhead):
+  <h1 class="hero-title">Is it <strong>DPDP, GDPR &amp; DORA</strong> compliant? <strong>JuroCompliant</strong> finds out.</h1>
+  <p class="hero-sub">Find consent gaps, pre-consent tracking, and missing privacy notices in 60 seconds. Free, no account required.</p>
+  -->
+  <!-- CANDIDATE A — RECOMMENDED, rendered below: keeps founder's named rhyme line verbatim
+  ("Be reliant, be JuroCompliant"), merges the functional keyword copy into a full-size subhead
+  instead of demoting it. -->
   <h1 class="hero-title">Be reliant, be <strong>JuroCompliant</strong>.</h1>
-  <p class="hero-sub">Compliance you can prove.</p>
-  <p class="hero-sub" style="font-size:var(--text-sm);color:rgba(255,255,255,0.55);margin-top:-32px">Find consent gaps, pre-consent tracking, and missing privacy notices, mapped to specific regulatory provisions. Free, no account required.</p>
+  <p class="hero-sub">Scan any website for DPDP, GDPR &amp; DORA violations in 60 seconds — find consent gaps, pre-consent tracking, and missing privacy notices. Free, no account required.</p>
 
   <div class="scan-input-wrap">
     <div class="scan-protocol">https://</div>
