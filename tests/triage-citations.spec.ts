@@ -51,6 +51,23 @@ test.describe('triage citation rendering', () => {
 
     const rawCard = page.locator('.finding-card[data-fid="F-002"] .finding-citation');
     await expect(rawCard).toBeHidden();
+
+    // Dedup: the backend folds legal_basis into the same `rule` field the
+    // old "Sec. {rule}" chip already reads — a cited card must not render
+    // both. When a citation is shown, the rule-chip element must not exist
+    // at all for that card (not merely hidden), and the citation text must
+    // appear exactly once in the card.
+    await expect(page.locator('.finding-card[data-fid="F-001"] .rule-chip')).toHaveCount(0);
+    const citedCardText = await page.locator('.finding-card[data-fid="F-001"]').innerText();
+    expect(citedCardText.split('DPDP § 5').length - 1).toBe(1);
+
+    // Raw-ID card keeps the existing "Sec. {rule_id}" chip, exactly once,
+    // with no citation callout. (F-002's body is collapsed by default —
+    // only the first card opens — so assert presence/content, not
+    // visibility.)
+    const rawChip = page.locator('.finding-card[data-fid="F-002"] .rule-chip');
+    await expect(rawChip).toHaveCount(1);
+    await expect(rawChip).toContainText('DPDP_NO_CONSENT_BANNER');
   });
 
   test('T2: isRawRuleId helper classifies raw IDs vs citations', async ({ page, siteUrl }) => {
@@ -164,6 +181,15 @@ test.describe('triage poll-until-done loop', () => {
     await expect(page.locator('#triagePendingChip')).toBeHidden({ timeout: 5_000 });
     await expect(citation).toBeVisible();
     await expect(citation).toContainText('DPDP § 6(1)');
+
+    // Dedup after the poll swap too: the pre-existing rule-chip (which
+    // showed the raw rule_id before triage finished) must be hidden once
+    // the citation lands — never both visible at once — and the citation
+    // text appears exactly once in the card.
+    const chipAfterSwap = page.locator('.finding-card[data-fid="F-001"] .rule-chip');
+    await expect(chipAfterSwap).toBeHidden();
+    const cardTextAfterSwap = await page.locator('.finding-card[data-fid="F-001"]').innerText();
+    expect(cardTextAfterSwap.split('DPDP § 6(1)').length - 1).toBe(1);
   });
 
   test('T7: still pending at the attempt cap → chip drops silently, no citation swap', async ({ page, siteUrl, mockApi }) => {
