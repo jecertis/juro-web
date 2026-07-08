@@ -658,6 +658,10 @@
 .how-step-desc { color: #5C5C5C; }
 .rule-chip { color: #5C5C5C; }
 
+/* Legal citation line (BL: triage citation rendering) + pending-triage chip */
+.triage-chip{margin-left:8px;font-family:var(--mono);font-size:var(--text-xs);color:var(--amber);background:var(--amber-light);border:1px solid rgba(217,119,6,0.3);padding:3px 10px;border-radius:99px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.finding-citation{font-family:var(--mono);font-size:var(--text-xs);color:var(--gray-700);background:var(--gray-100);border-left:3px solid var(--yellow-dark);padding:6px 10px;margin:0 0 var(--s2);border-radius:4px}
+
 /* countdown-num: --red (#DC2626) on dark strip bg (~#170C0C) = 3.97:1 → FAIL.
    Boost to #FF4444 which gives 5.63:1 on the same bg. */
 .countdown-num { color: #FF4444; }
