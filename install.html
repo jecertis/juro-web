@@ -529,6 +529,7 @@
         <li>Run <code>juro-deploy init</code> — interactive setup that writes <code>juro-deploy.yml</code> with your AWS region, target account, and scan scope.</li>
         <li>Run <code>juro-deploy scan</code> — starts the agent container, runs the scan, and writes a signed artefact to <code>./juro-output/</code>.</li>
         <li>The artefact is a deterministic JSON file signed with an Ed25519 key. Share it with auditors or counterparties as evidence. Verify it independently with <code>juro verify &lt;artefact.json&gt;</code>.</li>
+        <li>Prefer a standalone verifier with no other dependencies? Install <code>juro-verify</code> — <code>curl -sSL https://jurocompliant.com/install-verify.sh | sudo bash</code> — or read the <a href="https://github.com/jecertis/juro-verify" target="_blank" rel="noopener">open-source verifier source</a> on GitHub and check it yourself.</li>
       </ol>
     </div>
 
