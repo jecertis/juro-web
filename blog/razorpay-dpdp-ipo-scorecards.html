@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Do Fintechs Need DPDP Disclosure Before an IPO? | Juro</title>
+
+<meta name="description" content="No SEBI rule mandates DPDP disclosure, but underwriters and counsel now expect IPO-bound Indian fintechs to evidence data governance in their risk factors.">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://jurocompliant.com/blog/razorpay-dpdp-ipo-scorecards">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- ══ Open Graph ══ -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jurocompliant.com/blog/razorpay-dpdp-ipo-scorecards">
+<meta property="og:title" content="Do Indian Fintechs Need to Disclose DPDP Compliance Before an IPO?">
+<meta property="og:description" content="No SEBI rule mandates DPDP disclosure, but underwriters and counsel now expect IPO-bound Indian fintechs to evidence data governance in their risk factors.">
+<meta property="og:site_name" content="Jurocompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/razorpay-dpdp-ipo-scorecards.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="Do Indian Fintechs Need DPDP Disclosure Before an IPO?">
+<meta name="twitter:description" content="No SEBI rule mandates DPDP disclosure, but underwriters and counsel now expect IPO-bound fintechs to evidence data governance in risk factors.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/razorpay-dpdp-ipo-scorecards.png">
+
+<!-- ══ Article metadata ══ -->
+<meta property="article:published_time" content="2026-07-01">
+<meta property="article:author" content="Juro">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: Article ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Do Indian Fintechs Need to Disclose DPDP Compliance Before an IPO?",
+  "description": "No SEBI rule mandates DPDP disclosure, but underwriters and counsel now expect IPO-bound Indian fintechs to evidence data governance in their risk factors.",
+  "url": "https://jurocompliant.com/blog/razorpay-dpdp-ipo-scorecards",
+  "datePublished": "2026-07-01",
+  "dateModified": "2026-07-01",
+  "author": {
+    "@type": "Organization",
+    "name": "Juro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jurocompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jurocompliant.com/blog/razorpay-dpdp-ipo-scorecards"
+  }
+}
+</script>
+
+<!-- ══ Structured Data: FAQPage — matches visible FAQ section word-for-word ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does SEBI require a formal DPDP audit as part of the IPO process?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not as a separate mandated audit distinct from standard prospectus risk-factor review. What has changed is that DPDP-relevant risk disclosure is now a routine part of the broader risk-factor drafting process for data-handling businesses, reviewed by the same underwriters and counsel who review financial and legal risk factors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does \"confidential DRHP\" mean for public visibility into a company's compliance posture?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A confidentially filed DRHP is not published for public review until later in the process (or at all, if the deal does not proceed). That means specific disclosure language in Razorpay's or similar filings is not publicly available. Commentary should describe the regulatory pattern, not the contents of a document the public has not seen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When do DPDP Rules 2025 obligations actually take effect?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Foundational provisions are already in effect as of November 2025. Consent Manager registration obligations begin in November 2026. Core operational requirements, including audit trails, breach notification, and grievance redress, are due by May 13, 2027."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a company's data governance program \"DPDP compliant\" once it files an IPO risk-factor disclosure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A risk-factor disclosure is a narrative statement reviewed by counsel, not a compliance certification, and it does not establish a legal compliance status one way or the other. Whether a company meets DPDP requirements is a legal determination made by counsel, auditors, or the Data Protection Board, not by the fact of having filed a disclosure."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  /* ── Post layout ── */
+  .post-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  /* ── Post header ── */
+  .post-header { margin-bottom: var(--s5); }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+  .post-breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; }
+  .post-breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+  .post-breadcrumb-sep { color: rgba(255,255,255,0.2); }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+
+  .post-author { font-size: var(--text-xs); color: rgba(255,255,255,0.72); font-weight: 500; }
+  .post-date-meta { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-reading-time { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-meta-sep { color: rgba(255,255,255,0.2); font-size: var(--text-xs); }
+
+  /* ── Audience callout ── */
+  .post-audience {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s4);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+  .post-audience strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  /* ── Article body ── */
+  .post-body { color: rgba(255,255,255,0.85); font-size: var(--text-base); line-height: var(--lh-reading); }
+  .post-body p { margin-bottom: var(--s3); }
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .post-body ul, .post-body ol { padding-left: 1.4rem; margin-bottom: var(--s3); color: rgba(255,255,255,0.85); }
+  .post-body li { margin-bottom: 6px; line-height: var(--lh-reading); }
+  .post-body strong { color: #fff; font-weight: 600; }
+  .post-body a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+  .post-body a:hover { color: #fff; }
+
+  /* ── Pull quote ── */
+  .post-callout {
+    border-left: 3px solid var(--yellow);
+    padding: var(--s2) 0 var(--s2) var(--s3);
+    margin: var(--s4) 0;
+    font-size: var(--text-lg);
+    color: rgba(255,255,255,0.85);
+    line-height: var(--lh-snug);
+    font-style: normal;
+  }
+
+  /* ── CTA block ── */
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+  .post-cta h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+  }
+  .post-cta p {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
+    background: var(--yellow-dark);
+    color: #0A0A0A !important;
+  }
+
+  /* ── FAQ ── */
+  .faq-list { display: flex; flex-direction: column; gap: var(--s2); }
+  .faq-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .faq-item[open] { border-color: rgba(245,196,0,0.25); }
+  .faq-question {
+    padding: var(--s2) var(--s3);
+    cursor: pointer;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    font-size: var(--text-sm);
+    line-height: var(--lh-snug);
+    list-style: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after {
+    content: '+';
+    float: right;
+    color: var(--yellow);
+    font-weight: 400;
+    font-family: var(--mono);
+  }
+  .faq-item[open] .faq-question::after { content: '−'; }
+  .faq-answer {
+    padding: 0 var(--s3) var(--s3);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+  }
+  .faq-answer p { margin: 0; }
+
+  /* ── About block ── */
+  .post-about {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s3) var(--s4);
+    margin-top: var(--s5);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+
+  /* ── Footer rule ── */
+  .post-wrap .post-footer-rule {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin: var(--s6) 0 0;
+  }
+
+  /* ══ ACCESSIBILITY ══ */
+
+  /* Skip nav — visually hidden until focused */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  /* Focus rings for keyboard users */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .post-body a {
+      transition: none;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .post-cta { padding: var(--s3) var(--s3); }
+    .post-callout { font-size: var(--text-base); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ ACCESSIBILITY: Skip nav — must be first focusable element ══ -->
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<!-- ══ id="post-content" is the skip nav target ══ -->
+<main class="post-wrap" aria-label="Article" id="post-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>DPDP and IPO disclosure</span>
+    </nav>
+
+    <div class="post-tag">DPDP</div>
+
+    <h1 class="post-title">Do Indian Fintechs Need to Disclose DPDP Compliance Before an IPO?</h1>
+
+    <div class="post-meta-row">
+      <span class="post-author">Juro</span>
+      <span class="post-meta-sep">·</span>
+      <time class="post-date-meta" datetime="2026-07-01">1 Jul 2026</time>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~6 min read</span>
+    </div>
+  </div>
+
+  <div class="post-audience">
+    <strong>Who this is for:</strong> General counsel, CFOs, and CTOs at India fintechs preparing a DRHP or planning an IPO in the next 12 months.
+  </div>
+
+  <article class="post-body">
+
+    <p>Short answer: no SEBI rule specifically requires DPDP disclosure. But underwriters and counsel now expect it as part of ordinary IPO risk-factor review, and that expectation sharpened in 2026.</p>
+
+    <p>Underwriters and regulators are now asking Indian fintechs preparing to go public to show their data governance work in writing.</p>
+
+    <p>Razorpay confidentially filed a draft red herring prospectus (DRHP) with SEBI in June 2026 for a large fresh-issue raise. Moneyview filed a ₹1,500 crore DRHP in March, per reporting from Inc42 and Entrackr.</p>
+
+    <blockquote class="post-callout">No SEBI rule specifically requires DPDP disclosure. But underwriters and counsel now treat it as a routine part of ordinary IPO risk-factor review.</blockquote>
+
+    <p>Neither company has made prospectus contents public. That's what "confidential" filing means. But the pattern around them is public. It points to a structural shift: data protection posture is becoming a risk factor companies have to be able to evidence, not just describe, before they list.</p>
+
+    <p>Juro is a non-custodial compliance scanner. It produces signed, verifiable records of what a scan found against a specific rule: evidence a legal or compliance team can use when drafting disclosure language, not a substitute for that judgment.</p>
+
+    <h2>What is a DPDP compliance disclosure, in plain terms?</h2>
+
+    <p>It is the practice of describing, in a prospectus's risk-factor section, how a company handles personal data under India's Digital Personal Data Protection Act, 2025. That includes breach-detection capability, consent-collection mechanisms, and the process for honoring data principal rights requests (access, correction, erasure).</p>
+
+    <p>This is not a certification. It is a narrative disclosure, reviewed by underwriters and legal counsel, that investors read to gauge regulatory risk. See our <a href="https://jurocompliant.com/dpdp-processor-guide">DPDP processor guide</a> for what the underlying obligations look like for a data processor.</p>
+
+    <h2>Why IPO timing raises the bar</h2>
+
+    <p>A company preparing to list faces different scrutiny than one operating quietly.</p>
+
+    <p>Underwriters, auditors, and institutional investors read risk factors closely. Litigation or regulatory exposure discovered after listing becomes a disclosure liability, not just an operational one.</p>
+
+    <p>DPDP Rules 2025 add a specific forcing event to this calendar. Consent Manager registration obligations begin in November 2026. A Consent Manager is an intermediary registered with the Data Protection Board (the statutory body that adjudicates DPDP complaints), through which individuals grant, manage, and withdraw consent for how their personal data is used. Core operational requirements, including audit trails, breach notification workflows, and grievance redress mechanisms, are due by May 2027.</p>
+
+    <p>A fintech filing a DRHP in mid-2026 is drafting risk-factor language against a regulatory regime that is still being phased in. That makes the disclosure harder to write and easier to get wrong. See our <a href="https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers">DPDP Consent Manager explainer</a> for what registration actually requires, and the <a href="https://jurocompliant.com/dpdp-sdf-countdown">November 2026 deadline countdown</a> for the full compliance calendar.</p>
+
+    <p><strong>The forcing event here isn't a new SEBI rule specific to DPDP. It's the collision of two existing timelines: the ordinary rigor of IPO risk disclosure, and the DPDP Rules 2025 rollout schedule landing in the same 12-month window as multiple fintech IPO filings.</strong></p>
+
+    <h2>What "evidence" looks like versus what a narrative disclosure looks like</h2>
+
+    <p>Most compliance disclosure today is written, not measured.</p>
+
+    <p>A risk-factor paragraph says a company "maintains appropriate technical and organisational measures" or "has implemented consent management processes." That language is standard, legally reviewed, and largely unverifiable by anyone outside the company without a full audit.</p>
+
+    <p>The alternative is disclosure backed by artifacts: a dated record of what a scan or audit actually found, against which rule, with a signature that can be checked independently later.</p>
+
+    <p>That distinction, claim versus checkable evidence, is exactly the gap a prospectus reader can't close from the document alone. Underwriters can ask for supporting materials; retail investors reading a published DRHP cannot.</p>
+
+    <p>None of this means Razorpay or Moneyview's actual data governance is strong, weak, adequate, or inadequate. That isn't public information, and it isn't something an outside party can conclude from a confidential filing. What is public is the pattern: DPDP-relevant disclosure is now a standard part of the IPO risk-factor conversation for Indian fintechs, and the underlying regulatory deadlines (November 2026, May 2027) apply regardless of listing timeline.</p>
+
+    <h2>Payment platforms face a related, separate pressure</h2>
+
+    <p>Outside the IPO track, several major payment platforms and the National Payments Corporation of India (NPCI) have reportedly sought an exemption from DPDP's per-transaction consent requirements, citing cost and complexity, a request that, per Inc42's coverage of the matter, is still pending.</p>
+
+    <p>If it's denied, those platforms, IPO-bound or not, will need to build per-transaction consent logging and audit trails ahead of the November 2026 Consent Manager deadline. It's a parallel signal to the IPO disclosure trend: the same underlying requirement (provable consent handling) is showing up as a business risk in more than one part of the fintech stack at once.</p>
+
+    <h2>What this means for a company preparing to file</h2>
+
+    <p>A company drafting DPDP risk-factor language for a DRHP is, in effect, being asked to describe a compliance program that regulators are still finishing the rules for.</p>
+
+    <p>The practical response isn't to wait for full clarity. The November 2026 and May 2027 deadlines apply either way. It's to build the underlying evidence now: dated records of breach-detection tests, consent-flow audits, and data principal rights handling, so that when legal counsel drafts the risk factor, there's something concrete behind the sentence.</p>
+
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">Does SEBI require a formal DPDP audit as part of the IPO process?</summary>
+          <div class="faq-answer"><p>Not as a separate mandated audit distinct from standard prospectus risk-factor review. What has changed is that DPDP-relevant risk disclosure is now a routine part of the broader risk-factor drafting process for data-handling businesses, reviewed by the same underwriters and counsel who review financial and legal risk factors.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What does "confidential DRHP" mean for public visibility into a company's compliance posture?</summary>
+          <div class="faq-answer"><p>A confidentially filed DRHP is not published for public review until later in the process (or at all, if the deal does not proceed). That means specific disclosure language in Razorpay's or similar filings is not publicly available. Commentary should describe the regulatory pattern, not the contents of a document the public has not seen.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">When do DPDP Rules 2025 obligations actually take effect?</summary>
+          <div class="faq-answer"><p>Foundational provisions are already in effect as of November 2025. Consent Manager registration obligations begin in November 2026. Core operational requirements, including audit trails, breach notification, and grievance redress, are due by May 13, 2027.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is a company's data governance program "DPDP compliant" once it files an IPO risk-factor disclosure?</summary>
+          <div class="faq-answer"><p>No. A risk-factor disclosure is a narrative statement reviewed by counsel, not a compliance certification, and it does not establish a legal compliance status one way or the other. Whether a company meets DPDP requirements is a legal determination made by counsel, auditors, or the Data Protection Board, not by the fact of having filed a disclosure.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ══ CTA — UTM: ?utm_source=blog&utm_medium=organic&utm_campaign=razorpay-dpdp-ipo-scorecards ══ -->
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">Build the evidence before the filing timeline forces it</div>
+      <h3>See what the evidence looks like before you draft the risk factor</h3>
+      <p>Install juro-deploy and run a scan inside your own infrastructure. It's a single curl command, non-custodial, and nothing leaves your VPC.</p>
+      <a href="https://jurocompliant.com/install?utm_source=blog&utm_medium=organic&utm_campaign=razorpay-dpdp-ipo-scorecards" class="post-cta-btn">Install juro-deploy →</a>
+    </div>
+
+    <div class="post-about">
+      <strong>About Juro:</strong> Juro is a non-custodial compliance scanner that produces signed, verifiable records of what was found during a scan: evidence a legal or compliance team can use when drafting disclosure language, not a substitute for that judgment. Note: jurocompliant.com is a compliance scanning tool, not juro.com, which is a contract management platform.
+    </div>
+
+  </article>
+
+  <hr class="post-footer-rule">
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every blog post load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>
