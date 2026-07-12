@@ -138,7 +138,7 @@ if __name__ == "__main__":
             "Cyber Insurance",
         ),
         (
-            "razorpay-dpdp-ipo-scorecards.png",
+            "dpdp-ipo-risk-disclosure.png",
             "Do Indian Fintechs Need DPDP Disclosure Before an IPO?",
             "DPDP",
         ),
