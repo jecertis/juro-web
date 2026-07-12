@@ -137,6 +137,11 @@ if __name__ == "__main__":
             "Compliance scans and cyber insurance pricing in India",
             "Cyber Insurance",
         ),
+        (
+            "dpdp-ipo-risk-disclosure.png",
+            "Do Indian Fintechs Need DPDP Disclosure Before an IPO?",
+            "DPDP",
+        ),
     ]
 
     print("Generating OG images...")
