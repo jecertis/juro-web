@@ -21,7 +21,8 @@ Template: `blog/_template.html` — start every post from it, not from a copy of
 - [ ] `<meta name="description">` ≤ 155 chars, includes primary keyword + deadline/hook
 - [ ] `<link rel="canonical">` set to the exact URL the post will be served at
 - [ ] `<meta property="article:published_time">` set to actual publish date (ISO: `YYYY-MM-DD`)
-- [ ] `<meta property="article:author" content="Arsh Makker">`
+- [ ] `<meta property="article:author" content="JuroCompliant">`
+- [ ] `<meta name="author" content="JuroCompliant">`
 
 ---
 
