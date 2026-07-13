@@ -893,6 +893,13 @@
   max-width: 680px;
   margin: 0 auto var(--s5);
 }
+.how-note a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: underline;
+}
+.how-note a:hover {
+  color: #fff;
+}
 .stat-cite {
   color: rgba(255,255,255,0.55);
   text-decoration: underline;
