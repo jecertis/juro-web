@@ -887,7 +887,7 @@
 
 .how-note {
   font-size: var(--text-xs);
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.75);
   line-height: var(--lh-reading);
   text-align: center;
   max-width: 680px;
