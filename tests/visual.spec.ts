@@ -12,6 +12,11 @@
  * Baselines for ai-act-art50-explainer not yet generated — apply the
  * `update-snapshots` label after founder approves this PR (BL-ENG-023).
  *
+ * 2026-07-17 (BL-MKT-064): added dpdp-technical-evidence-handbook. No baseline
+ * PNGs generated for it yet in this environment (Docker unavailable) — apply
+ * the `update-snapshots` PR label, or regen locally via
+ * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
@@ -24,6 +29,7 @@ const PAGES = [
   { name: 'privacy', path: '/privacy.html' },
   { name: 'dpdp-processor-guide', path: '/dpdp-processor-guide.html' },
   { name: 'ai-act-art50-explainer', path: '/blog/ai-act-art50-transparency-explainer.html' },
+  { name: 'dpdp-technical-evidence-handbook', path: '/dpdp-technical-evidence-handbook.html' },
 ] as const;
 
 const VIEWPORTS = [

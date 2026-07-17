@@ -147,6 +147,11 @@ if __name__ == "__main__":
             "Hugging Face Security Incident: GDPR, DORA, DPDP Obligations",
             "Vendor Risk",
         ),
+        (
+            "dpdp-technical-evidence-handbook.png",
+            "The DPDP Technical Evidence Handbook: Proving §8 Safeguards",
+            "DPDP",
+        ),
     ]
 
     print("Generating OG images...")

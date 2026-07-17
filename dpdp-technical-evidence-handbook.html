@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPDP Technical Evidence Handbook | Jurocompliant</title>
+<meta name="description" content="Every DPDP §8 safeguard mapped to the cloud fact and Juro scanner rule that proves it: access, network, encryption, logging, retention, backups.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jurocompliant.com/dpdp-technical-evidence-handbook">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- ══ Open Graph ══ -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jurocompliant.com/dpdp-technical-evidence-handbook">
+<meta property="og:title" content="The DPDP Technical Evidence Handbook: Proving the Security Safeguards under Section 8">
+<meta property="og:description" content="For every DPDP Act §8 security safeguard, this handbook shows the cloud-configuration fact that evidences it and the exact scanner check that verifies it, rule by rule.">
+<meta property="og:site_name" content="JuroCompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/dpdp-technical-evidence-handbook.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="The DPDP Technical Evidence Handbook: Proving the Security Safeguards under Section 8">
+<meta name="twitter:description" content="For every DPDP Act §8 security safeguard, this handbook shows the cloud-configuration fact that evidences it and the exact scanner check that verifies it, rule by rule.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/dpdp-technical-evidence-handbook.png">
+
+<!-- ══ Article metadata ══ -->
+<meta property="article:published_time" content="2026-07-17">
+<meta property="article:modified_time" content="2026-07-17">
+<meta property="article:author" content="JuroCompliant">
+<meta name="author" content="JuroCompliant">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: Article ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The DPDP Technical Evidence Handbook: Proving the Security Safeguards under Section 8",
+  "description": "For every DPDP Act §8 security safeguard, this handbook shows the cloud-configuration fact that evidences it and the exact scanner check that verifies it, rule by rule.",
+  "url": "https://jurocompliant.com/dpdp-technical-evidence-handbook",
+  "datePublished": "2026-07-17",
+  "dateModified": "2026-07-17",
+  "author": {
+    "@type": "Organization",
+    "name": "JuroCompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "JuroCompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jurocompliant.com/dpdp-technical-evidence-handbook"
+  }
+}
+</script>
+
+<!-- ══ Structured Data: FAQPage — one Question per "###...?" heading in Sections 1-6.
+     Answer text is a prose synthesis of that entry's 4 lines (clause, what the law
+     asks, what technically proves it, Juro rule + cited legal basis) — see the
+     visible page body for the verbatim entries themselves. ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are root access keys a DPDP problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. DPDP §8(5) requires reasonable security safeguards, and a cloud root or owner identity bypasses every permission boundary — a leaked root key compromises everything the account touches, including personal data. Juro rule AWS-IAM-ROOT-001 flags IAM root accounts that still have active access keys, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP require MFA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Schedule 1 §4 to the DPDP Act lists multi-factor authentication among the safeguards expected for systems processing personal data, supporting the §8(5) reasonable-safeguards duty. A password alone is not sufficient. Juro rule AWS-COG-MFA-001 flags a Cognito user pool that does not require MFA, cited to DPDP Schedule 1 §4."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP require you to rotate access keys?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Schedule 1 §3 expects credential lifecycle management as part of reasonable safeguards under §8(5) — a service-account key left unrotated for a long period is a standing risk because you no longer know where it has been copied. Juro rule GCP-IAM-KEY-001 flags service accounts with user-managed keys older than 90 days, cited to DPDP Schedule 1 §3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a public Kubernetes cluster endpoint a DPDP concern?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Schedule 1 §3 expects access controls that restrict who can reach systems processing personal data, and a Kubernetes control plane exposed to the whole internet is the opposite of a restricted surface. Juro rule AWS-EKS-PUB-001 flags an EKS cluster whose API server endpoint is publicly accessible, cited to DPDP Schedule 1 §3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a publicly readable storage bucket count against DPDP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Access to personal data must be restricted to identities that need it, under Schedule 1 §3; a bucket that grants read access to all users or to anyone with a link has no access control on the data inside it. Juro rule GCP-STORAGE-ACCESS-001 flags a Cloud Storage bucket that grants access to allUsers or allAuthenticatedUsers, cited to DPDP Schedule 1 §3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should databases holding personal data sit in a private subnet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(5) expects reasonable technical safeguards, and network segmentation is one of the most basic — a data store in a public subnet is one misconfigured rule away from being reachable from anywhere. Juro rule AWS-VPC-PRI-001 flags data-processing workloads placed in public subnets, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is unrestricted outbound network access a DPDP risk?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. A safeguard under §8(5) is not only about who gets in but where data can go; a workload that can send traffic anywhere on the internet has no boundary on where personal data could be copied to if compromised. Juro rule AWS-SG-EGR-001 flags a security group that permits unrestricted outbound access, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does DPDP expect from firewall rules?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Schedule 1 §3 expects reasonable safeguards against unauthorised access — a firewall rule that opens a port to the entire internet is an invitation, not a safeguard. Juro rule GCP-VPC-FW-002 flags overly permissive firewall rules that allow unrestricted ingress, cited to DPDP Schedule 1 §3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should Kubernetes nodes have public IP addresses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Schedule 1 §3 expects network-level isolation for systems handling personal data, and cluster nodes with public IPs expand the reachable surface of workloads that may be processing that data. Juro rule GCP-GKE-NET-001 flags a GKE cluster whose nodes are not private, cited to DPDP Schedule 1 §3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP require HTTPS or TLS for data in transit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(5) treats encryption in transit as a baseline technical safeguard for personal data moving between a user and your service, or between your own services. Juro rule AWS-CF-TLS-001 flags a CloudFront distribution that permits weak or outdated TLS, cited to DPDP §8(5) and GDPR Art. 32."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a managed database need encrypted connections under DPDP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Schedule 1 §3 expects encryption standards to apply to the path between application and database; a database that accepts unencrypted connections lets personal data cross the network in the clear. Juro rule GCP-SQL-ENC-001 flags a Cloud SQL instance that does not enforce encrypted connections, cited to DPDP Schedule 1 §3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do secrets and parameters need customer-controlled encryption keys?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, as part of the §8(5) safeguard. The secrets that unlock personal data, such as database passwords and API keys, are themselves sensitive, and customer-controlled keys mean you, not only the platform, govern who can decrypt. Juro rule AWS-SSM-CMK-001 flags SSM parameters not encrypted with a customer-managed key, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is personal data encrypted at rest, and how does DPDP read that check?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Encryption at rest is a core §8(5) safeguard so raw storage access does not expose personal data. Juro rules AWS-S3-ENC-001, AWS-RDS-ENC-001, AWS-KMS-POL-001, GCP-STORAGE-ENC-001, and GCP-BQ-ENC-001 each verify encryption at rest for their store. Honest caveat: these five checks currently carry a GDPR Art. 32 legal-basis tag in the scanner, not a DPDP tag, even though the technical fact they verify is the same safeguard DPDP §8(5) asks for; a DPDP citation crosswalk maps them across, and the DPDP tag can be added to scan output when a customer needs the report itself to carry it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP require logging access to personal data stores?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, as an accountability measure under §8(5) — an audit trail of who read or changed personal data is what lets you answer, after the fact, whether an access was legitimate. Juro rule AWS-CT-DATA-001 flags missing CloudTrail data-event logging on personal data stores, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should you have automated alerting on your logs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(5) reasonable safeguards include noticing a problem while it is happening, not only after the fact — a log nobody watches is a record for the post-mortem, not a safeguard in the moment. Juro rule AWS-CWL-MF-001 flags log groups without the expected metric filters and alerting, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP expect audit logs to be centralised and retained?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(5) record-keeping expects logs to be routed to durable, centralised storage where they survive and can be reviewed — audit records scattered across projects or discarded quickly cannot support accountability. Juro rule GCP-AUDIT-SINK-001 flags a missing or misconfigured audit log sink, cited to DPDP §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP require you to delete data you no longer need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(9) says personal data must not be retained beyond the period necessary, and an automated lifecycle policy is the technical safeguard, under §8(5), that enforces that limit. Juro rule AWS-S3-LCP-001 flags an S3 bucket without a lifecycle policy, cited to DPDP §8(9)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should warehouse tables expire personal data automatically?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(3) retention limitation expects a bound on how long personal data stays in a warehouse, and table or partition expiry is the technical form of that bound. Juro rule GCP-BQ-EXPIRY-001 flags BigQuery datasets or tables with no expiry configured, cited to DPDP §8(3)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP expect a defined retention setting on storage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(3) retention limitation expects retention behaviour to be a deliberate setting rather than an unbounded default. Juro rule GCP-STORAGE-RETAIN-001 flags storage buckets without a defined retention configuration, cited to DPDP §8(3)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP require backups of personal data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In effect, yes. §8(7) speaks to keeping personal data accurate and recoverable, and if a store is lost or corrupted with no backup, recoverability fails. Juro rule AWS-BKP-EMP-001 flags an empty or absent backup plan on resources that should be protected, cited to DPDP §8(7) with backup readiness as a safeguard under §8(5)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is object versioning relevant to DPDP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(7) expects personal data to stay complete and accurate, and versioning protects against an accidental or malicious overwrite silently destroying the correct version of a record. Juro rule AWS-S3-VER-001 flags an S3 bucket without versioning enabled, cited to DPDP §8(7)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does DPDP expect threat detection on data stores?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. §8(5) reasonable safeguards include noticing unauthorised access to personal data stores, and threat detection tuned to those stores turns suspicious access into an alert rather than an unnoticed event. Juro rule AWS-GD-S3-001 flags GuardDuty not being configured to monitor S3 data stores, cited to DPDP §8(5)."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  /* ── Post layout (shared with other long-form technical pages) ── */
+  .post-wrap {
+    max-width: 720px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  .post-header { margin-bottom: var(--s5); }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+  .post-breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; }
+  .post-breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+  .post-breadcrumb-sep { color: rgba(255,255,255,0.2); }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+  .post-author { font-size: var(--text-xs); color: rgba(255,255,255,0.72); font-weight: 500; }
+  .post-date-meta { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-reading-time { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-meta-sep { color: rgba(255,255,255,0.2); font-size: var(--text-xs); }
+
+  .post-audience {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s4);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+  .post-audience strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  /* ── Scope disclaimer callout (Axiom 2) ── */
+  .scope-note {
+    background: rgba(245,196,0,0.06);
+    border: 1px solid rgba(245,196,0,0.3);
+    border-left: 3px solid var(--yellow);
+    border-radius: var(--radius);
+    padding: var(--s3);
+    margin: var(--s4) 0;
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+    color: rgba(255,255,255,0.85);
+  }
+  .scope-note-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    display: block;
+    margin-bottom: var(--s1);
+  }
+
+  /* ── Article body ── */
+  .post-body { color: rgba(255,255,255,0.85); font-size: var(--text-base); line-height: var(--lh-reading); }
+  .post-body p { margin-bottom: var(--s3); }
+
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s6);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+    padding-top: var(--s4);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .post-body > .post-section-intro:first-of-type h2:first-child { border-top: none; padding-top: 0; margin-top: var(--s5); }
+
+  .post-body h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0;
+    margin-top: var(--s4);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+
+  .post-body ul, .post-body ol { padding-left: 1.4rem; margin-bottom: var(--s3); color: rgba(255,255,255,0.85); }
+  .post-body li { margin-bottom: 6px; line-height: var(--lh-reading); }
+  .post-body strong { color: #fff; font-weight: 600; }
+  .post-body a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+  .post-body a:hover { color: #fff; }
+
+  /* ── Control entry card (question + 4-line evidence structure) ── */
+  .control-entry {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--s3) var(--s3) var(--s2);
+    margin-bottom: var(--s3);
+  }
+  .control-entry h3 { margin-top: 0; }
+  .control-entry dl { margin: 0 0 var(--s2); }
+  .control-entry dt {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: rgba(255,255,255,0.45);
+    margin-top: var(--s2);
+  }
+  .control-entry dt:first-child { margin-top: 0; }
+  .control-entry dd {
+    margin: 4px 0 0;
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+    color: rgba(255,255,255,0.8);
+  }
+  .control-entry .scan-cta-line {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.5);
+    margin-top: var(--s2);
+    padding-top: var(--s2);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .control-entry .scan-cta-line a { color: var(--yellow); }
+
+  /* ── Honest-note callout inside Section 3 (tagging caveat) ── */
+  .honest-note {
+    background: rgba(255,255,255,0.05);
+    border: 1px dashed rgba(255,255,255,0.25);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-top: var(--s2);
+    font-size: var(--text-sm);
+    line-height: var(--lh-reading);
+    color: rgba(255,255,255,0.75);
+  }
+  .honest-note-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: rgba(255,255,255,0.55);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ── Section 7 advisory boxes ── */
+  .advisory-entry {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 3px solid rgba(255,255,255,0.25);
+    border-radius: var(--radius);
+    padding: var(--s3);
+    margin-bottom: var(--s3);
+  }
+  .advisory-entry h3 { margin-top: 0; }
+  .advisory-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s2);
+  }
+
+  /* ── Pull quote ── */
+  .post-callout {
+    border-left: 3px solid var(--yellow);
+    padding: var(--s2) 0 var(--s2) var(--s3);
+    margin: var(--s4) 0;
+    font-size: var(--text-lg);
+    color: rgba(255,255,255,0.85);
+    line-height: var(--lh-snug);
+    font-style: normal;
+  }
+
+  /* ── CTA block ── */
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+  .post-cta h3 { font-size: var(--text-lg); font-weight: 600; color: #fff; margin-bottom: var(--s1); line-height: var(--lh-snug); letter-spacing: var(--ls-display); }
+  .post-cta p { font-size: var(--text-sm); color: rgba(255,255,255,0.72); line-height: var(--lh-reading); margin-bottom: var(--s3); }
+
+  .post-cta a.post-cta-btn, a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+  .post-cta a.post-cta-btn:hover, a.post-cta-btn:hover { background: var(--yellow-dark); color: #0A0A0A !important; }
+
+  .post-wrap .post-footer-rule { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: var(--s6) 0 0; }
+
+  /* ── Table of contents ── */
+  .post-toc {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--s3);
+    margin-bottom: var(--s4);
+  }
+  .post-toc-label {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s2);
+    display: block;
+  }
+  .post-toc ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+  .post-toc li { counter-increment: toc; margin-bottom: 6px; }
+  .post-toc a {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+  }
+  .post-toc a:hover { color: var(--yellow); text-decoration: underline; }
+
+  /* ══ ACCESSIBILITY ══ */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  a:focus-visible, button:focus-visible, summary:focus-visible, .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn, a.post-cta-btn, .post-body a { transition: none; }
+  }
+
+  @media (max-width: 640px) {
+    .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .post-cta { padding: var(--s3) var(--s3); }
+    .post-callout { font-size: var(--text-base); }
+  }
+</style>
+</head>
+<body>
+
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<main class="post-wrap" aria-label="Article" id="post-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>DPDP Technical Evidence Handbook</span>
+    </nav>
+
+    <div class="post-tag">DPDP §8</div>
+
+    <h1 class="post-title">The DPDP Technical Evidence Handbook: Proving the Security Safeguards under Section 8</h1>
+
+    <div class="post-meta-row">
+      <span class="post-author">JuroCompliant</span>
+      <span class="post-meta-sep">·</span>
+      <time class="post-date-meta" datetime="2026-07-17">17 July 2026</time>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~18 min read</span>
+    </div>
+  </div>
+
+  <div class="post-audience">
+    <strong>Who this is for:</strong> CTOs, security engineers, and DPOs who need to evidence the technical half of DPDP §8 with cloud-configuration facts, not a policy PDF — plus DPO consultancies and CA firms who own the legal half.
+  </div>
+
+  <article class="post-body">
+
+    <p>For every technical security safeguard the DPDP Act asks a data fiduciary to take, this handbook shows the concrete cloud-configuration fact that evidences it and the exact scanner check that verifies it. It covers the engineering half of DPDP. The legal half (consent, notice, data-principal rights) belongs to your law firm.</p>
+
+    <div class="scope-note">
+      <span class="scope-note-label">Note on scope, per Axiom 2</span>
+      <p style="margin-bottom:0">This handbook evidences and demonstrates the technical safeguards under §8. It does not make you "DPDP compliant" and the scanner does not certify compliance. It proves that specific controls are in place. Compliance is a legal determination made by a person, not a scan. Every control below is written to be read on its own. If you quote a single answer, it should stay true and stay honest without the rest of the page.</p>
+    </div>
+
+    <p>A word on why the technical half matters. DPDP §8(5) requires a data fiduciary to take reasonable security safeguards to prevent a personal data breach. The penalty schedule attaches up to ₹250 crore to a failure of that duty, the highest tier in the Act. That is not a documentation exercise. It is a question about the actual state of the systems that hold personal data. This handbook is about proving that state with facts, not asserting it with a policy PDF.</p>
+
+    <p>Each entry below is a question a real person types, followed by five short lines: the DPDP clause, what the law asks in plain English, what technically proves it, the Juro rule id or ids that verify it with their cited legal basis, and where to scan your own environment.</p>
+
+    <nav class="post-toc" aria-label="Table of contents">
+      <span class="post-toc-label">Contents</span>
+      <ol>
+        <li><a href="#access-control">Access Control and Identity</a></li>
+        <li><a href="#network-exposure">Network Exposure and Public Access</a></li>
+        <li><a href="#encryption">Encryption in Transit and at Rest</a></li>
+        <li><a href="#logging">Logging and Audit Trails</a></li>
+        <li><a href="#retention">Retention and Deletion</a></li>
+        <li><a href="#backup">Backup, Resilience and Breach Detection</a></li>
+        <li><a href="#advisory">Advisory: outside the scanner</a></li>
+        <li><a href="#verify">How to verify these yourself</a></li>
+      </ol>
+    </nav>
+
+    <div class="post-section-intro">
+    <h2 id="access-control">1. Access Control and Identity</h2>
+
+    <p>The most common way personal data leaks is not a broken encryption algorithm. It is an identity that could reach the data and should not have been able to. DPDP §8(5) requires reasonable security safeguards, and Schedule 1 to the Act names access control and authentication among them. Access is the first safeguard any auditor will ask you to evidence.</p>
+    </div>
+
+    <div class="control-entry">
+      <h3>Are root access keys a DPDP problem?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) reasonable security safeguards.</dd>
+        <dt>What the law asks</dt><dd>§8(5) requires reasonable safeguards on systems that process personal data. A cloud root or owner identity bypasses every permission boundary you set up, so a leaked root key is a full compromise of everything, including the data.</dd>
+        <dt>What technically proves it</dt><dd>The account has no active root access keys. Programmatic access runs through scoped, least-privilege roles, never root.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-IAM-ROOT-001</strong> flags an IAM root account that still has active access keys. Its cited legal basis is DPDP §8(5), appropriate security safeguards for personal data processing systems.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP require MFA?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §4 authentication safeguards, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>Schedule 1 to the Act lists multi-factor authentication among the safeguards expected for systems processing personal data. A password alone is not a reasonable safeguard for access to personal data in 2026.</dd>
+        <dt>What technically proves it</dt><dd>The identity provider or user pool fronting your application requires a second factor, not just a password.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-COG-MFA-001</strong> flags a Cognito user pool that does not require MFA. Its cited legal basis is DPDP Schedule 1 §4, multi-factor authentication for systems processing personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP require you to rotate access keys?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §3 credential lifecycle management, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>A reasonable safeguard is not a one-time setup. Schedule 1 expects credential lifecycle management. A service-account key that has been valid and unrotated for a year is a standing risk, because you no longer know every place it has been copied.</dd>
+        <dt>What technically proves it</dt><dd>Long-lived, user-managed keys are rotated on a bounded schedule. No active key is older than your rotation window.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-IAM-KEY-001</strong> flags a service account with user-managed keys older than 90 days. Its cited legal basis is DPDP Schedule 1 §3, credential lifecycle management.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Is a public Kubernetes cluster endpoint a DPDP concern?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §3 access controls, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>Schedule 1 §3 expects access controls that restrict who can reach the systems that process personal data. A Kubernetes control plane exposed to the whole internet is reachable by anyone, which is the opposite of a restricted surface.</dd>
+        <dt>What technically proves it</dt><dd>The cluster API endpoint is private, or its public access is restricted to known networks rather than open to the world.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-EKS-PUB-001</strong> flags an EKS cluster whose API server endpoint is publicly accessible. Its cited legal basis is DPDP Schedule 1 §3, access controls restricting exposure of systems processing personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Can a publicly readable storage bucket count against DPDP?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §3 access controls, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>Access to personal data must be restricted to identities that need it. A storage bucket that grants read access to all users, or to anyone with a link, has no access control at all on the data inside it.</dd>
+        <dt>What technically proves it</dt><dd>Bucket-level access is not granted to allUsers or allAuthenticatedUsers. Access resolves to named principals only.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-STORAGE-ACCESS-001</strong> flags a Cloud Storage bucket that grants access to all users or all authenticated users. Its cited legal basis is DPDP Schedule 1 §3, access controls for personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="network-exposure">2. Network Exposure and Public Access</h2>
+
+    <p>Access control decides who may reach an identity. Network control decides what is reachable in the first place. DPDP §8(5) and Schedule 1 §3 both point at keeping the systems that process personal data off the open internet unless there is a reason for them to be on it.</p>
+    </div>
+
+    <div class="control-entry">
+      <h3>Should databases holding personal data sit in a private subnet?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) reasonable security safeguards.</dd>
+        <dt>What the law asks</dt><dd>§8(5) expects reasonable technical safeguards. Network segmentation is one of the oldest and most basic. A data store that lives in a public subnet is one misconfigured rule away from being reachable from anywhere.</dd>
+        <dt>What technically proves it</dt><dd>Workloads that process or store personal data run in private subnets with no direct route to or from the public internet.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-VPC-PRI-001</strong> flags data-processing workloads placed in public subnets. Its cited legal basis is DPDP §8(5), appropriate technical safeguards, where network segmentation is a baseline security control for personal data processing infrastructure.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Is unrestricted outbound network access a DPDP risk?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) reasonable security safeguards.</dd>
+        <dt>What the law asks</dt><dd>A safeguard is not only about who gets in. It is also about where data can go. A workload that can send traffic to any destination on the internet has no boundary on where personal data can be copied to if it is compromised.</dd>
+        <dt>What technically proves it</dt><dd>Security groups on personal-data workloads restrict egress to known destinations rather than allowing all outbound traffic.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-SG-EGR-001</strong> flags a security group that permits unrestricted outbound access. Its cited legal basis is DPDP §8(5), appropriate technical safeguards, where unrestricted egress from personal data processing workloads undermines data-boundary controls.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>What does DPDP expect from firewall rules?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §3 safeguards against unauthorised access, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>Schedule 1 §3 expects reasonable safeguards against unauthorised access. A firewall rule that opens a port to the entire internet is an invitation, not a safeguard.</dd>
+        <dt>What technically proves it</dt><dd>Firewall rules do not allow ingress from 0.0.0.0/0 to sensitive ports. Access is scoped to known source ranges.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-VPC-FW-002</strong> flags overly permissive firewall rules that allow unrestricted ingress. Its cited legal basis is DPDP Schedule 1 §3, reasonable security safeguards against unauthorised access.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Should Kubernetes nodes have public IP addresses?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §3 network isolation, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>Schedule 1 §3 expects network-level isolation for systems that handle personal data. Cluster nodes with public IP addresses expand the reachable surface of workloads that may be processing personal data.</dd>
+        <dt>What technically proves it</dt><dd>The cluster uses private nodes with no public IP addresses. Node-to-internet traffic, where needed, routes through controlled egress.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-GKE-NET-001</strong> flags a GKE cluster whose nodes are not private. Its cited legal basis is DPDP Schedule 1 §3, network-level isolation for systems handling personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="encryption">3. Encryption in Transit and at Rest</h2>
+
+    <p>Encryption is where reasonable safeguards become concrete. DPDP §8(5) and Schedule 1 §3 expect personal data to be protected both while it moves across a network and while it sits on a disk. A short, honest note on tagging is at the end of this section, because it matters for how you read the scan output.</p>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP require HTTPS or TLS for data in transit?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) safeguards for personal data in transit.</dd>
+        <dt>What the law asks</dt><dd>Personal data moving between a user and your service, or between your own services, should not travel as plaintext. §8(5) treats encryption in transit as a baseline technical safeguard.</dd>
+        <dt>What technically proves it</dt><dd>The content delivery or edge layer enforces a modern TLS policy and does not accept plaintext or deprecated protocol versions.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-CF-TLS-001</strong> flags a CloudFront distribution that permits weak or outdated TLS. Its cited legal basis is DPDP §8(5), appropriate technical safeguards for personal data in transit, and GDPR Art. 32 for encryption and confidentiality of personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does a managed database need encrypted connections under DPDP?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Schedule 1 §3 encryption standards, supporting §8(5).</dd>
+        <dt>What the law asks</dt><dd>A managed database that accepts unencrypted connections lets personal data cross the network in the clear between the application and the database. Schedule 1 §3 expects encryption standards to apply to that path.</dd>
+        <dt>What technically proves it</dt><dd>The database instance requires SSL or TLS for all client connections and rejects unencrypted ones.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-SQL-ENC-001</strong> flags a Cloud SQL instance that does not enforce encryption standards for connections. Its cited legal basis is DPDP Schedule 1 §3, encryption standards for personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Do secrets and parameters need customer-controlled encryption keys?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) reasonable security safeguards.</dd>
+        <dt>What the law asks</dt><dd>The secrets that unlock personal data, such as database passwords and API keys, are themselves sensitive. §8(5) treats their protection as part of the safeguard. Customer-controlled keys mean you, not only the platform, govern who can decrypt.</dd>
+        <dt>What technically proves it</dt><dd>Secure parameters and secrets are encrypted with a customer-managed key rather than only a default platform key.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-SSM-CMK-001</strong> flags SSM parameters that are not encrypted with a customer-managed key. Its cited legal basis is DPDP §8(5), appropriate security safeguards, specifically customer-controlled encryption keys for personal data parameters.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Is personal data encrypted at rest, and how does DPDP read that check?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) reasonable security safeguards, evidenced through encryption at rest.</dd>
+        <dt>What the law asks</dt><dd>Personal data sitting on a disk in object storage, in a database, or in a warehouse should be encrypted at rest so that raw storage access does not expose it. Encryption at rest is a core §8(5) safeguard.</dd>
+        <dt>What technically proves it</dt><dd>Buckets, databases, warehouses, and the keys that protect them all enforce encryption at rest, and key access policy is scoped rather than open.</dd>
+        <dt>Juro rules</dt><dd><strong>AWS-S3-ENC-001</strong> (object storage), <strong>AWS-RDS-ENC-001</strong> (relational databases), <strong>AWS-KMS-POL-001</strong> (key access policy), <strong>GCP-STORAGE-ENC-001</strong> (object storage), and <strong>GCP-BQ-ENC-001</strong> (data warehouse) each verify encryption at rest for their respective store.</dd>
+      </dl>
+      <div class="honest-note">
+        <span class="honest-note-label">An honest note on tagging</span>
+        <p style="margin-bottom:0">In the scanner today these five checks carry a GDPR Art. 32 legal basis, encryption of personal data, which is the same safeguard the DPDP Act asks for. The scan output for these five does not yet print a DPDP tag. The at-rest encryption control they verify is the same technical fact that evidences DPDP §8(5), and a DPDP citation crosswalk is the source of truth that maps them across. Read them as evidence of the safeguard. The DPDP tag can be added to the scan output when a customer or partner needs the report itself to carry it. Do not read the current scan output as showing a DPDP citation for these five.</p>
+      </div>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="logging">4. Logging and Audit Trails</h2>
+
+    <p>You cannot prove a safeguard held if you kept no record of who touched the data. DPDP §8(5) carries an accountability dimension: a data fiduciary should be able to reconstruct access to personal data stores. Logging is how that becomes evidence rather than assertion.</p>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP require logging access to personal data stores?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) accountability and record-keeping.</dd>
+        <dt>What the law asks</dt><dd>An audit trail of who read or changed personal data is what lets you answer, after the fact, whether an access was legitimate. §8(5) treats that trail as a technical accountability measure.</dd>
+        <dt>What technically proves it</dt><dd>Data-plane event logging is enabled on the stores that hold personal data, capturing object-level and record-level access.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-CT-DATA-001</strong> flags missing CloudTrail data-event logging on personal data stores. Its cited legal basis is DPDP §8(5), appropriate security safeguards, where an audit trail of access to personal data stores is a technical accountability measure.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Should you have automated alerting on your logs?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) reasonable security safeguards.</dd>
+        <dt>What the law asks</dt><dd>A log nobody watches is a record for the post-mortem, not a safeguard in the moment. §8(5) reasonable safeguards include noticing a problem while it is happening. Automated metric filters and alerts turn passive logs into active detection.</dd>
+        <dt>What technically proves it</dt><dd>Metric filters and alarms are configured on the log groups that matter, so anomalous activity raises an alert rather than sitting silently.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-CWL-MF-001</strong> flags log groups without the expected metric filters and alerting. Its cited legal basis is DPDP §8(5), appropriate technical safeguards, specifically automated monitoring and alerting for personal data processing systems.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP expect audit logs to be centralised and retained?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) accountability and record-keeping.</dd>
+        <dt>What the law asks</dt><dd>Audit records scattered across projects, or discarded quickly, cannot support accountability. §8(5) record-keeping expects logs to be routed to durable storage where they survive and can be reviewed.</dd>
+        <dt>What technically proves it</dt><dd>An audit log sink exports logs to durable, centralised storage rather than leaving them to expire in place.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-AUDIT-SINK-001</strong> flags a missing or misconfigured audit log sink. Its cited legal basis is DPDP §8(5), accountability and record-keeping for personal data processing.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="retention">5. Retention and Deletion</h2>
+
+    <p>Holding personal data longer than you need it is its own risk. DPDP §8(3) sets a retention limitation, and §8(9) requires that personal data not be kept beyond the period necessary. Automated lifecycle and expiry rules are how you evidence that a limit exists and actually fires.</p>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP require you to delete data you no longer need?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(9) retention limitation, safeguarded under §8(5).</dd>
+        <dt>What the law asks</dt><dd>§8(9) says personal data must not be retained beyond the period necessary. A bucket that keeps every object forever has no retention limit at all. An automated lifecycle policy is the technical safeguard that enforces the limit.</dd>
+        <dt>What technically proves it</dt><dd>Object storage that holds personal data carries a lifecycle policy that expires or transitions objects on a defined schedule.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-S3-LCP-001</strong> flags an S3 bucket without a lifecycle policy. Its cited legal basis is DPDP §8(9), data fiduciaries must not retain personal data beyond the period necessary, where an automated lifecycle policy is a safeguard under §8(5).</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Should warehouse tables expire personal data automatically?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(3) retention limitation.</dd>
+        <dt>What the law asks</dt><dd>A data warehouse is where personal data quietly accumulates. §8(3) retention limitation expects a bound on how long it stays. Table and partition expiry is the technical form of that bound.</dd>
+        <dt>What technically proves it</dt><dd>Warehouse datasets and tables holding personal data have a default expiry configured, so old rows age out rather than piling up indefinitely.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-BQ-EXPIRY-001</strong> flags BigQuery datasets or tables with no expiry configured. Its cited legal basis is DPDP §8(3), data retention limitation for personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP expect a defined retention setting on storage?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(3) retention limitation.</dd>
+        <dt>What the law asks</dt><dd>Retention limitation works both ways. You need data to age out when it is no longer needed, and you need the retention behaviour to be a deliberate setting rather than an accident. §8(3) expects that behaviour to be defined.</dd>
+        <dt>What technically proves it</dt><dd>Storage buckets holding personal data have a retention configuration that reflects a deliberate policy rather than an unbounded default.</dd>
+        <dt>Juro rule</dt><dd><strong>GCP-STORAGE-RETAIN-001</strong> flags storage buckets without a defined retention configuration. Its cited legal basis is DPDP §8(3), data retention limitation.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="backup">6. Backup, Resilience and Breach Detection</h2>
+
+    <p>This section is thin, and we will say so plainly. The scanner has early coverage here, not a full resilience posture. What follows is honest about being a starting point. DPDP §8(7) speaks to the accuracy and recoverability of personal data, and §8(5) to detecting unauthorised access. The checks below evidence pieces of that, not the whole of it.</p>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP require backups of personal data?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(7) recoverability, safeguarded under §8(5).</dd>
+        <dt>What the law asks</dt><dd>§8(7) speaks to keeping personal data accurate and recoverable. If a store is lost or corrupted and there is no backup, recoverability fails. Backup readiness is the technical safeguard behind it.</dd>
+        <dt>What technically proves it</dt><dd>Critical data stores are covered by an active backup plan rather than left with no recovery path.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-BKP-EMP-001</strong> flags an empty or absent backup plan on resources that should be protected. Its cited legal basis is DPDP §8(7), data fiduciaries must ensure accuracy and recoverability of personal data, where backup readiness is a security safeguard under §8(5).</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Is object versioning relevant to DPDP?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(7) completeness and accuracy.</dd>
+        <dt>What the law asks</dt><dd>§8(7) expects personal data to stay complete and accurate. Versioning protects against an accidental or malicious overwrite silently destroying the correct version of a record, which is a recoverability safeguard.</dd>
+        <dt>What technically proves it</dt><dd>Buckets holding personal data have versioning enabled, so an overwrite or delete leaves a recoverable prior version.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-S3-VER-001</strong> flags an S3 bucket without versioning enabled. Its cited legal basis is DPDP §8(7), data fiduciaries must ensure completeness and accuracy of personal data.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="control-entry">
+      <h3>Does DPDP expect threat detection on data stores?</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(5) detection of unauthorised access.</dd>
+        <dt>What the law asks</dt><dd>§8(5) reasonable safeguards include noticing unauthorised access to personal data stores. Threat detection tuned to those stores is how suspicious access becomes an alert rather than an unnoticed event.</dd>
+        <dt>What technically proves it</dt><dd>Managed threat detection is enabled and configured to monitor the storage that holds personal data.</dd>
+        <dt>Juro rule</dt><dd><strong>AWS-GD-S3-001</strong> flags GuardDuty not being configured to monitor S3 data stores. Its cited legal basis is DPDP §8(5), appropriate technical safeguards including detection of unauthorised access to personal data stores.</dd>
+      </dl>
+      <div class="scan-cta-line">Scan your own environment for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="advisory">7. Advisory: outside the scanner</h2>
+
+    <p>The two subsections below are not scanner output. They are the two honest gaps where DPDP asks for something the scanner does not, and should not, try to detect. We name them rather than skip them, because a named gap routed to the right partner is more useful than a silent omission. Treat everything in Section 7 as advisory. Route it to your legal or CA partner.</p>
+    </div>
+
+    <div class="advisory-entry">
+      <div class="advisory-badge">Advisory — not scanner output</div>
+      <h3>7a. Processor and Vendor (DPA) obligations</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>Processor and data-processing-agreement obligations between a data fiduciary and the data processors it engages.</dd>
+        <dt>What the law asks</dt><dd>Where you engage a processor to handle personal data on your behalf, DPDP expects that relationship to be governed by contract, with the processor bound to appropriate obligations. This is a contract and governance question.</dd>
+        <dt>What proves it</dt><dd>Signed data-processing agreements, a maintained vendor register, and contractual controls flowed down to each processor. None of that is a cloud-configuration fact, so the scanner has zero technical coverage here by design.</dd>
+        <dt>Where this goes</dt><dd>Your legal or CA partner. This is exactly the hand-off surface a DPO consultancy or CA firm is built to own.</dd>
+      </dl>
+    </div>
+
+    <div class="advisory-entry">
+      <div class="advisory-badge">Advisory — not scanner output</div>
+      <h3>7b. Breach notification to the Board and data principals (§8(6))</h3>
+      <dl>
+        <dt>DPDP clause</dt><dd>§8(6), the duty to notify the Data Protection Board and affected data principals of a personal data breach.</dd>
+        <dt>What the law asks</dt><dd>On a breach, §8(6) requires notification to the Board and to affected data principals within the statutory process and timelines. The penalty schedule attaches up to ₹200 crore to a failure of this duty, so it is not a formality.</dd>
+        <dt>What proves it</dt><dd>A documented breach-response runbook, defined notification timelines, and evidence that the process has been exercised. The scanner can help you detect a breach, and Section 6 covers pieces of that detection, but the duty to notify is a legal and operational process, not a configuration state.</dd>
+        <dt>Where this goes</dt><dd>Your legal or CA partner, paired with your incident-response process.</dd>
+      </dl>
+    </div>
+
+    <div class="post-section-intro">
+    <h2 id="verify">How to verify these yourself</h2>
+
+    <p>Every control in Sections 1 through 6 maps to a real check that runs against your own cloud account. The one validated way to see your own results is the live scan.</p>
+
+    <ul>
+      <li>Go to <a href="https://jurocompliant.com">jurocompliant.com</a> and run a scan against your environment.</li>
+      <li>The scan reports which of these checks pass and which do not, each with its cited legal basis, so you get evidence and not just a claim.</li>
+      <li>Read the output the way this handbook is written. A passing check evidences a specific technical safeguard under §8. It does not, on its own, make you DPDP compliant, and it is not a certificate. It is proof that a named control is in place, which is the part an auditor, a customer, or the Board will ask you to show.</li>
+    </ul>
+
+    <p>For the two advisory items in Section 7, and for the legal half of DPDP that sits outside any scanner, route to your law firm or CA partner. The technical evidence in this handbook is designed to sit alongside that legal work, not to replace it.</p>
+    </div>
+
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">See which of these 22 controls hold in your account</div>
+      <h3>Run the DPDP technical evidence scan</h3>
+      <p>Juro scans your public surface and cloud infrastructure against each control in this handbook and reports which pass, each with its cited legal basis. No account required to see your public-surface results.</p>
+      <a href="https://jurocompliant.com?utm_source=handbook&utm_medium=organic&utm_campaign=dpdp-technical-evidence-handbook" class="post-cta-btn">Scan your environment →</a>
+    </div>
+
+    <p style="margin-top:var(--s5);font-size:var(--text-sm);color:rgba(255,255,255,0.55)">This handbook is the engineering half of DPDP §8. For processor agreements, breach notification process, and the legal half of DPDP (consent, notice, data-principal rights), route to your law firm or CA partner — see Section 7.</p>
+
+    <h2>References</h2>
+    <ul>
+      <li>DPDP Act 2023: <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer">Ministry of Electronics and Information Technology</a></li>
+      <li>DPDP Rules 2025: <a href="https://www.meity.gov.in/writereaddata/files/Digital%20Personal%20Data%20Protection%20Rules%2C%202025.pdf" target="_blank" rel="noopener noreferrer">Official Gazette Notification — MeitY</a></li>
+      <li>Ministry of Electronics and IT: <a href="https://www.meity.gov.in/" target="_blank" rel="noopener noreferrer">meity.gov.in</a></li>
+    </ul>
+
+    <p style="margin-top:var(--s4);font-size:var(--text-xs);color:rgba(255,255,255,0.4)"><strong style="color:rgba(255,255,255,0.55)">About Juro:</strong> Juro scans for DPDP, GDPR, and DORA obligation markers in public-facing assets and cloud infrastructure, and generates signed, verifiable scan artifacts. It detects and evidences gaps and controls — it does not certify compliance. Note: jurocompliant.com is a compliance scanning tool — not juro.com, which is a contract management platform.</p>
+
+  </article>
+
+  <hr class="post-footer-rule">
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every page load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  // Mobile nav hamburger
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>
