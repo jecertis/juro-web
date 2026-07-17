@@ -273,6 +273,114 @@
   background: var(--gray-100);
 }
 
+/* ── Share findings card (BL-MKT-061) ── */
+.share-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 8px;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.share-card-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: var(--gray-100);
+}
+.share-card-modal-card {
+  max-width: 560px;
+}
+.share-card-preview {
+  background: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 24px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.share-card-preview .sc-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  color: var(--yellow);
+  margin-bottom: 10px;
+}
+.share-card-preview .sc-headline {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  margin-bottom: 6px;
+}
+.share-card-preview .sc-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4px;
+}
+.share-card-preview .sc-domain {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 18px;
+}
+.share-card-preview .sc-counts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.share-card-preview .sc-count-item {
+  text-align: left;
+}
+.share-card-preview .sc-count-num {
+  display: block;
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 600;
+}
+.share-card-preview .sc-count-total .sc-count-num {
+  color: var(--yellow);
+}
+.share-card-preview .sc-count-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+.share-card-preview .sc-footer {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+}
+.share-card-actions {
+  display: flex;
+  gap: 10px;
+}
+.share-card-actions .modal-submit {
+  margin-top: 0;
+  flex: 1;
+}
+.share-card-actions .modal-dismiss {
+  margin-top: 0;
+  width: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* ── Print report (screen: hidden; print: only visible element) ── */
 #printReport { display: none; }
 
