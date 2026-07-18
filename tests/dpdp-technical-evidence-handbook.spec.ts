@@ -90,13 +90,13 @@ test.describe('DPDP Technical Evidence Handbook', () => {
     await page.goto(`${siteUrl}${PATH}`);
     await expect(page.locator('.scope-note-label')).toHaveText('Note on scope, per Axiom 2');
     await expect(page.locator('.scope-note')).toContainText(
-      'It does not make you "DPDP compliant" and the scanner does not certify compliance.',
+      'It does not make you, or your client, "DPDP compliant" and the scanner does not certify compliance.',
     );
     await expect(page.locator('.scope-note')).toContainText(
       'Compliance is a legal determination made by a person, not a scan.',
     );
     await expect(page.locator('.scope-note')).toContainText(
-      'If you quote a single answer, it should stay true and stay honest without the rest of the page.',
+      'If you quote a single answer to a client, it should stay true and stay honest without the rest of the page.',
     );
   });
 
@@ -105,15 +105,15 @@ test.describe('DPDP Technical Evidence Handbook', () => {
     siteUrl,
   }) => {
     await page.goto(`${siteUrl}${PATH}`);
-    await expect(page.locator('.honest-note-label')).toHaveText('An honest note on tagging');
+    await expect(page.locator('.honest-note-label')).toContainText('An honest note on tagging');
     await expect(page.locator('.honest-note')).toContainText(
-      'these five checks carry a GDPR Art. 32 legal basis, encryption of personal data, which is the same safeguard the DPDP Act asks for',
+      'these five checks carry a GDPR Art. 32 legal basis, encryption of personal data, which is the same safeguard DPDP asks for',
     );
     await expect(page.locator('.honest-note')).toContainText(
-      'The scan output for these five does not yet print a DPDP tag.',
+      'The scan output for these five does not yet print a DPDP tag directly.',
     );
     await expect(page.locator('.honest-note')).toContainText(
-      'Do not read the current scan output as showing a DPDP citation for these five.',
+      "Don't read the current scan output as showing a DPDP citation for these five, and don't represent it that way to a client either.",
     );
   });
 
