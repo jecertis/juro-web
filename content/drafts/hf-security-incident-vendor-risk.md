@@ -4,6 +4,9 @@
 
 **Target keyword:** third-party AI vendor breach obligations (secondary: Hugging Face security incident, vendor risk GDPR DORA DPDP)
 
+**SEO title (76 chars):** Hugging Face Security Incident: GDPR, DORA, DPDP Obligations | Jurocompliant
+**Meta description (153 chars):** Hugging Face disclosed a security incident July 16, 2026. If you use HF-hosted models or datasets, here is what GDPR, DORA, and DPDP require of you next.
+
 ---
 
 ## Direct-answer opener (first ~50 words, for AEO)
@@ -46,12 +49,12 @@ This isn't legal advice, and nothing in this checklist is a claim about whether 
 **Under DORA, if you're a financial entity or you rely on Hugging Face as an ICT third-party provider in a regulated workflow:**
 
 - Article 28 requires financial entities to maintain a register of information covering all contractual arrangements with ICT third-party providers, distinguishing those that support critical or important functions from those that don't. If Hugging Face is one of your ICT providers, check that your register reflects the relationship accurately.
-- Article 18's classification criteria (client/service impact, data losses, criticality, geographic spread, duration) determine whether an incident clears the bar for a "major" ICT-related incident; Article 19 then governs how and when major incidents get reported to your competent authority. Financial entities in scope may want to run this incident through the Article 18 test even if their initial read is "no direct exposure" — that's a judgment call for your own risk and compliance function, not something this article can make for you.
+- Article 18's classification criteria (client/service impact, data losses, criticality, geographic spread, duration) determine whether an incident clears the bar for a "major" ICT-related incident; Article 19 then governs how and when major incidents get reported to your competent authority. Financial entities in scope may want to run this incident through the Article 18 test even if their initial read is "no direct exposure" — that's a judgment call for your own risk and compliance function, not something this article can make for you. See the [DORA, GDPR, and DPDP scanning overview](/blog/dora-gdpr-scanner-india) for how these frameworks apply together to a single vendor relationship.
 
 **Under India's DPDP Act, if the datasets or models involved processed personal data of Indian data principals:**
 
 - Section 8(6) requires the data fiduciary to intimate the Data Protection Board and affected data principals of a personal data breach, in the form and manner prescribed by rules.
-- Section 8(1) keeps you responsible for what a data processor does with data on your behalf, "irrespective of any agreement to the contrary." A processor's breach doesn't move the obligation off your desk.
+- Section 8(1) keeps you responsible for what a data processor does with data on your behalf, "irrespective of any agreement to the contrary." A processor's breach doesn't move the obligation off your desk. See the [DPDP processor obligations guide](/blog/dpdp-processor-guide) for a fuller breakdown of §8 duties by obligation tier.
 
 **Regardless of jurisdiction, do these now:**
 
