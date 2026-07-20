@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hugging Face Security Incident: GDPR, DORA, DPDP Obligations | Jurocompliant</title>
+
+<meta name="description" content="Hugging Face disclosed a security incident July 16, 2026. If you use HF-hosted models or datasets, here is what GDPR, DORA, and DPDP require of you next.">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://jurocompliant.com/blog/hf-security-incident-vendor-risk-2026">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- ══ Open Graph ══ -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jurocompliant.com/blog/hf-security-incident-vendor-risk-2026">
+<meta property="og:title" content="Hugging Face Security Incident: What GDPR, DORA, and DPDP Require Next">
+<meta property="og:description" content="Hugging Face disclosed a security incident July 16, 2026. If you use HF-hosted models or datasets, here is what GDPR, DORA, and DPDP require of you next.">
+<meta property="og:site_name" content="JuroCompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/hf-security-incident-vendor-risk-2026.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="Hugging Face Security Incident: What GDPR, DORA, and DPDP Require Next">
+<meta name="twitter:description" content="Hugging Face disclosed a security incident July 16, 2026. If you use HF-hosted models or datasets, here is what GDPR, DORA, and DPDP require of you next.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/hf-security-incident-vendor-risk-2026.png">
+
+<!-- ══ Article metadata ══ -->
+<meta property="article:published_time" content="2026-07-20">
+<meta property="article:modified_time" content="2026-07-20">
+<meta property="article:author" content="JuroCompliant">
+<meta name="author" content="JuroCompliant">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: Article ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Hugging Face's Security Incident: What GDPR, DORA, and DPDP Actually Require From You Next",
+  "description": "Hugging Face disclosed a security incident July 16, 2026. If you use HF-hosted models or datasets, here is what GDPR, DORA, and DPDP require of you next.",
+  "url": "https://jurocompliant.com/blog/hf-security-incident-vendor-risk-2026",
+  "datePublished": "2026-07-20",
+  "dateModified": "2026-07-20",
+  "author": {
+    "@type": "Organization",
+    "@id": "https://jurocompliant.com/#organization",
+    "name": "JuroCompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://jurocompliant.com/#organization",
+    "name": "JuroCompliant",
+    "url": "https://jurocompliant.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jurocompliant.com/blog/hf-security-incident-vendor-risk-2026"
+  }
+}
+</script>
+
+<!-- ══ Structured Data: FAQPage — matches visible FAQ section word-for-word ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What happened in the Hugging Face security incident?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Per HF's 2026-07-16 disclosure, an autonomous AI agent conducted an intrusion into its production infrastructure, exploiting two code-execution flaws in its dataset processing pipeline. Some internal datasets were accessed without authorization and several credentials were compromised."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Were public Hugging Face models or datasets tampered with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Per HF's 2026-07-16 disclosure, Hugging Face found no evidence of tampering with public models, datasets, Spaces, or its software supply chain. Impact on partner and customer data was still under assessment at the time of disclosure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to do anything if I use Hugging Face in my ML pipeline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rotate any Hugging Face access tokens, review your account's recent activity log, and check whether Hugging Face is logged in your organisation's vendor or subprocessor risk register. Whether further action is required depends on your own exposure assessment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a vendor's breach count as my organisation's breach under GDPR or DPDP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Both frameworks generally keep responsibility with the controller or data fiduciary for processing carried out by a processor on their behalf, so a processor's breach may not relieve your organisation of its own notification obligations if personal data you're responsible for was affected. Whether that applies to your situation depends on your specific facts — this isn't a substitute for your own legal or DPO review."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is DORA's third-party risk requirement in a case like this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DORA requires financial entities to maintain a register of information covering their ICT third-party providers (Article 28), and to classify ICT-related incidents against criteria such as client impact, data loss, criticality, geographic spread, and duration to determine if they meet the major-incident threshold (Article 18), which then governs what gets reported and when (Article 19)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this the first attack carried out by an autonomous AI agent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Per HF's 2026-07-16 disclosure, Hugging Face describes the intrusion as run end-to-end by an autonomous AI agent framework, and says this \"matches the 'agentic attacker' scenario the industry has been forecasting.\" Hugging Face's own post does not claim this is the first documented instance of an agentic attack; that stronger framing has circulated in reader commentary on the post, not in HF's own account."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  /* ── Post layout ── */
+  .post-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  /* ── Post header ── */
+  .post-header { margin-bottom: var(--s5); }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+  .post-breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; }
+  .post-breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+  .post-breadcrumb-sep { color: rgba(255,255,255,0.2); }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+
+  .post-author { font-size: var(--text-xs); color: rgba(255,255,255,0.90); font-weight: 500; }
+  .post-date-meta { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-reading-time { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-meta-sep { color: rgba(255,255,255,0.2); font-size: var(--text-xs); }
+
+  /* ── Audience callout ── */
+  .post-audience {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s4);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+  .post-audience strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  /* ── Disclaimer ── */
+  .post-disclaimer {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s4);
+  }
+
+  /* ── Article body ── */
+  .post-body { color: rgba(255,255,255,0.85); font-size: var(--text-base); line-height: var(--lh-reading); }
+  .post-body p { margin-bottom: var(--s3); }
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .post-body h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s4);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .post-body ul, .post-body ol { padding-left: 1.4rem; margin-bottom: var(--s3); color: rgba(255,255,255,0.85); }
+  .post-body li { margin-bottom: 6px; line-height: var(--lh-reading); }
+  .post-body strong { color: #fff; font-weight: 600; }
+  .post-body a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+  .post-body a:hover { color: #fff; }
+  .post-body hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: var(--s4) 0; }
+  .post-body em { color: rgba(255,255,255,0.65); }
+
+  /* ── Framework checklist blocks ── */
+  .checklist-block {
+    background: rgba(245,196,0,0.05);
+    border: 1px solid rgba(245,196,0,0.18);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s4);
+    margin: var(--s4) 0;
+  }
+  .checklist-block h3 {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s3);
+    margin-top: 0;
+  }
+  .checklist-block ul {
+    padding-left: 1.2rem;
+    margin: 0;
+    color: rgba(255,255,255,0.85);
+  }
+  .checklist-block li {
+    margin-bottom: var(--s2);
+    line-height: var(--lh-reading);
+    font-size: var(--text-sm);
+  }
+  .checklist-block li strong { color: #fff; }
+  .checklist-block ol {
+    padding-left: 1.2rem;
+    margin: 0;
+    color: rgba(255,255,255,0.85);
+  }
+  .checklist-block ol li { font-size: var(--text-sm); }
+
+  /* ── Footer rule ── */
+  .post-wrap .post-footer-rule {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin: var(--s6) 0 0;
+  }
+
+  /* ── FAQ ── */
+  .faq-list { display: flex; flex-direction: column; gap: var(--s2); }
+  .faq-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .faq-item[open] { border-color: rgba(245,196,0,0.25); }
+  .faq-question {
+    padding: var(--s2) var(--s3);
+    cursor: pointer;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    font-size: var(--text-sm);
+    line-height: var(--lh-snug);
+    list-style: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after {
+    content: '+';
+    float: right;
+    color: var(--yellow);
+    font-weight: 400;
+    font-family: var(--mono);
+  }
+  .faq-item[open] .faq-question::after { content: '−'; }
+  .faq-answer {
+    padding: 0 var(--s3) var(--s3);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+  }
+  .faq-answer p { margin: 0; }
+  .faq-disclaimer {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+    margin-bottom: var(--s3);
+  }
+
+  /* ── CTA block ── */
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+  .post-cta h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+  }
+  .post-cta p {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
+    background: var(--yellow-dark);
+    color: #0A0A0A !important;
+  }
+
+  /* ══ ACCESSIBILITY ══ */
+
+  /* Skip nav — visually hidden until focused */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  /* Focus rings for keyboard users */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .post-body a {
+      transition: none;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .post-cta { padding: var(--s3) var(--s3); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ ACCESSIBILITY: Skip nav — must be first focusable element ══ -->
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<!-- ══ id="post-content" is the skip nav target ══ -->
+<main class="post-wrap" aria-label="Article" id="post-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>Hugging Face Security Incident</span>
+    </nav>
+
+    <div class="post-tag">Vendor Risk</div>
+
+    <h1 class="post-title">Hugging Face's Security Incident: What GDPR, DORA, and DPDP Actually Require From You Next</h1>
+
+    <div class="post-meta-row">
+      <span class="post-author">JuroCompliant</span>
+      <span class="post-meta-sep">·</span>
+      <time class="post-date-meta" datetime="2026-07-20">20 Jul 2026</time>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~7 min read</span>
+    </div>
+  </div>
+
+  <div class="post-audience">
+    <strong>Who this is for:</strong> DPOs, CISOs, and engineering leads at any organisation using Hugging Face-hosted models or datasets in a production pipeline that touches personal data.
+  </div>
+
+  <article class="post-body">
+
+    <p>On July 16, 2026, Hugging Face disclosed a security incident in which an autonomous AI agent, not a human operator, carried out an intrusion into its production infrastructure over a weekend. If your organisation uses Hugging Face-hosted models or datasets, this is a vendor-risk event that may trigger GDPR, DORA, and DPDP obligations depending on your own processing role and exposure, regardless of whether Hugging Face's own investigation eventually finds your data was touched.</p>
+
+    <p class="post-disclaimer">This article is general informational commentary on public disclosures and publicly available statutory text. It is not legal advice, and nothing in it is a verdict on whether your organisation, specifically, has any exposure or obligation arising from this incident. If you think this incident may affect your organisation, talk to your own counsel or DPO about your specific facts.</p>
+
+    <hr>
+
+    <h2>What Hugging Face has disclosed</h2>
+
+    <p>According to <a href="https://huggingface.co/blog/security-incident-july-2026" target="_blank" rel="noopener noreferrer">Hugging Face's own incident report</a>, published July 16, 2026:</p>
+
+    <ul>
+      <li>An AI agent ran an end-to-end attack chain against Hugging Face's production infrastructure. Per HF's 2026-07-16 disclosure, the campaign was run by an autonomous agent framework executing thousands of individual actions across a swarm of short-lived sandboxes. HF's own words are that this "matches the 'agentic attacker' scenario the industry has been forecasting" — HF does <strong>not</strong> claim it is the first documented instance of one.</li>
+      <li>The entry points were two code-execution flaws in the dataset processing pipeline: a dataset loader that permitted remote code execution, and a template-injection flaw in how dataset configs are handled.</li>
+      <li>Some internal datasets were accessed without authorization. Several service and internal-cluster credentials were compromised.</li>
+      <li>Hugging Face states it found no evidence of tampering with public models, datasets, Spaces, or the supply chain that those artifacts move through. Impact on partner and customer data is still under assessment at time of writing.</li>
+      <li>Remediation to date: the exploited paths were closed, affected nodes rebuilt, credentials and tokens rotated, cluster admission controls tightened, detection and alerting improved, external forensics engaged, and the incident reported to law enforcement.</li>
+      <li>Hugging Face's own recommendation to users: rotate access tokens and review account activity.</li>
+    </ul>
+
+    <p>We're citing Hugging Face's account as published (per HF's 2026-07-16 disclosure). We haven't independently verified the technical details, and Hugging Face itself says the customer-data assessment is ongoing. One correction from our own read of the source: HF's post says the incident "matches the 'agentic attacker' scenario the industry has been forecasting" — it does not say this is the first documented case of one. The "first documented" framing some coverage has used traces to a reader comment on HF's blog post, not to HF's own account, so we've left that framing out rather than attribute it to Hugging Face.</p>
+
+    <h2>Why the "agentic attacker" framing matters, and why it's separate from the compliance question</h2>
+
+    <p>The detail getting the most attention is that, per HF's 2026-07-16 disclosure, an AI agent ran the intrusion autonomously, choosing and chaining exploit steps without a human driving each one. That's a meaningful security-research data point about how fast attack tooling is moving.</p>
+
+    <p>It's also, on its own, not a compliance event. An RCE vulnerability in a dataset loader would have been exploitable by a human red-teamer too; the interesting part is <em>how fast</em> it was found and chained, not <em>what kind</em> of incident it produced. The obligations below apply the same way whether the intrusion was run by a person or an agent: a third-party processor you rely on had unauthorized access to internal systems and compromised credentials. That's the fact pattern that can trigger vendor-risk process, independent of the novelty of the attacker.</p>
+
+    <h2>If you use Hugging Face-hosted models or datasets, here's the actual checklist</h2>
+
+    <p>This isn't legal advice, and nothing in this checklist is a claim about whether Hugging Face itself is or isn't compliant with anything. That's not a call we're in a position to make, and Hugging Face's own assessment is still running. This checklist is a plain reading of what GDPR, DORA, and DPDP require of <em>you</em> when a vendor in your data supply chain reports a breach.</p>
+
+    <div class="checklist-block">
+      <h3>Under GDPR — if personal data your organisation is responsible for passed through Hugging Face's infrastructure</h3>
+      <ul>
+        <li>Article 28(3)(f) requires your contract with any processor to obligate them to assist you in complying with Articles 32-36, which covers breach notification; and Article 33(2) separately, and more directly, requires a processor to notify you, the controller, without undue delay once it becomes aware of a breach. Check whether Hugging Face's terms with you (or your notebook/pipeline's use of Hugging Face as a sub-processor) reflect that duty, and on what timeline.</li>
+        <li>Article 33(1) gives <em>you</em>, as controller, 72 hours from becoming aware of a breach to notify your supervisory authority. "Becoming aware" starts when you have enough information to assess risk, not when Hugging Face finishes its own investigation.</li>
+        <li>Article 34 requires notifying affected data subjects directly if the breach is likely to result in high risk to their rights and freedoms.</li>
+      </ul>
+    </div>
+
+    <div class="checklist-block">
+      <h3>Under DORA — if you're a financial entity or rely on Hugging Face as an ICT third-party provider in a regulated workflow</h3>
+      <ul>
+        <li>Article 28 requires financial entities to maintain a register of information covering all contractual arrangements with ICT third-party providers, distinguishing those that support critical or important functions from those that don't. If Hugging Face is one of your ICT providers, check that your register reflects the relationship accurately.</li>
+        <li>Article 18's classification criteria (client/service impact, data losses, criticality, geographic spread, duration) determine whether an incident clears the bar for a "major" ICT-related incident; Article 19 then governs how and when major incidents get reported to your competent authority. Financial entities in scope may want to run this incident through the Article 18 test even if their initial read is "no direct exposure" — that's a judgment call for your own risk and compliance function, not something this article can make for you. See the <a href="/blog/dora-gdpr-scanner-india">DORA, GDPR, and DPDP scanning overview</a> for how these frameworks apply together to a single vendor relationship.</li>
+      </ul>
+    </div>
+
+    <div class="checklist-block">
+      <h3>Under India's DPDP Act — if the datasets or models involved processed personal data of Indian data principals</h3>
+      <ul>
+        <li>Section 8(6) requires the data fiduciary to intimate the Data Protection Board and affected data principals of a personal data breach, in the form and manner prescribed by rules.</li>
+        <li>Section 8(1) keeps you responsible for what a data processor does with data on your behalf, "irrespective of any agreement to the contrary." A processor's breach doesn't move the obligation off your desk. See the <a href="/blog/dpdp-processor-guide">DPDP processor obligations guide</a> for a fuller breakdown of §8 duties by obligation tier.</li>
+      </ul>
+    </div>
+
+    <div class="checklist-block">
+      <h3>Regardless of jurisdiction, do these now</h3>
+      <ol>
+        <li>Rotate any Hugging Face access tokens (read, write, and fine-grained) used anywhere in your pipelines, per Hugging Face's own recommendation.</li>
+        <li>Pull your Hugging Face account's recent activity log and check it against your own deployment records for anything unrecognised.</li>
+        <li>Check your data-processing register or subprocessor list: is Hugging Face on it, and does the entry reflect what you actually send them (datasets, fine-tuning jobs, inference calls)?</li>
+        <li>Log this incident in your own vendor-risk or ICT third-party risk register even if your preliminary assessment is "no exposure." A dated record that you assessed it is worth more later than a memory that you meant to.</li>
+      </ol>
+    </div>
+
+    <h2>The evidence problem this points to</h2>
+
+    <p>None of the checklist above depends on trusting Hugging Face's word for it: each step is something you can verify from your own side, your own tokens, your own logs, your own register. That's worth noting on its own. Hugging Face's own disclosure gives you some useful inputs (what happened, what was affected, what remediation was taken), but it's not a substitute for that verification: it tells you what HF says it did, not what your own tokens, logs, and register show. When the question eventually comes back to <em>your</em> organisation, a customer or auditor asking "how do you know your vendor exposure was actually assessed, not just asserted," a dated, re-checkable record beats a memory of having looked into it once.</p>
+
+    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <p class="faq-disclaimer">General informational commentary, not legal advice; talk to your own counsel or DPO about your specific facts.</p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">What happened in the Hugging Face security incident?</summary>
+          <div class="faq-answer"><p>Per HF's 2026-07-16 disclosure, an autonomous AI agent conducted an intrusion into its production infrastructure, exploiting two code-execution flaws in its dataset processing pipeline. Some internal datasets were accessed without authorization and several credentials were compromised.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Were public Hugging Face models or datasets tampered with?</summary>
+          <div class="faq-answer"><p>Per HF's 2026-07-16 disclosure, Hugging Face found no evidence of tampering with public models, datasets, Spaces, or its software supply chain. Impact on partner and customer data was still under assessment at the time of disclosure.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Do I need to do anything if I use Hugging Face in my ML pipeline?</summary>
+          <div class="faq-answer"><p>Rotate any Hugging Face access tokens, review your account's recent activity log, and check whether Hugging Face is logged in your organisation's vendor or subprocessor risk register. Whether further action is required depends on your own exposure assessment.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Does a vendor's breach count as my organisation's breach under GDPR or DPDP?</summary>
+          <div class="faq-answer"><p>Both frameworks generally keep responsibility with the controller or data fiduciary for processing carried out by a processor on their behalf, so a processor's breach may not relieve your organisation of its own notification obligations if personal data you're responsible for was affected. Whether that applies to your situation depends on your specific facts — this isn't a substitute for your own legal or DPO review.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What is DORA's third-party risk requirement in a case like this?</summary>
+          <div class="faq-answer"><p>DORA requires financial entities to maintain a register of information covering their ICT third-party providers (Article 28), and to classify ICT-related incidents against criteria such as client impact, data loss, criticality, geographic spread, and duration to determine if they meet the major-incident threshold (Article 18), which then governs what gets reported and when (Article 19).</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is this the first attack carried out by an autonomous AI agent?</summary>
+          <div class="faq-answer"><p>Per HF's 2026-07-16 disclosure, Hugging Face describes the intrusion as run end-to-end by an autonomous AI agent framework, and says this "matches the 'agentic attacker' scenario the industry has been forecasting." Hugging Face's own post does not claim this is the first documented instance of an agentic attack; that stronger framing has circulated in reader commentary on the post, not in HF's own account.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ══ CTA ══ -->
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">Verify your own side of the register</div>
+      <h3>Free compliance posture scan — no account required</h3>
+      <p>Juro scans your public-facing privacy documentation and consent flows for DPDP, GDPR, and DORA gaps, and produces signed, verifiable evidence of your current posture. It won't assess your Hugging Face exposure for you, but it will show you what your own public surface signals before a customer or auditor asks.</p>
+      <p style="font-size:var(--text-xs);color:rgba(255,255,255,0.45);margin-bottom:var(--s3)">Juro (<a href="https://jurocompliant.com" style="color:rgba(255,255,255,0.45)">jurocompliant.com</a>) is a non-custodial compliance scanner — not juro.com, which is a contract management platform.</p>
+      <a href="https://jurocompliant.com" class="post-cta-btn">Scan your site →</a>
+    </div>
+
+  </article>
+
+  <hr class="post-footer-rule">
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  // Pageview beacon — fires on every blog post load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>

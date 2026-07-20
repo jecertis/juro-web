@@ -142,6 +142,11 @@ if __name__ == "__main__":
             "Do Indian Fintechs Need DPDP Disclosure Before an IPO?",
             "DPDP",
         ),
+        (
+            "hf-security-incident-vendor-risk-2026.png",
+            "Hugging Face Security Incident: GDPR, DORA, DPDP Obligations",
+            "Vendor Risk",
+        ),
     ]
 
     print("Generating OG images...")
