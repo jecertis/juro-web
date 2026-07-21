@@ -4,7 +4,8 @@
       "staticDistDir": ".",
       "url": [
         "http://localhost/index.html",
-        "http://localhost/checklist.html"
+        "http://localhost/checklist.html",
+        "http://localhost/install.html"
       ],
       "numberOfRuns": 1,
       "settings": {
