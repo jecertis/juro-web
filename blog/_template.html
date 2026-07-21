@@ -65,23 +65,44 @@
   "@type": "Article",
   "headline": "FULL_H1_TITLE",
   "description": "META_DESCRIPTION_MAX_155_CHARS",
+  "image": "https://jurocompliant.com/og/POST_SLUG.png",
   "url": "https://jurocompliant.com/blog/POST_SLUG",
   "datePublished": "PUBLISH_DATE",
   "dateModified": "PUBLISH_DATE",
-  "author": {
-    "@type": "Organization",
-    "name": "JuroCompliant",
-    "url": "https://jurocompliant.com"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "JuroCompliant",
-    "url": "https://jurocompliant.com"
-  },
+  "author": { "@id": "https://jurocompliant.com/#organization" },
+  "publisher": { "@id": "https://jurocompliant.com/#organization" },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://jurocompliant.com/blog/POST_SLUG"
   }
+}
+</script>
+
+<!-- ══ Structured Data: BreadcrumbList — must match visible .post-breadcrumb ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://jurocompliant.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://jurocompliant.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "BREADCRUMB_LABEL",
+      "item": "https://jurocompliant.com/blog/POST_SLUG"
+    }
+  ]
 }
 </script>
 
