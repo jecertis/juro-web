@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About JuroCompliant — Non-Custodial Compliance Scanning</title>
+<meta name="description" content="JuroCompliant is a non-custodial compliance scanner for DPDP, GDPR, and DORA, built by JeCertis Private Limited. Signed, deterministic, verifiable evidence — not a verdict.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://jurocompliant.com/about">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jurocompliant.com/about">
+<meta property="og:title" content="About JuroCompliant">
+<meta property="og:description" content="Non-custodial compliance scanning for DPDP, GDPR, and DORA, built by JeCertis Private Limited. Signed, deterministic, verifiable evidence — not a verdict.">
+<meta property="og:site_name" content="JuroCompliant">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="About JuroCompliant">
+<meta name="twitter:description" content="Non-custodial compliance scanning for DPDP, GDPR, and DORA, built by JeCertis Private Limited.">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- ══ Structured Data: AboutPage, referencing the canonical Organization ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "url": "https://jurocompliant.com/about",
+  "name": "About JuroCompliant",
+  "description": "Non-custodial compliance scanning for DPDP Act 2023, GDPR, and DORA with signed, deterministic, verifiable artifacts.",
+  "mainEntity": { "@id": "https://jurocompliant.com/#organization" },
+  "isPartOf": { "@id": "https://jurocompliant.com/#website" }
+}
+</script>
+
+<style>
+  .about-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+  .about-header { margin-bottom: var(--s5); }
+  .about-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+  .about-breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; }
+  .about-breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+  .about-breadcrumb-sep { color: rgba(255,255,255,0.2); }
+  .about-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+  .about-body { color: rgba(255,255,255,0.85); font-size: var(--text-base); line-height: var(--lh-reading); }
+  .about-body p { margin-bottom: var(--s3); }
+  .about-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .about-body ul { padding-left: 1.4rem; margin-bottom: var(--s3); color: rgba(255,255,255,0.85); }
+  .about-body li { margin-bottom: 6px; line-height: var(--lh-reading); }
+  .about-body strong { color: #fff; font-weight: 600; }
+  .about-body a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+  .about-body a:hover { color: #fff; }
+  .skip-nav {
+    position: absolute; top: -100%; left: 1rem;
+    background: var(--yellow); color: #0A0A0A; font-weight: 700;
+    font-size: var(--text-sm); padding: 8px 16px; border-radius: var(--radius);
+    z-index: 9999; text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; border-radius: 2px; }
+  @media (max-width: 640px) {
+    .about-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+  }
+</style>
+</head>
+<body>
+
+<a href="#about-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link">Blog</a>
+    <a href="/checklist.html" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist.html" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<main class="about-wrap" aria-label="About" id="about-content">
+  <div class="about-header">
+    <nav class="about-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="about-breadcrumb-sep">›</span>
+      <span>About</span>
+    </nav>
+    <h1 class="about-title">About JuroCompliant</h1>
+  </div>
+
+  <article class="about-body">
+    <p>JuroCompliant is a non-custodial compliance scanner for the DPDP Act 2023, GDPR, and DORA. It's built and operated by <strong>JeCertis Private Limited</strong>, a DPIIT-recognised Indian startup (DIPP267272).</p>
+
+    <p>The scanner checks a public website for detectable obligation markers — consent behaviour, privacy policy language, third-party trackers, and other technical signals mapped to specific regulatory provisions — and produces a signed, deterministic report. A scan finds evidence of what's present or missing on the pages it checks. It does not certify, grade, or verdict a company's overall compliance status.</p>
+
+    <h2>What "non-custodial" means here</h2>
+    <p>Scans run against the URLs you submit. We don't require an account, and we don't ask for infrastructure access to produce a website-layer report. Findings are signed so the artifact itself — not just our word for it — can be independently checked.</p>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>We don't issue compliance certifications or "pass/fail" verdicts.</li>
+      <li>We don't claim a scan replaces legal review or a DPO's judgment.</li>
+      <li>We don't track visitors to this site with third-party analytics or session-replay tools.</li>
+    </ul>
+
+    <h2>Get in touch</h2>
+    <p>Questions about a scan, a finding, or working with us: <a href="mailto:help@jurocompliant.com">help@jurocompliant.com</a>. See our <a href="/privacy.html">privacy notice</a> for what we collect and why.</p>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist.html">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+  <p class="footer-dpiit">JeCertis Private Limited, the company behind Juro, is a <span class="footer-dpiit-name">DPIIT-recognised startup</span> &middot; DIPP267272</p>
+</footer>
+
+<script src="/config.js"></script>
+<script>
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var payload = { path: window.location.pathname, referrer: document.referrer || undefined };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>
