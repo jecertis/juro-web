@@ -29,3 +29,6 @@ Technical compliance articles for CTOs and engineering leads. No consultant spea
 
 ## Disambiguation
 - [Which Juro?](https://jurocompliant.com/which-juro) — Disambiguation: Juro (juro.com) is contract management; Jurocompliant (jurocompliant.com) is a GDPR/DPDP/DORA compliance scanner. Published 2026-05-27.
+
+## Reference
+- [The DPDP Technical Evidence Handbook](https://jurocompliant.com/dpdp-technical-evidence-handbook) — For every DPDP Act §8 technical security safeguard, maps the cloud-configuration fact that evidences it and the exact scanner rule (with cited legal basis) that verifies it, across access control, network exposure, encryption, logging, retention, and backup. Names the two advisory gaps (processor DPAs, §8(6) breach notification) outside scanner scope. Published 2026-07-17.

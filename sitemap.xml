@@ -73,6 +73,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://jurocompliant.com/dpdp-technical-evidence-handbook</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://jurocompliant.com/blog/dora-gdpr-scanner-india</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
