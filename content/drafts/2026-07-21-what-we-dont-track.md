@@ -9,11 +9,13 @@
 
 We build tools that help companies prove what happens to personal data inside their own systems. So quietly running a session recorder on the people reading about that work would be a strange way to behave. We don't.
 
+Juro (JeCertis) is a non-custodial compliance scanner: it checks a company's public surface or its own cloud configuration against GDPR, DORA, and India's DPDP Act, and produces signed, verifiable evidence of what it found, not a compliance certificate. [Not to be confused with juro.com](/which-juro), an unrelated contract-management tool.
+
 jurocompliant.com carries no Google Analytics, no session replay, and no Microsoft Clarity. There is no third-party analytics tag on the page you are reading. What runs instead is a single first-party pageview beacon we wrote, and it is deliberately close to blind.
 
 > You can't leak what you never collected.
 
-## What the beacon actually sends
+## What does the beacon actually send?
 
 When you open a page on jurocompliant.com, one small request goes back to our own server. You can read the code; it is in the page source. Here is every field it sends:
 
@@ -25,7 +27,7 @@ That is the whole payload. There is no cookie. There is no persistent identifier
 
 ## Why this is the same idea as our scanner
 
-If you have read our procurement pack, this will feel familiar. Our scanner is non-custodial: it runs inside the customer's own cloud, evaluates their configuration there, and the only thing that ever reaches us is a signed hash of the result. We do not hold a copy of the customer's infrastructure. The honest one-line answer to "what data does Juro receive" is: a hash.
+If you have read our procurement pack, this will feel familiar. Our scanner is non-custodial: it runs inside the customer's own cloud, evaluates their configuration there, and the only thing that ever reaches us is a signed hash of the result. We do not hold a copy of the customer's infrastructure. The honest one-line answer to "what data does Juro receive" is: a hash. (For the longer version of that answer, including exactly which DPDP-tagged rules produce that hash, see the [DPDP Technical Evidence Handbook](/dpdp-technical-evidence-handbook).)
 
 The website is the consumer-scale version of the same decision. The honest answer to "what does the jurocompliant.com beacon send about a visitor" is: a page path and where you came from, and nothing that names you. Our server, receiving that request, also derives a coarse, daily-rotating hash of the connection, described further down, and nothing more. We would rather know less and be able to say so plainly than know more and have to manage it.
 
@@ -66,9 +68,9 @@ The same principle. The scanner runs inside your cloud and sends us only a signe
 
 ## Pre-publish blockers checklist (for Samiksha and founder)
 
-- [ ] Samiksha editorial + SEO/AEO gate (title <=60 chars variant for the `<title>` tag; meta description <=155 chars; FAQPage JSON-LD must match the visible FAQ word-for-word).
+- [x] Samiksha editorial + SEO/AEO gate, run 2026-07-28: editorial PASS; SEO/AEO FAIL on 2 AEO items (no early product definition, no question-phrased H2) + 1 SEO item (fewer than 2 internal links), all three fixed below. Still open from that review: title tag / meta description strings not yet drafted (need target keyword + final headline first, see last checklist item), FAQPage JSON-LD word-for-word match to verify at build.
 - [ ] Re-confirm at publish time that the live site genuinely runs zero third-party analytics (no stray tag added since drafting) before the post names them.
-- [ ] Verify the beacon payload against the "What the beacon actually sends" list one more time at publish (fields: path, referrer, and the three campaign tags; credentials omitted; no cookie). Source: blog/_template.html beacon script, verified 2026-07-21.
+- [ ] Verify the beacon payload against the "What does the beacon actually send?" list one more time at publish (fields: path, referrer, and the three campaign tags; credentials omitted; no cookie). Source: blog/_template.html beacon script, verified 2026-07-21.
 - [ ] Server-side IP handling: this draft describes the server-derived connection hash accurately (IP and UA hashed with a daily-rotating salt, same-day only, no cross-day link). Verify that language against the juro-api pageview route (`src/db/pageviews.ts`) before publish and re-verify if the salt-rotation behaviour ever changes.
 - [ ] Legal-verdict scrub: no line implies any named analytics tool, or any company using one, is non-compliant.
 - [ ] No regulation-mandate phrasing: the post must not say any regulation requires this choice. Regulation scope stays GDPR / DORA / DPDP.
