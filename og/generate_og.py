@@ -152,6 +152,11 @@ if __name__ == "__main__":
             "The DPDP Technical Evidence Handbook: Proving §8 Safeguards",
             "DPDP",
         ),
+        (
+            "partners.png",
+            "You issue the opinion. Juro supplies the evidence trail.",
+            "For Advisory & Attestation Firms",
+        ),
     ]
 
     print("Generating OG images...")
