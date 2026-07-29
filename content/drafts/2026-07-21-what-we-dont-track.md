@@ -1,13 +1,13 @@
-# We sell compliance software. Here's the tracking we don't run on you.
+# We turned off our own analytics, for compliance.
 
-**Status: DRAFT, pending Samiksha gate.**
+**Status: DRAFT, pending Samiksha gate. Retitled 2026-07-28 to the founder-chosen headline (was "We sell compliance software. Here's the tracking we don't run on you."); slug unchanged.**
 **Author:** Lekhni (drafting), 2026-07-21. Backlog: BL-MKT-091.
 **Suggested slug:** what-we-dont-track
 **Suggested regulation tag:** DPDP (cross-references GDPR / DORA)
 
 > **Note on scope, per Axiom 2.** This post describes one architectural choice we made about our own marketing site. It is not a verdict on any analytics product or on any company that runs one. Consent-based trackers are lawful when they are disclosed. Nothing here says a regulation requires the choice we made. It is a standard we decided to hold ourselves to.
 
-We build tools that help companies prove what happens to personal data inside their own systems. So quietly running a session recorder on the people reading about that work would be a strange way to behave. We don't.
+We build tools that help companies prove what happens to personal data inside their own systems. So quietly running a session recorder on the people reading about that work would be a strange way to behave. We don't. No regulation makes us turn our own analytics off. It is the standard we decided to hold ourselves to, and here is exactly how it works.
 
 Juro (JeCertis) is a non-custodial compliance scanner: it checks a company's public surface or its own cloud configuration against GDPR, DORA, and India's DPDP Act, and produces signed, verifiable evidence of what it found, not a compliance certificate. [Not to be confused with juro.com](/which-juro), an unrelated contract-management tool.
 
@@ -68,12 +68,15 @@ The same principle. The scanner runs inside your cloud and sends us only a signe
 
 ## Pre-publish blockers checklist (for Samiksha and founder)
 
-- [x] Samiksha editorial + SEO/AEO gate, run 2026-07-28: editorial PASS; SEO/AEO FAIL on 2 AEO items (no early product definition, no question-phrased H2) + 1 SEO item (fewer than 2 internal links), all three fixed below. Still open from that review: title tag / meta description strings not yet drafted (need target keyword + final headline first, see last checklist item), FAQPage JSON-LD word-for-word match to verify at build.
+- [x] Samiksha editorial + SEO/AEO gate, run 2026-07-28: editorial PASS; SEO/AEO FAIL on 2 AEO items (no early product definition, no question-phrased H2) + 1 SEO item (fewer than 2 internal links), all three fixed below. Still open from that review: title tag / meta description strings not yet drafted, FAQPage JSON-LD word-for-word match to verify at build.
+- [ ] Title tag / meta description / target keyword now need reconciling to the new headline: the slug stays `what-we-dont-track` but the retitled H1 contains no form of the word "track." Settle H1, slug, and target keyword against each other before writing the meta strings, or accept the mismatch deliberately.
 - [ ] Re-confirm at publish time that the live site genuinely runs zero third-party analytics (no stray tag added since drafting) before the post names them.
 - [ ] Verify the beacon payload against the "What does the beacon actually send?" list one more time at publish (fields: path, referrer, and the three campaign tags; credentials omitted; no cookie). Source: blog/_template.html beacon script, verified 2026-07-21.
 - [ ] Server-side IP handling: this draft describes the server-derived connection hash accurately (IP and UA hashed with a daily-rotating salt, same-day only, no cross-day link). Verify that language against the juro-api pageview route (`src/db/pageviews.ts`) before publish and re-verify if the salt-rotation behaviour ever changes.
 - [ ] Legal-verdict scrub: no line implies any named analytics tool, or any company using one, is non-compliant.
-- [ ] No regulation-mandate phrasing: the post must not say any regulation requires this choice. Regulation scope stays GDPR / DORA / DPDP.
+- [ ] No regulation-mandate phrasing: the post must not say any regulation requires this choice. Regulation scope stays GDPR / DORA / DPDP. **Watch the retitled headline specifically:** "for compliance" is a motivation hook, and the opening paragraph plus the FAQ must keep saying, in plain words, that no regulation requires this. Both do today. Do not weaken either without re-checking the headline.
+- [ ] Headline precision check: "we turned off our own analytics" is shorthand. A first-party pageview beacon still runs, and the body says so two paragraphs in. The hooks file's option #7 already ruled "turned off" honest (we chose not to run third-party analytics), so this is flagged for Samiksha's judgment, not pre-softened. Confirm the body's qualification lands early enough for a skimming reader.
 - [ ] No em-dashes. Banned-phrase scan clean. Regulation scope stays GDPR / DORA / DPDP.
 - [ ] UTM params present on the CTA link and any other jurocompliant.com link at build.
-- [ ] Headline not yet founder-picked: this draft uses recommended hook #1. Alternatives (incl. pull-quote "You can't leak what you never collected") are in juro-bizops/data/runs/2026-07-21-no-tracking-blog-hooks.md.
+- [x] Headline founder-picked 2026-07-28: "We turned off our own analytics, for compliance." Founder capitalization and terminal period preserved as written. Pull-quote stays "You can't leak what you never collected."; other alternatives are in juro-bizops/data/runs/2026-07-21-no-tracking-blog-hooks.md.
+- [ ] Companion post: this article now has a paired piece, BL-MKT-092 (`content/drafts/2026-07-28-marketing-doesnt-know-your-contacts.md`). Cross-links between the two must resolve to the final published URLs at build.
