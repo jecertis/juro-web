@@ -17,6 +17,10 @@
  * the `update-snapshots` PR label, or regen locally via
  * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
  *
+ * 2026-07-29 (BL-MKT-075): dropped dpdp-processor-guide (root) — the page is
+ * now a meta-refresh redirect stub to /blog/dpdp-processor-guide, which is
+ * not itself covered by this spec.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
@@ -27,7 +31,6 @@ const PAGES = [
   { name: 'checklist', path: '/checklist.html' },
   { name: 'deploy-evergent', path: '/deploy-evergent.html' },
   { name: 'privacy', path: '/privacy.html' },
-  { name: 'dpdp-processor-guide', path: '/dpdp-processor-guide.html' },
   { name: 'ai-act-art50-explainer', path: '/blog/ai-act-art50-transparency-explainer.html' },
   { name: 'dpdp-technical-evidence-handbook', path: '/dpdp-technical-evidence-handbook.html' },
 ] as const;
