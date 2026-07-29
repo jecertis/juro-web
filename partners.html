@@ -448,7 +448,7 @@
     <h2>What does a signed DPDP evidence layer add to your engagement?</h2>
 
     <ul>
-      <li><strong>Deterministic rules, signed by design.</strong> Findings are built to carry a cryptographic signature tied to a target, a ruleset hash, and a timestamp. The ruleset hash itself is deterministic, a SHA-256 over the rule definitions, so you can always confirm exactly which rule version produced a given finding.</li>
+      <li><strong>Deterministic ruleset, versioned.</strong> Every scan runs against a versioned ruleset, and the ruleset itself hashes deterministically, so you can always confirm exactly which rule version produced a given finding. Juro's artefact format is designed around a detached cryptographic signature over the finding set, tied to the target and the ruleset version.</li>
       <li><strong>Independently re-verifiable.</strong> Any auditor, regulator, or counterparty can check a finding without taking your word, or Juro's, for it. That is what turns a report into evidence a client's board or an external reviewer can rely on.</li>
       <li><strong>Cites the regulatory source.</strong> Each finding references the specific DPDP section, GDPR article, or DORA clause that fired, so your write-up can point to the same source your client's legal team would check.</li>
       <li><strong>Non-custodial by design.</strong> Deep scans run inside the client's own cloud account under a read-only role. No infrastructure data leaves the client's perimeter, a detail that matters when you are the one vouching for the engagement.</li>
