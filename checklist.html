@@ -1300,6 +1300,7 @@ async function submitScanReport(event) {
       body: JSON.stringify({
         email,
         source: 'checklist-scan-cta',
+        consent_version: '2026-04',
         metadata: { domain },
       }),
     });

@@ -683,7 +683,7 @@
       fetch(base + '/api/v1/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'insurance-waitlist' }),
+        body: JSON.stringify({ email: email, source: 'insurance-waitlist', consent_version: '2026-04' }),
         mode: 'cors',
         credentials: 'omit'
       })
