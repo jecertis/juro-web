@@ -12,6 +12,8 @@
 Three findings change the shape of the build before a line of code is written:
 
 1. **~83% of the checklist is mechanically checkable.** Of the framework's weighted points, roughly 108 are pure automation, 12 are LLM-advisory candidates, and 10 are permanently human. The "we need an LLM to grade AEO" intuition is mostly wrong — most AEO items as literally written are word counts, heading regexes, DOM node counts, and host allowlists.
+
+   *Read 108/130 as a measure of **tooling coverage of the checklist as written**, before any exclusions. It is not any page's achievable maximum.* The Phase 9 and Phase 10 rulings below move several items out of the scored set entirely, and the per-page exclusion set varies by page class (§3), so the effective denominator is always ≤130 and page-specific. The three-way *proportions* are what carry forward; the absolute denominator does not.
 2. **This is two runners, not one.** Source-time checks (metadata, schema, headings, AEO formatting) run pre-merge on files on disk. Deployed-URL checks (status codes, redirect chains, response headers, TTFB, HTTP/2) structurally cannot run pre-merge against a static checkout. The publish gate therefore splits into a blocking pre-merge gate and a post-deploy monitor.
 3. **Two phases could not meet their stated gate on current infrastructure. Both are now resolved by founder ruling** (2026-07-31) — Phase 9 (Security) is rescoped to what static hosting can control, and Phase 10 (Analytics) is redefined around the first-party beacon. Details in §2; the framework doc has been updated to match (PR #137).
 
@@ -306,12 +308,14 @@ Weighted points, classified. (Denominator 130 — see §0.)
 | 7 Trust (E-E-A-T) | 10 | 7 | 2 | 1 |
 | 8 UX & Conversion | 10 | 8 | 0 | 2 |
 | 9 Security † | 10 | 10 | 0 | 0 |
-| 10 Analytics | 10 | 8 | 0 | 2 |
+| 10 Analytics ‡ | 10 | 8 | 0 | 2 |
 | **Total** | **130** | **108 (83%)** | **12 (9%)** | **10 (8%)** |
 
 Read that top-line carefully: **83% of the framework is buildable with parsers, Lighthouse, and axe — no model in the loop.** The remaining 17% splits into a thin LLM-advisory band and a genuinely irreducible human residue.
 
 **† This table measures *checkability*, not *current pass state* — the two are independent axes.** Phase 9 scores 10/10 mechanical, yet four of its controls are unachievable on GitHub Pages: trivially detectable *and* impossible to satisfy. The founder ruling (§2, Phase 9) resolves this by moving those four out of the scored set into a tracked `known-gap` state, so Phase 9's 10 points now distribute across the six achievable controls only. Several other items are likewise fully checkable and currently absent — no `site.webmanifest`, no terms page, no cookies page, no security page, no `.well-known/security.txt`. Those are real gaps the site can close, and stage 0's baseline run exists precisely to enumerate them before any gate is switched to blocking.
+
+**‡ This row predates the Phase 10 ruling and its three columns cannot express the outcome.** Retaining Search Console introduces a fourth state — `external`: asserted at ops level, true or false, but **not checkable from the repo at all**. It is neither mechanical (no collector can verify it), nor LLM-advisory, nor human-judgment (there is nothing to judge — it is a fact someone looks up). Read the row as 7 mechanical / 1 external / 2 human. The same caveat will apply to any future item whose truth lives outside the repo.
 
 **Post-ruling, the effective denominator is per-page, not fixed at 130.** Phase 9 known-gaps and Phase 10 inapplicable-by-design items drop out of both numerator and denominator, and the drop-out set differs by page class (a policy page has no CTA to score; a blog post has no `SoftwareApplication` schema). The scorer must therefore report *score, max-for-this-page, and excluded-with-reason* rather than a bare `n/130`, or two pages with identical grades will not be comparable. This is a real design constraint on `score.ts`, not a presentation detail.
 
