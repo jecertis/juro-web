@@ -235,6 +235,11 @@
 <header class="header">
   <div class="logo">juro<span class="accent">compliant</span></div>
   <nav class="header-right" aria-label="Primary">
+    <a href="#how" class="nav-link nav-link-section">How it works</a>
+    <a href="#risk" class="nav-link nav-link-section">Regulatory risk</a>
+    <a href="#evidence" class="nav-link nav-link-section">Evidence</a>
+    <a href="#pricing" class="nav-link nav-link-section">Pricing</a>
+    <a href="#partners" class="nav-link nav-link-section">Partners</a>
     <a href="/blog/" class="nav-link">Blog</a>
     <a href="/checklist.html" class="nav-link">Self Assessment →</a>
     <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" class="framework-tag">DPDP Act 2023</a>
@@ -254,6 +259,7 @@
 </nav>
 
 <div class="hero">
+  <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Non-custodial &middot; GDPR &middot; DORA &middot; DPDP</div>
   <div class="urgency-pills">
     <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
     <div class="urgency-pill urgency-pill-secondary"><span class="u-dot u-dot-dora"></span>DORA in effect since Jan 2025</div>
@@ -470,6 +476,33 @@
 <main class="main">
   <div id="emptyState">
 
+    <section class="how-steps-section" id="how" aria-labelledby="how-steps-heading">
+      <div class="how-steps-eyebrow">How it works</div>
+      <h2 class="how-steps-heading" id="how-steps-heading">Four steps, no agent installed on your infrastructure</h2>
+      <div class="how-steps-grid">
+        <div class="how-step-card">
+          <div class="how-step-num">01</div>
+          <div class="how-step-title">Point at the surface</div>
+          <div class="how-step-desc">Give Juro a public URL. No account, no code change, no agent to deploy.</div>
+        </div>
+        <div class="how-step-card">
+          <div class="how-step-num">02</div>
+          <div class="how-step-title">Scan non-custodially</div>
+          <div class="how-step-desc">A headless browser inspects consent flows, trackers, and notices. Nothing you own leaves your perimeter.</div>
+        </div>
+        <div class="how-step-card">
+          <div class="how-step-num">03</div>
+          <div class="how-step-title">Map to obligations</div>
+          <div class="how-step-desc">Each finding cites the exact DPDP section, GDPR article, or DORA article it relates to &mdash; not a vague recommendation.</div>
+        </div>
+        <div class="how-step-card">
+          <div class="how-step-num">04</div>
+          <div class="how-step-title">Seal the result</div>
+          <div class="how-step-desc">The scan output is signed into a deterministic artifact anyone can verify independently.</div>
+        </div>
+      </div>
+    </section>
+
     <div class="how-it-works">
       <div class="scan-log" aria-label="Example scan event log">
         <div class="scan-log-header">SCAN LOG: example.com</div>
@@ -611,6 +644,118 @@
       </div>
     </div>
 
+    <section class="risk-section" id="risk" aria-labelledby="risk-heading">
+      <div class="risk-copy">
+        <div class="risk-eyebrow">Regulatory risk</div>
+        <h2 class="risk-heading" id="risk-heading">The exposure is real, and it applies whether or not you've been scanned yet</h2>
+        <p class="risk-lede">DPDP, GDPR, and DORA don't wait for a complaint to be credible &mdash; the obligations apply from the moment personal data is processed or a financial entity's ICT systems go live. A signed scan just makes the gap visible before a regulator, auditor, or plaintiff does.</p>
+        <p class="risk-note">Across sites scanned on Juro, the most common gap isn't an exotic misconfiguration &mdash; it's an analytics or advertising script that fires before the user has clicked anything on the consent banner. That single pattern touches DPDP Sec. 5, GDPR Art. 6(1)(a), and GDPR Art. 7 at once.</p>
+      </div>
+      <div class="risk-table-wrap">
+        <table class="risk-table">
+          <thead>
+            <tr><th>Regulation</th><th>Applies to</th><th>Maximum exposure</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="risk-reg">DPDP Act 2023</td>
+              <td>Any entity processing personal data of people in India</td>
+              <td class="risk-penalty">&#8377;250 crore per instance</td>
+            </tr>
+            <tr>
+              <td class="risk-reg">GDPR</td>
+              <td>Any entity processing personal data of people in the EU</td>
+              <td class="risk-penalty">&euro;20M or 4% of global turnover</td>
+            </tr>
+            <tr>
+              <td class="risk-reg">DORA</td>
+              <td>Critical ICT third-party providers (Lead Overseer oversight, Art. 35(6)); EU financial entities separately, under each member state's supervisory penalty regime</td>
+              <td class="risk-penalty">Up to 1% of average daily worldwide turnover (ICT third parties) &middot; varies by member state (financial entities)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="risk-table-foot">GDPR enforcement runs from four-figure fines to the multi-million-euro cases that make headlines &mdash; see the <a href="https://www.enforcementtracker.com/" target="_blank" rel="noopener">GDPR Enforcement Tracker</a> for the full record. Small and mid-size fines are the norm, not the exception.</div>
+      </div>
+    </section>
+
+    <section class="evidence-section" id="evidence" aria-labelledby="evidence-heading">
+      <div class="evidence-copy">
+        <div class="evidence-eyebrow">Verifiable evidence</div>
+        <h2 class="evidence-heading" id="evidence-heading">Evidence you can check yourself, not a badge you take on faith</h2>
+        <p class="evidence-lede">A scan result is only useful if someone other than us can confirm it hasn't been altered. Every signed artifact is built to be checked independently, not just displayed.</p>
+        <ul class="evidence-list">
+          <li><span class="ev-mark" aria-hidden="true">&rarr;</span><div><strong>Ed25519 signature</strong>Each artifact is signed so any single-byte change to a finding invalidates the signature.</div></li>
+          <li><span class="ev-mark" aria-hidden="true">&rarr;</span><div><strong>Pinned rule-pack version</strong>Every finding cites the exact rule-pack version it was evaluated against, so results stay reproducible.</div></li>
+          <li><span class="ev-mark" aria-hidden="true">&rarr;</span><div><strong>Independent verification</strong>Run the <a href="https://github.com/jecertis/juro-verify" target="_blank" rel="noopener" style="color:#EFEFEF">open-source verifier</a> yourself. No account and no callback to our servers required.</div></li>
+        </ul>
+      </div>
+      <div class="verify-terminal" aria-label="Example verifier output">
+        <div class="vt-titlebar">$ juro-verify</div>
+        <div class="vt-line"><span class="vt-prompt">$</span> jc verify report-8841.jcz</div>
+        <div class="vt-line">checking canonical digest&hellip;</div>
+        <div class="vt-line">hash: <span class="vt-ok">VALID</span></div>
+        <div class="vt-line">signature: <span class="vt-ok">VERIFIED</span></div>
+        <div class="vt-line">rule-pack: dpdp-v2026.3, gdpr-v2026.1</div>
+        <div class="vt-line vt-ok">verify: PASS</div>
+      </div>
+    </section>
+
+    <!--
+      Pricing (BL-ENG-144). Numbers per founder decision 2026-07-31: ship the
+      design-tool mockup's list figures as-is (EUR, self-serve/public price
+      list). Founder confirmed 2026-07-31 this coexists intentionally with
+      the separate FG-15 partner-channel pricing model (INR list/partner/
+      floor, recorded in workspace memory) — different motions (public
+      self-serve vs. partner-referred engagements), not a conflict.
+    -->
+    <section class="pricing-section" id="pricing" aria-labelledby="pricing-heading">
+      <div class="pricing-eyebrow">Pricing</div>
+      <h2 class="pricing-heading" id="pricing-heading">Pay for evidence, not for a dashboard seat</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-tier">Single scan</div>
+          <div class="pricing-price">&euro;390<span class="pricing-unit">/report</span></div>
+          <ul class="pricing-list">
+            <li>One signed, verifiable scan artifact</li>
+            <li>DPDP + GDPR + DORA coverage</li>
+            <li>Full findings with regulatory citations</li>
+            <li>Independently verifiable, no account needed</li>
+          </ul>
+          <a href="#scan" class="pricing-cta pricing-cta-outline">Run a scan</a>
+        </div>
+        <div class="pricing-card pricing-card-highlight">
+          <div class="pricing-badge">Most adopted</div>
+          <div class="pricing-tier">Continuous</div>
+          <div class="pricing-price">&euro;1,850<span class="pricing-unit">/mo</span></div>
+          <ul class="pricing-list">
+            <li>Everything in Single scan, scheduled</li>
+            <li>Re-scanned on a recurring cadence</li>
+            <li>Signed artifact history over time</li>
+            <li>Rule-pack version pinned per scan</li>
+          </ul>
+          <a href="mailto:help@jurocompliant.com?subject=Continuous%20plan" class="pricing-cta">Talk to us</a>
+        </div>
+        <div class="pricing-card pricing-card-dark">
+          <div class="pricing-tier">Assurance</div>
+          <div class="pricing-price">Custom</div>
+          <ul class="pricing-list">
+            <li>Tier 3 in-VPC deployment</li>
+            <li>Custom rule-pack scope</li>
+            <li>Signed evidence for auditors &amp; the Data Protection Board</li>
+            <li>Direct engineering support</li>
+          </ul>
+          <a href="mailto:help@jurocompliant.com?subject=Assurance%20plan" class="pricing-cta pricing-cta-outline">Contact sales</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="partners-section" id="partners" aria-labelledby="partners-heading">
+      <div class="partners-eyebrow">Partners</div>
+      <h2 class="partners-heading" id="partners-heading">Working with a DPO consultancy or CA firm?</h2>
+      <p class="partners-lede">Juro's signed evidence is built to sit inside an advisory engagement, not replace it. See how DPO consultancies, CA firms, and CISOs use Juro reports with their own clients.</p>
+      <a href="/partners.html" class="partners-link">See the partner program &rarr;</a>
+    </section>
+
   <!-- FAQ — always visible for SEO + AEO -->
   <section class="faq-section" aria-labelledby="faq-heading">
     <h2 id="faq-heading" class="faq-heading">Things people ask before trusting a scan tool</h2>
@@ -718,16 +863,38 @@
   </div>
 </div>
 
-<footer class="site-footer">
-  <span>&copy; 2026 Jurocompliant</span>
-  <span style="display:flex;gap:1.5rem">
-    <a href="/checklist.html">Self Assessment</a>
-    <a href="/blog/">Blog</a>
-    <a href="/about">About</a>
-    <a href="/privacy.html">Privacy notice</a>
-    <a href="mailto:help@jurocompliant.com">Contact</a>
-  </span>
-  <p class="footer-dpiit">JeCertis Private Limited, the company behind Juro, is a <span class="footer-dpiit-name">DPIIT-recognised startup</span> &middot; DIPP267272</p>
+<footer class="site-footer-full">
+  <div class="footer-cols">
+    <div class="footer-brand-col">
+      <div class="footer-logo">juro<span class="accent">compliant</span></div>
+      <p class="footer-brand-desc">Non-custodial compliance scanning for DPDP, GDPR, and DORA. Signed, deterministic, independently verifiable evidence &mdash; not a badge.</p>
+    </div>
+    <div class="footer-link-col">
+      <div class="footer-col-heading">Product</div>
+      <a href="#how">How it works</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/checklist.html">Self Assessment</a>
+    </div>
+    <div class="footer-link-col">
+      <div class="footer-col-heading">Coverage</div>
+      <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener">DPDP Act 2023</a>
+      <a href="https://gdpr-info.eu/" target="_blank" rel="noopener">GDPR</a>
+      <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener">DORA</a>
+    </div>
+    <div class="footer-link-col">
+      <div class="footer-col-heading">Company</div>
+      <a href="/about">About</a>
+      <a href="/blog/">Blog</a>
+      <a href="/partners.html">Partners</a>
+      <a href="/privacy.html">Privacy notice</a>
+      <a href="mailto:help@jurocompliant.com">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom-bar">
+    <span>&copy; 2026 Jurocompliant</span>
+    <p class="footer-dpiit">JeCertis Private Limited, the company behind Juro, is a <span class="footer-dpiit-name">DPIIT-recognised startup</span> &middot; DIPP267272</p>
+  </div>
 </footer>
 
 <div id="emailModal" class="modal-overlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="modalHeading">

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin:0; padding:0; background:#0A0A0A; }
+  body { font-family:'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#F5C400; text-decoration:none; }
+  a:hover { color:#D4A800; }
+  ::selection { background:#F5C400; color:#0A0A0A; }
+  @keyframes jcScan { 0% { transform:translateY(0); opacity:0 } 12% { opacity:1 } 88% { opacity:1 } 100% { transform:translateY(260px); opacity:0 } }
+  @keyframes jcPulse { 0%,100% { opacity:1 } 50% { opacity:.35 } }
+  @keyframes jcRise { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+  @media (max-width:760px) { .jc-nav-desktop { display:none !important; } }
+</style>
+</helmet>
+<div style="background:#0A0A0A; color:#FFFFFF; min-height:100%; overflow-x:hidden">
+
+  <header style="position:sticky; top:0; z-index:40; background:rgba(10,10,10,.86); backdrop-filter:blur(14px); border-bottom:1px solid #1F1F1F">
+    <div style="max-width:1240px; margin:0 auto; padding:12px clamp(16px,4vw,32px); min-height:68px; display:flex; flex-wrap:wrap; align-items:center; gap:14px clamp(20px,4vw,40px)">
+      <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:19px; letter-spacing:-0.01em">juro<span style="color:#F5C400">compliant</span></div>
+      <nav class="jc-nav-desktop" style="display:flex; flex-wrap:wrap; gap:10px 24px; font-size:14px; color:#A3A3A3">
+        <a href="#how" style="color:#A3A3A3" style-hover="color:#FFFFFF">How it works</a>
+        <a href="#risk" style="color:#A3A3A3" style-hover="color:#FFFFFF">Regulatory risk</a>
+        <a href="#evidence" style="color:#A3A3A3" style-hover="color:#FFFFFF">Evidence</a>
+        <a href="#pricing" style="color:#A3A3A3" style-hover="color:#FFFFFF">Pricing</a>
+        <a href="#partners" style="color:#A3A3A3" style-hover="color:#FFFFFF">Partners</a>
+      </nav>
+      <div style="flex:1"></div>
+      <div style="display:flex; align-items:center; gap:18px">
+        <a href="#" style="font-size:14px; color:#FFFFFF">Sign in</a>
+        <a href="#scan" style="background:#F5C400; color:#0A0A0A; font-size:14px; font-weight:600; padding:10px 18px; border-radius:8px" style-hover="background:#D4A800">Run a scan</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="scan" style="position:relative; border-bottom:1px solid #1F1F1F; background-image:linear-gradient(#141414 1px, transparent 1px), linear-gradient(90deg, #141414 1px, transparent 1px); background-size:64px 64px">
+    <div style="position:absolute; inset:0; background:radial-gradient(1100px 460px at 22% -10%, rgba(245,196,0,.10), transparent 70%)"></div>
+    <div style="position:relative; max-width:1240px; margin:0 auto; padding:clamp(48px,8vw,88px) clamp(16px,4vw,32px) clamp(56px,8vw,96px); display:grid; grid-template-columns:repeat(auto-fit, minmax(340px,1fr)); gap:clamp(40px,6vw,72px); align-items:start">
+      <div>
+        <div style="display:inline-flex; align-items:center; gap:10px; border:1px solid #2A2A2A; background:#111111; border-radius:999px; padding:6px 12px 6px 10px; margin-bottom:28px">
+          <span style="width:6px; height:6px; border-radius:50%; background:#059669; animation:jcPulse 2s ease-in-out infinite"></span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:#A3A3A3">Non-custodial · GDPR · DORA · DPDP</span>
+        </div>
+        <h1 style="font-size:clamp(38px,7vw,66px); line-height:1.02; letter-spacing:-0.035em; font-weight:600; margin:0 0 22px">Compliance you can<br /><span style="color:#F5C400">prove.</span></h1>
+        <p style="font-size:18px; line-height:1.6; color:#A3A3A3; max-width:520px; margin:0 0 34px; text-wrap:pretty">Jurocompliant scans your live surface without touching your data, then seals the result into signed, independently verifiable evidence. Not a checklist. A record that holds up in front of a regulator.</p>
+
+        <div style="background:#111111; border:1px solid #262626; border-radius:12px; padding:14px; max-width:560px">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#F5C400; padding:2px 4px 12px">Start a scan</div>
+          <div style="display:flex; gap:10px">
+            <div style="flex:1; display:flex; align-items:center; gap:10px; background:#0A0A0A; border:1px solid {{ inputBorder }}; border-radius:8px; padding:0 14px">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#525252">https://</span>
+              <input value="{{ url }}" onChange="{{ onUrl }}" onKeyDown="{{ onKey }}" placeholder="your-domain.com" style="flex:1; background:transparent; border:0; outline:none; color:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:14px; padding:14px 0" />
+            </div>
+            <button onClick="{{ onScan }}" style="background:#F5C400; color:#0A0A0A; border:0; border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:600; padding:0 22px; cursor:pointer; white-space:nowrap" style-hover="background:#D4A800">{{ ctaLabel }}</button>
+          </div>
+          <div style="display:flex; gap:20px; padding:12px 4px 2px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:#525252">
+            <span>No agent</span><span>No data retention</span><span>Result in ~90s</span>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:28px 44px; margin-top:44px; border-top:1px solid #1F1F1F; padding-top:26px">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; color:#FFFFFF">14,208</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-top:6px">Sealed reports</div>
+          </div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; color:#FFFFFF">3</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-top:6px">Regimes covered</div>
+          </div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; color:#F5C400">0</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-top:6px">Bytes retained</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="position:relative">
+        <div style="position:absolute; top:-14px; left:22px; right:22px; height:14px; background:#171717; border:1px solid #262626; border-bottom:0; border-radius:10px 10px 0 0"></div>
+        <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; overflow:hidden; box-shadow:0 40px 90px -30px rgba(0,0,0,.9)">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #E5E5E5; background:#FAFAFA">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#525252">Report · {{ reportTarget }}</div>
+            <div style="display:flex; align-items:center; gap:7px; background:#0A0A0A; border-radius:999px; padding:4px 10px">
+              <span style="width:5px; height:5px; border-radius:50%; background:#F5C400"></span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#F5C400">{{ sealLabel }}</span>
+            </div>
+          </div>
+
+          <div style="position:relative; padding:20px 18px; overflow:hidden">
+            <div style="position:absolute; left:0; right:0; top:0; height:2px; background:linear-gradient(90deg, transparent, #F5C400, transparent); animation:jcScan 2.4s linear infinite; display:{{ scanLineDisplay }}"></div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:14px">Posture at a glance</div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(78px,1fr)); gap:8px">
+              <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px 10px; border-top:3px solid #DC2626">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:#0A0A0A">{{ kCrit }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#737373; margin-top:4px">Critical</div>
+              </div>
+              <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px 10px; border-top:3px solid #D97706">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:#0A0A0A">{{ kHigh }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#737373; margin-top:4px">High</div>
+              </div>
+              <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px 10px; border-top:3px solid #A3A3A3">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:#0A0A0A">{{ kMed }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#737373; margin-top:4px">Medium</div>
+              </div>
+              <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px 10px; border-top:3px solid #059669">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:#0A0A0A">{{ kPass }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#737373; margin-top:4px">Verified</div>
+              </div>
+            </div>
+
+            <div style="margin-top:18px; border-top:1px solid #F0F0F0; padding-top:16px">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#737373">Scan progress</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#0A0A0A">{{ pctLabel }}</span>
+              </div>
+              <div style="height:6px; background:#F0F0F0; border-radius:999px; overflow:hidden">
+                <div style="height:100%; width:{{ pctWidth }}; background:#F5C400; transition:width .35s ease"></div>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#525252; margin-top:12px">{{ phaseLine }}</div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; flex-direction:column; gap:6px">
+              <div style="display:flex; align-items:center; gap:10px; border:1px solid #E5E5E5; border-radius:8px; padding:10px 12px">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; background:#DC2626; color:#FFFFFF; padding:3px 6px; border-radius:4px">CRIT</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#737373">GDPR Art. 32</span>
+                <span style="font-size:12.5px; color:#0A0A0A">Transfer log unencrypted at rest</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; border:1px solid #E5E5E5; border-radius:8px; padding:10px 12px">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; background:#D97706; color:#FFFFFF; padding:3px 6px; border-radius:4px">HIGH</span>
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#737373">DORA Art. 11</span>
+                <span style="font-size:12.5px; color:#0A0A0A">No tested continuity path</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#0A0A0A; padding:14px 18px; display:flex; align-items:center; justify-content:space-between">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; letter-spacing:.06em">sha256 {{ hashShort }}</div>
+            <a href="#evidence" style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase">Verify →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="border-bottom:1px solid #1F1F1F">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(56px,8vw,96px) clamp(16px,4vw,32px)">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px 40px; margin-bottom:56px">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:#F5C400; margin-bottom:16px">How it works</div>
+          <h2 style="font-size:clamp(28px,5vw,42px); line-height:1.1; letter-spacing:-0.028em; font-weight:600; margin:0; max-width:660px">Four steps from a URL to evidence a regulator will accept.</h2>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#525252; line-height:1.8; white-space:nowrap; text-align:right">avg. runtime 94s<br />0 credentials required</div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1px; background:#1F1F1F; border:1px solid #1F1F1F; border-radius:12px; overflow:hidden">
+        <div style="background:#111111; padding:30px 26px 34px" style-hover="background:#161616">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; color:#F5C400; margin-bottom:44px">01</div>
+          <h3 style="font-size:19px; font-weight:600; letter-spacing:-0.012em; margin:0 0 10px">Point at the surface</h3>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">Submit a domain. We enumerate public assets, subprocessors, transfer paths and consent flows from the outside in.</p>
+        </div>
+        <div style="background:#111111; padding:30px 26px 34px" style-hover="background:#161616">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; color:#F5C400; margin-bottom:44px">02</div>
+          <h3 style="font-size:19px; font-weight:600; letter-spacing:-0.012em; margin:0 0 10px">Scan non-custodially</h3>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">Rules execute in an ephemeral enclave. Nothing is stored, nothing is proxied through us, no agent is installed.</p>
+        </div>
+        <div style="background:#111111; padding:30px 26px 34px" style-hover="background:#161616">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; color:#F5C400; margin-bottom:44px">03</div>
+          <h3 style="font-size:19px; font-weight:600; letter-spacing:-0.012em; margin:0 0 10px">Map to obligations</h3>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">Every finding cites the article it fails — GDPR, DORA or DPDP — with remediation written for the team that owns it.</p>
+        </div>
+        <div style="background:#111111; padding:30px 26px 34px" style-hover="background:#161616">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; color:#F5C400; margin-bottom:44px">04</div>
+          <h3 style="font-size:19px; font-weight:600; letter-spacing:-0.012em; margin:0 0 10px">Seal the result</h3>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">The report is hashed and signed. Anyone holding the bundle can verify it offline, years later, without trusting us.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="risk" style="background:#111111; border-bottom:1px solid #1F1F1F">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(56px,8vw,96px) clamp(16px,4vw,32px)">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(360px,1fr)); gap:clamp(40px,6vw,72px); align-items:start">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:#DC2626; margin-bottom:16px">The stakes</div>
+          <h2 style="font-size:clamp(28px,5vw,42px); line-height:1.1; letter-spacing:-0.028em; font-weight:600; margin:0 0 20px">An unproven control is an unmitigated fine.</h2>
+          <p style="font-size:16px; line-height:1.7; color:#A3A3A3; margin:0 0 28px; text-wrap:pretty">Supervisory authorities no longer accept intent as a defence. They ask when a control was verified, by whom, and against what evidence. If the answer is a spreadsheet, the answer is a penalty.</p>
+          <div style="border-left:2px solid #F5C400; padding-left:18px">
+            <p style="font-size:15px; line-height:1.7; color:#FFFFFF; margin:0 0 10px; font-style:normal">“We replaced a quarterly consultant review with a signed scan we can produce on demand. The audit went from six weeks to four days.”</p>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373">Head of Risk · EU payments platform</div>
+          </div>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; overflow:hidden">
+          <div style="display:grid; grid-template-columns:1fr 1.5fr 1fr; padding:14px 22px; border-bottom:1px solid #E5E5E5; background:#FAFAFA; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373">
+            <span>Regime</span><span>Exposure</span><span style="text-align:right">Max penalty</span>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1.5fr 1fr; padding:22px; border-bottom:1px solid #F0F0F0; align-items:center">
+            <div><div style="font-weight:600; font-size:16px; color:#0A0A0A">GDPR</div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; margin-top:4px">EU 2016/679</div></div>
+            <div style="font-size:13.5px; color:#525252; line-height:1.55">Unlawful transfers, weak Art. 32 security, consent defects</div>
+            <div style="text-align:right"><div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; color:#DC2626">€20M</div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; margin-top:3px">or 4% turnover</div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1.5fr 1fr; padding:22px; border-bottom:1px solid #F0F0F0; align-items:center">
+            <div><div style="font-weight:600; font-size:16px; color:#0A0A0A">DORA</div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; margin-top:4px">EU 2022/2554</div></div>
+            <div style="font-size:13.5px; color:#525252; line-height:1.55">Untested resilience, third-party register gaps, late incident reporting</div>
+            <div style="text-align:right"><div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; color:#D97706">1% daily</div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; margin-top:3px">turnover, up to 6mo</div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1.5fr 1fr; padding:22px; align-items:center">
+            <div><div style="font-weight:600; font-size:16px; color:#0A0A0A">DPDP</div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; margin-top:4px">India, 2023</div></div>
+            <div style="font-size:13.5px; color:#525252; line-height:1.55">Missing breach notice, notice-and-consent failures</div>
+            <div style="text-align:right"><div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; color:#D97706">₹250 cr</div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#737373; margin-top:3px">per breach type</div></div>
+          </div>
+          <div style="background:#0A0A0A; padding:16px 22px; display:flex; justify-content:space-between; align-items:center">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#737373">Median EU enforcement action, 2025</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#F5C400">€1.4M</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="evidence" style="border-bottom:1px solid #1F1F1F; background-image:radial-gradient(700px 320px at 78% 20%, rgba(245,196,0,.08), transparent 70%)">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(56px,8vw,96px) clamp(16px,4vw,32px); display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:clamp(40px,6vw,72px); align-items:center">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:#F5C400; margin-bottom:16px">Verifiable evidence</div>
+        <h2 style="font-size:clamp(28px,5vw,42px); line-height:1.1; letter-spacing:-0.028em; font-weight:600; margin:0 0 20px">Signed at the moment of scan. Verifiable without us.</h2>
+        <p style="font-size:16px; line-height:1.7; color:#A3A3A3; margin:0 0 30px; text-wrap:pretty">Each report ships as a bundle: findings, rule versions, timestamps and a detached signature over the canonical hash. Verification is a single offline command against our published key — no portal, no account, no dependency on Jurocompliant existing.</p>
+        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:34px">
+          <div style="display:flex; gap:14px; align-items:flex-start">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#F5C400; margin-top:4px">▸</span>
+            <div><div style="font-size:15px; font-weight:600">Ed25519 detached signature</div><div style="font-size:13.5px; color:#737373; line-height:1.6">Over a canonical JSON serialisation, timestamped by an RFC 3161 authority.</div></div>
+          </div>
+          <div style="display:flex; gap:14px; align-items:flex-start">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#F5C400; margin-top:4px">▸</span>
+            <div><div style="font-size:15px; font-weight:600">Pinned rule versions</div><div style="font-size:13.5px; color:#737373; line-height:1.6">A re-run two years from now proves what the rule said on the day it ran.</div></div>
+          </div>
+          <div style="display:flex; gap:14px; align-items:flex-start">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#F5C400; margin-top:4px">▸</span>
+            <div><div style="font-size:15px; font-weight:600">Transparency log inclusion</div><div style="font-size:13.5px; color:#737373; line-height:1.6">Append-only log entry so the seal cannot be back-dated or silently reissued.</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#111111; border:1px solid #262626; border-radius:12px; padding:28px; box-shadow:0 40px 90px -40px rgba(0,0,0,.9)">
+        <div style="display:flex; align-items:center; gap:14px; padding-bottom:22px; border-bottom:1px solid #1F1F1F">
+          <div style="width:44px; height:44px; border-radius:10px; background:#F5C400; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; color:#0A0A0A">✓</div>
+          <div>
+            <div style="font-size:16px; font-weight:600">Signature valid</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#059669; margin-top:3px">Sealed · chain intact</div>
+          </div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:2; color:#A3A3A3; padding-top:20px">
+          <div style="color:#525252">$ jc verify report-8841.jcz</div>
+          <div>bundle&nbsp;&nbsp;&nbsp; report-8841.jcz</div>
+          <div>digest&nbsp;&nbsp;&nbsp; <span style="color:#FFFFFF">{{ hashShort }}</span></div>
+          <div>signer&nbsp;&nbsp;&nbsp; jurocompliant-root-2026</div>
+          <div>rules&nbsp;&nbsp;&nbsp;&nbsp; gdpr@4.2.1 dora@2.0.7 dpdp@1.3.0</div>
+          <div>tsa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2026-07-31T09:14:22Z</div>
+          <div style="color:#059669">OK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; signature verified · log index 41,209</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" style="border-bottom:1px solid #1F1F1F">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(56px,8vw,96px) clamp(16px,4vw,32px)">
+      <div style="text-align:center; margin-bottom:52px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:#F5C400; margin-bottom:16px">Pricing</div>
+        <h2 style="font-size:clamp(28px,5vw,42px); line-height:1.1; letter-spacing:-0.028em; font-weight:600; margin:0 0 14px">Priced per sealed report, not per seat.</h2>
+        <p style="font-size:16px; color:#A3A3A3; margin:0">Every plan produces the same signed artifact. Scope and cadence are what change.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; align-items:start">
+        <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; padding:30px">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#737373">Single scan</div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin:20px 0 6px">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:40px; font-weight:600; color:#0A0A0A; letter-spacing:-0.02em">€390</span>
+            <span style="font-size:13px; color:#737373">/ report</span>
+          </div>
+          <p style="font-size:13.5px; line-height:1.6; color:#525252; margin:0 0 22px">One domain, one regime, one sealed bundle. For a due-diligence request you need answered this week.</p>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:#0A0A0A; padding-bottom:24px; border-bottom:1px solid #F0F0F0">
+            <span>1 target · 1 regulation</span><span>Signed PDF + .jcz bundle</span><span>90-day report hosting</span>
+          </div>
+          <button style="width:100%; margin-top:22px; background:#FFFFFF; color:#0A0A0A; border:1px solid #0A0A0A; border-radius:8px; padding:12px; font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:600; cursor:pointer" style-hover="background:#0A0A0A; color:#FFFFFF">Run one scan</button>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid #F5C400; border-radius:10px; padding:30px; position:relative; box-shadow:0 30px 70px -35px rgba(245,196,0,.35)">
+          <div style="position:absolute; top:-11px; left:30px; background:#F5C400; color:#0A0A0A; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; padding:5px 10px; border-radius:5px">Most adopted</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#737373">Continuous</div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin:20px 0 6px">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:40px; font-weight:600; color:#0A0A0A; letter-spacing:-0.02em">€1,850</span>
+            <span style="font-size:13px; color:#737373">/ month</span>
+          </div>
+          <p style="font-size:13.5px; line-height:1.6; color:#525252; margin:0 0 22px">Weekly sealed scans across all three regimes, with drift alerts when a control regresses.</p>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:#0A0A0A; padding-bottom:24px; border-bottom:1px solid #F0F0F0">
+            <span>10 targets · GDPR + DORA + DPDP</span><span>Weekly cadence + on-demand runs</span><span>Drift alerts &amp; posture history</span><span>Auditor share links</span>
+          </div>
+          <button style="width:100%; margin-top:22px; background:#F5C400; color:#0A0A0A; border:0; border-radius:8px; padding:12px; font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:600; cursor:pointer" style-hover="background:#D4A800">Start continuous</button>
+        </div>
+        <div style="background:#111111; border:1px solid #262626; border-radius:10px; padding:30px">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#F5C400">Assurance</div>
+          <div style="display:flex; align-items:baseline; gap:8px; margin:20px 0 6px">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:40px; font-weight:600; color:#FFFFFF; letter-spacing:-0.02em">Custom</span>
+          </div>
+          <p style="font-size:13.5px; line-height:1.6; color:#A3A3A3; margin:0 0 22px">For groups and regulated entities that need private rule packs and their own signing key.</p>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:13.5px; color:#FFFFFF; padding-bottom:24px; border-bottom:1px solid #1F1F1F">
+            <span>Unlimited targets &amp; entities</span><span>Customer-held signing key (BYOK)</span><span>Private rule authoring</span><span>Named compliance engineer</span>
+          </div>
+          <button style="width:100%; margin-top:22px; background:transparent; color:#FFFFFF; border:1px solid #404040; border-radius:8px; padding:12px; font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:600; cursor:pointer" style-hover="border-color:#F5C400; color:#F5C400">Talk to us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="partners" style="border-bottom:1px solid #1F1F1F; background:#111111">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(44px,7vw,72px) clamp(16px,4vw,32px)">
+      <div style="display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:34px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:#737373">Delivered with audit and legal partners</div>
+        <a href="#" style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase">Partner programme →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr)); gap:12px">
+        <div style="border:1px solid #262626; border-radius:8px; height:78px; display:flex; align-items:center; justify-content:center; background-image:repeating-linear-gradient(135deg, #161616 0 6px, #111111 6px 12px)"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#525252">partner logo</span></div>
+        <div style="border:1px solid #262626; border-radius:8px; height:78px; display:flex; align-items:center; justify-content:center; background-image:repeating-linear-gradient(135deg, #161616 0 6px, #111111 6px 12px)"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#525252">partner logo</span></div>
+        <div style="border:1px solid #262626; border-radius:8px; height:78px; display:flex; align-items:center; justify-content:center; background-image:repeating-linear-gradient(135deg, #161616 0 6px, #111111 6px 12px)"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#525252">partner logo</span></div>
+        <div style="border:1px solid #262626; border-radius:8px; height:78px; display:flex; align-items:center; justify-content:center; background-image:repeating-linear-gradient(135deg, #161616 0 6px, #111111 6px 12px)"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#525252">partner logo</span></div>
+        <div style="border:1px solid #262626; border-radius:8px; height:78px; display:flex; align-items:center; justify-content:center; background-image:repeating-linear-gradient(135deg, #161616 0 6px, #111111 6px 12px)"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#525252">partner logo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:1px solid #1F1F1F">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(48px,7vw,88px) clamp(16px,4vw,32px); display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:clamp(40px,6vw,72px)">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:#F5C400; margin-bottom:16px">Who we are</div>
+        <h2 style="font-size:clamp(26px,4vw,34px); line-height:1.15; letter-spacing:-0.028em; font-weight:600; margin:0">Built by the people who used to write the findings by hand.</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:34px 44px; align-self:center">
+        <div>
+          <div style="font-size:15px; font-weight:600; margin-bottom:8px">Non-custodial by design</div>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">We never hold customer data, so a breach of us cannot become a breach of you. The architecture is the guarantee, not the policy.</p>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:600; margin-bottom:8px">Rules with authors</div>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">Every rule is signed off by a named practitioner and cites the article and guidance it derives from. No black-box scoring.</p>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:600; margin-bottom:8px">Evidence over dashboards</div>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">A pretty score does not survive a supervisory request. A signed bundle does. We optimise for the second thing.</p>
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:600; margin-bottom:8px">Independent verification
+</div>
+          <p style="font-size:14px; line-height:1.65; color:#A3A3A3; margin:0">Our signing key and rule digests are published. You can check our work, and so can your auditor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background-image:radial-gradient(800px 340px at 50% 120%, rgba(245,196,0,.14), transparent 70%)">
+    <div style="max-width:1240px; margin:0 auto; padding:clamp(56px,8vw,104px) clamp(16px,4vw,32px); text-align:center">
+      <h2 style="font-size:clamp(32px,6vw,52px); line-height:1.06; letter-spacing:-0.032em; font-weight:600; margin:0 0 18px">Prove it before someone<br />asks you to.</h2>
+      <p style="font-size:17px; color:#A3A3A3; margin:0 0 34px">One URL. Ninety seconds. A sealed report you can hand to a regulator.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:520px; margin:0 auto">
+        <div style="flex:1; min-width:220px; display:flex; align-items:center; gap:10px; background:#111111; border:1px solid #262626; border-radius:8px; padding:0 14px">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#525252">https://</span>
+          <input value="{{ url }}" onChange="{{ onUrl }}" onKeyDown="{{ onKey }}" placeholder="your-domain.com" style="flex:1; background:transparent; border:0; outline:none; color:#FFFFFF; font-family:'IBM Plex Mono',monospace; font-size:14px; padding:15px 0" />
+        </div>
+        <button onClick="{{ onScan }}" style="background:#F5C400; color:#0A0A0A; border:0; border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:600; padding:0 24px; cursor:pointer" style-hover="background:#D4A800">{{ ctaLabel }}</button>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #1F1F1F; background:#0A0A0A">
+    <div style="max-width:1240px; margin:0 auto; padding:52px clamp(16px,4vw,32px) 40px; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:40px">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:17px; margin-bottom:12px">juro<span style="color:#F5C400">compliant</span></div>
+        <p style="font-size:13px; line-height:1.7; color:#737373; margin:0; max-width:280px">Non-custodial compliance scanning and signed evidence for GDPR, DORA and DPDP.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:11px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252; margin-bottom:4px">Product</div>
+        <a href="#how" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">How it works</a>
+        <a href="#evidence" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Evidence bundle</a>
+        <a href="#pricing" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Pricing</a>
+        <a href="Reports Dashboard.dc.html" style="font-size:13.5px; color:#F5C400">Sample report ↗</a>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:11px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252; margin-bottom:4px">Coverage</div>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">GDPR</a>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">DORA</a>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">DPDP</a>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Rule changelog</a>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:11px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252; margin-bottom:4px">Company</div>
+        <a href="#partners" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Partners</a>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Security</a>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Signing keys</a>
+        <a href="#" style="font-size:13.5px; color:#A3A3A3" style-hover="color:#FFFFFF">Contact</a>
+      </div>
+    </div>
+    <div style="max-width:1240px; margin:0 auto; padding:20px clamp(16px,4vw,32px) 44px; border-top:1px solid #1F1F1F; display:flex; flex-wrap:wrap; gap:8px; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#525252">
+      <span>© 2026 Jurocompliant BV</span>
+      <span>Root key fingerprint 8F:2C:A1:04:BB:7E</span>
+    </div>
+  </footer>
+</div></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000},&quot;autoDemoScan&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero demo&quot;}}">
+class Component extends DCLogic {
+  state = { url: "", scanning: false, pct: 0, done: false, focus: false };
+  componentDidMount() {
+    if (this.props.autoDemoScan) { this.setState({ url: "acme-financial.eu" }); this.start(); }
+  }
+  componentWillUnmount() { clearInterval(this.t); }
+  start = () => {
+    if (this.state.scanning) return;
+    clearInterval(this.t);
+    this.setState({ scanning: true, done: false, pct: 4 });
+    this.t = setInterval(() => {
+      this.setState(s => {
+        const next = s.pct + 6 + Math.random() * 7;
+        if (next >= 100) { clearInterval(this.t); return { pct: 100, scanning: false, done: true }; }
+        return { pct: next };
+      });
+    }, 260);
+  };
+  renderVals() {
+    const { url, pct, scanning, done } = this.state;
+    const p = Math.round(pct);
+    const phases = [
+      [0, "queued · resolving target"],
+      [12, "enumerating public assets"],
+      [34, "evaluating GDPR Art. 32 rule pack"],
+      [58, "checking DORA resilience register"],
+      [78, "mapping DPDP consent obligations"],
+      [95, "hashing findings · requesting seal"],
+    ];
+    let phase = "idle · awaiting target";
+    if (scanning) { phases.forEach(([at, label]) => { if (p >= at) phase = label; }); }
+    if (done) phase = "sealed · signature written to log index 41,209";
+    return {
+      url,
+      onUrl: e => this.setState({ url: e.target.value }),
+      onKey: e => { if (e.key === "Enter") this.start(); },
+      onScan: this.start,
+      ctaLabel: scanning ? "Scanning…" : (done ? "Scan again" : "Scan now"),
+      inputBorder: scanning ? "#F5C400" : "#262626",
+      pctLabel: scanning || done ? p + "%" : "—",
+      pctWidth: (scanning || done ? p : 0) + "%",
+      phaseLine: phase,
+      scanLineDisplay: scanning ? "block" : "none",
+      reportTarget: url ? url.replace(/^https?:\/\//, "") : "acme-financial.eu",
+      sealLabel: done ? "Sealed" : (scanning ? "Sealing…" : "Sample"),
+      kCrit: done || !scanning ? "3" : "—",
+      kHigh: done || !scanning ? "7" : "—",
+      kMed: done || !scanning ? "12" : "—",
+      kPass: done || !scanning ? "48" : "—",
+      hashShort: "9f2c…b41e",
+    };
+  }
+}
+</script>
+</body>
+</html>
