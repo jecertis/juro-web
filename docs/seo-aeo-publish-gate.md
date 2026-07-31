@@ -12,8 +12,10 @@ Founder-provided framework, adopted 2026-07-31. A page is not published until it
 | 6     | Accessibility   | High     | WCAG AA        |
 | 7     | Trust (E-E-A-T) | High     | ≥85%           |
 | 8     | UX & Conversion | Medium   | ≥85%           |
-| 9     | Security        | Critical | 100%           |
+| 9     | Security        | Critical | 100% of achievable set † |
 | 10    | Analytics       | Medium   | ≥90%           |
+
+† **Phase 9 is scored against what static hosting can actually control.** See Phase 9 for the achievable set and the tracked known-gap list. The gate never blocks on infrastructure this repo does not control.
 
 ---
 
@@ -114,7 +116,7 @@ Founder-provided framework, adopted 2026-07-31. A page is not published until it
 
 ## Phase 5 — AEO (Answer Engine Optimization)
 
-The most overlooked area — weighted 20/120, tied with Technical SEO for the highest single weight.
+The most overlooked area — weighted 20/130, tied with Technical SEO for the highest single weight.
 
 **Direct answers**
 - [ ] First paragraph answers the query
@@ -205,31 +207,46 @@ The most overlooked area — weighted 20/120, tied with Technical SEO for the hi
 
 ## Phase 9 — Security
 
-**Headers**
-- [ ] CSP
-- [ ] HSTS
-- [ ] X-Frame-Options
-- [ ] Referrer-Policy
-- [ ] Permissions-Policy
+Scoped to static hosting (GitHub Pages + Fastly) by founder ruling 2026-07-31. The site is served from a host that does not expose response-header configuration, so this phase scores **what this repo can actually control**, at 100%. Controls that are response-header-only are recorded as a tracked known gap, not as a permanent failure. Rationale: a publish gate must not block on infrastructure we do not control.
 
-**Security**
-- [ ] No mixed content
-- [ ] No exposed secrets
-- [ ] No vulnerable JS libraries
-- [ ] CSP passes
+**Achievable set — scored, 100% required**
 - [ ] HTTPS everywhere
+- [ ] HSTS present (provided by GitHub Pages with Enforce HTTPS on)
+- [ ] CSP via `<meta http-equiv="content-security-policy">`, where applicable
+- [ ] No mixed content (no `http://` subresources)
+- [ ] No exposed secrets (covered by `secret-scan.yml` / gitleaks)
+- [ ] No vulnerable JS libraries (covered by `sca.yml` / `sbom.yml` + Lighthouse)
+
+**Tracked known gaps — recorded, not scored, not blocking**
+
+These cannot be set as response headers on GitHub Pages. They would require putting a CDN/proxy (e.g. Cloudflare Transform Rules) in front of the Pages origin — a DNS-level decision, deliberately out of scope for a page-level gate.
+
+- X-Frame-Options — *no meta-tag equivalent; ignored in meta form*
+- Referrer-Policy — meta form works, but is not a response-header control
+- Permissions-Policy — no meta-tag equivalent
+- Header-based CSP — the meta fallback above covers most directives, but `frame-ancestors` is ignored in meta form, so clickjacking protection specifically remains open
+
+Revisit if the site ever moves behind a CDN/proxy or off GitHub Pages.
 
 ## Phase 10 — Analytics
 
-- [ ] Google Analytics 4 (or equivalent)
-- [ ] Search Console
-- [ ] Event tracking
-- [ ] Scroll tracking
-- [ ] Form submissions
-- [ ] CTA clicks
-- [ ] Downloads
-- [ ] Search tracking
-- [ ] Conversion goals
+Redefined around first-party measurement by founder ruling 2026-07-31. This site carries no third-party analytics **by design** — Axiom 4 (non-custodial) and the public position that follows from it. Measurement runs through the first-party `/api/v1/pageview` beacon in `js/main.js` and the event calls alongside it, reporting to the Juro admin API.
+
+**Scored**
+- [ ] First-party pageview beacon fires on the page
+- [ ] Search Console — property verified and page submitted (tracked at ops level, not per-page)
+- [ ] Event tracking — declared events fire (`scan_started`, `scan_success`, `zero_findings`, `api_error`)
+- [ ] Form submissions tracked (leads posted with `consent_version`)
+- [ ] CTA clicks tracked
+- [ ] Downloads tracked
+- [ ] Conversion goals defined (server-side, in the admin API)
+
+**Inapplicable by design — not failures, do not score**
+- Google Analytics 4 (or any third-party analytics) — excluded under Axiom 4
+- Scroll tracking — behavioural telemetry the product position rejects
+- Search tracking — no site search on a 24-page site
+
+A page that omits GA4 is doing the right thing. The scanner must distinguish *inapplicable-by-design* from *failed*, or the site permanently scores down for living its own thesis.
 
 ---
 
@@ -247,16 +264,22 @@ The most overlooked area — weighted 20/120, tied with Technical SEO for the hi
 | UX            |        10 |
 | Security      |        10 |
 | Analytics     |        10 |
-| **Total**     |   **120** |
+| **Total**     |   **130** |
 
-| Score   | Grade                 |
-| ------- | --------------------- |
-| 115–120 | A+ (Enterprise-ready) |
-| 105–114 | A (Excellent)         |
-| 95–104  | B (Good)              |
-| 80–94   | C (Needs improvement) |
-| <80     | F (Major issues)      |
+The v2.0 draft stated a 120 total, but the category weights above sum to 130. Founder ruling 2026-07-31: **130 is authoritative and all category weights stay as written** (Technical SEO 20, AEO 20, etc.). Grade bands below are rescaled proportionally from the original /120 bands — same percentage thresholds, new denominator.
+
+| Score   | Grade                 | (% of 130) |
+| ------- | --------------------- | ---------- |
+| 125–130 | A+                    | ≥96%       |
+| 114–124 | A (Excellent)         | ≥87.5%     |
+| 103–113 | B (Good)              | ≥79%       |
+| 87–102  | C (Needs improvement) | ≥67%       |
+| <87     | F (Major issues)      | <67%       |
+
+Phase 9's tracked known gaps and Phase 10's inapplicable-by-design items are excluded from both numerator and denominator on a per-page basis, so a page is never scored down for a control the repo cannot exercise.
 
 ## Automation note
 
 This checklist is a candidate for a per-page CI scanner (SEO/AEO/Performance/Accessibility/Security/Trust sub-scores → weighted overall score, prioritized issue list, remediation suggestions, HTML/JSON/Markdown/PDF export, GitHub Actions gate on mandatory-Critical phases). Not built yet — scope/build is a separate backlog decision, not implied by adopting the checklist.
+
+Scoped under BL-ENG-146: see `docs/seo-aeo-scanner-scoping-2026-07-31.md` (juro-web PR #139) for the architecture, the phase-by-phase automatability call (~83% of the weighted points are mechanically checkable), the phased build plan and effort estimate. The Phase 9, Phase 10 and denominator changes in this revision are the founder rulings that came out of that scoping.
