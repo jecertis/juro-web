@@ -15,17 +15,24 @@ Three findings change the shape of the build before a line of code is written:
 2. **This is two runners, not one.** Source-time checks (metadata, schema, headings, AEO formatting) run pre-merge on files on disk. Deployed-URL checks (status codes, redirect chains, response headers, TTFB, HTTP/2) structurally cannot run pre-merge against a static checkout. The publish gate therefore splits into a blocking pre-merge gate and a post-deploy monitor.
 3. **Two phases cannot meet their stated gate on current infrastructure and need a founder decision** — Phase 9 (Security) at Critical-100% is unachievable on GitHub Pages, and Phase 10 (Analytics) as written would penalise the site for living Axiom 4. Details in §4.
 
-Recommended v1 scope is roughly **10 engineer-days**, sequenced so the first meaningful gate lands on day 2.
+Recommended v1 scope is roughly **11 engineer-days**, sequenced so the first meaningful gate lands on day 2.
 
 ### Defect in the framework's own arithmetic (needs a founder ruling)
 
-The scoring rubric in `seo-aeo-publish-gate.md` sums to **130**, not 120:
+The framework is internally inconsistent about its own denominator. The scoring rubric's per-category weights sum to **130**:
 
 ```
 10 + 20 + 15 + 15 + 20 + 10 + 10 + 10 + 10 + 10 = 130
 ```
 
-The grade bands (`115–120 = A+`, `<80 = F`) are written against a 120 denominator. A scanner cannot emit a score until this is resolved. Two options: (a) keep the weights, restate the denominator as 130 and rescale the bands; (b) keep 120 and drop 10 points of weight somewhere. **Recommendation: (a)** — the weights encode real editorial priority; the bands are arbitrary. This document uses /130 throughout and flags it wherever it matters.
+but the document asserts 120 twice — in the rubric's total row, and in the Phase 5 prose ("weighted 20/120"). A scanner cannot emit a score until this is resolved, and the resolution is a founder ruling, not a derivation: it depends on the weighting intent, which is not recoverable from the text.
+
+Two readings, presented neutrally:
+
+- **One weight is mistyped.** Two independent assertions of 120 against one derived 130 mildly favours this. Some category is 10 points heavier than intended; only the author knows which.
+- **The total is wrong.** The weights encode real editorial priority and the grade bands (`115–120 = A+`, `<80 = F`) are arbitrary round numbers, so restating the denominator as 130 and rescaling the bands costs nothing.
+
+**This document computes out of /130 as a placeholder** so the automatability arithmetic in §3 reconciles. If the ruling is 120, §3's absolute point counts shift but the ~83/9/8 proportions do not.
 
 Separately: the band label "A+ (Enterprise-ready)" should not propagate into scanner output. "enterprise-grade" is on the banned-claims list and "enterprise-ready" is close enough to invite the same objection. Proposed grade vocabulary for the scanner: `A+ / A / B / C / F` with no marketing sub-label.
 
@@ -275,11 +282,13 @@ Weighted points, classified. (Denominator 130 — see §0.)
 | 6 Accessibility | 10 | 7 | 0 | 3 |
 | 7 Trust (E-E-A-T) | 10 | 7 | 2 | 1 |
 | 8 UX & Conversion | 10 | 8 | 0 | 2 |
-| 9 Security | 10 | 10 | 0 | 0 |
+| 9 Security † | 10 | 10 | 0 | 0 |
 | 10 Analytics | 10 | 8 | 0 | 2 |
 | **Total** | **130** | **108 (83%)** | **12 (9%)** | **10 (8%)** |
 
 Read that top-line carefully: **83% of the framework is buildable with parsers, Lighthouse, and axe — no model in the loop.** The remaining 17% splits into a thin LLM-advisory band and a genuinely irreducible human residue.
+
+**† This table measures *checkability*, not *current pass state* — the two are independent axes.** Phase 9 scores 10/10 mechanical and is nonetheless the phase that **cannot meet its gate** (§2, Phase 9): its four missing headers are trivially detectable *and* unachievable on GitHub Pages. A scanner built to this spec will detect them correctly and fail the build forever until the hosting decision is made. Several other items are likewise fully checkable and currently absent — no `site.webmanifest`, no terms page, no cookies page, no security page, no `.well-known/security.txt`. Stage 0's baseline run exists precisely to enumerate these before any gate is switched to blocking.
 
 ### The genuinely hard items
 
@@ -338,27 +347,45 @@ Stages 1 and 2 can run in parallel if two people are available; stages 3–6 are
 
 Extend `.github/workflows/test.yml`. Do not create a new workflow file — a fourth HTML-triggered workflow makes the PR check list unreadable.
 
+### The Lighthouse report crosses a job boundary — this is the first thing to get right
+
+The scorer needs Lighthouse's output, and Lighthouse already runs in its own job. **`needs:` orders jobs; it does not share a filesystem** — every job gets a fresh runner, so a naive `needs: [lighthouse]` + `--lh-report .lighthouseci/` finds an empty directory. Compounding it: the existing `lighthouse` job runs `npm run lh:ci` under `if: steps.lh.outputs.changed == 'true'`, so on a PR touching no `.html`/`.css`/`.js` the job **succeeds having produced no report at all**.
+
+Two viable shapes:
+
+- **(a) Separate job + artifact round-trip.** `upload-artifact` for `.lighthouseci/` in the `lighthouse` job, `download-artifact` in `page-quality`. Keeps the jobs independently re-runnable; costs a second `npm ci` + Playwright browser install (~1–2 min) and needs explicit handling of the "no report produced" case.
+- **(b) Additional steps inside the existing `lighthouse` job.** Same runner, same `npm ci`, no artifact round-trip, one fewer entry in the PR check list, and the `changed` guard already resolved in that job governs both.
+
+**Recommend (b)** — it is cheaper and it is the same "extend, don't duplicate" argument that applies to Lighthouse itself. Rename the job `page-quality` and treat Lighthouse as its first step:
+
 ```yaml
-  page-quality:
+  page-quality:                     # was: lighthouse
     runs-on: ubuntu-latest
-    needs: [lighthouse]          # consume the LH report, don't re-run Lighthouse
     steps:
-      - checkout / setup-node / npm ci
+      - checkout (fetch-depth: 0) / setup-node / npm ci
       - run: npx playwright install --with-deps chromium
       - name: Resolve changed pages
+        id: pages
         # reuse the existing origin/${{ github.base_ref }}...HEAD diff pattern
+      - name: Lighthouse CI
+        if: steps.pages.outputs.changed == 'true'
+        run: npm run lh:ci        # writes .lighthouseci/ on THIS runner
       - name: Run page-quality scan
-        run: node tools/page-quality/cli.js --pages "$CHANGED" --lh-report .lighthouseci/
+        if: steps.pages.outputs.changed == 'true'
+        run: node tools/page-quality/cli.js --pages "${{ steps.pages.outputs.list }}" --lh-report .lighthouseci/
       - name: Comment score on PR
         # sticky comment, updated in place, not appended
       - uses: actions/upload-artifact@v7
+        if: always()
         with: { name: page-quality-report, path: page-quality-report/ }
 ```
+
+The scorer must still degrade gracefully when `.lighthouseci/` is absent — report Phase 3 as `not-measured`, never as `0`, or a skipped Lighthouse run silently drops 15 points and tanks the grade.
 
 Design points:
 
 - **Changed-pages-only by default**, full-site sweep on `push: main` and on `workflow_dispatch`. The cross-page checks (title uniqueness, orphan detection, sitemap membership) still need to *parse* every page — cheap, since it is file reads — but only *report* on changed ones.
-- **`needs: [lighthouse]`** so Lighthouse runs exactly once and the scorer consumes `.lighthouseci/` output. Re-running Lighthouse inside the scanner would double the slowest job in CI.
+- **Lighthouse runs exactly once**, and the scorer consumes its `.lighthouseci/` output from the same runner. Re-running Lighthouse inside the scanner would double the slowest job in CI.
 - **Sticky PR comment** keyed by a marker string, edited in place. A per-push comment on a redesign branch is noise.
 - **Waiver file** — `page-quality.waivers.json`, each entry requiring a rule id, page, reason, and expiry date. Expired waivers fail the build. Without this, the first red gate gets fixed by weakening the gate.
 - **Post-deploy job** on `deploy.yml` for the stage-7 probe, writing to the job summary and opening an issue on regression.
@@ -392,7 +419,7 @@ This scanner becomes a Juro surface, so its vocabulary is governed by the same r
 
 | # | Decision | Recommendation |
 | --- | --- | --- |
-| 1 | Rubric denominator: 130 (rescale bands) or 120 (drop 10 points of weight)? | **130, rescale** |
+| 1 | Rubric denominator — the framework asserts 120 twice but its weights sum to 130. Is a category weight mistyped, or is the total wrong? | **Founder ruling required** — depends on weighting intent, not recoverable from the text. This doc uses /130 as a placeholder |
 | 2 | Phase 9 security headers: Cloudflare proxy / meta-tag partial / accept-and-waive? | **Meta partial now, proxy later** |
 | 3 | Phase 10: ratify the first-party-beacon redefinition and the struck items? | **Ratify** — as written it contradicts Axiom 4 |
 | 4 | Mark `Product`, `Review`, and site-`search` inapplicable-by-design? | **Yes** |
