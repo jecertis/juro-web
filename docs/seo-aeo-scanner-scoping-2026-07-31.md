@@ -13,26 +13,33 @@ Three findings change the shape of the build before a line of code is written:
 
 1. **~83% of the checklist is mechanically checkable.** Of the framework's weighted points, roughly 108 are pure automation, 12 are LLM-advisory candidates, and 10 are permanently human. The "we need an LLM to grade AEO" intuition is mostly wrong — most AEO items as literally written are word counts, heading regexes, DOM node counts, and host allowlists.
 2. **This is two runners, not one.** Source-time checks (metadata, schema, headings, AEO formatting) run pre-merge on files on disk. Deployed-URL checks (status codes, redirect chains, response headers, TTFB, HTTP/2) structurally cannot run pre-merge against a static checkout. The publish gate therefore splits into a blocking pre-merge gate and a post-deploy monitor.
-3. **Two phases cannot meet their stated gate on current infrastructure and need a founder decision** — Phase 9 (Security) at Critical-100% is unachievable on GitHub Pages, and Phase 10 (Analytics) as written would penalise the site for living Axiom 4. Details in §4.
+3. **Two phases could not meet their stated gate on current infrastructure. Both are now resolved by founder ruling** (2026-07-31) — Phase 9 (Security) is rescoped to what static hosting can control, and Phase 10 (Analytics) is redefined around the first-party beacon. Details in §2; the framework doc has been updated to match (PR #137).
 
 Recommended v1 scope is roughly **11 engineer-days**, sequenced so the first meaningful gate lands on day 2.
 
-### Defect in the framework's own arithmetic (needs a founder ruling)
+### Defect in the framework's own arithmetic — RESOLVED
 
-The framework is internally inconsistent about its own denominator. The scoring rubric's per-category weights sum to **130**:
+The framework *was* internally inconsistent about its own denominator. The scoring rubric's per-category weights sum to **130**:
 
 ```
 10 + 20 + 15 + 15 + 20 + 10 + 10 + 10 + 10 + 10 = 130
 ```
 
-but the document asserts 120 twice — in the rubric's total row, and in the Phase 5 prose ("weighted 20/120"). A scanner cannot emit a score until this is resolved, and the resolution is a founder ruling, not a derivation: it depends on the weighting intent, which is not recoverable from the text.
+but the document asserted 120 twice — in the rubric's total row, and in the Phase 5 prose ("weighted 20/120").
 
-Two readings, presented neutrally:
+**Founder ruling 2026-07-31: 130 is authoritative and all category weights stay as written** (Technical SEO 20, AEO 20, etc.). Applied to the framework doc in PR #137. This document computes out of /130 throughout.
 
-- **One weight is mistyped.** Two independent assertions of 120 against one derived 130 mildly favours this. Some category is 10 points heavier than intended; only the author knows which.
-- **The total is wrong.** The weights encode real editorial priority and the grade bands (`115–120 = A+`, `<80 = F`) are arbitrary round numbers, so restating the denominator as 130 and rescaling the bands costs nothing.
+One derived consequence the ruling did not state explicitly, applied in #137 and flagged here for confirmation: the grade bands were written against /120, and a `115–120 = A+` top band is incoherent when the maximum is 130. They have been **rescaled proportionally** — identical percentage thresholds, new denominator:
 
-**This document computes out of /130 as a placeholder** so the automatability arithmetic in §3 reconciles. If the ruling is 120, §3's absolute point counts shift but the ~83/9/8 proportions do not.
+| Original (/120) | Rescaled (/130) | Grade |
+| --- | --- | --- |
+| 115–120 | 125–130 | A+ |
+| 105–114 | 114–124 | A |
+| 95–104 | 103–113 | B |
+| 80–94 | 87–102 | C |
+| <80 | <87 | F |
+
+If the intent was instead that the bands keep their original absolute numbers — making every grade easier to reach against a larger denominator — say so and #137 changes in one line.
 
 Separately: the band label "A+ (Enterprise-ready)" should not propagate into scanner output. "enterprise-grade" is on the banned-claims list and "enterprise-ready" is close enough to invite the same objection. Proposed grade vocabulary for the scanner: `A+ / A / B / C / F` with no marketing sub-label.
 
@@ -224,7 +231,7 @@ Also note the existing `categories:accessibility` assertion is already `["error"
 | Testimonials, customer logos | `ux.ts` — presence. **Presence is checkable; whether we may publish them is a legal/consent question, not a scanner question.** Do not let a scanner score nudge the site toward publishing unconsented logos | A + **M** |
 | Does the funnel actually convert | — | **M** — that is analytics, not a page scan |
 
-#### Phase 9 — Security (10) — cannot meet its gate on GitHub Pages
+#### Phase 9 — Security (10) — RESCOPED to static hosting by founder ruling
 
 Live measurement of `https://jurocompliant.com/` on 2026-07-31:
 
@@ -238,33 +245,49 @@ Live measurement of `https://jurocompliant.com/` on 2026-07-31:
 
 GitHub Pages does not expose response-header configuration. The `<meta http-equiv>` fallback is only a partial substitute: a meta CSP works for most directives but `frame-ancestors` is **ignored** in meta form, and `X-Frame-Options` via meta is ignored entirely. So clickjacking protection specifically cannot be achieved on Pages by any in-repo change.
 
-**Phase 9 at Critical-100% is therefore unachievable on current hosting.** Three options, founder decision required:
+Phase 9 at a literal Critical-100% was therefore unachievable on current hosting.
 
-- **(a)** Put Cloudflare (free tier) in front of the Pages origin and set headers via Transform Rules. Closes all four gaps. Cost: DNS cutover, a new party in the request path, ~0.5d.
-- **(b)** Ship meta-CSP + `Referrer-Policy` meta, accept that `frame-ancestors`/XFO stay open, and downgrade Phase 9 from Critical-100% to Critical-with-documented-exceptions.
-- **(c)** Leave as-is; scanner reports the gap permanently as a known, waived posture gap.
+**Founder ruling 2026-07-31: score what static hosting can control, at 100%; the response-header-only controls become a tracked known-gap note, not a permanent fail. Do not block the gate on infrastructure this repo does not control.** Applied to the framework doc in PR #137.
 
-**Recommendation: (b) now, (a) when there is a reason to touch DNS anyway.** Option (c) is defensible for a marketing site with no authenticated surface, but "we sell verifiable evidence and our own site has no CSP" is an avoidable line in a prospect's vendor-risk questionnaire.
+| Achievable set — scored, 100% required | Tool |
+| --- | --- |
+| HTTPS everywhere | `probe/headers.ts` |
+| HSTS present | `probe/headers.ts` — already served by Pages |
+| CSP via `<meta http-equiv>`, where applicable | `metadata.ts` presence + Lighthouse `csp-xss` for strength |
+| No mixed content | `structure.ts` — flag `http://` subresources |
+| No exposed secrets | existing `secret-scan.yml` / gitleaks |
+| No vulnerable JS libraries | Lighthouse `no-vulnerable-libraries` + existing `sca.yml`/`sbom.yml` |
 
-The remaining Phase 9 items are cleanly automatable: no mixed content (`structure.ts` — flag `http://` subresources), no exposed secrets (`gitleaks` already runs via `secret-scan.yml`), no vulnerable JS libraries (Lighthouse `no-vulnerable-libraries` + existing `sca.yml`/`sbom.yml`), CSP passes (Lighthouse `csp-xss`).
+Tracked known gaps — **recorded in the report, excluded from numerator and denominator, never blocking**: `X-Frame-Options` (no meta equivalent), `Referrer-Policy` (meta works but is not a header control), `Permissions-Policy` (no meta equivalent), header-based CSP (`frame-ancestors` ignored in meta form, so clickjacking protection specifically stays open).
 
-#### Phase 10 — Analytics (10) — conflicts with Axiom 4 as written
+Scanner implications:
+
+- The report needs a third outcome beyond pass/fail: **`known-gap`**, rendered with its reason and the condition that would close it ("site moves behind a CDN/proxy"). This is the same mechanism Phase 10 needs for `inapplicable-by-design`, so build one state machine, not two.
+- `probe/headers.ts` should still **measure** the four missing headers on every run and report them, so that if hosting ever changes the gap closes automatically rather than staying stale in a doc.
+- Revisit trigger to record in ops: any move off GitHub Pages, or any CDN/proxy placed in front of it.
+
+#### Phase 10 — Analytics (10) — REDEFINED by founder ruling
 
 The framework asks for Google Analytics 4, Search Console, event tracking, scroll tracking, form submissions, CTA clicks, downloads, search tracking, conversion goals.
 
 The site has **no GA4 and no third-party analytics of any kind**. It has a first-party beacon in `js/main.js` posting `{path, referrer, utm_*}` to `/api/v1/pageview` on the Juro API, plus `fireScanEvent` calls for `scan_started` / `scan_success` / `zero_findings` / `api_error`, and lead submissions to `/api/v1/leads` carrying `consent_version`. That is a deliberate Axiom-4 architecture, and there is an active `content/turned-off-analytics-headline-2026-07-28` branch making it a public position.
 
-**A scanner that scores "GA4 present" as a pass would grade the site down for living its own published thesis.** Phase 10 must be redefined before it is implemented:
+**A scanner that scores "GA4 present" as a pass would grade the site down for living its own published thesis.**
 
-| Original item | Redefined |
+**Founder ruling 2026-07-31: adopt the first-party-beacon redefinition, keeping Search Console. GA4 and scroll tracking are inapplicable-by-design under Axiom 4, not failed.** Applied to the framework doc in PR #137.
+
+| Original item | Resolved as |
 | --- | --- |
-| Google Analytics 4 | First-party pageview beacon fires on every page (`analytics.ts` — assert the beacon IIFE is present; extend `pageview-beacon.spec.ts` to run per-page rather than on `index`/`checklist` only) |
-| Search Console | **Struck as inapplicable-by-design** — verification is an account-level property, not a page property. Track separately in ops. |
-| Event tracking, CTA clicks, downloads, form submissions | Assert declared events fire — extends existing `scan-events.spec.ts` and `download-pdf.spec.ts` |
-| Scroll tracking, search tracking | **Struck as inapplicable-by-design** — scroll depth is behavioural telemetry the product position rejects; there is no site search |
-| Conversion goals | Server-side in the Juro admin API. Reported, not page-scanned. **M** |
+| Google Analytics 4 | **Inapplicable-by-design.** Replaced by: first-party pageview beacon fires on every page (`analytics.ts` — assert the beacon IIFE is present; extend `pageview-beacon.spec.ts` to run per-page rather than on `index`/`checklist` only) |
+| Search Console | **Retained and scored** — property verified and page submitted. Note this is an account-level property, not a page property, so the scanner cannot check it from the repo: it is tracked at ops level and marked `external` in the report rather than computed per page |
+| Event tracking, CTA clicks, downloads, form submissions | Scored. Assert declared events fire (`scan_started`, `scan_success`, `zero_findings`, `api_error`) — extends existing `scan-events.spec.ts` and `download-pdf.spec.ts`; leads carry `consent_version` |
+| Scroll tracking | **Inapplicable-by-design** — behavioural telemetry the product position rejects |
+| Search tracking | **Inapplicable-by-design** — no site search on a 24-page site |
+| Conversion goals | Scored, defined server-side in the Juro admin API. Reported, not page-scanned. **M** |
 
-These are struck as **inapplicable-by-design, not failed**. The scanner config must distinguish the two, or the site permanently scores C on a phase it is deliberately choosing to fail.
+The scanner must distinguish **inapplicable-by-design** from **failed**, or the site permanently scores down on a phase it is deliberately choosing not to satisfy. Same state machine as Phase 9's `known-gap`, with a different label and no "condition that would close it" — these are permanent by design, not pending infrastructure.
+
+Retaining Search Console adds a third report state, `external`: true by assertion at ops level, not verifiable from the repo. It should be declared once in `page-quality.config.json` with a review date rather than silently assumed, or it becomes a permanent free 1–2 points nobody ever re-checks.
 
 ---
 
@@ -288,7 +311,9 @@ Weighted points, classified. (Denominator 130 — see §0.)
 
 Read that top-line carefully: **83% of the framework is buildable with parsers, Lighthouse, and axe — no model in the loop.** The remaining 17% splits into a thin LLM-advisory band and a genuinely irreducible human residue.
 
-**† This table measures *checkability*, not *current pass state* — the two are independent axes.** Phase 9 scores 10/10 mechanical and is nonetheless the phase that **cannot meet its gate** (§2, Phase 9): its four missing headers are trivially detectable *and* unachievable on GitHub Pages. A scanner built to this spec will detect them correctly and fail the build forever until the hosting decision is made. Several other items are likewise fully checkable and currently absent — no `site.webmanifest`, no terms page, no cookies page, no security page, no `.well-known/security.txt`. Stage 0's baseline run exists precisely to enumerate these before any gate is switched to blocking.
+**† This table measures *checkability*, not *current pass state* — the two are independent axes.** Phase 9 scores 10/10 mechanical, yet four of its controls are unachievable on GitHub Pages: trivially detectable *and* impossible to satisfy. The founder ruling (§2, Phase 9) resolves this by moving those four out of the scored set into a tracked `known-gap` state, so Phase 9's 10 points now distribute across the six achievable controls only. Several other items are likewise fully checkable and currently absent — no `site.webmanifest`, no terms page, no cookies page, no security page, no `.well-known/security.txt`. Those are real gaps the site can close, and stage 0's baseline run exists precisely to enumerate them before any gate is switched to blocking.
+
+**Post-ruling, the effective denominator is per-page, not fixed at 130.** Phase 9 known-gaps and Phase 10 inapplicable-by-design items drop out of both numerator and denominator, and the drop-out set differs by page class (a policy page has no CTA to score; a blog post has no `SoftwareApplication` schema). The scorer must therefore report *score, max-for-this-page, and excluded-with-reason* rather than a bare `n/130`, or two pages with identical grades will not be comparable. This is a real design constraint on `score.ts`, not a presentation detail.
 
 ### The genuinely hard items
 
@@ -415,16 +440,26 @@ This scanner becomes a Juro surface, so its vocabulary is governed by the same r
 
 ---
 
-## 7. Open decisions for the founder
+## 7. Decisions
+
+### Settled — founder ruling 2026-07-31 (applied to the framework doc in PR #137)
+
+| # | Decision | Ruling |
+| --- | --- | --- |
+| 1 | Rubric denominator | **130 is authoritative; all category weights stay as written.** Grade bands rescaled proportionally as the derived consequence — see §0 |
+| 2 | Phase 9 security | **Rescope to static hosting.** Achievable set scored at 100%; response-header-only controls become a tracked known-gap note. The gate does not block on infrastructure this repo does not control |
+| 3 | Phase 10 analytics | **Adopt the first-party-beacon redefinition, retaining Search Console.** GA4 and scroll tracking are inapplicable-by-design under Axiom 4, not failed |
+
+### Still open
 
 | # | Decision | Recommendation |
 | --- | --- | --- |
-| 1 | Rubric denominator — the framework asserts 120 twice but its weights sum to 130. Is a category weight mistyped, or is the total wrong? | **Founder ruling required** — depends on weighting intent, not recoverable from the text. This doc uses /130 as a placeholder |
-| 2 | Phase 9 security headers: Cloudflare proxy / meta-tag partial / accept-and-waive? | **Meta partial now, proxy later** |
-| 3 | Phase 10: ratify the first-party-beacon redefinition and the struck items? | **Ratify** — as written it contradicts Axiom 4 |
-| 4 | Mark `Product`, `Review`, and site-`search` inapplicable-by-design? | **Yes** |
-| 5 | Build the LLM advisory grader (stage 8) at all? | **Yes, later, advisory-only, never gating** |
-| 6 | Greenlight stages 0–1 (1.5d) as a standalone slice before committing to the full ~11d? | **Yes** — stage 0's baseline may change the plan |
+| 4 | Confirm the grade-band rescale (§0) — proportional, or keep the original absolute numbers? | **Proportional**, as applied in #137. A one-line change if the intent was otherwise |
+| 5 | Mark `Product`, `Review`, and site-`search` inapplicable-by-design? | **Yes** — same mechanism as rulings 2 and 3, applied to Phases 2 and 8 |
+| 6 | Build the LLM advisory grader (stage 8) at all? | **Yes, later, advisory-only, never gating** |
+| 7 | Greenlight stages 0–1 (1.5d) as a standalone slice before committing to the full ~11d? | **Yes** — stage 0's baseline may change the plan |
+
+Rulings 2 and 3 both require the scorer to distinguish *not satisfied* from *not applicable*. That is now the single most load-bearing piece of `score.ts` and it lands in stage 5 — worth confirming decision 5 before that stage starts, so all four exclusion cases (`known-gap`, `inapplicable-by-design`, `external`, `waived`) are designed together rather than bolted on one at a time.
 
 ---
 
