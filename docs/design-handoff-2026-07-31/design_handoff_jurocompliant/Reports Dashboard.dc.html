@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin:0; padding:0; background:#0A0A0A; }
+  body { font-family:'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#F5C400; text-decoration:none; }
+  a:hover { color:#D4A800; }
+  ::selection { background:#F5C400; color:#0A0A0A; }
+  @keyframes jcPulse { 0%,100% { opacity:1 } 50% { opacity:.3 } }
+  @keyframes jcSlide { from { transform:translateX(24px); opacity:0 } to { transform:none; opacity:1 } }
+</style>
+</helmet>
+<div style="background:#0A0A0A; color:#FFFFFF; min-height:100vh; display:grid; grid-template-columns:232px 1fr">
+
+  <aside style="border-right:1px solid #1F1F1F; background:#0A0A0A; padding:20px 0; display:flex; flex-direction:column; gap:26px; position:sticky; top:0; height:100vh">
+    <div style="padding:4px 22px 0; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16px">juro<span style="color:#F5C400">compliant</span></div>
+    <div style="padding:0 14px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252; padding:0 8px 10px">Report</div>
+      <div style="display:flex; flex-direction:column; gap:2px">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:9px 10px; border-radius:7px; background:#171717; font-size:13.5px; color:#FFFFFF">Posture at a glance</div>
+        <a href="#gaps" style="display:flex; align-items:center; justify-content:space-between; padding:9px 10px; border-radius:7px; font-size:13.5px; color:#A3A3A3" style-hover="background:#141414; color:#FFFFFF"><span>Posture gaps</span><span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#DC2626">22</span></a>
+        <a href="#matrix" style="display:flex; align-items:center; padding:9px 10px; border-radius:7px; font-size:13.5px; color:#A3A3A3" style-hover="background:#141414; color:#FFFFFF">Resources in scope</a>
+        <a href="#rules" style="display:flex; align-items:center; padding:9px 10px; border-radius:7px; font-size:13.5px; color:#A3A3A3" style-hover="background:#141414; color:#FFFFFF">Suggested rules</a>
+        <a href="#seal" style="display:flex; align-items:center; justify-content:space-between; padding:9px 10px; border-radius:7px; font-size:13.5px; color:#A3A3A3" style-hover="background:#141414; color:#FFFFFF"><span>Artifact verification</span><span style="width:6px; height:6px; border-radius:50%; background:{{ sealDot }}"></span></a>
+      </div>
+    </div>
+    <div style="padding:0 14px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252; padding:0 8px 10px">History</div>
+      <div style="display:flex; flex-direction:column; gap:2px">
+        <a href="#" style="padding:9px 10px; border-radius:7px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#A3A3A3; display:flex; justify-content:space-between" style-hover="background:#141414"><span>2026-07-31</span><span style="color:#F5C400">current</span></a>
+        <a href="#" style="padding:9px 10px; border-radius:7px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#737373; display:flex; justify-content:space-between" style-hover="background:#141414"><span>2026-07-24</span><span>26</span></a>
+        <a href="#" style="padding:9px 10px; border-radius:7px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#737373; display:flex; justify-content:space-between" style-hover="background:#141414"><span>2026-07-17</span><span>31</span></a>
+      </div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="margin:0 14px; border:1px solid #1F1F1F; border-radius:9px; padding:14px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:8px">Next scheduled scan</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#FFFFFF">2026-08-07 · 09:00 UTC</div>
+    </div>
+  </aside>
+
+  <main style="min-width:0">
+    <div style="position:sticky; top:0; z-index:30; background:rgba(10,10,10,.88); backdrop-filter:blur(14px); border-bottom:1px solid #1F1F1F; padding:0 36px; height:64px; display:flex; align-items:center; gap:16px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#737373">Report</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#FFFFFF">JC-2026-8841</div>
+      <div style="display:flex; align-items:center; gap:7px; border:1px solid {{ sealBorder }}; border-radius:999px; padding:4px 11px">
+        <span style="width:5px; height:5px; border-radius:50%; background:{{ sealDot }}"></span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:{{ sealDot }}">{{ sealState }}</span>
+      </div>
+      <div style="flex:1"></div>
+      <button onClick="{{ toggleSeal }}" style="background:transparent; color:#A3A3A3; border:1px solid #262626; border-radius:7px; padding:8px 13px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; cursor:pointer" style-hover="color:#FFFFFF; border-color:#404040">{{ sealToggleLabel }}</button>
+      <button style="background:transparent; color:#FFFFFF; border:1px solid #262626; border-radius:7px; padding:8px 14px; font-family:'IBM Plex Sans',sans-serif; font-size:13px; cursor:pointer" style-hover="border-color:#404040">Share with auditor</button>
+      <button style="background:#F5C400; color:#0A0A0A; border:0; border-radius:7px; padding:9px 16px; font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer" style-hover="background:#D4A800">Export bundle</button>
+    </div>
+
+    <div style="padding:36px 36px 64px; display:flex; flex-direction:column; gap:28px; max-width:1420px">
+
+      <section style="border:1px solid #1F1F1F; border-radius:12px; background:#111111; background-image:radial-gradient(700px 300px at 88% -30%, rgba(245,196,0,.12), transparent 70%); padding:30px 32px; display:grid; grid-template-columns:1fr auto; gap:44px; align-items:center">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#F5C400; margin-bottom:14px">Compliance evidence report</div>
+          <h1 style="font-size:38px; line-height:1.08; letter-spacing:-0.03em; font-weight:600; margin:0 0 16px">acme-financial.eu</h1>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; border:1px solid #2A2A2A; border-radius:5px; padding:5px 9px; color:#A3A3A3">GDPR · gdpr@4.2.1</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; border:1px solid #2A2A2A; border-radius:5px; padding:5px 9px; color:#A3A3A3">DORA · dora@2.0.7</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; border:1px solid #2A2A2A; border-radius:5px; padding:5px 9px; color:#A3A3A3">DPDP · dpdp@1.3.0</span>
+          </div>
+          <div style="display:flex; gap:34px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#737373">
+            <span>completed 2026-07-31 09:14:22Z</span>
+            <span>runtime 94s</span>
+            <span>non-custodial</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:28px">
+          <div style="width:132px; height:132px; border-radius:50%; background:conic-gradient(#F5C400 0 68%, #262626 68% 100%); display:flex; align-items:center; justify-content:center">
+            <div style="width:104px; height:104px; border-radius:50%; background:#111111; display:flex; flex-direction:column; align-items:center; justify-content:center">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:32px; font-weight:600; letter-spacing:-0.02em">68</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:.16em; text-transform:uppercase; color:#737373; margin-top:2px">posture</div>
+            </div>
+          </div>
+          <div style="border-left:1px solid #1F1F1F; padding-left:26px; display:flex; flex-direction:column; gap:14px">
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373">vs. last scan</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; color:#059669; margin-top:3px">+6 · 4 gaps closed</div>
+            </div>
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373">Obligations evaluated</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; margin-top:3px">70 / 70</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px">
+          <h2 style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#F5C400; font-weight:500; margin:0">Posture at a glance</h2>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#525252">severity per ENISA scoring · 22 open gaps</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px">
+          <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; padding:20px 20px 18px; position:relative; overflow:hidden">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#DC2626"></div>
+            <div style="display:flex; align-items:center; justify-content:space-between">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#DC2626">Critical</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#DC2626; background:#FEF2F2; border-radius:4px; padding:3px 6px">action ≤72h</span>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:52px; font-weight:600; color:#0A0A0A; letter-spacing:-0.03em; line-height:1.05; margin:16px 0 6px">3</div>
+            <div style="font-size:12.5px; color:#737373">Art. 32 · Art. 44 · DORA 11</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; padding:20px 20px 18px; position:relative; overflow:hidden">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#D97706"></div>
+            <div style="display:flex; align-items:center; justify-content:space-between">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#D97706">High</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#D97706; background:#FFFBEB; border-radius:4px; padding:3px 6px">≤30d</span>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:52px; font-weight:600; color:#0A0A0A; letter-spacing:-0.03em; line-height:1.05; margin:16px 0 6px">7</div>
+            <div style="font-size:12.5px; color:#737373">4 GDPR · 2 DORA · 1 DPDP</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; padding:20px 20px 18px; position:relative; overflow:hidden">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#A3A3A3"></div>
+            <div style="display:flex; align-items:center; justify-content:space-between">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#525252">Medium</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#525252; background:#F5F5F5; border-radius:4px; padding:3px 6px">≤90d</span>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:52px; font-weight:600; color:#0A0A0A; letter-spacing:-0.03em; line-height:1.05; margin:16px 0 6px">12</div>
+            <div style="font-size:12.5px; color:#737373">Mostly documentation gaps</div>
+          </div>
+          <div style="background:#0A0A0A; border:1px solid #F5C400; border-radius:10px; padding:20px 20px 18px; position:relative; overflow:hidden">
+            <div style="display:flex; align-items:center; justify-content:space-between">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#F5C400">Total gaps</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#059669">48 verified</span>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:52px; font-weight:600; color:#FFFFFF; letter-spacing:-0.03em; line-height:1.05; margin:16px 0 6px">22</div>
+            <div style="height:6px; border-radius:999px; overflow:hidden; display:flex; gap:2px">
+              <div style="width:14%; background:#DC2626"></div>
+              <div style="width:32%; background:#D97706"></div>
+              <div style="width:54%; background:#525252"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="display:grid; grid-template-columns:1fr; gap:14px">
+        <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; overflow:hidden">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1px solid #E5E5E5; background:#FAFAFA">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252">Run summary</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#737373">engine v9.4.0 · enclave eu-west-1</span>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(6,1fr)">
+            <div style="padding:20px 22px; border-right:1px solid #F0F0F0">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:7px">Target</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#0A0A0A">acme-financial.eu</div>
+            </div>
+            <div style="padding:20px 22px; border-right:1px solid #F0F0F0">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:7px">Started</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#0A0A0A">09:12:48Z</div>
+            </div>
+            <div style="padding:20px 22px; border-right:1px solid #F0F0F0">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:7px">Completed</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#0A0A0A">09:14:22Z</div>
+            </div>
+            <div style="padding:20px 22px; border-right:1px solid #F0F0F0">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:7px">Assets scanned</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#0A0A0A">146</div>
+            </div>
+            <div style="padding:20px 22px; border-right:1px solid #F0F0F0">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:7px">Rules executed</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#0A0A0A">312</div>
+            </div>
+            <div style="padding:20px 22px">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:7px">Data retained</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#059669">0 bytes</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gaps" style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; overflow:hidden">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:18px 22px; border-bottom:1px solid #E5E5E5">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252">Posture gaps by severity</div>
+            <div style="font-size:13px; color:#737373; margin-top:5px">{{ shownCount }} of 22 gaps · sorted by severity, then regulatory deadline</div>
+          </div>
+          <div style="display:flex; gap:6px; background:#F5F5F5; border-radius:8px; padding:4px">
+            <button onClick="{{ filterAll }}" style="border:0; cursor:pointer; border-radius:6px; padding:7px 13px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; background:{{ tabAllBg }}; color:{{ tabAllFg }}">All 22</button>
+            <button onClick="{{ filterCrit }}" style="border:0; cursor:pointer; border-radius:6px; padding:7px 13px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; background:{{ tabCritBg }}; color:{{ tabCritFg }}">Critical 3</button>
+            <button onClick="{{ filterHigh }}" style="border:0; cursor:pointer; border-radius:6px; padding:7px 13px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; background:{{ tabHighBg }}; color:{{ tabHighFg }}">High 7</button>
+            <button onClick="{{ filterMed }}" style="border:0; cursor:pointer; border-radius:6px; padding:7px 13px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; background:{{ tabMedBg }}; color:{{ tabMedFg }}">Medium 12</button>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:96px 168px 1fr 150px 92px 30px; gap:16px; padding:11px 22px; border-bottom:1px solid #F0F0F0; background:#FAFAFA; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#737373">
+          <span>Severity</span><span>Rule reference</span><span>Finding</span><span>Asset</span><span>Owner</span><span></span>
+        </div>
+        <sc-for list="{{ rows }}" as="row" hint-placeholder-count="6">
+          <div onClick="{{ row.onOpen }}" style="display:grid; grid-template-columns:96px 168px 1fr 150px 92px 30px; gap:16px; padding:15px 22px; border-bottom:1px solid #F0F0F0; align-items:center; cursor:pointer; border-left:3px solid {{ row.color }}" style-hover="background:#FAFAFA">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.1em; background:{{ row.color }}; color:#FFFFFF; padding:4px 7px; border-radius:4px; justify-self:start">{{ row.sevLabel }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#525252">{{ row.rule }}</span>
+            <span style="font-size:14px; color:#0A0A0A; letter-spacing:-0.005em">{{ row.title }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#737373; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">{{ row.asset }}</span>
+            <span style="font-size:12.5px; color:#525252">{{ row.owner }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#A3A3A3; text-align:right">→</span>
+          </div>
+        </sc-for>
+        <div style="padding:14px 22px; display:flex; justify-content:space-between; align-items:center; background:#FAFAFA">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#737373">Remediation guidance included for every gap in the exported bundle</span>
+          <a href="#rules" style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:#0A0A0A">Suggested rules →</a>
+        </div>
+      </section>
+
+      <section id="matrix" style="display:grid; grid-template-columns:1.55fr 1fr; gap:14px; align-items:start">
+        <div style="background:#FFFFFF; border:1px solid #E5E5E5; border-radius:10px; overflow:hidden">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid #E5E5E5">
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:#525252">Resources in scope by regulation</div>
+              <div style="font-size:13px; color:#737373; margin-top:5px">146 assets grouped into 6 resource classes · 70 obligations</div>
+            </div>
+            <div style="display:flex; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:#737373">
+              <span style="display:flex; align-items:center; gap:5px"><span style="width:9px; height:9px; border-radius:2px; background:#059669"></span>Verified</span>
+              <span style="display:flex; align-items:center; gap:5px"><span style="width:9px; height:9px; border-radius:2px; background:#D97706"></span>Gap</span>
+              <span style="display:flex; align-items:center; gap:5px"><span style="width:9px; height:9px; border-radius:2px; background:#DC2626"></span>Critical</span>
+              <span style="display:flex; align-items:center; gap:5px"><span style="width:9px; height:9px; border-radius:2px; background:#F0F0F0"></span>N/A</span>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:190px repeat(6, 1fr); gap:6px; padding:16px 22px 8px; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:#737373">
+            <span></span><span style="text-align:center">GDPR 32</span><span style="text-align:center">GDPR 44</span><span style="text-align:center">GDPR 30</span><span style="text-align:center">DORA 11</span><span style="text-align:center">DORA 28</span><span style="text-align:center">DPDP 8</span>
+          </div>
+          <div style="padding:0 22px 20px">
+            <sc-for list="{{ matrix }}" as="mrow" hint-placeholder-count="6">
+              <div style="display:grid; grid-template-columns:190px repeat(6, 1fr); gap:6px; align-items:center; padding:4px 0">
+                <div>
+                  <div style="font-size:13px; color:#0A0A0A">{{ mrow.name }}</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A3A3A3; margin-top:2px">{{ mrow.count }}</div>
+                </div>
+                <sc-for list="{{ mrow.cells }}" as="cell" hint-placeholder-count="6">
+                  <div title="{{ cell.tip }}" style="height:34px; border-radius:5px; background:{{ cell.bg }}; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:{{ cell.fg }}">{{ cell.mark }}</div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div id="rules" style="background:#111111; border:1px solid #1F1F1F; border-radius:10px; overflow:hidden">
+          <div style="padding:18px 22px; border-bottom:1px solid #1F1F1F">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:#F5C400">Suggested rules</div>
+            <div style="font-size:13px; color:#A3A3A3; margin-top:5px">Not yet enabled on this target · would add 11 obligations</div>
+          </div>
+          <div style="display:flex; flex-direction:column">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 22px; border-bottom:1px solid #1F1F1F" style-hover="background:#161616">
+              <div>
+                <div style="font-size:14px; color:#FFFFFF">Subprocessor drift monitor</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#737373; margin-top:4px">gdpr@4.3 · art. 28(2) · weekly</div>
+              </div>
+              <button style="background:transparent; border:1px solid #333333; color:#F5C400; border-radius:6px; padding:6px 11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; cursor:pointer" style-hover="border-color:#F5C400">Enable</button>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 22px; border-bottom:1px solid #1F1F1F" style-hover="background:#161616">
+              <div>
+                <div style="font-size:14px; color:#FFFFFF">ICT incident clock validation</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#737373; margin-top:4px">dora@2.1 · art. 19 · on incident</div>
+              </div>
+              <button style="background:transparent; border:1px solid #333333; color:#F5C400; border-radius:6px; padding:6px 11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; cursor:pointer" style-hover="border-color:#F5C400">Enable</button>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 22px; border-bottom:1px solid #1F1F1F" style-hover="background:#161616">
+              <div>
+                <div style="font-size:14px; color:#FFFFFF">Consent artifact replay</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#737373; margin-top:4px">dpdp@1.4 · s.6 · daily</div>
+              </div>
+              <button style="background:transparent; border:1px solid #333333; color:#F5C400; border-radius:6px; padding:6px 11px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; cursor:pointer" style-hover="border-color:#F5C400">Enable</button>
+            </div>
+            <div style="padding:16px 22px; display:flex; justify-content:space-between; align-items:center">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#525252">Enabling rules affects the next sealed run</span>
+              <a href="#" style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase">All rules →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="seal" style="border:1px solid {{ sealPanelBorder }}; border-radius:12px; background:#111111; background-image:{{ sealGlow }}; overflow:hidden">
+        <div style="display:grid; grid-template-columns:1fr 1px 1.05fr">
+          <div style="padding:32px">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:{{ sealEyebrow }}; margin-bottom:20px">Artifact verification</div>
+            <div style="display:flex; align-items:center; gap:20px; margin-bottom:26px">
+              <div style="width:78px; height:78px; border-radius:14px; background:{{ sealBadgeBg }}; border:1px solid {{ sealBadgeBorder }}; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:30px; color:{{ sealBadgeFg }}">{{ sealGlyph }}</div>
+              <div>
+                <div style="font-size:26px; font-weight:600; letter-spacing:-0.025em; margin-bottom:6px">{{ sealHeadline }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:{{ sealDot }}">{{ sealSub }}</div>
+              </div>
+            </div>
+            <p style="font-size:14.5px; line-height:1.7; color:#A3A3A3; margin:0 0 26px; max-width:440px; text-wrap:pretty">{{ sealBody }}</p>
+            <div style="display:flex; gap:10px">
+              <button style="background:#F5C400; color:#0A0A0A; border:0; border-radius:8px; padding:11px 18px; font-family:'IBM Plex Sans',sans-serif; font-size:13.5px; font-weight:600; cursor:pointer" style-hover="background:#D4A800">{{ sealPrimaryCta }}</button>
+              <button style="background:transparent; color:#FFFFFF; border:1px solid #333333; border-radius:8px; padding:11px 18px; font-family:'IBM Plex Sans',sans-serif; font-size:13.5px; cursor:pointer" style-hover="border-color:#F5C400; color:#F5C400">Verification instructions</button>
+            </div>
+          </div>
+          <div style="background:#1F1F1F"></div>
+          <div style="padding:32px; background:#0D0D0D">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#737373">Signing bundle detail</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:{{ sealDot }}">{{ sealState }}</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:0; font-family:'IBM Plex Mono',monospace; font-size:11.5px">
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid #1A1A1A"><span style="color:#737373">bundle</span><span style="color:#FFFFFF">report-8841.jcz · 412 KB</span></div>
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid #1A1A1A"><span style="color:#737373">canonical digest</span><span style="color:#FFFFFF">9f2c4a…b41e</span></div>
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid #1A1A1A"><span style="color:#737373">algorithm</span><span style="color:#FFFFFF">Ed25519 · detached</span></div>
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid #1A1A1A"><span style="color:#737373">signer</span><span style="color:{{ sealValueFg }}">{{ sealSigner }}</span></div>
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid #1A1A1A"><span style="color:#737373">timestamp authority</span><span style="color:{{ sealValueFg }}">{{ sealTsa }}</span></div>
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid #1A1A1A"><span style="color:#737373">transparency log</span><span style="color:{{ sealValueFg }}">{{ sealLog }}</span></div>
+              <div style="display:flex; justify-content:space-between; gap:16px; padding:11px 0"><span style="color:#737373">rule digests</span><span style="color:#FFFFFF">3 pinned</span></div>
+            </div>
+            <div style="margin-top:20px; background:#0A0A0A; border:1px solid #1A1A1A; border-radius:8px; padding:14px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; line-height:1.9">
+              <div style="color:#525252">$ jc verify report-8841.jcz</div>
+              <div style="color:{{ sealDot }}">{{ sealVerifyLine }}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <sc-if value="{{ detail }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDetail }}" style="position:fixed; inset:0; background:rgba(10,10,10,.62); z-index:60"></div>
+  </sc-if>
+  <sc-if value="{{ detail }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; top:0; right:0; bottom:0; width:520px; background:#FFFFFF; z-index:61; overflow-y:auto; animation:jcSlide .22s ease; box-shadow:-30px 0 80px -20px rgba(0,0,0,.7)">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 26px; border-bottom:1px solid #E5E5E5; background:#FAFAFA; position:sticky; top:0">
+        <div style="display:flex; align-items:center; gap:10px">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.1em; background:{{ detail.color }}; color:#FFFFFF; padding:4px 7px; border-radius:4px">{{ detail.sevLabel }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#525252">{{ detail.id }} · {{ detail.rule }}</span>
+        </div>
+        <button onClick="{{ closeDetail }}" style="background:transparent; border:1px solid #E5E5E5; border-radius:6px; width:28px; height:28px; cursor:pointer; color:#525252; font-family:'IBM Plex Mono',monospace" style-hover="border-color:#0A0A0A; color:#0A0A0A">✕</button>
+      </div>
+      <div style="padding:26px">
+        <h3 style="font-size:24px; line-height:1.2; letter-spacing:-0.025em; color:#0A0A0A; font-weight:600; margin:0 0 18px">{{ detail.title }}</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:26px">
+          <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:6px">Asset</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#0A0A0A; overflow:hidden; text-overflow:ellipsis">{{ detail.asset }}</div>
+          </div>
+          <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:6px">Owner</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#0A0A0A">{{ detail.owner }}</div>
+          </div>
+          <div style="border:1px solid #E5E5E5; border-radius:8px; padding:12px">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#737373; margin-bottom:6px">Effort</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#0A0A0A">{{ detail.effort }}</div>
+          </div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#737373; margin-bottom:10px">What we observed</div>
+        <p style="font-size:14.5px; line-height:1.7; color:#262626; margin:0 0 26px">{{ detail.desc }}</p>
+        <div style="border-left:3px solid #F5C400; background:#FEFBEA; border-radius:0 8px 8px 0; padding:16px 18px; margin-bottom:26px">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#8A6D00; margin-bottom:9px">Remediation guidance</div>
+          <p style="font-size:14px; line-height:1.7; color:#0A0A0A; margin:0">{{ detail.fix }}</p>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#737373; margin-bottom:10px">Authority &amp; references</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:26px">
+          <sc-for list="{{ detail.refs }}" as="ref" hint-placeholder-count="2">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; border:1px solid #E5E5E5; border-radius:5px; padding:6px 9px; color:#525252">{{ ref }}</span>
+          </sc-for>
+        </div>
+        <div style="border-top:1px solid #F0F0F0; padding-top:20px; display:flex; gap:10px">
+          <button style="background:#0A0A0A; color:#FFFFFF; border:0; border-radius:8px; padding:11px 16px; font-family:'IBM Plex Sans',sans-serif; font-size:13.5px; font-weight:600; cursor:pointer" style-hover="background:#262626">Assign to {{ detail.owner }}</button>
+          <button style="background:#FFFFFF; color:#0A0A0A; border:1px solid #E5E5E5; border-radius:8px; padding:11px 16px; font-family:'IBM Plex Sans',sans-serif; font-size:13.5px; cursor:pointer" style-hover="border-color:#0A0A0A">Evidence excerpt</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000},&quot;signedByDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Report state&quot;},&quot;defaultSeverityFilter&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;all&quot;,&quot;critical&quot;,&quot;high&quot;,&quot;medium&quot;],&quot;default&quot;:&quot;all&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Report state&quot;}}">
+class Component extends DCLogic {
+  state = {
+    signed: this.props.signedByDefault ?? true,
+    filter: this.props.defaultSeverityFilter ?? "all",
+    open: null,
+  };
+  findings() {
+    return [
+      { id: "F-01", sev: "critical", rule: "GDPR Art. 32(1)(a)", title: "Transfer log stored unencrypted at rest", asset: "logs.acme-financial.eu", desc: "Nightly cross-border transfer logs are written to an object store without server-side encryption. The bucket is private but the objects carry no encryption metadata, so confidentiality cannot be evidenced.", fix: "Enable SSE-KMS on the bucket with a customer-managed key and re-key existing objects. Record the key ARN in the Art. 30 register.", owner: "Platform", effort: "2d", refs: ["EDPB 05/2021", "ISO 27001 A.8.24"] },
+      { id: "F-02", sev: "critical", rule: "GDPR Art. 44", title: "Third-country transfer without documented safeguard", asset: "analytics-vendor.us", desc: "Client-side telemetry resolves to a US processor. No SCC reference or transfer impact assessment is discoverable in the published records.", fix: "Attach 2021/914 SCCs module 2 and complete a TIA before the next reporting period, or route telemetry to the EU endpoint.", owner: "Legal", effort: "5d", refs: ["Schrems II", "SCC 2021/914"] },
+      { id: "F-03", sev: "critical", rule: "DORA Art. 11(6)", title: "No tested continuity path for payment service", asset: "pay-api cluster", desc: "The response and recovery plan names a failover region, but no test artifact exists within the last 12 months.", fix: "Execute a documented failover exercise and seal the result as evidence; register the test in the ICT continuity plan.", owner: "SRE", effort: "10d", refs: ["DORA RTS 2024/1774"] },
+      { id: "F-04", sev: "high", rule: "GDPR Art. 7(3)", title: "Consent withdrawal not as easy as consent", asset: "www.acme-financial.eu", desc: "The cookie banner accepts all in one click but withdrawal requires four interactions inside a secondary preference centre.", fix: "Add a single-click reject-all control at the same level as accept-all.", owner: "Web", effort: "1d", refs: ["EDPB 03/2022"] },
+      { id: "F-05", sev: "high", rule: "DORA Art. 28(3)", title: "Third-party register missing subcontractor chain", asset: "vendor register", desc: "Nine of 31 ICT providers list no subcontractors, including two classified as supporting critical functions.", fix: "Extend contractual disclosure clauses and complete the register fields before the next supervisory submission.", owner: "Procurement", effort: "7d", refs: ["DORA ITS register"] },
+      { id: "F-06", sev: "high", rule: "GDPR Art. 13(1)(f)", title: "Privacy notice omits transfer mechanism", asset: "/privacy", desc: "The notice names third-country recipients without stating the safeguard relied upon.", fix: "Add the safeguard and link the SCC summary in the recipients section.", owner: "Legal", effort: "1d", refs: ["Art. 13"] },
+      { id: "F-07", sev: "high", rule: "DPDP s.8(6)", title: "No breach notification workflow evidence", asset: "incident runbook", desc: "The runbook covers GDPR 72h notification but contains no Data Protection Board notification path for DPDP.", fix: "Add the Board notification step with template and owner; run a tabletop to produce evidence.", owner: "Security", effort: "4d", refs: ["DPDP 2023 s.8"] },
+      { id: "F-08", sev: "medium", rule: "GDPR Art. 30", title: "Processing record last updated 14 months ago", asset: "ropa.xlsx", desc: "Two new processing activities are live in production but absent from the record of processing.", fix: "Refresh the record and move it under change control tied to service deployment.", owner: "Privacy", effort: "3d", refs: ["Art. 30"] },
+      { id: "F-09", sev: "medium", rule: "DORA Art. 9(4)", title: "TLS 1.1 accepted on legacy endpoint", asset: "legacy.acme-financial.eu", desc: "A deprecated endpoint still negotiates TLS 1.1 for two partner integrations.", fix: "Retire the endpoint or enforce TLS 1.2+ and notify the two partners.", owner: "Platform", effort: "2d", refs: ["BSI TR-02102"] },
+      { id: "F-10", sev: "medium", rule: "GDPR Art. 25", title: "Default retention exceeds stated period", asset: "crm-eu", desc: "Stated retention is 24 months; observed default configuration is 60 months.", fix: "Set retention to 24 months and add an automated purge job with logging.", owner: "Data", effort: "4d", refs: ["Art. 25"] },
+      { id: "F-11", sev: "high", rule: "GDPR Art. 33(1)", title: "Breach notification clock not instrumented", asset: "incident runbook", desc: "The 72-hour notification clock is tracked manually in a shared doc rather than started automatically on incident declaration.", fix: "Wire clock start to the incident-management webhook and alert legal at the 48h mark.", owner: "Security", effort: "3d", refs: ["Art. 33"] },
+      { id: "F-12", sev: "high", rule: "DORA Art. 17(3)", title: "Incident classification thresholds undocumented", asset: "incident runbook", desc: "Major-incident thresholds referenced in the runbook do not match the criteria published in the ICT incident policy.", fix: "Reconcile the two documents and version them together under change control.", owner: "Security", effort: "2d", refs: ["DORA RTS 2024/1772"] },
+      { id: "F-13", sev: "high", rule: "DPDP s.11", title: "Data principal rights request path not load-tested", asset: "rights-portal", desc: "The erasure/access request workflow has never been exercised at expected volume, risking missed statutory response windows.", fix: "Run a load test against the SLA volume and fix any queueing bottleneck found.", owner: "Platform", effort: "4d", refs: ["DPDP 2023 s.11"] },
+      { id: "F-14", sev: "medium", rule: "DORA Art. 9(4)", title: "TLS 1.1 accepted on legacy endpoint", asset: "legacy.acme-financial.eu", desc: "A deprecated endpoint still negotiates TLS 1.1 for two partner integrations.", fix: "Retire the endpoint or enforce TLS 1.2+ and notify the two partners.", owner: "Platform", effort: "2d", refs: ["BSI TR-02102"] },
+      { id: "F-15", sev: "medium", rule: "GDPR Art. 12(1)", title: "Privacy notice reading level exceeds guidance", asset: "/privacy", desc: "Flesch-Kincaid grade level of 16 against EDPB plain-language guidance for consumer-facing notices.", fix: "Rewrite the notice at a grade 9-10 reading level; keep legal review sign-off.", owner: "Legal", effort: "3d", refs: ["EDPB plain language"] },
+      { id: "F-16", sev: "medium", rule: "GDPR Art. 35", title: "DPIA not refreshed after feature change", asset: "credit-scoring service", desc: "A new scoring feature shipped without an updated DPIA despite processing special-category proxies.", fix: "Complete a DPIA addendum before the next release and log the sign-off.", owner: "Privacy", effort: "5d", refs: ["Art. 35"] },
+      { id: "F-17", sev: "medium", rule: "DORA Art. 8(2)", title: "Asset inventory missing criticality tagging", asset: "CMDB", desc: "38% of ICT assets in the CMDB have no criticality classification, blocking accurate resilience scoping.", fix: "Backfill criticality tags and require the field on new asset creation.", owner: "SRE", effort: "3d", refs: ["DORA Art. 8"] },
+      { id: "F-18", sev: "medium", rule: "GDPR Art. 28(3)", title: "Processor contract missing audit clause", asset: "analytics-vendor.us", desc: "The data processing addendum omits the right-to-audit clause required for processors handling EU personal data.", fix: "Countersign an updated DPA with the audit clause before the next renewal.", owner: "Legal", effort: "2d", refs: ["Art. 28(3)"] },
+      { id: "F-19", sev: "medium", rule: "DPDP s.9", title: "Children's data age-gate not evidenced", asset: "onboarding flow", desc: "An age-verification step exists in design docs but no logged evidence confirms it is enforced in production.", fix: "Instrument the age-gate check with logging and sample the logs monthly.", owner: "Product", effort: "3d", refs: ["DPDP 2023 s.9"] },
+      { id: "F-20", sev: "medium", rule: "GDPR Art. 5(1)(e)", title: "Backup retention exceeds primary data retention", asset: "backup-vault", desc: "Backups are retained for 7 years while the primary retention policy states 24 months, with no documented justification.", fix: "Align backup retention to policy or document a lawful basis for the extension.", owner: "Platform", effort: "4d", refs: ["Art. 5(1)(e)"] },
+      { id: "F-21", sev: "medium", rule: "DORA Art. 26(1)", title: "Threat-led testing overdue", asset: "pay-api cluster", desc: "TLPT is due on a 3-year cycle for critical functions; the last exercise was 41 months ago.", fix: "Schedule the next threat-led penetration test and record scope sign-off.", owner: "Security", effort: "20d", refs: ["DORA Art. 26"] },
+      { id: "F-22", sev: "medium", rule: "GDPR Art. 15", title: "Subject access export omits derived data", asset: "rights-portal", desc: "SAR exports include raw fields but not model-derived risk scores, which are also personal data under Art. 4(1).", fix: "Extend the export job to include derived scores with an explanation of logic.", owner: "Data", effort: "3d", refs: ["Art. 15"] },
+    ];
+  }
+  matrixData() {
+    const g = "#059669", w = "#D97706", c = "#DC2626", n = "#F0F0F0";
+    const cell = (k, tip) => k === "ok" ? { bg: "#ECFDF5", fg: "#059669", mark: "✓", tip: tip } :
+      k === "gap" ? { bg: "#FFFBEB", fg: "#D97706", mark: "!", tip: tip } :
+      k === "crit" ? { bg: "#FEF2F2", fg: "#DC2626", mark: "✕", tip: tip } :
+      { bg: n, fg: "#A3A3A3", mark: "–", tip: "not applicable" };
+    void g; void w; void c;
+    return [
+      { name: "Public web surface", count: "42 assets", keys: ["ok", "gap", "ok", "na", "na", "gap"] },
+      { name: "Payments API", count: "18 assets", keys: ["ok", "ok", "ok", "crit", "gap", "na"] },
+      { name: "CRM & customer data", count: "27 assets", keys: ["ok", "gap", "gap", "na", "ok", "ok"] },
+      { name: "Log & object storage", count: "31 assets", keys: ["crit", "ok", "ok", "ok", "na", "ok"] },
+      { name: "Third-party processors", count: "22 vendors", keys: ["gap", "crit", "ok", "ok", "crit", "gap"] },
+      { name: "Legacy endpoints", count: "6 assets", keys: ["gap", "na", "na", "gap", "na", "na"] },
+    ].map(r => ({ name: r.name, count: r.count, cells: r.keys.map(k => cell(k, r.name)) }));
+  }
+  renderVals() {
+    const signed = this.state.signed;
+    const f = this.state.filter;
+    const color = s => s === "critical" ? "#DC2626" : s === "high" ? "#D97706" : "#A3A3A3";
+    const all = this.findings();
+    const shown = f === "all" ? all : all.filter(x => x.sev === f);
+    const dress = x => Object.assign({}, x, {
+      color: color(x.sev),
+      sevLabel: x.sev === "critical" ? "CRIT" : x.sev === "high" ? "HIGH" : "MED",
+      onOpen: () => this.setState({ open: x.id }),
+    });
+    const rows = shown.map(dress);
+    const openItem = all.find(x => x.id === this.state.open);
+    const tab = k => ({
+      bg: f === k ? "#0A0A0A" : "transparent",
+      fg: f === k ? "#FFFFFF" : "#525252",
+    });
+    const tAll = tab("all"), tCrit = tab("critical"), tHigh = tab("high"), tMed = tab("medium");
+    return {
+      rows,
+      matrix: this.matrixData(),
+      shownCount: rows.length,
+      detail: openItem ? dress(openItem) : false,
+      closeDetail: () => this.setState({ open: null }),
+      filterAll: () => this.setState({ filter: "all" }),
+      filterCrit: () => this.setState({ filter: "critical" }),
+      filterHigh: () => this.setState({ filter: "high" }),
+      filterMed: () => this.setState({ filter: "medium" }),
+      tabAllBg: tAll.bg, tabAllFg: tAll.fg,
+      tabCritBg: tCrit.bg, tabCritFg: tCrit.fg,
+      tabHighBg: tHigh.bg, tabHighFg: tHigh.fg,
+      tabMedBg: tMed.bg, tabMedFg: tMed.fg,
+      sealPanelBorder: signed ? "#F5C400" : "#3A2A0A",
+      sealGlow: signed
+        ? "radial-gradient(680px 300px at 12% -40%, rgba(245,196,0,.16), transparent 70%)"
+        : "radial-gradient(680px 300px at 12% -40%, rgba(217,119,6,.10), transparent 70%)",
+      sealEyebrow: signed ? "#F5C400" : "#D97706",
+      sealBadgeBg: signed ? "#F5C400" : "transparent",
+      sealBadgeBorder: signed ? "#F5C400" : "#3A2A0A",
+      sealBadgeFg: signed ? "#0A0A0A" : "#D97706",
+      sealGlyph: signed ? "✓" : "!",
+      sealHeadline: signed ? "Sealed evidence" : "Draft — not sealed",
+      sealSub: signed ? "Signature valid · chain intact" : "No signature · not admissible",
+      sealBody: signed
+        ? "This report was hashed and signed at the moment the scan completed. Anyone holding the bundle can verify it offline against our published key — no account, no portal, no dependency on Jurocompliant."
+        : "This run completed but was not sealed, so its findings carry no cryptographic provenance. Re-run with signing enabled before submitting it as evidence to a supervisory authority.",
+      sealPrimaryCta: signed ? "Download signed bundle" : "Re-run with signing",
+      sealSigner: signed ? "jurocompliant-root-2026" : "—",
+      sealTsa: signed ? "2026-07-31T09:14:22Z" : "—",
+      sealLog: signed ? "index 41,209" : "not submitted",
+      sealValueFg: signed ? "#FFFFFF" : "#737373",
+      sealVerifyLine: signed
+        ? "OK  signature verified · digest matches · log inclusion proven"
+        : "FAIL  no detached signature found in bundle",
+      signed,
+      sealState: signed ? "Sealed & verified" : "Unsigned draft",
+      sealDot: signed ? "#059669" : "#D97706",
+      sealBorder: signed ? "#14432F" : "#3A2A0A",
+      sealToggleLabel: signed ? "View unsigned state" : "Restore sealed state",
+      toggleSeal: () => this.setState(s => ({ signed: !s.signed })),
+    };
+  }
+}
+</script>
+</body>
+</html>
