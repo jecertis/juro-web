@@ -611,6 +611,28 @@
       </div>
     </div>
 
+    <section class="evidence-section" id="evidence" aria-labelledby="evidence-heading">
+      <div class="evidence-copy">
+        <div class="evidence-eyebrow">Verifiable evidence</div>
+        <h2 class="evidence-heading" id="evidence-heading">Evidence you can check yourself, not a badge you take on faith</h2>
+        <p class="evidence-lede">A scan result is only useful if someone other than us can confirm it hasn't been altered. Every signed artifact is built to be checked independently, not just displayed.</p>
+        <ul class="evidence-list">
+          <li><span class="ev-mark" aria-hidden="true">&rarr;</span><div><strong>Ed25519 signature</strong>Each artifact is signed so any single-byte change to a finding invalidates the signature.</div></li>
+          <li><span class="ev-mark" aria-hidden="true">&rarr;</span><div><strong>Pinned rule-pack version</strong>Every finding cites the exact rule-pack version it was evaluated against, so results stay reproducible.</div></li>
+          <li><span class="ev-mark" aria-hidden="true">&rarr;</span><div><strong>Independent verification</strong>Run the <a href="https://github.com/jecertis/juro-verify" target="_blank" rel="noopener" style="color:#EFEFEF">open-source verifier</a> yourself. No account and no callback to our servers required.</div></li>
+        </ul>
+      </div>
+      <div class="verify-terminal" aria-label="Example verifier output">
+        <div class="vt-titlebar">$ juro-verify</div>
+        <div class="vt-line"><span class="vt-prompt">$</span> jc verify report-8841.jcz</div>
+        <div class="vt-line">checking canonical digest&hellip;</div>
+        <div class="vt-line">hash: <span class="vt-ok">VALID</span></div>
+        <div class="vt-line">signature: <span class="vt-ok">VERIFIED</span></div>
+        <div class="vt-line">rule-pack: dpdp-v2026.3, gdpr-v2026.1</div>
+        <div class="vt-line vt-ok">verify: PASS</div>
+      </div>
+    </section>
+
   <!-- FAQ — always visible for SEO + AEO -->
   <section class="faq-section" aria-labelledby="faq-heading">
     <h2 id="faq-heading" class="faq-heading">Things people ask before trusting a scan tool</h2>
