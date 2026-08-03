@@ -8,8 +8,10 @@
 <meta name="description" content="Book a 20-minute walkthrough of Juro's non-custodial compliance scanner for DPDP, GDPR, and DORA.">
 <!-- Redirect target, not a content page: keep it out of the index so it never
      competes with /about or /install in search results. -->
+<!-- noindex with no canonical: declaring a page canonical to itself while telling
+     crawlers not to index it is contradictory signalling. On a noindex redirect
+     stub the canonical adds nothing. -->
 <meta name="robots" content="noindex, follow">
-<link rel="canonical" href="https://jurocompliant.com/demo">
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="theme-color" content="#0A0A0A">
