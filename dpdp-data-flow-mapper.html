@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>DPDP AI Data Flow Mapper — Map Fiduciary/Processor Role by Stage | Jurocompliant</title>
-<meta name="description" content="Answer 3 questions about your AI system and get a DPDP data-flow map: where personal data lives at each lifecycle stage, your likely fiduciary or processor role, and how hard erasure is at each stage. Runs in your browser, nothing sent.">
+<title>DPDP AI Data Flow Mapper — Role by Stage | Jurocompliant</title>
+<meta name="description" content="Answer 3 questions about your AI system and get a DPDP data-flow map — role and erasure difficulty per lifecycle stage. Runs in your browser, nothing sent.">
 <link rel="canonical" href="https://jurocompliant.com/dpdp-data-flow-mapper.html">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="theme-color" content="#0A0A0A">
@@ -154,7 +154,7 @@
     font-size: var(--text-xs); font-weight: 600; color: var(--yellow);
     letter-spacing: var(--ls-label); text-transform: uppercase; margin-bottom: var(--s2);
   }
-  h1 { font-size: 26px; font-weight: 600; line-height: var(--lh-tight); margin-bottom: var(--s2); letter-spacing: var(--ls-display); color: #fff; }
+  h1, .step h2 { font-size: 26px; font-weight: 600; line-height: var(--lh-tight); margin-bottom: var(--s2); letter-spacing: var(--ls-display); color: #fff; }
   .lede { font-size: var(--text-base); color: rgba(255,255,255,0.65); margin-bottom: var(--s4); }
 
   /* ---- choice cards ---- */
@@ -261,6 +261,7 @@
   .ec-success { display: none; }
   .ec-success .ec-tick { font-size: var(--text-xl); color: #34D399; margin-bottom: var(--s1); }
   .ec-success p { font-size: var(--text-sm); color: rgba(255,255,255,0.75); line-height: var(--lh-reading); }
+  .ec-error { display: none; font-size: var(--text-sm); color: #F87171; margin-top: var(--s1); }
 
   /* ---- blog CTA ---- */
   .blog-cta {
@@ -278,7 +279,7 @@
   .faq-section { margin: var(--s5) 0 0; padding-top: var(--s4); border-top: 1px solid rgba(255,255,255,0.08); }
   .faq-section h2 { font-size: var(--text-lg); font-weight: 600; color: #fff; margin-bottom: var(--s3); }
   .faq-item { margin-bottom: var(--s3); }
-  .faq-item .fq { font-size: var(--text-base); font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .faq-item h3 { font-size: var(--text-base); font-weight: 600; color: #fff; margin-bottom: 4px; }
   .faq-item .fa { font-size: var(--text-sm); color: rgba(255,255,255,0.7); line-height: var(--lh-reading); }
 
   /* ---- site footer (matches checklist.html) ---- */
@@ -293,7 +294,7 @@
   @media (max-width: 480px) {
     .site-footer { flex-direction: column; align-items: flex-start; }
   }
-  @media (min-width: 480px) { h1 { font-size: 30px; } }
+  @media (min-width: 480px) { h1, .step h2 { font-size: 30px; } }
 </style>
 </head>
 <body>
@@ -332,7 +333,7 @@
   <!-- STEP 1: system type -->
   <section class="step" data-step="1">
     <div class="eyebrow mono">Question 1 of 3</div>
-    <h1>Which best describes your system?</h1>
+    <h2>Which best describes your system?</h2>
     <p class="lede">Pick the closest match. You can map other systems after.</p>
     <div class="choices" id="q1"></div>
     <div class="nav-row">
@@ -344,7 +345,7 @@
   <!-- STEP 2: data source -->
   <section class="step" data-step="2">
     <div class="eyebrow mono">Question 2 of 3</div>
-    <h1>Where does the personal data come from?</h1>
+    <h2>Where does the personal data come from?</h2>
     <p class="lede">The source shapes your lawful basis.</p>
     <div class="choices" id="q2"></div>
     <div class="nav-row">
@@ -356,7 +357,7 @@
   <!-- STEP 3: who runs it -->
   <section class="step" data-step="3">
     <div class="eyebrow mono">Question 3 of 3</div>
-    <h1>Who decides why the data is used?</h1>
+    <h2>Who decides why the data is used?</h2>
     <p class="lede">This is what sets fiduciary apart from processor. Not who wrote the code, who sets the purpose.</p>
     <div class="choices" id="q3"></div>
     <div class="nav-row">
@@ -380,7 +381,7 @@
     </div>
     <div class="screenshot-hint">Screenshot this to keep your map. Then map another system.</div>
 
-    <a class="blog-cta" href="/dpdp-technical-evidence-handbook.html">
+    <a class="blog-cta" href="/dpdp-technical-evidence-handbook">
       <div class="bc-eyebrow">Go deeper</div>
       <div class="bc-title">DPDP Technical Evidence Handbook <span class="bc-arrow">→</span></div>
       <div class="bc-sub">The safeguard-by-safeguard breakdown — access control, encryption, retention — mapped to specific DPDP provisions, for the engineer who has to actually implement this.</div>
@@ -396,6 +397,7 @@
         <button class="ec-submit" type="submit">Email me this map →</button>
       </form>
       <div class="ec-privacy-note">One follow-up from us, no spam. See our <a href="/privacy.html" style="text-decoration:underline">privacy notice</a>.</div>
+      <div class="ec-error" id="dataFlowEmailError">Something went wrong — try again.</div>
       <div class="ec-success" id="dataFlowEmailSuccess">
         <div class="ec-tick">✓</div>
         <p>Sent — check your inbox for your data-flow map.</p>
@@ -413,15 +415,15 @@
   <div class="faq-section">
     <h2>Common questions</h2>
     <div class="faq-item">
-      <div class="fq">What is a DPDP data flow map for an AI system?</div>
+      <h3>What is a DPDP data flow map for an AI system?</h3>
       <div class="fa">A DPDP data flow map traces where personal data lives across an AI system's lifecycle — collection, then training, fine-tuning, retrieval, or on-device processing depending on the system, then deployment — and shows the likely fiduciary or processor role and typical safeguards at each stage under India's DPDP Act 2023.</div>
     </div>
     <div class="faq-item">
-      <div class="fq">Can personal data be deleted from a trained AI model?</div>
+      <h3>Can personal data be deleted from a trained AI model?</h3>
       <div class="fa">Usually not directly. Deleting a source record does not un-train a model that memorised it during training. Retrieval-based systems (RAG) are typically easier: deleting a person's entries from the vector store is usually enough, provided the same data wasn't also used to fine-tune the model.</div>
     </div>
     <div class="faq-item">
-      <div class="fq">Am I a data fiduciary or a processor for my AI system under DPDP?</div>
+      <h3>Am I a data fiduciary or a processor for my AI system under DPDP?</h3>
       <div class="fa">It depends on who sets the purpose for the data, not who wrote the code. If you decide why the data is used, you are typically the fiduciary. If you process it on a client's instructions, you are typically the processor. Many teams are both at once, fiduciary for some data flows and processor for others.</div>
     </div>
   </div>
@@ -579,7 +581,7 @@ function takeawayFor() {
   if (state.q3 === "both") {
     list.push("Have you mapped <strong>each data flow</strong> separately? You're fiduciary for some and processor for others, and the duties differ.");
   }
-  list.push("Where's the weakest link in this map, and who on your team owns fixing it before May 2027?");
+  list.push("Where's the weakest link in this map, and who on your team owns fixing it?");
   return { q, list };
 }
 
@@ -653,6 +655,7 @@ function buildResult() {
   // reset email capture UI in case this is a repeat run
   document.getElementById("dataFlowEmailForm").style.display = "";
   document.getElementById("dataFlowEmailSuccess").style.display = "none";
+  document.getElementById("dataFlowEmailError").style.display = "none";
   go(4);
 }
 
@@ -664,7 +667,14 @@ function restart() {
   go(0);
 }
 
-// ---------- email capture (fails silently, still shows success — nice-to-have only) ----------
+// ---------- email capture ----------
+// Unlike the pageview beacon below, this form makes an explicit promise
+// ("Sent — check your inbox for your data-flow map"), so success is only
+// shown on a confirmed 2xx from /api/v1/leads. On failure (network error or
+// non-2xx) we re-enable the form and show a retry prompt instead of
+// silently claiming success. This matches the submitScanReport pattern in
+// checklist.html, used there for the same reason: a deliverable promise
+// needs a checked response, not a fire-and-forget one.
 async function submitDataFlowEmail(event) {
   event.preventDefault();
   const btn = event.target.querySelector('.ec-submit');
@@ -672,6 +682,8 @@ async function submitDataFlowEmail(event) {
   const name = document.getElementById('dfName').value.trim();
   if (!email) return;
 
+  const errorEl = document.getElementById('dataFlowEmailError');
+  errorEl.style.display = 'none';
   btn.disabled = true;
   btn.textContent = 'Sending…';
 
@@ -679,7 +691,7 @@ async function submitDataFlowEmail(event) {
   const q = new URLSearchParams(window.location.search);
 
   try {
-    await fetch(API_BASE + '/api/v1/leads', {
+    const res = await fetch(API_BASE + '/api/v1/leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
@@ -693,10 +705,14 @@ async function submitDataFlowEmail(event) {
         utm_campaign: q.get('utm_campaign') || undefined,
       }),
     });
-  } catch (_) { /* fail silently — show success anyway, this is a nice-to-have */ }
-
-  document.getElementById('dataFlowEmailForm').style.display = 'none';
-  document.getElementById('dataFlowEmailSuccess').style.display = 'block';
+    if (!res.ok) throw new Error('non-2xx');
+    document.getElementById('dataFlowEmailForm').style.display = 'none';
+    document.getElementById('dataFlowEmailSuccess').style.display = 'block';
+  } catch (_) {
+    btn.disabled = false;
+    btn.textContent = 'Email me this map →';
+    errorEl.style.display = 'block';
+  }
 }
 </script>
 
