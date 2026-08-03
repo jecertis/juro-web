@@ -44,12 +44,20 @@
     var DEST = 'https://cal.com/jecertis.com/juro-compliance-demo-20-min';
     var DEFAULTS = { utm_source: 'demo-video', utm_medium: 'video', utm_campaign: 'bl-eng-113-demo' };
 
+    // Allowlist: forward utm_* only. An earlier version forwarded EVERY incoming
+    // param, which let anyone craft jurocompliant.com/demo?name=X&email=y@z --
+    // cal.com honours those as booking prefill, so a link that looks like it came
+    // from us would land on a real booking form with someone else's details in it.
+    // Nothing needs the catch-all: reuse across placements is served by the
+    // utm_* override below.
     var incoming = new URLSearchParams(window.location.search);
     var out = new URLSearchParams();
     Object.keys(DEFAULTS).forEach(function (k) {
       out.set(k, incoming.get(k) || DEFAULTS[k]);
     });
-    incoming.forEach(function (v, k) { if (!out.has(k)) out.set(k, v); });
+    incoming.forEach(function (v, k) {
+      if (k.indexOf('utm_') === 0 && !out.has(k)) out.set(k, v);
+    });
 
     var target = DEST + '?' + out.toString();
     document.getElementById('fallback').href = target;
