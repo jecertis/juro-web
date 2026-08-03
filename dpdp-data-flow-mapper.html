@@ -389,18 +389,18 @@
 
     <div class="email-capture">
       <div class="ec-eyebrow mono">Optional</div>
-      <div class="ec-headline">Email yourself this map</div>
+      <div class="ec-headline">Want a copy of this later?</div>
       <div class="ec-sub">This is the one thing on this page that leaves your browser — your quiz answers stay local, only the email address below gets sent.</div>
       <form class="ec-form" id="dataFlowEmailForm" onsubmit="submitDataFlowEmail(event)">
         <input class="ec-input" type="text" id="dfName" name="name" placeholder="Your name (optional)" autocomplete="name"/>
         <input class="ec-input" type="email" id="dfEmail" name="email" placeholder="Work email" required autocomplete="email"/>
-        <button class="ec-submit" type="submit">Email me this map →</button>
+        <button class="ec-submit" type="submit">Notify me →</button>
       </form>
       <div class="ec-privacy-note">One follow-up from us, no spam. See our <a href="/privacy.html" style="text-decoration:underline">privacy notice</a>.</div>
       <div class="ec-error" id="dataFlowEmailError">Something went wrong — try again.</div>
       <div class="ec-success" id="dataFlowEmailSuccess">
         <div class="ec-tick">✓</div>
-        <p>Sent — check your inbox for your data-flow map.</p>
+        <p>Thanks — we've got your email.</p>
       </div>
     </div>
 
@@ -668,13 +668,14 @@ function restart() {
 }
 
 // ---------- email capture ----------
-// Unlike the pageview beacon below, this form makes an explicit promise
-// ("Sent — check your inbox for your data-flow map"), so success is only
-// shown on a confirmed 2xx from /api/v1/leads. On failure (network error or
-// non-2xx) we re-enable the form and show a retry prompt instead of
-// silently claiming success. This matches the submitScanReport pattern in
-// checklist.html, used there for the same reason: a deliverable promise
-// needs a checked response, not a fire-and-forget one.
+// This form only records a lead (POST /api/v1/leads writes a row to
+// leads.ts's insertLead() — there is no mail-sending code in that path),
+// so the copy promises nothing beyond "we've got your email," and success
+// is still gated on a confirmed 2xx before showing that message. On
+// failure (network error or non-2xx) we re-enable the form and show a
+// retry prompt instead of silently claiming success. This matches the
+// submitScanReport pattern in checklist.html: a checked response before
+// any confirmation copy, not a fire-and-forget one.
 async function submitDataFlowEmail(event) {
   event.preventDefault();
   const btn = event.target.querySelector('.ec-submit');
@@ -710,7 +711,7 @@ async function submitDataFlowEmail(event) {
     document.getElementById('dataFlowEmailSuccess').style.display = 'block';
   } catch (_) {
     btn.disabled = false;
-    btn.textContent = 'Email me this map →';
+    btn.textContent = 'Notify me →';
     errorEl.style.display = 'block';
   }
 }
