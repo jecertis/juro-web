@@ -87,10 +87,14 @@ for (const p of PAGES) {
       // Mask dynamic content that legitimately changes between runs:
       // - countdown timer ticks every second
       // - any "scanned N min ago" relative-time labels
+      // - the sizzle-film video (homepage only): its IntersectionObserver can
+      //   fire mid-scroll during Playwright's full-page screenshot stitching,
+      //   so the captured frame/currentTime isn't deterministic across runs
       const masks = [
         page.locator('.countdown-strip'),
         page.locator('.countdown-num'),
         page.locator('[data-dynamic-time]'),
+        page.locator('.sizzle-media'),
       ];
 
       await expect(page).toHaveScreenshot(`${p.name}-${v.name}.png`, {
