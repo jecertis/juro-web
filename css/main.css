@@ -1139,7 +1139,7 @@
 
 /* Sizzle film band — full-bleed, between hero and #how */
 .sizzle-band{background:var(--ink);padding:var(--s7) 2rem}
-.sizzle-eyebrow{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:var(--ls-eyebrow,0.16em);text-transform:uppercase;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:var(--s3)}
+.sizzle-eyebrow{font-family:var(--mono);font-size:var(--text-xs);letter-spacing:var(--ls-eyebrow,0.16em);text-transform:uppercase;color:#9CA3AF;text-align:center;margin-bottom:var(--s3)}
 .sizzle-media{max-width:1200px;margin:0 auto}
 .sizzle-media video{width:100%;display:block;border-radius:var(--radius);background:#000}
 .sizzle-link{display:block;text-align:center;font-family:var(--mono);font-size:var(--text-sm);color:var(--yellow);text-decoration:none;margin-top:var(--s3)}
