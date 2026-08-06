@@ -259,7 +259,7 @@
   <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="drawer-link">DORA</a>
 </nav>
 
-<div class="hero">
+<div class="hero" id="scan">
   <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Non-custodial &middot; GDPR &middot; DORA &middot; DPDP</div>
   <div class="urgency-pills">
     <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
@@ -473,6 +473,19 @@
     <div class="trust-item"><span class="trust-num">80%+</span><span class="trust-label">of scanned sites had pre-consent trackers</span></div>
   </div>
 </div>
+
+<section class="sizzle-band" aria-label="What a scan produces">
+  <div class="sizzle-eyebrow">What a scan produces</div>
+  <div class="sizzle-media">
+    <video id="sizzleVideo" muted loop playsinline preload="none"
+           poster="/media/juro-film-poster.jpg"
+           width="1200" height="676">
+      <source src="/media/juro-film.webm" type="video/webm">
+      <source src="/media/juro-film.mp4" type="video/mp4">
+    </video>
+  </div>
+  <a href="#scan" class="sizzle-link">Run a scan &rarr;</a>
+</section>
 
 <main class="main">
   <div id="emptyState">
@@ -981,6 +994,32 @@
   }
   tick();
   setInterval(tick,1000);
+})();
+</script>
+
+<script>
+(function sizzleFilm(){
+  var video=document.getElementById('sizzleVideo');
+  if(!video)return;
+  var reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion){
+    video.removeAttribute('autoplay');
+    return;
+  }
+  if(!('IntersectionObserver' in window)){
+    video.play().catch(function(){});
+    return;
+  }
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && entry.intersectionRatio>=0.5){
+        video.play().catch(function(){});
+      }else{
+        video.pause();
+      }
+    });
+  },{threshold:[0,0.5,1]});
+  observer.observe(video);
 })();
 </script>
 
