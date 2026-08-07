@@ -1032,6 +1032,7 @@
   var reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduceMotion){
     video.removeAttribute('autoplay');
+    inView=true;
     return;
   }
   if(!('IntersectionObserver' in window)){
