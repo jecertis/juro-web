@@ -484,6 +484,8 @@
       <source src="/media/juro-film.webm" type="video/webm">
       <source src="/media/juro-film.mp4" type="video/mp4">
     </video>
+    <audio id="sizzleMusic" loop preload="none" src="/media/sizzle-film-music.mp3"></audio>
+    <button type="button" id="sizzleSoundToggle" class="sizzle-sound-toggle" aria-label="Unmute background music" aria-pressed="false">&#128264;</button>
   </div>
   <a href="#scan" class="sizzle-link">Run a scan &rarr;</a>
 </section>
@@ -1003,6 +1005,30 @@
 (function sizzleFilm(){
   var video=document.getElementById('sizzleVideo');
   if(!video)return;
+  var music=document.getElementById('sizzleMusic');
+  var soundToggle=document.getElementById('sizzleSoundToggle');
+  var soundOn=false;
+  var inView=false;
+
+  function syncMusic(){
+    if(!music)return;
+    if(inView && soundOn){
+      music.play().catch(function(){});
+    }else{
+      music.pause();
+    }
+  }
+
+  if(soundToggle){
+    soundToggle.addEventListener('click',function(){
+      soundOn=!soundOn;
+      soundToggle.setAttribute('aria-pressed',String(soundOn));
+      soundToggle.setAttribute('aria-label',soundOn?'Mute background music':'Unmute background music');
+      soundToggle.innerHTML=soundOn?'&#128266;':'&#128264;';
+      syncMusic();
+    });
+  }
+
   var reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduceMotion){
     video.removeAttribute('autoplay');
@@ -1010,15 +1036,20 @@
   }
   if(!('IntersectionObserver' in window)){
     video.play().catch(function(){});
+    inView=true;
+    syncMusic();
     return;
   }
   var observer=new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if(entry.isIntersecting && entry.intersectionRatio>=0.5){
         video.play().catch(function(){});
+        inView=true;
       }else{
         video.pause();
+        inView=false;
       }
+      syncMusic();
     });
   },{threshold:[0,0.5,1]});
   observer.observe(video);
