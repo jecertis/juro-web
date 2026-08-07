@@ -235,6 +235,7 @@
 <header class="header">
   <div class="logo">juro<span class="accent">compliant</span></div>
   <nav class="header-right" aria-label="Primary">
+    <a href="#dashboard" class="nav-link nav-link-section">See it in action</a>
     <a href="#how" class="nav-link nav-link-section">How it works</a>
     <a href="#risk" class="nav-link nav-link-section">Regulatory risk</a>
     <a href="#evidence" class="nav-link nav-link-section">Evidence</a>
@@ -259,7 +260,7 @@
   <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" class="drawer-link">DORA</a>
 </nav>
 
-<div class="hero">
+<div class="hero" id="scan">
   <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Non-custodial &middot; GDPR &middot; DORA &middot; DPDP</div>
   <div class="urgency-pills">
     <div class="urgency-pill"><span class="u-dot"></span>DPDP Rules 2025 · Enforcement active</div>
@@ -473,6 +474,30 @@
     <div class="trust-item"><span class="trust-num">80%+</span><span class="trust-label">of scanned sites had pre-consent trackers</span></div>
   </div>
 </div>
+
+<section class="sizzle-band" id="dashboard" aria-label="What a scan produces">
+  <div class="sizzle-eyebrow">What a scan produces</div>
+  <div class="sizzle-media">
+    <video id="sizzleVideo" muted loop playsinline preload="none"
+           poster="/media/juro-film-poster.jpg"
+           width="1200" height="676">
+      <source src="/media/juro-film.webm" type="video/webm">
+      <source src="/media/juro-film.mp4" type="video/mp4">
+    </video>
+    <audio id="sizzleMusic" loop preload="none" src="/media/sizzle-film-music.mp3"></audio>
+    <button type="button" id="sizzleSoundToggle" class="sizzle-sound-toggle" aria-label="Unmute background music" aria-pressed="false">
+      <svg class="sizzle-sound-icon sizzle-sound-icon-off" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/>
+        <path d="M16.5 9.5 21 14M21 9.5l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <svg class="sizzle-sound-icon sizzle-sound-icon-on" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/>
+        <path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <a href="#scan" class="sizzle-link">Run a scan &rarr;</a>
+</section>
 
 <main class="main">
   <div id="emptyState">
@@ -872,6 +897,7 @@
     </div>
     <div class="footer-link-col">
       <div class="footer-col-heading">Product</div>
+      <a href="#dashboard">See it in action</a>
       <a href="#how">How it works</a>
       <a href="#evidence">Evidence</a>
       <a href="#pricing">Pricing</a>
@@ -981,6 +1007,77 @@
   }
   tick();
   setInterval(tick,1000);
+})();
+</script>
+
+<script>
+(function sizzleFilm(){
+  var video=document.getElementById('sizzleVideo');
+  if(!video)return;
+  var music=document.getElementById('sizzleMusic');
+  var soundToggle=document.getElementById('sizzleSoundToggle');
+  var soundOn=false;
+  var inView=false;
+
+  function syncMusic(){
+    if(!music)return;
+    if(inView && soundOn){
+      music.play().catch(function(){});
+    }else{
+      music.pause();
+    }
+  }
+
+  function setSoundOn(on){
+    soundOn=on;
+    if(soundToggle){
+      soundToggle.setAttribute('aria-pressed',String(soundOn));
+      soundToggle.setAttribute('aria-label',soundOn?'Mute background music':'Unmute background music');
+    }
+    syncMusic();
+  }
+
+  if(soundToggle){
+    soundToggle.addEventListener('click',function(){
+      setSoundOn(!soundOn);
+    });
+  }
+
+  // Clicking a "jump to the video" link is itself a user gesture, so use it
+  // to turn sound on directly rather than requiring a second click on the
+  // toggle once the section scrolls into view.
+  document.querySelectorAll('a[href="#dashboard"]').forEach(function(link){
+    link.addEventListener('click',function(){
+      setSoundOn(true);
+      if(music){ music.play().catch(function(){}); }
+    });
+  });
+
+  var reduceMotion=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion){
+    video.removeAttribute('autoplay');
+    inView=true;
+    return;
+  }
+  if(!('IntersectionObserver' in window)){
+    video.play().catch(function(){});
+    inView=true;
+    syncMusic();
+    return;
+  }
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && entry.intersectionRatio>=0.5){
+        video.play().catch(function(){});
+        inView=true;
+      }else{
+        video.pause();
+        inView=false;
+      }
+      syncMusic();
+    });
+  },{threshold:[0,0.5,1]});
+  observer.observe(video);
 })();
 </script>
 
