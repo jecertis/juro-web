@@ -64,12 +64,12 @@ for (const { label, path } of PAGES) {
       await expect(page.locator('#mobileNavDrawer')).not.toBeVisible();
     });
 
-    test('MN7: drawer contains a link to /checklist.html', async ({ page, siteUrl }) => {
+    test('MN7: drawer contains a link to /checklist', async ({ page, siteUrl }) => {
       await page.setViewportSize(MOBILE);
       await page.goto(`${siteUrl}${path}`);
       await page.locator('#navHamburger').click();
       await expect(
-        page.locator('#mobileNavDrawer a[href="/checklist.html"]')
+        page.locator('#mobileNavDrawer a[href="/checklist"]')
       ).toBeVisible();
     });
 
