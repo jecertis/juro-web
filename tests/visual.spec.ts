@@ -21,6 +21,14 @@
  * now a meta-refresh redirect stub to /blog/dpdp-processor-guide, which is
  * not itself covered by this spec.
  *
+ * 2026-08-03: added dpdp-data-flow-mapper (new AI data-flow mapper tool). Also
+ * touched the shared nav/drawer/footer on homepage, checklist, and
+ * dpdp-technical-evidence-handbook to cross-link it — their existing
+ * baselines will diff. No baseline PNGs generated for any of this yet in
+ * this environment (Docker unavailable) — apply the `update-snapshots` PR
+ * label, or regen locally via `mcr.microsoft.com/playwright:v1.59.1-noble`,
+ * before merge.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
@@ -33,6 +41,7 @@ const PAGES = [
   { name: 'privacy', path: '/privacy.html' },
   { name: 'ai-act-art50-explainer', path: '/blog/ai-act-art50-transparency-explainer.html' },
   { name: 'dpdp-technical-evidence-handbook', path: '/dpdp-technical-evidence-handbook.html' },
+  { name: 'dpdp-data-flow-mapper', path: '/dpdp-data-flow-mapper.html' },
 ] as const;
 
 const VIEWPORTS = [
@@ -78,10 +87,14 @@ for (const p of PAGES) {
       // Mask dynamic content that legitimately changes between runs:
       // - countdown timer ticks every second
       // - any "scanned N min ago" relative-time labels
+      // - the sizzle-film video (homepage only): its IntersectionObserver can
+      //   fire mid-scroll during Playwright's full-page screenshot stitching,
+      //   so the captured frame/currentTime isn't deterministic across runs
       const masks = [
         page.locator('.countdown-strip'),
         page.locator('.countdown-num'),
         page.locator('[data-dynamic-time]'),
+        page.locator('.sizzle-media'),
       ];
 
       await expect(page).toHaveScreenshot(`${p.name}-${v.name}.png`, {

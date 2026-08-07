@@ -6,7 +6,7 @@ test.describe('Hero — two options (scan or self-assessment)', () => {
     const navLink = page.locator('.header-right a.nav-link').filter({ hasText: 'Self Assessment' });
     await expect(navLink).toContainText('Self Assessment');
     await expect(navLink).not.toContainText('Gap Assessment');
-    await expect(navLink).toHaveAttribute('href', '/checklist.html');
+    await expect(navLink).toHaveAttribute('href', '/checklist');
   });
 
   test('hero shows "or" divider between the two options', async ({ page, siteUrl }) => {
@@ -16,13 +16,13 @@ test.describe('Hero — two options (scan or self-assessment)', () => {
     await expect(or).toHaveText(/or/i);
   });
 
-  test('hero self-assessment card is visible and links to /checklist.html', async ({ page, siteUrl }) => {
+  test('hero self-assessment card is visible and links to /checklist', async ({ page, siteUrl }) => {
     await page.goto(siteUrl);
     await expect(page.locator('#altOption')).toBeVisible();
     await expect(page.locator('#altOption .alt-option-title')).toContainText('self-assessment');
     const btn = page.locator('#altOptionBtn');
     await expect(btn).toBeVisible();
-    await expect(btn).toHaveAttribute('href', '/checklist.html');
+    await expect(btn).toHaveAttribute('href', '/checklist');
   });
 
   test('DOM order: scan input → consent → or → alt-option', async ({ page, siteUrl }) => {
@@ -45,7 +45,7 @@ test.describe('Hero — two options (scan or self-assessment)', () => {
 
   test('footer link also renamed to "Self Assessment"', async ({ page, siteUrl }) => {
     await page.goto(siteUrl);
-    const footerLink = page.locator('footer a[href="/checklist.html"]');
+    const footerLink = page.locator('footer a[href="/checklist"]');
     await expect(footerLink).toContainText('Self Assessment');
     await expect(footerLink).not.toContainText('Gap Assessment');
   });
