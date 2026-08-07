@@ -28,7 +28,7 @@
           : 'Surface scan';
       return elapsedLabel ? catPart + ' · ' + elapsedLabel : catPart;
     },
-    footer: 'Surface-layer scan · not a compliance verdict · Free scan at jurocompliant.com',
+    footer: 'Surface-layer scan · not a compliance verdict · Instant scan at jurocompliant.com',
   };
 
   /**
