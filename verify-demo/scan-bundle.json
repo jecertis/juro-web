@@ -1,0 +1,17 @@
+{
+  "scan_id": "scan-accept-001",
+  "engagement_slug": "acctest",
+  "scanned_at": "2026-07-21T00:00:00Z",
+  "posture_scores": [
+    {
+      "rule_namespace": "DPDP",
+      "score": 72
+    }
+  ],
+  "artifact_hash": "sha256:ee167b6df5a89db36a4215576b53b4f309e5beba4286d8585e8763d7893c8b20",
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "key-2026-07-20",
+    "value": "MXf2SnguR2meUlHvUbWOoQClSRj6XGmFZfkfSUc8RycuSZWZ1u3hFor4Vy7P0ojZMhS0SjJvHq4P4tX4nYDzCA=="
+  }
+}
