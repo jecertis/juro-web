@@ -420,7 +420,7 @@
 
     <p><strong>Deterministic output.</strong> Same target snapshot plus same ruleset must produce identical findings. Probabilistic or LLM-based detection cannot produce evidence that holds up when challenged.</p>
 
-    <p><strong>Signed artefacts.</strong> Output should be cryptographically signed with target hash, ruleset hash, and findings hash on a public notary log — so any auditor can verify a specific finding on a specific date without trusting the vendor.</p>
+    <p><strong>Signed artefacts.</strong> Output should be cryptographically signed, with the target hash, ruleset hash, and findings hash recorded in the artefact itself — so any auditor can independently verify a specific finding on a specific date without trusting the vendor.</p>
 
     <p><strong>Non-custodial architecture.</strong> Infrastructure state should not leave your perimeter. Sending IAM policies or S3 bucket policies to an external SaaS is itself a security exposure. An in-VPC agent running under a read-only IAM role produces findings locally.</p>
 
