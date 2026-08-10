@@ -448,7 +448,7 @@
     <ul>
       <li><strong>Scans your public-facing surface and codebase for regulatory obligation markers.</strong> The scanner reads privacy policies, consent implementations, and data handling disclosures against GDPR, India's DPDP Act 2023, and <a href="/dora-soc2-gap">DORA requirements</a>. It reports what it detects versus what regulations require. Absence of a finding is not a compliance verdict; it is a gap signal.</li>
       <li><strong>Produces signed, deterministic artefacts.</strong> Every scan generates a cryptographically signed output tied to a target, a ruleset hash, and a timestamp. The artefact is customer-held — no infrastructure state leaves your perimeter. Any auditor or counterparty can independently re-verify the finding without trusting JeCertis.</li>
-      <li><strong>Runs non-custodially, inside your perimeter for deep scans.</strong> The Tier 3 agent deploys inside your VPC (private cloud network) under a read-only IAM (access permissions) role. It maps data flows, encryption state, and audit log coverage locally. The only outbound call is a SHA-256 fingerprint to a public notary log — no PII or infrastructure metadata leaves your environment.</li>
+      <li><strong>Runs non-custodially, inside your perimeter for deep scans.</strong> The Tier 3 agent deploys inside your VPC (private cloud network) under a read-only IAM (access permissions) role. It maps data flows, encryption state, and audit log coverage locally. The only outbound call is a SHA-256 fingerprint submitted to JeCertis's own signing service for counter-signature — no PII or infrastructure metadata leaves your environment.</li>
     </ul>
 
     <hr class="post-divider">
