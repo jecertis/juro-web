@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://jurocompliant.com/dora-soc2-gap</loc>
-    <lastmod>2026-06-02</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -119,5 +119,11 @@
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://jurocompliant.com/blog/ai-act-art50-transparency-explainer</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
