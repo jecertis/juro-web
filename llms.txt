@@ -1,5 +1,5 @@
 # Jurocompliant
-# Last updated: 2026-07-01
+# Last updated: 2026-08-10
 
 Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU). It scans any public URL for consent gaps, pre-consent tracking, and missing privacy notices — mapping findings to specific regulatory provisions.
 
@@ -18,6 +18,9 @@ Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 202
 - Privacy: https://jurocompliant.com/privacy.html
 - Contact: help@jurocompliant.com
 
+## Tools
+- [DPDP AI Data Flow Mapper](https://jurocompliant.com/dpdp-data-flow-mapper) — Answer 3 questions about an AI system and get a DPDP data-flow map: role and erasure difficulty per lifecycle stage. Runs client-side in the browser, nothing sent to a server. Published 2026-08-03.
+
 ## Blog
 Technical compliance articles for CTOs and engineering leads. No consultant speak.
 
@@ -26,9 +29,18 @@ Technical compliance articles for CTOs and engineering leads. No consultant spea
 - [DPDP Phase II: Consent Manager Requirements Before November 2026](https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers) — What the consent manager framework requires from India SaaS companies, the two compliance paths (consent manager vs. §7 legitimate use), and the engineering work most teams underestimate. Published 2026-05-27.
 - [DORA RTS Article 28 vs SOC 2: The Gap Map](https://jurocompliant.com/dora-soc2-gap) — Maps the four structural gaps between DORA RTS Article 28 obligations and SOC 2 coverage: contractual audit rights, exit and transition plans, incident notification timelines, and subcontracting chain visibility. For India SaaS companies selling to EU financial entities. Published 2026-06-02.
 - [DPDP Processor Obligations for Call Recording Stacks](https://jurocompliant.com/blog/dpdp-processor-guide) — What India's DPDP Act 2023 requires of data processors who handle call recordings: §8(1) security safeguards, §8(7) deletion obligations, §8(6) breach notification, and §10 SDF designation risk. For CTOs and Heads of Engineering at CPaaS and cloud telephony companies. Published 2026-05-26.
+- [DORA, GDPR, and DPDP Compliance Scanning in India](https://jurocompliant.com/blog/dora-gdpr-scanner-india) — What a multi-framework compliance scanner needs to produce for Indian SaaS companies facing DORA, GDPR, and DPDP at once: deterministic output, signed artefacts, non-custodial architecture, cited regulatory source. Published 2026-05-28.
+- [GDPR and DPDP Compliance Tools Compared](https://jurocompliant.com/blog/gdpr-dpdp-compliance-tools-compared) — A factual comparison of GDPR/DPDP compliance tooling for India-facing SaaS companies with EU operations: frameworks covered, deployment model, and verification. Published 2026-05-28.
+- [Compliance Scans and Cyber Insurance Pricing in India](https://jurocompliant.com/blog/compliance-scan-insurance-premium) — What a compliance posture scan actually produces, and how clean scan results factor into cyber liability underwriting conversations with Indian brokers. Published 2026-05-28.
+- [DPDP Significant Data Fiduciary Obligations by November 2026](https://jurocompliant.com/blog/dpdp-sdf-countdown-november-2026) — SDF designation under India's DPDP Act activates immediately, with no grace period. What CTOs at Indian fintech and healthtech companies must do before November 2026. Published 2026-06-01.
+- [EU AI Act Article 50 Transparency Requirements](https://jurocompliant.com/blog/ai-act-art50-transparency-explainer) — What EU AI Act Article 50's transparency obligations (effective August 2026) require public-facing pages to document, and what most currently don't. Published 2026-06-13.
+- [Hugging Face Security Incident: GDPR, DORA, DPDP Obligations](https://jurocompliant.com/blog/hf-security-incident-vendor-risk-2026) — Hugging Face disclosed a security incident on July 16, 2026. What GDPR, DORA, and DPDP require next from companies using HF-hosted models or datasets. Published 2026-07-20.
 
 ## Disambiguation
 - [Which Juro?](https://jurocompliant.com/which-juro) — Disambiguation: Juro (juro.com) is contract management; Jurocompliant (jurocompliant.com) is a GDPR/DPDP/DORA compliance scanner. Published 2026-05-27.
 
 ## Reference
 - [The DPDP Technical Evidence Handbook](https://jurocompliant.com/dpdp-technical-evidence-handbook) — For every DPDP Act §8 technical security safeguard, maps the cloud-configuration fact that evidences it and the exact scanner rule (with cited legal basis) that verifies it, across access control, network exposure, encryption, logging, retention, and backup. Names the two advisory gaps (processor DPAs, §8(6) breach notification) outside scanner scope. Published 2026-07-17.
+
+## For advisory firms & auditors
+- [Partners — DPDP Evidence for Advisory Firms & Auditors](https://jurocompliant.com/partners) — Signed, deterministic GDPR/DORA/DPDP findings from a client's cloud posture, for firms whose own opinion sits on top of the evidence trail. Published 2026-07-28.
