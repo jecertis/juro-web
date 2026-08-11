@@ -1,0 +1,15 @@
+{
+  "keys": [
+    {
+      "key_id": "legacy",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAbbxjfb1lNNYbnpdIaeANILg2yvcLuc+DXn7csoCVlhM=\n-----END PUBLIC KEY-----",
+      "not_before": "2000-01-01",
+      "not_after": "2026-07-20"
+    },
+    {
+      "key_id": "key-2026-07-20",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA+rQ4lXX1ZNkA9WTmIsgM2uRsQ5yEhSom0iMXW3egsWA=\n-----END PUBLIC KEY-----",
+      "not_before": "2026-07-20"
+    }
+  ]
+}
