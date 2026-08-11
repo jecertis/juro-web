@@ -5,9 +5,7 @@ on:
     paths:
       - 'README.md'
       - 'package.json'
-      - '*.html'
-      - 'index.html'
-      - 'jurocompliant.html'
+      - '**/*.html'
       - '.github/scripts/**'
       - '.github/contracts/**'
       - '.github/workflows/banned-claims.yml'
@@ -24,9 +22,9 @@ jobs:
         # is private, so cross-repo checkout would require a PAT secret.
         # See .github/scripts/check-banned-claims.sh header for re-vendor
         # protocol when the canonical list changes.
-        run: chmod +x .github/scripts/check-banned-claims.sh .github/scripts/check-agent-preamble.sh
+        run: chmod +x .github/scripts/check-banned-claims.sh .github/scripts/check-agent-preamble.sh .github/scripts/check-claim-backing.sh
 
-      - name: Collect files for banned-claims check
+      - name: Collect files for compliance checks
         id: files
         run: |
           set -e
@@ -39,5 +37,11 @@ jobs:
 
       - name: Run banned-claims check
         run: xargs -a files.txt .github/scripts/check-banned-claims.sh
+
+      - name: Run claim-backing check
+        # Positive-claim check, complementary to banned-claims: catches
+        # asserting a capability that isn't shipped yet, even if the exact
+        # wording was never on the banned-phrase list (BL-ENG-149's class).
+        run: xargs -a files.txt .github/scripts/check-claim-backing.sh
 
 
