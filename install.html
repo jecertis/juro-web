@@ -72,7 +72,7 @@
       "name": "Does juro-deploy send data outside my infrastructure?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint of the signed scan bundle sent to Juro's notary endpoint for audit verification — the fingerprint contains no infrastructure state, no scan findings, no configuration, and no credentials."
+        "text": "No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call happens automatically after every scan, to Juro's notary endpoint for counter-signing. It sends five fields: engagement_slug_hash, bundle_sha256, ruleset_sha, agent_version, and scanned_at. It does not send infrastructure state, scan findings, configuration, or credentials."
       }
     }
   ]
@@ -571,7 +571,7 @@
         <details class="faq-item">
           <summary class="faq-question">Does juro-deploy send data outside my infrastructure?</summary>
           <div class="faq-answer">
-            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call is a SHA-256 fingerprint of the signed scan bundle sent to Juro's notary endpoint for audit verification — the fingerprint contains no infrastructure state, no scan findings, no configuration, and no credentials.</p>
+            <p>No infrastructure data or PII leaves your environment. The scanner runs locally inside your Docker container. The only outbound call happens automatically after every scan, to Juro's notary endpoint for counter-signing. It sends five fields: engagement_slug_hash, bundle_sha256, ruleset_sha, agent_version, and scanned_at. It does not send infrastructure state, scan findings, configuration, or credentials.</p>
           </div>
         </details>
       </div>
