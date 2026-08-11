@@ -58,6 +58,40 @@ while IFS= read -r line; do
   done
 done < "$MANIFEST"
 
+# --- Narrow test: install.html's notary payload description vs the real
+# NotaryBody interface in juro/src/routes/notary.ts (a sibling repo, not
+# checked out here — so the expected list is hardcoded and must be kept in
+# sync by hand). This is the exact gap that let the SHA-256-fingerprint
+# overclaim through: check-claim-backing verifies claimed things exist, not
+# that a described payload matches the actual payload.
+#
+# Checked 2026-08-11 against juro/src/routes/notary.ts NotaryBody (matches
+# juro/src/db/scan_notarizations.ts ScanNotarizationInput too). If that
+# interface changes, update EXPECTED_NOTARY_FIELDS here in the same PR.
+EXPECTED_NOTARY_FIELDS="agent_version,bundle_sha256,engagement_slug_hash,ruleset_sha,scanned_at"
+
+extract_notary_fields() {
+  grep -oE 'sends five fields:[^.]*\.' "$1" 2>/dev/null \
+    | grep -oE '[a-z][a-z0-9]*(_[a-z0-9]+)+' \
+    | sort -u \
+    | tr '\n' ',' \
+    | sed 's/,$//'
+}
+
+for file in "$@"; do
+  [[ "$(basename "$file")" == "install.html" ]] || continue
+  actual="$(extract_notary_fields "$file")"
+  if [[ -z "$actual" ]]; then
+    echo "⚠️  notary-field check: no \"sends N fields:\" sentence found in $file — skipping (wording may have changed; update this script's extraction pattern)"
+  elif [[ "$actual" != "$EXPECTED_NOTARY_FIELDS" ]]; then
+    echo "🚨 NOTARY FIELD MISMATCH in $file"
+    echo "   install.html describes: $actual"
+    echo "   juro NotaryBody has:    $EXPECTED_NOTARY_FIELDS"
+    echo "   (per juro/src/routes/notary.ts — update EXPECTED_NOTARY_FIELDS in this script if that interface changed)"
+    FAIL=1
+  fi
+done
+
 if [[ "$FAIL" -eq 0 ]]; then
   echo "check-claim-backing: clean — no unbacked infrastructure claims found."
 fi
