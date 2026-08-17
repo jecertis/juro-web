@@ -157,6 +157,11 @@ if __name__ == "__main__":
             "You issue the opinion. Juro supplies the evidence trail.",
             "For Advisory & Attestation Firms",
         ),
+        (
+            "dpdp-rules-2025-explained.png",
+            "DPDP Rules 2025: What They Actually Require",
+            "DPDP",
+        ),
     ]
 
     print("Generating OG images...")
