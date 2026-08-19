@@ -1,5 +1,5 @@
 # Jurocompliant
-# Last updated: 2026-08-13
+# Last updated: 2026-08-19
 
 Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU). It scans any public URL for consent gaps, pre-consent tracking, and missing privacy notices — mapping findings to specific regulatory provisions.
 
@@ -25,6 +25,7 @@ Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 202
 Technical compliance articles for CTOs and engineering leads. No consultant speak.
 
 ### Published articles
+- [CERT-In's April 2022 Directions Already Apply to You](https://jurocompliant.com/blog/cert-in-audit-evidence) — CERT-In's Directions under Section 70B of the IT Act have applied to Indian body corporates since April 2022: NTP sync, 6-hour incident reporting, a designated Point of Contact, and 180-day log retention. No sector or size exemption. Published 2026-08-19.
 - [DPDP Rules 2025: What They Actually Require, Section by Section](https://jurocompliant.com/blog/dpdp-rules-2025-explained) — The DPDP Rules 2025 were notified in November 2025. What they require on consent notice content, Consent Manager registration, breach timelines, children's data verification, and Significant Data Fiduciary duties, plus the two enforcement dates (Nov 13 2026, May 13 2027) that matter. Published 2026-08-13.
 - [Do Indian Fintechs Need to Disclose DPDP Compliance Before an IPO?](https://jurocompliant.com/blog/dpdp-ipo-risk-disclosure) — No SEBI rule mandates DPDP disclosure, but underwriters and counsel now expect IPO-bound Indian fintechs to evidence data governance in their risk factors. Published 2026-07-01.
 - [DPDP Phase II: Consent Manager Requirements Before November 2026](https://jurocompliant.com/blog/dpdp-phase-ii-consent-managers) — What the consent manager framework requires from India SaaS companies, the two compliance paths (consent manager vs. §7 legitimate use), and the engineering work most teams underestimate. Published 2026-05-27.
