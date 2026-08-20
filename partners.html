@@ -3,6 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- GitHub Pages serves this file at both /partners and /partners.html (no
+     server-side 301 available on static Pages hosting, see
+     docs/jurosecurity-redirect-setup.md). Collapse human traffic + the
+     pageview beacon onto the canonical extensionless URL; the canonical
+     tag below already carries the crawler signal. Hostname-guarded to
+     match config.js so this is a no-op on localhost/127.0.0.1 (Playwright
+     fixture server has no extensionless resolution — BL-ENG-168). -->
+<script>
+if (!['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.pathname.endsWith('.html')) {
+  window.location.replace(window.location.pathname.slice(0, -5) + window.location.search + window.location.hash);
+}
+</script>
 <title>DPDP Evidence for Advisory Firms &amp; Auditors | Jurocompliant</title>
 <meta name="description" content="Signed DPDP evidence for advisory firms: deterministic GDPR, DORA findings from a client's cloud posture. Your firm issues the opinion; Juro supplies the trail.">
 <meta name="robots" content="index, follow">
