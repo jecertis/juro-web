@@ -162,6 +162,11 @@ if __name__ == "__main__":
             "DPDP Rules 2025: What They Actually Require",
             "DPDP",
         ),
+        (
+            "directory.png",
+            "DPDP & GDPR Compliance Partner Directory",
+            "Directory — Pilot",
+        ),
     ]
 
     print("Generating OG images...")

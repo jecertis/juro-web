@@ -29,6 +29,12 @@
  * label, or regen locally via `mcr.microsoft.com/playwright:v1.59.1-noble`,
  * before merge.
  *
+ * 2026-08-20 (compliance partner directory pilot page): added directory. New
+ * page only, no shared nav/footer/CSS changes, so no other baselines should
+ * diff. No baseline PNGs generated for it yet in this environment (Docker
+ * unavailable) — apply the `update-snapshots` PR label, or regen locally via
+ * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
@@ -42,6 +48,7 @@ const PAGES = [
   { name: 'ai-act-art50-explainer', path: '/blog/ai-act-art50-transparency-explainer.html' },
   { name: 'dpdp-technical-evidence-handbook', path: '/dpdp-technical-evidence-handbook.html' },
   { name: 'dpdp-data-flow-mapper', path: '/dpdp-data-flow-mapper.html' },
+  { name: 'directory', path: '/directory.html' },
 ] as const;
 
 const VIEWPORTS = [
