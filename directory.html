@@ -252,14 +252,7 @@
     line-height: var(--lh-reading);
   }
 
-  /* ── Inquiry / listing form block (mirrors partners.html inquiry-block pattern) ── */
-  .inquiry-block {
-    background: rgba(245,196,0,0.07);
-    border: 1px solid rgba(245,196,0,0.2);
-    border-radius: var(--radius-lg);
-    padding: var(--s5);
-    margin-top: var(--s6);
-  }
+  /* ── Inquiry / listing form typography (mirrors partners.html inquiry-block pattern) ── */
   .inquiry-eyebrow {
     font-family: var(--mono);
     font-size: var(--text-xs);
@@ -268,7 +261,7 @@
     color: var(--yellow);
     margin-bottom: var(--s1);
   }
-  .inquiry-block h2 {
+  .listing-modal-inner h2 {
     font-size: var(--text-xl);
     font-weight: 600;
     color: #fff;
@@ -276,7 +269,7 @@
     line-height: var(--lh-snug);
     letter-spacing: var(--ls-display);
   }
-  .inquiry-block > p {
+  .listing-modal-inner > p {
     font-size: var(--text-sm);
     color: rgba(255,255,255,0.72);
     line-height: var(--lh-reading);
@@ -383,10 +376,7 @@
     padding: 6px;
   }
   .listing-modal-close:hover { color: #fff; }
-  .listing-modal .inquiry-form,
-  .listing-modal .inquiry-alt {
-    max-width: none;
-  }
+  .listing-modal .inquiry-form { max-width: none; }
 
   /* ── FAQ section ── */
   .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); padding: var(--s2) 0; }
@@ -453,7 +443,7 @@
   @media (max-width: 640px) {
     .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
     .archetype-grid { grid-template-columns: 1fr; }
-    .inquiry-block { padding: var(--s3); }
+    .listing-modal-inner { padding: var(--s3); }
     .directory-empty { padding: var(--s4); }
   }
 </style>
@@ -503,8 +493,9 @@
     <!-- ══ GET LISTED CTA — top-center teaser, opens the form in a modal ══ -->
     <div class="inquiry-teaser">
       <div class="inquiry-eyebrow">Get listed</div>
-      <p>DPO-as-a-service, audit &amp; attestation, or RegTech tooling — tell us about your practice, takes under a minute.</p>
+      <p>DPO-as-a-service, audit &amp; attestation, or RegTech tooling: tell us about your practice, takes under a minute.</p>
       <button type="button" class="inquiry-form-btn" id="openListingModalBtn" aria-haspopup="dialog" aria-controls="listingModal">List as a Consultant / DPA / Vendor →</button>
+      <div class="inquiry-alt">Prefer email? Write to <a href="mailto:help@jurocompliant.com?subject=Directory%20listing%20request">help@jurocompliant.com</a> with your firm name, specialization, and region.</div>
     </div>
   </div>
 
@@ -642,7 +633,6 @@
     <div class="inquiry-success" id="listingSuccess" aria-live="polite">
       Thanks. We'll follow up by email ahead of launch.
     </div>
-    <div class="inquiry-alt">Prefer email? Write to <a href="mailto:help@jurocompliant.com?subject=Directory%20listing%20request">help@jurocompliant.com</a> with your firm name, specialization, and region.</div>
   </div>
 </dialog>
 
