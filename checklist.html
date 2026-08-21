@@ -884,7 +884,7 @@
   <h1 class="hero-title">Find your DPDP, GDPR &amp; DORA gaps <strong>before the regulator does.</strong></h1>
   <p class="hero-sub">Answer honestly. A "Yes" is a claim — not proof. Each gap shows you the penalty exposure and what to fix.</p>
   <div class="disclaimer-bar">
-    Answering "Yes" records your self-assessment — it does not verify or attest compliance. Use the scanner to get independently verifiable evidence.
+    Answering "Yes" records your self-assessment — it does not verify or attest compliance. Use the scanner to see what a deterministic scan actually detects on your site.
   </div>
 </div>
 
@@ -1109,7 +1109,7 @@ function updateCTAText() {
     if (gaps === 0) {
       el.textContent = 'You\'ve answered all questions. Ready to verify these claims?';
     } else {
-      el.textContent = 'You\'ve identified ' + gaps + ' potential gap' + (gaps !== 1 ? 's' : '') + '. Ready to get cryptographic evidence?';
+      el.textContent = 'You\'ve identified ' + gaps + ' potential gap' + (gaps !== 1 ? 's' : '') + '. Ready to see what a scan actually finds?';
     }
   }
 }
@@ -1274,7 +1274,7 @@ function buildGapSummary() {
     summary += '\n';
   });
 
-  summary += '---\nThis is a self-assessment only. It does not constitute legal advice or a compliance attestation.\nTo get independently verifiable findings, scan your website at jurocompliant.com.';
+  summary += '---\nThis is a self-assessment only. It does not constitute legal advice or a compliance attestation.\nTo see deterministic, detectable findings, scan your website at jurocompliant.com.';
   return summary;
 }
 
