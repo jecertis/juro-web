@@ -163,9 +163,14 @@ if __name__ == "__main__":
             "DPDP",
         ),
         (
+            "cert-in-audit-evidence.png",
+            "CERT-In's April 2022 Directions Already Apply to You",
+            "CERT-In",
+        ),
+        (
             "directory.png",
             "DPDP & GDPR Compliance Partner Directory",
-            "Directory — Pilot",
+            "Directory - Pilot",
         ),
     ]
 
