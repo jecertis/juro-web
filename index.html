@@ -733,6 +733,18 @@
       the separate FG-15 partner-channel pricing model (INR list/partner/
       floor, recorded in workspace memory) — different motions (public
       self-serve vs. partner-referred engagements), not a conflict.
+
+      BL-ENG-190 (2026-08-21): the "Single scan" CTA used to point at #scan,
+      the FREE Tier 1 public-surface scanner. That was a product-accuracy bug,
+      not a copy bug: Tier 1 signs nothing, so the card advertised a signed
+      artifact and then routed the buyer at a code path that cannot produce
+      one. Verified there is NO checkout anywhere — no payment SDK in any
+      package.json, no gated route, no price/plan/entitlement column in any
+      table; the only credential is a founder-issued `juro_eng_*` engagement
+      key carrying no price or plan. Monetization is entirely out-of-band
+      (email -> founder -> manual engagement provisioning), so this card is
+      sales-led like the other two. CTA now goes to mailto: to match.
+      PRICES DELIBERATELY UNCHANGED — they are the founder's 2026-07-31 call.
     -->
     <section class="pricing-section" id="pricing" aria-labelledby="pricing-heading">
       <div class="pricing-eyebrow">Pricing</div>
@@ -742,12 +754,12 @@
           <div class="pricing-tier">Single scan</div>
           <div class="pricing-price">&euro;390<span class="pricing-unit">/report</span></div>
           <ul class="pricing-list">
-            <li>One signed, verifiable scan artifact</li>
+            <li>One deep scan, signed as a verifiable artifact</li>
             <li>DPDP + GDPR + DORA coverage</li>
             <li>Full findings with regulatory citations</li>
-            <li>Independently verifiable, no account needed</li>
+            <li>Verifiable by anyone, no account needed</li>
           </ul>
-          <a href="#scan" class="pricing-cta pricing-cta-outline">Run a scan</a>
+          <a href="mailto:help@jurocompliant.com?subject=Single%20scan" class="pricing-cta pricing-cta-outline">Talk to us</a>
         </div>
         <div class="pricing-card pricing-card-highlight">
           <div class="pricing-badge">Most adopted</div>
