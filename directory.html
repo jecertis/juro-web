@@ -78,7 +78,7 @@
       "name": "Why is the directory empty right now?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The directory is launching in a pilot phase. It opened for firms to request a listing before any listings were published, so no names appear yet. Firms that submit the form below will be contacted about being added when the directory goes live."
+        "text": "The directory is launching in a pilot phase. It opened for firms to request a listing before any listings were published, so no names appear yet. Firms that submit the form above will be contacted about being added when the directory goes live."
       }
     },
     {
@@ -336,6 +336,20 @@
   }
   .inquiry-alt a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
 
+  /* ── Top-center placement variant — hero CTA, not bottom-of-page ── */
+  .inquiry-block-top {
+    margin-top: var(--s5);
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .inquiry-block-top .inquiry-eyebrow { text-align: center; }
+  .inquiry-block-top > p,
+  .inquiry-block-top .inquiry-form,
+  .inquiry-block-top .inquiry-alt {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   /* ── FAQ section ── */
   .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); padding: var(--s2) 0; }
   .faq-item:last-child { border-bottom: none; }
@@ -447,79 +461,9 @@
     <h1 class="post-title">A directory of who practices DPDP and GDPR compliance work in India.</h1>
 
     <p class="post-sub">DPO (Data Protection Officer) consultants, CA/audit firms, and RegTech vendors serving Indian DPDP, GDPR, and DORA (the EU's Digital Operational Resilience Act) compliance — listed by the firms themselves, not scored or ranked by Juro. The directory is opening in a pilot phase: no listings are published yet, but firms can request one now.</p>
-  </div>
 
-  <div class="post-body">
-
-    <h2>Which firms can be listed here?</h2>
-
-    <p>Three kinds of practice fit here, each serving a different part of the same compliance work:</p>
-
-    <div class="archetype-grid">
-      <div class="archetype-card">
-        <h3>DPO-as-a-service</h3>
-        <p>Fractional or outsourced Data Protection Officer coverage for DPDP Act obligations.</p>
-      </div>
-      <div class="archetype-card">
-        <h3>Audit &amp; attestation firms</h3>
-        <p>CA firms and independent auditors doing DPDP, GDPR, or DORA readiness and compliance audits.</p>
-      </div>
-      <div class="archetype-card">
-        <h3>RegTech vendors</h3>
-        <p>Tooling for consent management, data mapping, breach reporting, and related compliance workflows.</p>
-      </div>
-    </div>
-
-    <hr class="post-divider">
-
-    <h2>Directory</h2>
-
-    <div class="directory-empty">
-      <div class="directory-empty-icon">Directory — launching soon</div>
-      <h3>No listings published yet</h3>
-      <p>This directory is in a pilot phase and does not have any published listings yet. Firms that submit the form below will be contacted when it opens.</p>
-    </div>
-
-    <div class="scope-note">
-      <div class="scope-note-eyebrow">What this is not</div>
-      <p>Juro does not vet, verify, rank, or endorse any firm listed here. A listing means a firm asked to be included and described its own practice — it is not a claim by Juro about that firm's quality, compliance status, or track record. Anyone evaluating a listed firm should do their own diligence.</p>
-    </div>
-
-    <hr class="post-divider">
-
-    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
-    <section aria-label="Frequently asked questions" style="margin-top:var(--s4);margin-bottom:var(--s4)">
-      <h2 style="margin-top:0">Frequently asked questions</h2>
-      <div class="faq-list">
-        <details class="faq-item">
-          <summary class="faq-question">Does Juro vet, rank, or endorse the firms in this directory?</summary>
-          <div class="faq-answer">
-            <p>No. This directory is a listing of who practices DPDP, GDPR, and DORA compliance work in India — DPO consultants, CA/audit firms, and RegTech vendors. Juro does not verify, score, rank, or certify any firm's work. Inclusion means a firm asked to be listed and described its own practice, nothing more.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">Why is the directory empty right now?</summary>
-          <div class="faq-answer">
-            <p>The directory is launching in a pilot phase. It opened for firms to request a listing before any listings were published, so no names appear yet. Firms that submit the form below will be contacted about being added when the directory goes live.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">Is this the same thing as Juro's compliance scanner?</summary>
-          <div class="faq-answer">
-            <p>No. Juro's scanner at jurocompliant.com produces signed, deterministic evidence from a company's own cloud posture. This directory is a separate, unrelated listing of third-party firms that do DPO, audit, and RegTech work. Juro is not a party to any engagement between a visitor and a listed firm.</p>
-          </div>
-        </details>
-        <details class="faq-item">
-          <summary class="faq-question">What happens after a firm submits the 'Get listed' form?</summary>
-          <div class="faq-answer">
-            <p>Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page.</p>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <!-- ══ GET LISTED FORM — pilot success metric is submission count ══ -->
-    <div class="inquiry-block">
+    <!-- ══ GET LISTED FORM — moved top-center; pilot success metric is submission count ══ -->
+    <div class="inquiry-block inquiry-block-top">
       <div class="inquiry-eyebrow">Get listed</div>
       <h2>Request a listing for your firm</h2>
       <p>Tell us about your practice. We'll follow up by email to confirm details ahead of the directory going live. No commitment, and nothing is published from this form alone.</p>
@@ -575,6 +519,76 @@
       </div>
       <div class="inquiry-alt">Prefer email? Write to <a href="mailto:help@jurocompliant.com?subject=Directory%20listing%20request">help@jurocompliant.com</a> with your firm name, specialization, and region.</div>
     </div>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Which firms can be listed here?</h2>
+
+    <p>Three kinds of practice fit here, each serving a different part of the same compliance work:</p>
+
+    <div class="archetype-grid">
+      <div class="archetype-card">
+        <h3>DPO-as-a-service</h3>
+        <p>Fractional or outsourced Data Protection Officer coverage for DPDP Act obligations.</p>
+      </div>
+      <div class="archetype-card">
+        <h3>Audit &amp; attestation firms</h3>
+        <p>CA firms and independent auditors doing DPDP, GDPR, or DORA readiness and compliance audits.</p>
+      </div>
+      <div class="archetype-card">
+        <h3>RegTech vendors</h3>
+        <p>Tooling for consent management, data mapping, breach reporting, and related compliance workflows.</p>
+      </div>
+    </div>
+
+    <hr class="post-divider">
+
+    <h2>Directory</h2>
+
+    <div class="directory-empty">
+      <div class="directory-empty-icon">Directory — launching soon</div>
+      <h3>No listings published yet</h3>
+      <p>This directory is in a pilot phase and does not have any published listings yet. Firms that submit the form above will be contacted when it opens.</p>
+    </div>
+
+    <div class="scope-note">
+      <div class="scope-note-eyebrow">What this is not</div>
+      <p>Juro does not vet, verify, rank, or endorse any firm listed here. A listing means a firm asked to be included and described its own practice — it is not a claim by Juro about that firm's quality, compliance status, or track record. Anyone evaluating a listed firm should do their own diligence.</p>
+    </div>
+
+    <hr class="post-divider">
+
+    <!-- ══ FAQ SECTION — matches FAQPage JSON-LD word-for-word ══ -->
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s4);margin-bottom:var(--s4)">
+      <h2 style="margin-top:0">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">Does Juro vet, rank, or endorse the firms in this directory?</summary>
+          <div class="faq-answer">
+            <p>No. This directory is a listing of who practices DPDP, GDPR, and DORA compliance work in India — DPO consultants, CA/audit firms, and RegTech vendors. Juro does not verify, score, rank, or certify any firm's work. Inclusion means a firm asked to be listed and described its own practice, nothing more.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Why is the directory empty right now?</summary>
+          <div class="faq-answer">
+            <p>The directory is launching in a pilot phase. It opened for firms to request a listing before any listings were published, so no names appear yet. Firms that submit the form above will be contacted about being added when the directory goes live.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is this the same thing as Juro's compliance scanner?</summary>
+          <div class="faq-answer">
+            <p>No. Juro's scanner at jurocompliant.com produces signed, deterministic evidence from a company's own cloud posture. This directory is a separate, unrelated listing of third-party firms that do DPO, audit, and RegTech work. Juro is not a party to any engagement between a visitor and a listed firm.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What happens after a firm submits the 'Get listed' form?</summary>
+          <div class="faq-answer">
+            <p>Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page.</p>
+          </div>
+        </details>
+      </div>
+    </section>
 
     <p class="scanner-footnote">Looking for Juro's own compliance scanner instead of the directory? <a href="/">Try the free scan</a>.</p>
 
