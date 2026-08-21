@@ -5,11 +5,12 @@
  * <script src="/js/blog-post.js" defer></script> tag). One file, one place
  * to fix bugs — do NOT inline copies of this into individual post files.
  *
- * Click tracking (BL-ENG-186 follow-up): there is no generic analytics-event
- * endpoint on juro-api today — only POST /api/v1/pageview exists (see the
- * beacon in blog/_template.html). Routing "Listen" clicks through that
- * endpoint would corrupt real pageview counts, so tracking here is a
- * console.debug stub until a POST /api/v1/event (or similar) endpoint ships.
+ * Click tracking (BL-ENG-186): reuses the same generic named-event beacon
+ * pattern as fireScanEvent() in js/main.js — POST /api/v1/scan-event with
+ * {event, path, detail?} — which is separate from the pageview beacon
+ * (/api/v1/pageview), so it does not corrupt pageview counts. Replicated
+ * here rather than importing js/main.js because blog posts don't load
+ * main.js (only config.js + this file).
  */
 (function () {
   'use strict';
@@ -24,9 +25,26 @@
     return link ? link.href : window.location.href;
   }
 
-  function trackEvent(name) {
+  function getSlug() {
+    var path = window.location.pathname.replace(/\/+$/, '');
+    var parts = path.split('/');
+    return parts[parts.length - 1] || 'unknown';
+  }
+
+  function trackEvent(name, detail) {
     try {
-      console.debug('[juro-blog] event:', name, window.location.pathname);
+      var base = window.JURO_API_URL || 'http://localhost:3000';
+      var payload = { event: name, path: window.location.pathname };
+      var withSlug = Object.assign({ slug: getSlug() }, detail || {});
+      payload.detail = JSON.stringify(withSlug);
+      fetch(base + '/api/v1/scan-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
     } catch (_) {}
   }
 
@@ -79,7 +97,7 @@
           if (!ok) return;
           copyBtn.textContent = 'Copied';
           copyBtn.classList.add('is-copied');
-          trackEvent('share_copy_link');
+          trackEvent('share_copy_link', {});
           setTimeout(function () {
             copyBtn.textContent = originalLabel;
             copyBtn.classList.remove('is-copied');
@@ -97,7 +115,7 @@
 
     root.querySelectorAll('[data-share="linkedin"], [data-share="x"], [data-share="email"]').forEach(function (a) {
       a.addEventListener('click', function () {
-        trackEvent('share_' + a.getAttribute('data-share'));
+        trackEvent('share_' + a.getAttribute('data-share'), {});
       });
     });
   }
@@ -181,7 +199,7 @@
       setLabel('Pause');
       btn.setAttribute('aria-pressed', 'true');
       row.classList.add('is-active');
-      trackEvent('tts_play');
+      trackEvent('blog_listen_click', { action: 'play' });
       speakNext();
     }
 
@@ -191,13 +209,13 @@
       synth.cancel();
       state = 'paused';
       setLabel('Resume');
-      trackEvent('tts_pause');
+      trackEvent('blog_listen_click', { action: 'pause' });
     }
 
     function resume() {
       state = 'playing';
       setLabel('Pause');
-      trackEvent('tts_resume');
+      trackEvent('blog_listen_click', { action: 'resume' });
       speakNext();
     }
 
@@ -221,7 +239,7 @@
       stopBtn.addEventListener('click', function () {
         if (state !== 'idle') {
           stop();
-          trackEvent('tts_stop');
+          trackEvent('blog_listen_click', { action: 'stop' });
         }
       });
     }
