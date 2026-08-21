@@ -1152,3 +1152,25 @@
 .sizzle-link{display:block;text-align:center;font-family:var(--mono);font-size:var(--text-sm);color:var(--yellow);text-decoration:none;margin-top:var(--s3)}
 .sizzle-link:hover{color:var(--yellow-dark)}
 @media (max-width:560px){.sizzle-band{padding:56px 1.25rem}}
+
+/* Blog post — Listen (TTS) and share controls.
+   Styled as a variant of the existing secondary-button pattern
+   (see .nav-link / .framework-tag): rgba(255,255,255,0.x) border,
+   var(--radius) corners (not a pill), var(--sans) label — not a
+   separate bolt-on widget style. aria-pressed state reuses the
+   sizzle-sound-toggle convention of turning var(--yellow) when active. */
+.post-listen-row{display:flex;align-items:center;gap:var(--s2);margin-bottom:var(--s4)}
+.post-listen-btn,.post-listen-stop,.post-share-btn{font-family:var(--sans);font-size:var(--text-xs);font-weight:500;color:rgba(255,255,255,0.75);background:transparent;border:1px solid rgba(255,255,255,0.2);padding:6px 12px;border-radius:var(--radius);text-decoration:none;cursor:pointer;transition:color 0.2s,border-color 0.2s;white-space:nowrap}
+.post-listen-btn,.post-listen-stop{display:inline-flex;align-items:center;gap:6px}
+.post-listen-btn:hover,.post-listen-stop:hover,.post-share-btn:hover{color:#fff;border-color:rgba(255,255,255,0.4)}
+.post-listen-btn[aria-pressed="true"]{border-color:var(--yellow);color:var(--yellow)}
+.post-listen-icon{font-size:9px}
+.post-listen-stop{display:none}
+.post-listen-row.is-active .post-listen-stop{display:inline-flex}
+
+/* Blog post — share row. Sits after the article, before the footer. */
+.post-share{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;margin:var(--s5) 0}
+.post-share-label{font-family:var(--mono);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--ls-label);color:rgba(255,255,255,0.45)}
+.post-share-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.post-share-btn.is-copied{color:var(--yellow);border-color:var(--yellow)}
+@media (max-width:560px){.post-listen-row{flex-wrap:wrap}.post-share{margin:var(--s4) 0}}

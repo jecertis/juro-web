@@ -6,6 +6,7 @@ on:
     paths:
       - '**/*.html'
       - '**/*.css'
+      - '**/*.js'
       - '.well-known/**'
       - '.nojekyll'
       - 'install*.sh'

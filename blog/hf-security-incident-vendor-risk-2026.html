@@ -483,6 +483,14 @@
 
   <article class="post-body">
 
+    <div class="post-listen-row" aria-label="Listen to this article">
+      <button type="button" id="postListenBtn" class="post-listen-btn" aria-pressed="false">
+        <span class="post-listen-icon" aria-hidden="true">&#9654;</span>
+        <span class="post-listen-label">Listen</span>
+      </button>
+      <button type="button" id="postListenStopBtn" class="post-listen-stop" aria-label="Stop listening">Stop</button>
+    </div>
+
     <p>On July 16, 2026, Hugging Face disclosed a security incident in which an autonomous AI agent, not a human operator, carried out an intrusion into its production infrastructure over a weekend. If your organisation uses Hugging Face-hosted models or datasets, this is a vendor-risk event that may trigger GDPR, DORA, and DPDP obligations depending on your own processing role and exposure, regardless of whether Hugging Face's own investigation eventually finds your data was touched.</p>
 
     <p class="post-disclaimer">This article is general informational commentary on public disclosures and publicly available statutory text. It is not legal advice, and nothing in it is a verdict on whether your organisation, specifically, has any exposure or obligation arising from this incident. If you think this incident may affect your organisation, talk to your own counsel or DPO about your specific facts.</p>
@@ -598,6 +606,16 @@
 
   <hr class="post-footer-rule">
 
+  <section class="post-share" aria-label="Share this article">
+    <span class="post-share-label">Share this article</span>
+    <div class="post-share-buttons">
+      <a class="post-share-btn" data-share="linkedin" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+      <a class="post-share-btn" data-share="x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on X">X</a>
+      <a class="post-share-btn" data-share="email" href="#" aria-label="Share by email">Email</a>
+      <button type="button" class="post-share-btn" data-share="copy" aria-label="Copy link to this article">Copy link</button>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -612,6 +630,7 @@
 </footer>
 
 <script src="/config.js"></script>
+<script src="/js/blog-post.js" defer></script>
 <script>
   // Pageview beacon — fires on every blog post load
   (function beacon() {

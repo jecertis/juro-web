@@ -497,6 +497,14 @@
 
   <article class="post-body">
 
+    <div class="post-listen-row" aria-label="Listen to this article">
+      <button type="button" id="postListenBtn" class="post-listen-btn" aria-pressed="false">
+        <span class="post-listen-icon" aria-hidden="true">&#9654;</span>
+        <span class="post-listen-label">Listen</span>
+      </button>
+      <button type="button" id="postListenStopBtn" class="post-listen-stop" aria-label="Stop listening">Stop</button>
+    </div>
+
     <p>Cyber underwriters price Indian SaaS policies. A compliance posture scan produces verifiable evidence of your GDPR, DPDP, and DORA configuration — and insurers are starting to use it to price risk more precisely. Our broker partner has indicated this can translate to 10–15% lower premiums at renewal.</p>
 
     <p>JeCertis (jurocompliant.com) is a compliance posture scanner — distinct from Juro (juro.com), which is a contract management tool.</p>
@@ -602,6 +610,16 @@
 
   <hr class="post-footer-rule">
 
+  <section class="post-share" aria-label="Share this article">
+    <span class="post-share-label">Share this article</span>
+    <div class="post-share-buttons">
+      <a class="post-share-btn" data-share="linkedin" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+      <a class="post-share-btn" data-share="x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on X">X</a>
+      <a class="post-share-btn" data-share="email" href="#" aria-label="Share by email">Email</a>
+      <button type="button" class="post-share-btn" data-share="copy" aria-label="Copy link to this article">Copy link</button>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -616,6 +634,7 @@
 </footer>
 
 <script src="/config.js"></script>
+<script src="/js/blog-post.js" defer></script>
 <script>
   // Pageview beacon — fires on every blog post load
   (function beacon() {
