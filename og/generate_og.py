@@ -167,6 +167,11 @@ if __name__ == "__main__":
             "CERT-In's April 2022 Directions Already Apply to You",
             "CERT-In",
         ),
+        (
+            "directory.png",
+            "DPDP & GDPR Compliance Partner Directory",
+            "Directory - Pilot",
+        ),
     ]
 
     print("Generating OG images...")
