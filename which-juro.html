@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Juro Compliance Scanner — not contract tool | Jurocompliant</title>
-<meta name="description" content="JeCertis scans your website for GDPR, DPDP, and DORA gaps. Each scan produces a signed, verifiable artefact. Not a contract CLM tool — that is juro.com.">
+<meta name="description" content="JeCertis scans your website for GDPR, DPDP, and DORA gaps. Deep scans produce a signed, verifiable artefact; the public-surface scan is an unsigned starting point. Not a contract CLM tool — that is juro.com.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://jurocompliant.com/which-juro" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jurocompliant.com/which-juro">
 <meta property="og:title" content="Juro Compliance Scanner — not the contract tool | JeCertis">
-<meta property="og:description" content="JeCertis scans your website for GDPR, DPDP, and DORA gaps. Each scan produces a signed, verifiable artefact. Not a contract CLM tool — that is juro.com.">
+<meta property="og:description" content="JeCertis scans your website for GDPR, DPDP, and DORA gaps. Deep scans produce a signed, verifiable artefact; the public-surface scan is an unsigned starting point. Not a contract CLM tool — that is juro.com.">
 <meta property="og:site_name" content="JuroCompliant">
 <meta property="og:image" content="https://jurocompliant.com/og/which-juro.png">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@jurocompliant">
 <meta name="twitter:title" content="Juro Compliance Scanner — not the contract tool | JeCertis">
-<meta name="twitter:description" content="JeCertis scans your website for GDPR, DPDP, and DORA gaps. Each scan produces a signed, verifiable artefact. Not a contract CLM tool — that is juro.com.">
+<meta name="twitter:description" content="JeCertis scans your website for GDPR, DPDP, and DORA gaps. Deep scans produce a signed, verifiable artefact; the public-surface scan is an unsigned starting point. Not a contract CLM tool — that is juro.com.">
 <meta name="twitter:image" content="https://jurocompliant.com/og/which-juro.png">
 
 <!-- ══ Article metadata ══ -->
@@ -43,7 +43,7 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Juro Compliance Scanner — not the contract tool",
-  "description": "JeCertis scans your website for GDPR, DPDP, and DORA gaps. Each scan produces a signed, verifiable artefact. Not a contract CLM tool — that is juro.com.",
+  "description": "JeCertis scans your website for GDPR, DPDP, and DORA gaps. Deep scans produce a signed, verifiable artefact; the public-surface scan is an unsigned starting point. Not a contract CLM tool — that is juro.com.",
   "url": "https://jurocompliant.com/which-juro",
   "datePublished": "2026-06-02",
   "dateModified": "2026-06-02",
@@ -74,7 +74,7 @@
       "name": "What regulations does the Juro compliance scanner cover?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The scanner covers GDPR (EU and UK), India's DPDP Act 2023, and DORA (EU Digital Operational Resilience Act). Each scan produces a posture score and a signed, deterministic JSON artefact. No data leaves your infrastructure."
+        "text": "The scanner covers GDPR (EU and UK), India's DPDP Act 2023, and DORA (EU Digital Operational Resilience Act). Each scan produces a posture score. VPC-agent scans also produce a signed, deterministic JSON artefact; the public-surface scan is an unsigned starting point. No data leaves your infrastructure."
       }
     },
     {
@@ -446,8 +446,8 @@
     <h2>What does JeCertis actually do?</h2>
 
     <ul>
-      <li><strong>Scans your public-facing surface and codebase for regulatory obligation markers.</strong> The scanner reads privacy policies, consent implementations, and data handling disclosures against GDPR, India's DPDP Act 2023, and <a href="/dora-soc2-gap">DORA requirements</a>. It reports what it detects versus what regulations require. Absence of a finding is not a compliance verdict; it is a gap signal.</li>
-      <li><strong>Produces signed, deterministic artefacts.</strong> Every scan generates a cryptographically signed output tied to a target, a ruleset hash, and a timestamp. The artefact is customer-held — no infrastructure state leaves your perimeter. Any auditor or counterparty can independently re-verify the finding without trusting JeCertis.</li>
+      <li><strong>Scans your public-facing surface and codebase for regulatory obligation markers.</strong> The scanner reads privacy policies, consent implementations, and data handling disclosures against GDPR, India's DPDP Act 2023, and <a href="/dora-soc2-gap">DORA requirements</a>. It reports what it detects versus what regulations require. Absence of a finding is not a compliance verdict; it is a gap signal. This public-surface scan produces a posture score as an unsigned starting point.</li>
+      <li><strong>Deep scans produce signed, deterministic artefacts.</strong> They generate a cryptographically signed output tied to a target, a ruleset hash, and a timestamp. The artefact is customer-held — no infrastructure state leaves your perimeter. Any auditor or counterparty can independently re-verify the finding without trusting JeCertis.</li>
       <li><strong>Runs non-custodially, inside your perimeter for deep scans.</strong> The Tier 3 agent deploys inside your VPC (private cloud network) under a read-only IAM (access permissions) role. It maps data flows, encryption state, and audit log coverage locally. The only outbound call is a SHA-256 fingerprint submitted to JeCertis's own signing service for counter-signature — no PII or infrastructure metadata leaves your environment.</li>
     </ul>
 
@@ -476,7 +476,7 @@
         <details class="faq-item">
           <summary class="faq-question">What regulations does the Juro compliance scanner cover?</summary>
           <div class="faq-answer">
-            <p>The scanner covers GDPR (EU and UK), India's DPDP Act 2023, and DORA (EU Digital Operational Resilience Act). Each scan produces a posture score and a signed, deterministic JSON artefact. No data leaves your infrastructure.</p>
+            <p>The scanner covers GDPR (EU and UK), India's DPDP Act 2023, and DORA (EU Digital Operational Resilience Act). Each scan produces a posture score. VPC-agent scans also produce a signed, deterministic JSON artefact; the public-surface scan is an unsigned starting point. No data leaves your infrastructure.</p>
           </div>
         </details>
         <details class="faq-item">

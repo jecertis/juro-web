@@ -36,7 +36,7 @@
       "legalName": "JeCertis Private Limited",
       "url": "https://jurocompliant.com",
       "email": "help@jurocompliant.com",
-      "description": "Non-custodial compliance scanning for DPDP Act 2023, GDPR, and DORA with signed, deterministic, verifiable artifacts.",
+      "description": "Non-custodial compliance scanning for DPDP Act 2023, GDPR, and DORA. VPC-agent scans produce signed, deterministic, verifiable artifacts; the public-surface scan is an unsigned starting point.",
       "foundingDate": "2025",
       "logo": {
         "@type": "ImageObject",
@@ -63,7 +63,7 @@
       "name": "JuroCompliant",
       "alternateName": "Juro",
       "url": "https://jurocompliant.com",
-      "description": "Non-custodial compliance scanning for DPDP Act 2023, GDPR, and DORA with signed, deterministic, verifiable artifacts.",
+      "description": "Non-custodial compliance scanning for DPDP Act 2023, GDPR, and DORA. VPC-agent scans produce signed, deterministic, verifiable artifacts; the public-surface scan is an unsigned starting point.",
       "publisher": { "@id": "https://jurocompliant.com/#organization" },
       "inLanguage": "en-US"
     },
@@ -88,7 +88,7 @@
         "Consent flow validation",
         "Third-party tracker detection",
         "Regulatory provision mapping to DPDP, GDPR, DORA",
-        "Signed deterministic compliance artifacts",
+        "Signed deterministic artifacts (VPC-agent scans)",
         "No account required"
       ],
       "screenshot": "https://jurocompliant.com/img/juro-social-card.jpg",
@@ -205,7 +205,7 @@
           "name": "How is Juro different from OneTrust, Vanta, or cookie scanners?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Juro is non-custodial: your data never leaves your perimeter. Legacy compliance suites require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro produces signed, deterministic artifacts that can be independently verified, and covers DPDP, GDPR, and DORA in a single scan."
+            "text": "Juro is non-custodial: your data never leaves your perimeter. Legacy compliance suites require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro's VPC-agent scans produce signed, deterministic artifacts that can be independently verified; the public-surface scan is an unsigned starting point. Juro covers DPDP, GDPR, and DORA in a single scan."
           }
         },
         {
@@ -524,7 +524,7 @@
         <div class="how-step-card">
           <div class="how-step-num">04</div>
           <div class="how-step-title">Seal the result</div>
-          <div class="how-step-desc">The scan output is signed into a deterministic artifact anyone can verify independently.</div>
+          <div class="how-step-desc">Deep scans are signed into a deterministic artifact anyone can verify independently; the public-surface scan produces an unsigned posture score.</div>
         </div>
       </div>
     </section>
@@ -615,14 +615,14 @@
         <div class="who-card">
           <div class="who-icon" aria-hidden="true">&#128203;</div>
           <div class="who-title">Compliance &amp; Legal Teams</div>
-          <div class="who-desc">Get signed, deterministic findings mapped to DPDP sections, GDPR articles, and DORA provisions. Shareable with auditors and the Data Protection Board.</div>
+          <div class="who-desc">Get posture findings mapped to DPDP sections, GDPR articles, and DORA provisions — signed and deterministic for VPC-agent scans. Shareable with auditors and the Data Protection Board.</div>
         </div>
       </div>
     </div>
 
     <div class="diff-section">
       <h2 class="diff-heading">The difference shows up in evidence quality, not feature lists</h2>
-      <p class="diff-callout">OneTrust tells you a cookie exists. Juro tells you it fired 2.3 seconds before consent, violating GDPR Art. 6(1)(a). With a signed artifact your DPO can hand to a regulator.</p>
+      <p class="diff-callout">OneTrust tells you a cookie exists. Juro tells you it fired 2.3 seconds before consent, violating GDPR Art. 6(1)(a). Deep scans produce a signed artifact your DPO can hand to a regulator.</p>
       <p class="how-note">Don't take our word for it. Verify any Juro artifact yourself with the <a href="https://github.com/jecertis/juro-verify" target="_blank" rel="noopener">open-source verifier</a>.</p>
       <div class="diff-table-wrap">
         <table class="diff-table">
@@ -789,7 +789,7 @@
       <details class="faq-item">
         <summary class="faq-question">How do I know the scan is accurate?</summary>
         <div class="faq-answer">
-          <p>The scanner doesn't guess. It intercepts actual network requests as a real browser loads your page. If a script fires before the consent interaction, the scanner records the URL, the timestamp, and the exact millisecond offset. That's a deterministic fact, not a heuristic. Every finding is bundled into a signed artifact: the same inputs always produce the same SHA-256 hash, so any auditor can independently verify that the output hasn't been altered after the fact.</p>
+          <p>The scanner doesn't guess. It intercepts actual network requests as a real browser loads your page. If a script fires before the consent interaction, the scanner records the URL, the timestamp, and the exact millisecond offset. That's a deterministic fact, not a heuristic. Deep scans bundle every finding into a signed artifact: the same inputs always produce the same SHA-256 hash, so any auditor can independently verify that the output hasn't been altered after the fact. The public-surface scan produces the same deterministic findings as an unsigned posture score.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -801,7 +801,7 @@
       <details class="faq-item">
         <summary class="faq-question">How does the compliance scanner work?</summary>
         <div class="faq-answer">
-          <p>A headless Chromium browser loads your URL, intercepts every network request, and records which scripts fire before the consent interaction. Rules then match the observed behaviour against DPDP sections, GDPR articles, and DORA provisions. The result is a signed artifact: not a screenshot, not a checklist. It maps each violation to the specific provision and includes remediation steps.</p>
+          <p>A headless Chromium browser loads your URL, intercepts every network request, and records which scripts fire before the consent interaction. Rules then match the observed behaviour against DPDP sections, GDPR articles, and DORA provisions. The result is a deterministic artifact, signed for deep scans: not a screenshot, not a checklist. It maps each violation to the specific provision and includes remediation steps.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -825,7 +825,7 @@
       <details class="faq-item">
         <summary class="faq-question">How is Juro different from OneTrust, Vanta, or cookie scanners?</summary>
         <div class="faq-answer">
-          <p>Juro is non-custodial: your data never leaves your perimeter. Legacy compliance suites like OneTrust and Vanta require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro produces signed, deterministic artifacts that can be independently verified, covering DPDP, GDPR, and DORA in a single scan.</p>
+          <p>Juro is non-custodial: your data never leaves your perimeter. Legacy compliance suites like OneTrust and Vanta require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro's VPC-agent scans produce signed, deterministic artifacts that can be independently verified; the public-surface scan is an unsigned starting point. Juro covers DPDP, GDPR, and DORA in a single scan.</p>
         </div>
       </details>
       <details class="faq-item">
