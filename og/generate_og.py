@@ -162,6 +162,11 @@ if __name__ == "__main__":
             "DPDP Rules 2025: What They Actually Require",
             "DPDP",
         ),
+        (
+            "cert-in-audit-evidence.png",
+            "CERT-In's April 2022 Directions Already Apply to You",
+            "CERT-In",
+        ),
     ]
 
     print("Generating OG images...")
