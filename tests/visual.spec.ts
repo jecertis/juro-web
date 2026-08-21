@@ -31,9 +31,7 @@
  *
  * 2026-08-20 (compliance partner directory pilot page): added directory. New
  * page only, no shared nav/footer/CSS changes, so no other baselines should
- * diff. No baseline PNGs generated for it yet in this environment (Docker
- * unavailable) — apply the `update-snapshots` PR label, or regen locally via
- * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
+ * diff. Baselines generated 2026-08-21 via the `update-snapshots` label.
  *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
