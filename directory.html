@@ -94,7 +94,7 @@
       "name": "What happens after a firm submits the 'Get listed' form?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page."
+        "text": "Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. The form asks for a few self-reported details, including registration status, years practicing, focus area, and a LinkedIn profile, none of which is independently verified at this stage. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page."
       }
     }
   ]
@@ -310,6 +310,16 @@
   }
   .inquiry-form-btn:hover { background: var(--yellow-dark); }
   .inquiry-form-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  /* Two-step "Get listed" form (BL-MKT-100 follow-up, 2026-08-24) */
+  .inquiry-form-step { display: flex; flex-direction: column; gap: var(--s2); }
+  .inquiry-form-step-actions { display: flex; gap: var(--s2); align-items: center; margin-top: 4px; }
+  .inquiry-form-step-actions .inquiry-form-btn { margin-top: 0; }
+  .inquiry-form-btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .inquiry-form-btn-secondary:hover { background: rgba(255,255,255,0.08); }
   .inquiry-success {
     font-size: var(--text-sm);
     color: rgba(255,255,255,0.85);
@@ -563,7 +573,7 @@
         <details class="faq-item">
           <summary class="faq-question">What happens after a firm submits the 'Get listed' form?</summary>
           <div class="faq-answer">
-            <p>Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page.</p>
+            <p>Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. The form asks for a few self-reported details, including registration status, years practicing, focus area, and a LinkedIn profile, none of which is independently verified at this stage. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page.</p>
           </div>
         </details>
       </div>
@@ -583,52 +593,127 @@
     <button type="button" class="listing-modal-close" id="listingModalClose" aria-label="Close">&times;</button>
     <div class="inquiry-eyebrow">Get listed</div>
     <h2 id="listingModalTitle">Request a listing for your firm</h2>
-    <p>Tell us about your practice. We'll follow up by email to confirm details ahead of the directory going live. No commitment, and nothing is published from this form alone.</p>
+    <p>Tell us about your practice, including a few light screening details (self-reported, not verified). We'll follow up by email to confirm details ahead of the directory going live. No commitment, and nothing is published from this form alone.</p>
     <form class="inquiry-form" id="directoryListingForm" novalidate>
-      <input
-        type="text"
-        class="inquiry-form-input"
-        id="listingFirm"
-        name="firm"
-        placeholder="Firm name"
-        required
-        autocomplete="organization"
-        aria-label="Firm name"
-      >
-      <input
-        type="email"
-        class="inquiry-form-input"
-        id="listingEmail"
-        name="email"
-        placeholder="Contact email"
-        required
-        autocomplete="email"
-        aria-label="Contact email"
-      >
-      <select
-        class="inquiry-form-select"
-        id="listingSpecialization"
-        name="specialization"
-        required
-        aria-label="Specialization"
-      >
-        <option value="" disabled selected>Specialization</option>
-        <option value="DPO-as-a-service">DPO-as-a-service</option>
-        <option value="Audit / attestation">Audit / attestation</option>
-        <option value="RegTech tooling">RegTech tooling</option>
-        <option value="Other">Other</option>
-      </select>
-      <input
-        type="text"
-        class="inquiry-form-input"
-        id="listingRegion"
-        name="region"
-        placeholder="Region(s) served (e.g. India, EU)"
-        aria-label="Region or regions served"
-      >
-      <!-- Honeypot — real users leave this empty -->
+      <!-- Honeypot — real users leave this empty. Lives outside both steps
+           so it stays in the DOM (and off-screen) regardless of which step
+           is currently visible. -->
       <input type="text" name="website" id="listingWebsite" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-      <button type="submit" class="inquiry-form-btn" id="listingBtn">Request a listing</button>
+
+      <!-- Step 1 — firm basics. Unchanged fields/validation from the
+           original single-step form. -->
+      <div class="inquiry-form-step" id="listingStep1">
+        <input
+          type="text"
+          class="inquiry-form-input"
+          id="listingFirm"
+          name="firm"
+          placeholder="Firm name"
+          required
+          autocomplete="organization"
+          aria-label="Firm name"
+        >
+        <input
+          type="email"
+          class="inquiry-form-input"
+          id="listingEmail"
+          name="email"
+          placeholder="Contact email"
+          required
+          autocomplete="email"
+          aria-label="Contact email"
+        >
+        <select
+          class="inquiry-form-select"
+          id="listingSpecialization"
+          name="specialization"
+          required
+          aria-label="Specialization"
+        >
+          <option value="" disabled selected>Specialization</option>
+          <option value="DPO-as-a-service">DPO-as-a-service</option>
+          <option value="Audit / attestation">Audit / attestation</option>
+          <option value="RegTech tooling">RegTech tooling</option>
+          <option value="Other">Other</option>
+        </select>
+        <input
+          type="text"
+          class="inquiry-form-input"
+          id="listingRegion"
+          name="region"
+          placeholder="Region(s) served (e.g. India, EU)"
+          aria-label="Region or regions served"
+        >
+        <!-- type="submit" deliberately: with novalidate + only step 2's
+             submit button in the DOM, pressing Enter in a step-1 field
+             would implicitly trigger step 2's submit button regardless of
+             visibility (HTML implicit-submission picks the first
+             non-disabled submit button in tree order, hidden or not).
+             Making Next a submit button too, and branching on
+             e.submitter in the form's submit handler, keeps Enter doing
+             the right thing on both steps without a hidden-field hack. -->
+        <button type="submit" class="inquiry-form-btn" id="listingNextBtn">Next →</button>
+      </div>
+
+      <!-- Step 2 — light-screening fields (founder decision 2026-08-24,
+           BL-MKT-100; restructured into its own step per 2026-08-24
+           follow-up decision so step 1's four original fields aren't
+           bundled with four new required ones in a single flat form).
+           Self-attested, not verified -- v1 is a gate on willingness to
+           answer, not a credentials check. No approval workflow reads these;
+           they exist so the founder can triage submissions by email/admin
+           panel before any listing is published. Hidden until step 1 passes
+           validation. -->
+      <div class="inquiry-form-step" id="listingStep2" hidden>
+        <input
+          type="text"
+          class="inquiry-form-input"
+          id="listingRegistration"
+          name="registration"
+          placeholder="Legal entity name / registration status"
+          maxlength="120"
+          required
+          aria-label="Legal entity name or registration status"
+        >
+        <input
+          type="number"
+          class="inquiry-form-input"
+          id="listingYears"
+          name="years"
+          placeholder="Years practicing DPDP/GDPR/privacy work"
+          min="0"
+          max="60"
+          required
+          aria-label="Years practicing DPDP, GDPR, or privacy compliance work"
+        >
+        <select
+          class="inquiry-form-select"
+          id="listingFocusArea"
+          name="focusArea"
+          required
+          aria-label="DPDP/GDPR focus area"
+        >
+          <option value="" disabled selected>DPDP/GDPR focus area</option>
+          <option value="DPDP">DPDP</option>
+          <option value="GDPR">GDPR</option>
+          <option value="DORA">DORA</option>
+          <option value="Multiple / Other">Multiple / Other</option>
+        </select>
+        <input
+          type="url"
+          class="inquiry-form-input"
+          id="listingLinkedin"
+          name="linkedin"
+          placeholder="LinkedIn profile URL (personal or firm page)"
+          maxlength="200"
+          required
+          aria-label="LinkedIn profile URL"
+        >
+        <div class="inquiry-form-step-actions">
+          <button type="button" class="inquiry-form-btn inquiry-form-btn-secondary" id="listingBackBtn">← Back</button>
+          <button type="submit" class="inquiry-form-btn" id="listingBtn">Request a listing</button>
+        </div>
+      </div>
     </form>
     <div class="inquiry-error" id="listingError" role="alert" aria-live="polite"></div>
     <div class="inquiry-success" id="listingSuccess" aria-live="polite">
@@ -693,6 +778,14 @@
     if (!openBtn || !modal || typeof modal.showModal !== 'function') return;
 
     openBtn.addEventListener('click', function () {
+      // Reset to step 1 on every open, so closing mid-step-2 and reopening
+      // doesn't strand the visitor on a step they can't easily back out of.
+      var step1 = document.getElementById('listingStep1');
+      var step2 = document.getElementById('listingStep2');
+      if (step1 && step2) {
+        step2.hidden = true;
+        step1.hidden = false;
+      }
       modal.showModal();
     });
     closeBtn.addEventListener('click', function () {
@@ -706,62 +799,163 @@
 </script>
 <script>
   // Directory "Get listed" form — posts to the existing /api/v1/leads endpoint.
-  // source: 'demo' is reused deliberately, same pattern as partners.html
-  // (juro/src/routes/leads.ts VALID_SOURCES does not have a 'directory'
-  // value yet; adding one is a backend change outside juro-web's scope, and
-  // this route has already 400'd silently on an unlisted source string
-  // twice before — see checklist-scan-cta and dataflow-mapper's history in
-  // leads.ts — so this page deliberately reuses an already-valid source
-  // rather than repeating that failure mode). Firm name, specialization, and
-  // region are packed into the `name` field so the founder can triage from
-  // the email notification without a backend/schema change.
+  // source: 'directory-listing' (juro/src/routes/leads.ts VALID_SOURCES,
+  // BL-ENG-184, live on prod since the 2026-08-21 deploy per BL-OPS-032).
+  // This page previously fell back to source: 'demo' with a comment saying
+  // the backend didn't support a directory source yet -- that had gone
+  // stale: the backend gained 'directory-listing' before this page was
+  // updated to use it, so every prior submission was miscounted as a demo
+  // request. Fixed here since it directly affects this pilot's own success
+  // metric, which is exactly what BL-MKT-100's light-screening fields are
+  // meant to help triage.
+  //
+  // Firm name, specialization, and region are packed into the `name` field
+  // (clip(name, 100) server-side -- see leads.ts) so the founder can triage
+  // from the email notification without a backend/schema change. The four
+  // new light-screening fields (BL-MKT-100, founder decision 2026-08-24:
+  // registration status, years practicing, DPDP/GDPR focus area, LinkedIn)
+  // do NOT fit in that 100-char budget without truncating exactly the
+  // fields the founder needs to see, so they are packed into `referrer`
+  // instead (clip(referrer, 500) server-side -- much more headroom). The
+  // required screening block goes FIRST in that string and the real
+  // document.referrer second, so if anything gets clipped at 500 chars it's
+  // the informational referrer, not the required screening answers.
+  // Both fields are already-accepted request-body keys read by the existing
+  // /admin leads panel -- no new backend field, column, or endpoint.
+  //
+  // Two-step form (founder follow-up decision, 2026-08-24): step 1 is the
+  // original 4 fields (firm/email/specialization/region), step 2 is the 4
+  // new required screening fields. novalidate stays on <form> and every
+  // field is checked manually below, consistent with the single-step
+  // version this replaced -- HTML5 required/novalidate alone would validate
+  // hidden step-2 fields even while step 1 is showing.
   (function () {
     var form = document.getElementById('directoryListingForm');
+    var step1 = document.getElementById('listingStep1');
+    var step2 = document.getElementById('listingStep2');
+    var nextBtn = document.getElementById('listingNextBtn');
+    var backBtn = document.getElementById('listingBackBtn');
     var firmInput = document.getElementById('listingFirm');
     var emailInput = document.getElementById('listingEmail');
     var specializationInput = document.getElementById('listingSpecialization');
     var regionInput = document.getElementById('listingRegion');
+    var registrationInput = document.getElementById('listingRegistration');
+    var yearsInput = document.getElementById('listingYears');
+    var focusAreaInput = document.getElementById('listingFocusArea');
+    var linkedinInput = document.getElementById('listingLinkedin');
     var websiteInput = document.getElementById('listingWebsite');
     var submitBtn = document.getElementById('listingBtn');
     var errorEl = document.getElementById('listingError');
     var successEl = document.getElementById('listingSuccess');
 
-    if (!form) return;
+    if (!form || !step1 || !step2) return;
+
+    function showError(msg, field) {
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+      if (field) field.focus();
+    }
+
+    function clearError() {
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+
+    function goToStep2() {
+      step1.hidden = true;
+      step2.hidden = false;
+      registrationInput.focus();
+    }
+
+    function goToStep1() {
+      step2.hidden = true;
+      step1.hidden = false;
+      clearError();
+      firmInput.focus();
+    }
+
+    backBtn.addEventListener('click', function () {
+      goToStep1();
+    });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      clearError();
 
-      var firm = firmInput.value.trim();
-      var email = emailInput.value.trim();
-      var specialization = specializationInput.value.trim();
-      var region = regionInput.value.trim();
-      errorEl.style.display = 'none';
-      errorEl.textContent = '';
+      // e.submitter tells us which button triggered this submit — Next
+      // (step 1 → step 2) or Request a listing (actual send from step 2).
+      // Also covers implicit submission (Enter key): the browser still
+      // reports a default submit button as e.submitter, and per HTML's
+      // implicit-submission algorithm that default is the first submit
+      // button in DOM tree order regardless of whether it's `hidden` --
+      // nextBtn sits before listingBtn in the DOM. So Enter pressed while
+      // on step 2 could resolve e.submitter to nextBtn even though it's
+      // hidden. The `!step1.hidden` guard makes this branch correct
+      // regardless of how that resolves in a given browser: without it, an
+      // Enter-key submit on step 2 would silently re-validate step 1
+      // (which passes, since those fields are still filled) and call
+      // goToStep2() as a no-op, leaving the visitor stuck on step 2 having
+      // submitted nothing, with no visible error.
+      var submitter = e.submitter || submitBtn;
 
-      if (!firm) {
-        errorEl.textContent = 'Please enter your firm name.';
-        errorEl.style.display = 'block';
-        firmInput.focus();
+      if (submitter === nextBtn && !step1.hidden) {
+        var firm = firmInput.value.trim();
+        var email = emailInput.value.trim();
+        var specialization = specializationInput.value.trim();
+
+        if (!firm) {
+          showError('Please enter your firm name.', firmInput);
+          return;
+        }
+        if (!email) {
+          showError('Please enter a contact email address.', emailInput);
+          return;
+        }
+        if (!specialization) {
+          showError('Please select a specialization.', specializationInput);
+          return;
+        }
+        goToStep2();
         return;
       }
-      if (!email) {
-        errorEl.textContent = 'Please enter a contact email address.';
-        errorEl.style.display = 'block';
-        emailInput.focus();
+
+      // Otherwise this is the real submit, from step 2.
+      var registration = registrationInput.value.trim();
+      var years = yearsInput.value.trim();
+      var focusArea = focusAreaInput.value.trim();
+      var linkedin = linkedinInput.value.trim();
+
+      if (!registration) {
+        showError('Please enter your firm\'s legal entity name / registration status.', registrationInput);
         return;
       }
-      if (!specialization) {
-        errorEl.textContent = 'Please select a specialization.';
-        errorEl.style.display = 'block';
-        specializationInput.focus();
+      if (!years) {
+        showError('Please enter years practicing DPDP/GDPR/privacy compliance work.', yearsInput);
+        return;
+      }
+      if (!focusArea) {
+        showError('Please select a DPDP/GDPR focus area.', focusAreaInput);
+        return;
+      }
+      if (!linkedin) {
+        showError('Please enter a LinkedIn profile URL.', linkedinInput);
         return;
       }
       if (websiteInput.value.trim() !== '') {
         // Honeypot tripped — behave as if it succeeded, do nothing further.
+        // Works regardless of step: the field lives outside both step divs
+        // and is checked here, at actual-submit time.
         form.style.display = 'none';
         successEl.style.display = 'block';
         return;
       }
+
+      // Re-read step 1's values here too — a step-2-only submit still
+      // needs them for the payload.
+      var firm2 = firmInput.value.trim();
+      var email2 = emailInput.value.trim();
+      var specialization2 = specializationInput.value.trim();
+      var region = regionInput.value.trim();
 
       // 'DIRECTORY:' prefix is a stable, greppable marker so directory
       // listing requests can be filtered out of /api/v1/admin/leads without
@@ -769,9 +963,21 @@
       // success metric (BL-MKT directory-pilot row), so it must be countable
       // on its own, not lumped in with the demo/partner-inquiry forms that
       // also currently reuse source: 'demo'.
-      var combinedName = ['DIRECTORY: ' + firm, specialization, region ? ('region: ' + region) : null]
+      var combinedName = ['DIRECTORY: ' + firm2, specialization2, region ? ('region: ' + region) : null]
         .filter(Boolean)
         .join(' - ');
+
+      // Light-screening answers (BL-MKT-100), self-attested and unverified.
+      // Screening goes first so it's protected from the 500-char server
+      // clip; the real referrer, if any, follows and is what gets
+      // truncated in the unlikely event the combined string runs long.
+      var screening = 'SCREENING: registration=' + registration +
+        ' | years=' + years +
+        ' | focus=' + focusArea +
+        ' | linkedin=' + linkedin;
+      var combinedReferrer = [screening, document.referrer || null]
+        .filter(Boolean)
+        .join(' :: ');
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
@@ -782,11 +988,17 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: email,
+          email: email2,
           name: combinedName,
-          source: 'demo',
-          consent_version: '2026-04',
-          referrer: document.referrer || undefined,
+          source: 'directory-listing',
+          // 2026-08 supersedes 2026-04 for this form only (BL-MKT-100
+          // follow-up) -- checklist.html/dpdp-data-flow-mapper.html/
+          // partners.html keep sending 2026-04, unchanged. See
+          // juro/src/routes/leads.ts CONSENT_VERSIONS and privacy.html's
+          // "What we collect and why" table (both updated in the paired
+          // juro backend PR).
+          consent_version: '2026-08',
+          referrer: combinedReferrer,
           utm_source: q.get('utm_source') || undefined,
           utm_medium: q.get('utm_medium') || undefined,
           utm_campaign: q.get('utm_campaign') || undefined
