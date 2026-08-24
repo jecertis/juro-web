@@ -935,7 +935,7 @@
           window.__directoryPartialLeadSent = true;
           try {
             var region1 = regionInput.value.trim();
-            var combinedName1 = ['DIRECTORY (step 1 only): ' + firm, specialization, region1 ? ('region: ' + region1) : null]
+            var combinedName1 = ['DIRECTORY: [partial] ' + firm, specialization, region1 ? ('region: ' + region1) : null]
               .filter(Boolean)
               .join(' - ');
             var base1 = (window.JURO_API_URL) || 'http://localhost:3000';
