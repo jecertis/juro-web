@@ -885,10 +885,20 @@
       // e.submitter tells us which button triggered this submit — Next
       // (step 1 → step 2) or Request a listing (actual send from step 2).
       // Also covers implicit submission (Enter key): the browser still
-      // reports the default submit button as e.submitter.
+      // reports a default submit button as e.submitter, and per HTML's
+      // implicit-submission algorithm that default is the first submit
+      // button in DOM tree order regardless of whether it's `hidden` --
+      // nextBtn sits before listingBtn in the DOM. So Enter pressed while
+      // on step 2 could resolve e.submitter to nextBtn even though it's
+      // hidden. The `!step1.hidden` guard makes this branch correct
+      // regardless of how that resolves in a given browser: without it, an
+      // Enter-key submit on step 2 would silently re-validate step 1
+      // (which passes, since those fields are still filled) and call
+      // goToStep2() as a no-op, leaving the visitor stuck on step 2 having
+      // submitted nothing, with no visible error.
       var submitter = e.submitter || submitBtn;
 
-      if (submitter === nextBtn) {
+      if (submitter === nextBtn && !step1.hidden) {
         var firm = firmInput.value.trim();
         var email = emailInput.value.trim();
         var specialization = specializationInput.value.trim();
