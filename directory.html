@@ -312,6 +312,7 @@
   .inquiry-form-btn:disabled { opacity: 0.6; cursor: not-allowed; }
   /* Two-step "Get listed" form (BL-MKT-100 follow-up, 2026-08-24) */
   .inquiry-form-step { display: flex; flex-direction: column; gap: var(--s2); }
+  .inquiry-form-step[hidden] { display: none; }
   .inquiry-form-step-actions { display: flex; gap: var(--s2); align-items: center; margin-top: 4px; }
   .inquiry-form-step-actions .inquiry-form-btn { margin-top: 0; }
   .inquiry-form-btn-secondary {
@@ -786,6 +787,11 @@
         step2.hidden = true;
         step1.hidden = false;
       }
+      // BL-ENG-194: also reset the partial-lead-sent flag on every open, so
+      // a fresh modal session can send its own step-1-abandon capture. Lives
+      // on window since the modal-open handler and the form's submit
+      // handler are separate IIFEs below.
+      window.__directoryPartialLeadSent = false;
       modal.showModal();
     });
     closeBtn.addEventListener('click', function () {
@@ -915,6 +921,45 @@
           showError('Please select a specialization.', specializationInput);
           return;
         }
+
+        // BL-ENG-194: step 1 alone is a full, valid lead (firm/email/
+        // specialization/region) -- a visitor who abandons before finishing
+        // step 2's screening fields would otherwise be lost entirely, since
+        // only the step-2 submit below posts to the backend. Fire-and-forget,
+        // same pattern as the pageview beacon above: keepalive so it survives
+        // the tab closing, errors swallowed, and it must never block or delay
+        // the step 1 -> step 2 transition. Honeypot-gated and capped at once
+        // per modal-open session (see window.__directoryPartialLeadSent reset
+        // in the modal-open handler) so Back-then-Next doesn't double-post.
+        if (websiteInput.value.trim() === '' && !window.__directoryPartialLeadSent) {
+          window.__directoryPartialLeadSent = true;
+          try {
+            var region1 = regionInput.value.trim();
+            var combinedName1 = ['DIRECTORY: [partial] ' + firm, specialization, region1 ? ('region: ' + region1) : null]
+              .filter(Boolean)
+              .join(' - ');
+            var base1 = (window.JURO_API_URL) || 'http://localhost:3000';
+            var q1 = new URLSearchParams(window.location.search);
+            fetch(base1 + '/api/v1/leads', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: email,
+                name: combinedName1,
+                source: 'directory-listing',
+                consent_version: '2026-08',
+                referrer: document.referrer || undefined,
+                utm_source: q1.get('utm_source') || undefined,
+                utm_medium: q1.get('utm_medium') || undefined,
+                utm_campaign: q1.get('utm_campaign') || undefined
+              }),
+              keepalive: true,
+              mode: 'cors',
+              credentials: 'omit'
+            }).catch(function () {});
+          } catch (_) {}
+        }
+
         goToStep2();
         return;
       }
