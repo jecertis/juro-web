@@ -94,7 +94,7 @@
       "name": "What happens after a firm submits the 'Get listed' form?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page."
+        "text": "Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. The form asks for a few self-reported details, including registration status, years practicing, focus area, and a LinkedIn profile, none of which is independently verified at this stage. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page."
       }
     }
   ]
@@ -563,7 +563,7 @@
         <details class="faq-item">
           <summary class="faq-question">What happens after a firm submits the 'Get listed' form?</summary>
           <div class="faq-answer">
-            <p>Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page.</p>
+            <p>Someone from Juro follows up by email to confirm the details and discuss the directory launch timeline. The form asks for a few self-reported details, including registration status, years practicing, focus area, and a LinkedIn profile, none of which is independently verified at this stage. Submitting the form does not create a listing automatically, and nothing about pricing or placement is decided on this page.</p>
           </div>
         </details>
       </div>
@@ -583,7 +583,7 @@
     <button type="button" class="listing-modal-close" id="listingModalClose" aria-label="Close">&times;</button>
     <div class="inquiry-eyebrow">Get listed</div>
     <h2 id="listingModalTitle">Request a listing for your firm</h2>
-    <p>Tell us about your practice. We'll follow up by email to confirm details ahead of the directory going live. No commitment, and nothing is published from this form alone.</p>
+    <p>Tell us about your practice, including a few light screening details (self-reported, not verified). We'll follow up by email to confirm details ahead of the directory going live. No commitment, and nothing is published from this form alone.</p>
     <form class="inquiry-form" id="directoryListingForm" novalidate>
       <input
         type="text"
@@ -625,6 +625,55 @@
         name="region"
         placeholder="Region(s) served (e.g. India, EU)"
         aria-label="Region or regions served"
+      >
+      <!-- Light-screening fields (founder decision 2026-08-24, BL-MKT-100).
+           Self-attested, not verified -- v1 is a gate on willingness to
+           answer, not a credentials check. No approval workflow reads these;
+           they exist so the founder can triage submissions by email/admin
+           panel before any listing is published. -->
+      <input
+        type="text"
+        class="inquiry-form-input"
+        id="listingRegistration"
+        name="registration"
+        placeholder="Legal entity name / registration status"
+        maxlength="120"
+        required
+        aria-label="Legal entity name or registration status"
+      >
+      <input
+        type="number"
+        class="inquiry-form-input"
+        id="listingYears"
+        name="years"
+        placeholder="Years practicing DPDP/GDPR/privacy work"
+        min="0"
+        max="60"
+        required
+        aria-label="Years practicing DPDP, GDPR, or privacy compliance work"
+      >
+      <select
+        class="inquiry-form-select"
+        id="listingFocusArea"
+        name="focusArea"
+        required
+        aria-label="DPDP/GDPR focus area"
+      >
+        <option value="" disabled selected>DPDP/GDPR focus area</option>
+        <option value="DPDP">DPDP</option>
+        <option value="GDPR">GDPR</option>
+        <option value="DORA">DORA</option>
+        <option value="Multiple / Other">Multiple / Other</option>
+      </select>
+      <input
+        type="url"
+        class="inquiry-form-input"
+        id="listingLinkedin"
+        name="linkedin"
+        placeholder="LinkedIn profile URL (personal or firm page)"
+        maxlength="200"
+        required
+        aria-label="LinkedIn profile URL"
       >
       <!-- Honeypot — real users leave this empty -->
       <input type="text" name="website" id="listingWebsite" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
@@ -706,21 +755,37 @@
 </script>
 <script>
   // Directory "Get listed" form — posts to the existing /api/v1/leads endpoint.
-  // source: 'demo' is reused deliberately, same pattern as partners.html
-  // (juro/src/routes/leads.ts VALID_SOURCES does not have a 'directory'
-  // value yet; adding one is a backend change outside juro-web's scope, and
-  // this route has already 400'd silently on an unlisted source string
-  // twice before — see checklist-scan-cta and dataflow-mapper's history in
-  // leads.ts — so this page deliberately reuses an already-valid source
-  // rather than repeating that failure mode). Firm name, specialization, and
-  // region are packed into the `name` field so the founder can triage from
-  // the email notification without a backend/schema change.
+  // source: 'directory-listing' (juro/src/routes/leads.ts VALID_SOURCES,
+  // BL-ENG-184, live on prod since the 2026-08-21 deploy per BL-OPS-032).
+  // This page previously fell back to source: 'demo' with a comment saying
+  // the backend didn't support a directory source yet -- that had gone
+  // stale: the backend gained 'directory-listing' before this page was
+  // updated to use it, so every prior submission was miscounted as a demo
+  // request. Fixed here since it directly affects this pilot's own success
+  // metric, which is exactly what BL-MKT-100's light-screening fields are
+  // meant to help triage.
+  //
+  // Firm name, specialization, and region are packed into the `name` field
+  // (clip(name, 100) server-side -- see leads.ts) so the founder can triage
+  // from the email notification without a backend/schema change. The four
+  // new light-screening fields (BL-MKT-100, founder decision 2026-08-24:
+  // registration status, years practicing, DPDP/GDPR focus area, LinkedIn)
+  // do NOT fit in that 100-char budget without truncating exactly the
+  // fields the founder needs to see, so they are packed into `referrer`
+  // instead (clip(referrer, 500) server-side -- much more headroom), prefixed
+  // ahead of the real document.referrer so neither is lost. Both fields are
+  // already-accepted request-body keys read by the existing /admin leads
+  // panel -- no new backend field, column, or endpoint.
   (function () {
     var form = document.getElementById('directoryListingForm');
     var firmInput = document.getElementById('listingFirm');
     var emailInput = document.getElementById('listingEmail');
     var specializationInput = document.getElementById('listingSpecialization');
     var regionInput = document.getElementById('listingRegion');
+    var registrationInput = document.getElementById('listingRegistration');
+    var yearsInput = document.getElementById('listingYears');
+    var focusAreaInput = document.getElementById('listingFocusArea');
+    var linkedinInput = document.getElementById('listingLinkedin');
     var websiteInput = document.getElementById('listingWebsite');
     var submitBtn = document.getElementById('listingBtn');
     var errorEl = document.getElementById('listingError');
@@ -735,6 +800,10 @@
       var email = emailInput.value.trim();
       var specialization = specializationInput.value.trim();
       var region = regionInput.value.trim();
+      var registration = registrationInput.value.trim();
+      var years = yearsInput.value.trim();
+      var focusArea = focusAreaInput.value.trim();
+      var linkedin = linkedinInput.value.trim();
       errorEl.style.display = 'none';
       errorEl.textContent = '';
 
@@ -756,6 +825,30 @@
         specializationInput.focus();
         return;
       }
+      if (!registration) {
+        errorEl.textContent = 'Please enter your firm\'s legal entity name / registration status.';
+        errorEl.style.display = 'block';
+        registrationInput.focus();
+        return;
+      }
+      if (!years) {
+        errorEl.textContent = 'Please enter years practicing DPDP/GDPR/privacy compliance work.';
+        errorEl.style.display = 'block';
+        yearsInput.focus();
+        return;
+      }
+      if (!focusArea) {
+        errorEl.textContent = 'Please select a DPDP/GDPR focus area.';
+        errorEl.style.display = 'block';
+        focusAreaInput.focus();
+        return;
+      }
+      if (!linkedin) {
+        errorEl.textContent = 'Please enter a LinkedIn profile URL.';
+        errorEl.style.display = 'block';
+        linkedinInput.focus();
+        return;
+      }
       if (websiteInput.value.trim() !== '') {
         // Honeypot tripped — behave as if it succeeded, do nothing further.
         form.style.display = 'none';
@@ -773,6 +866,17 @@
         .filter(Boolean)
         .join(' - ');
 
+      // Light-screening answers (BL-MKT-100), self-attested and unverified.
+      // Prefixed after the real referrer so both survive in the 500-char
+      // budget.
+      var screening = 'SCREENING: registration=' + registration +
+        ' | years=' + years +
+        ' | focus=' + focusArea +
+        ' | linkedin=' + linkedin;
+      var combinedReferrer = [document.referrer || null, screening]
+        .filter(Boolean)
+        .join(' :: ');
+
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
@@ -784,9 +888,9 @@
         body: JSON.stringify({
           email: email,
           name: combinedName,
-          source: 'demo',
+          source: 'directory-listing',
           consent_version: '2026-04',
-          referrer: document.referrer || undefined,
+          referrer: combinedReferrer,
           utm_source: q.get('utm_source') || undefined,
           utm_medium: q.get('utm_medium') || undefined,
           utm_campaign: q.get('utm_campaign') || undefined
