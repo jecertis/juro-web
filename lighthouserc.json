@@ -5,7 +5,20 @@
       "url": [
         "http://localhost/index.html",
         "http://localhost/checklist.html",
-        "http://localhost/install.html"
+        "http://localhost/install.html",
+        "http://localhost/about.html",
+        "http://localhost/directory.html",
+        "http://localhost/partners.html",
+        "http://localhost/which-juro.html",
+        "http://localhost/dora-soc2-gap.html",
+        "http://localhost/dpdp-data-flow-mapper.html",
+        "http://localhost/dpdp-technical-evidence-handbook.html",
+        "http://localhost/privacy.html",
+        "http://localhost/deploy-evergent.html",
+        "http://localhost/blog/index.html",
+        "http://localhost/blog/dpdp-rules-2025-explained.html",
+        "http://localhost/blog/dpdp-phase-ii-consent-managers.html",
+        "http://localhost/blog/cert-in-audit-evidence.html"
       ],
       "numberOfRuns": 1,
       "settings": {
@@ -34,7 +47,8 @@
       }
     },
     "upload": {
-      "target": "temporary-public-storage"
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
     }
   }
 }
