@@ -347,5 +347,35 @@
   &copy; 2026 Jurocompliant &nbsp;·&nbsp; <a href="/" style="color:inherit">Scanner</a> &nbsp;·&nbsp; <a href="/checklist" style="color:inherit">Gap Assessment</a> &nbsp;·&nbsp; <a href="/blog/" style="color:inherit">Blog</a>
 </div>
 
+<script src="/config.js"></script>
+<script>
+// First-party pageview beacon. No cookies, no localStorage — see this notice.
+// Uses fetch + keepalive rather than navigator.sendBeacon: sendBeacon with
+// application/json Blob doesn't perform the CORS preflight correctly in
+// Chromium and silently drops. fetch handles the preflight and lets a
+// failure surface via .catch (still swallowed — fire-and-forget).
+(function beacon() {
+  try {
+    var base = (window.JURO_API_URL) || 'http://localhost:3000';
+    var q = new URLSearchParams(window.location.search);
+    var payload = {
+      path: window.location.pathname,
+      referrer: document.referrer || undefined,
+      utm_source: q.get('utm_source') || undefined,
+      utm_medium: q.get('utm_medium') || undefined,
+      utm_campaign: q.get('utm_campaign') || undefined,
+    };
+    fetch(base + '/api/v1/pageview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true,
+      mode: 'cors',
+      credentials: 'omit',
+    }).catch(function () { /* fire-and-forget */ });
+  } catch (_) { /* never block the page */ }
+})();
+</script>
+
 </body>
 </html>
