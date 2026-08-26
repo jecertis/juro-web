@@ -173,3 +173,11 @@ jobs:
       - name: Lighthouse CI — perf + a11y + best-practices + SEO budgets
         if: steps.lh.outputs.changed == 'true'
         run: npm run lh:ci
+
+      - name: Upload Lighthouse reports
+        if: steps.lh.outputs.changed == 'true' && always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report-${{ github.run_id }}
+          path: .lighthouseci/
+          retention-days: 7
