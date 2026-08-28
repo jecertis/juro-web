@@ -78,7 +78,7 @@
 .posture-score-panel .ps-denom{font-size:var(--text-sm);color:var(--gray-700);font-family:var(--mono);line-height:var(--lh-snug)}
 .posture-score-panel .ps-pack{font-size:var(--text-xs);color:var(--gray-500);font-family:var(--mono);line-height:var(--lh-snug);overflow:hidden;text-overflow:ellipsis}
 .posture-score-panel .ps-finding{font-size:var(--text-xs);color:var(--gray-700);font-family:var(--mono);line-height:var(--lh-snug);margin-top:4px;border-left:2px solid var(--red);padding-left:8px}
-@media (max-width:680px){.posture-score-panel .ps-body{flex-direction:column;align-items:flex-start;gap:var(--s2)}}
+@media (max-width:680px){.posture-score-panel .ps-body{flex-direction:column;align-items:flex-start;gap:var(--s2)}.scan-target-bar{flex-wrap:wrap;padding:12px var(--s2)}#scanTargetLabel{font-size:var(--text-base);flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.target-favicon{width:28px;height:28px}.target-favicon img{width:19px;height:19px}.scan-target-bar .scan-time{flex-basis:100%;margin-left:0;order:3}.scan-target-bar .download-pdf-btn,.scan-target-bar .share-card-btn{order:4}}
 
 /* Hero results — scan output rendered inside the dark hero, above stakes/countdown/trust */
 .hero-results{max-width:1120px;margin:var(--s6) auto 0;padding:0 0 var(--s5);text-align:left}
@@ -87,7 +87,7 @@
 .results-headline{font-size:var(--text-xl);font-weight:600;color:#fff;letter-spacing:var(--ls-display);line-height:var(--lh-tight);margin:0}
 .hero-results .scan-target-bar{font-size:var(--text-sm)}
 .hero-results .scan-time{font-size:var(--text-sm)}
-@media(max-width:860px){.hero-results{padding:0 0 var(--s4)}.results-headline{font-size:var(--text-lg)}} (feat(homepage): render scan report above DPDP timer; add seconds to timer)
+@media(max-width:860px){.hero-results{padding:0 0 var(--s4)}.results-headline{font-size:var(--text-lg)}#scanTargetLabel{font-size:18px}.target-favicon{width:28px;height:28px}.target-favicon img{width:19px;height:19px}.scan-target-bar .scan-time{white-space:nowrap}} (feat(homepage): render scan report above DPDP timer; add seconds to timer)
 
 /* ── Scan Progress Pipeline + Fact Card ── */
 .scan-progress { max-width: 640px; margin: 28px auto 0; display: none; }
