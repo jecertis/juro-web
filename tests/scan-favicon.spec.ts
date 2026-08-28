@@ -84,4 +84,15 @@ test.describe('scan-target favicon thumbnail', () => {
     await expect(page.locator('#scanTargetFavicon')).toHaveClass(/is-loaded/);
     expect(referers).toEqual([undefined]);
   });
+
+  test('F5: unparseable scan URL still renders a tile, never a bare dot', async ({ page, siteUrl, mockApi }) => {
+    await runScan(page, siteUrl, mockApi, 'not a url');
+
+    const box = page.locator('#scanTargetFavicon');
+    await expect(box).toBeVisible();
+    await expect(box).not.toHaveClass(/is-loaded/);
+    await expect(page.locator('#scanTargetFaviconLetter')).toHaveText('n');
+    // The live-status dot lives inside the tile, so the tile must never be hidden.
+    await expect(page.locator('.target-dot')).toBeVisible();
+  });
 });
