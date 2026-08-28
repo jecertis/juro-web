@@ -5,10 +5,14 @@ import { test, expect, SAMPLE_FINDINGS_RESPONSE } from './fixtures';
 // third-party favicon service — that would be a third-party request on the very
 // page whose report flags third-party requests).
 //
-// Note: Chromium special-cases the literal path `/favicon.ico`, so page.route()
-// cannot fulfil it. These tests therefore drive the loader against the local
-// static server, which really serves /favicon.svg and really 404s the earlier
-// candidates — a truer end-to-end check than a mocked one anyway.
+// Test-harness note (observed, mechanism not established): in this Chromium, a
+// request to a URL whose path is exactly `/favicon.ico` is never handed to a
+// page.route() handler and errors immediately, while `/x.ico`, `/x.png` and
+// `/favicon.svg` all intercept and load normally. Real `/favicon.ico` URLs do
+// load in the same browser (verified against google.com and github.com), so the
+// ico-first candidate works in production — it just can't be mocked here.
+// These tests therefore drive the loader against the local static server, which
+// really serves /favicon.svg and really 404s the earlier candidates.
 
 async function runScan(page: any, siteUrl: string, mockApi: any, scannedUrl: string) {
   mockApi.respondWith({ ...SAMPLE_FINDINGS_RESPONSE, url: scannedUrl });
@@ -50,9 +54,9 @@ test.describe('scan-target favicon thumbnail', () => {
     await runScan(page, siteUrl, mockApi, siteUrl);
 
     await expect(page.locator('#scanTargetFavicon')).toHaveClass(/is-loaded/);
-    // /favicon.ico is tried first but Chromium does not surface that request to
-    // the automation layer (same special-casing that blocks routing it), so the
-    // observable evidence of the fall-through is the order of the rest.
+    // /favicon.ico is tried first, but this Chromium does not surface that
+    // request to the automation layer (see the note at the top of this file), so
+    // the observable evidence of the fall-through is the order of the rest.
     expect(iconRequests).toEqual(['/favicon.png', '/favicon.svg']);
   });
 
