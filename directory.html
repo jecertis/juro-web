@@ -806,7 +806,8 @@
     </form>
     <div class="inquiry-error" id="listingError" role="alert" aria-live="polite"></div>
     <div class="inquiry-success" id="listingSuccess" aria-live="polite">
-      Thanks. We'll follow up by email ahead of launch.
+      Thanks. We'll follow up by email ahead of launch. In the meantime, you can
+      <a href="/directory-badge">embed a free directory badge</a> on your own site.
     </div>
   </div>
 </dialog>
@@ -834,7 +835,8 @@
         referrer: document.referrer || undefined,
         utm_source: q.get('utm_source') || undefined,
         utm_medium: q.get('utm_medium') || undefined,
-        utm_campaign: q.get('utm_campaign') || undefined
+        utm_campaign: q.get('utm_campaign') || undefined,
+        utm_content: q.get('utm_content') || undefined
       };
       fetch(base + '/api/v1/pageview', {
         method: 'POST',

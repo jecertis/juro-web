@@ -40,6 +40,13 @@
  * empty-state placeholder. directory-desktop/mobile/mobile-hd baselines WILL
  * diff and need regenerating via the `update-snapshots` label -- page-local
  * CSS only, so no other page's baseline should move.
+ * 2026-08-28 (BL-MKT-101, embeddable DPDP readiness badge): added
+ * directory-badge. New page only — directory.html's only touch was a
+ * default-hidden (`display:none`) success-message string, invisible in the
+ * default screenshot state, so no other baselines should diff. No baseline
+ * PNGs generated for it yet in this environment (Docker unavailable) — apply
+ * the `update-snapshots` PR label, or regen locally via
+ * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
  *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
@@ -55,6 +62,7 @@ const PAGES = [
   { name: 'dpdp-technical-evidence-handbook', path: '/dpdp-technical-evidence-handbook.html' },
   { name: 'dpdp-data-flow-mapper', path: '/dpdp-data-flow-mapper.html' },
   { name: 'directory', path: '/directory.html' },
+  { name: 'directory-badge', path: '/directory-badge.html' },
 ] as const;
 
 const VIEWPORTS = [
