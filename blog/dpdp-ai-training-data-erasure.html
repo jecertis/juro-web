@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Training Data Erasure Under DPDP | Jurocompliant</title>
+
+<meta name="description" content="You can delete the database record. You cannot un-train the model. How DPDP erasure plays out across training, fine-tuning, RAG, and on-device AI systems.">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://jurocompliant.com/blog/dpdp-ai-training-data-erasure">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#0A0A0A">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://jurocompliant.com/blog/dpdp-ai-training-data-erasure">
+<meta property="og:title" content="You Can Delete the Record. You Cannot Un-Train the Model.">
+<meta property="og:description" content="You can delete the database record. You cannot un-train the model. How DPDP erasure plays out across training, fine-tuning, RAG, and on-device AI systems.">
+<meta property="og:site_name" content="JuroCompliant">
+<meta property="og:image" content="https://jurocompliant.com/og/dpdp-ai-training-data-erasure.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jurocompliant">
+<meta name="twitter:title" content="AI Training Data Erasure Under DPDP">
+<meta name="twitter:description" content="You can delete the record. You cannot un-train the model. Erasure across training, RAG, and on-device AI, under DPDP.">
+<meta name="twitter:image" content="https://jurocompliant.com/og/dpdp-ai-training-data-erasure.png">
+
+<meta property="article:published_time" content="2026-08-29">
+<meta property="article:author" content="JuroCompliant">
+<meta name="author" content="JuroCompliant">
+
+<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/main.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "You Can Delete the Record. You Cannot Un-Train the Model.",
+  "description": "You can delete the database record. You cannot un-train the model. How DPDP erasure plays out across training, fine-tuning, RAG, and on-device AI systems.",
+  "image": "https://jurocompliant.com/og/dpdp-ai-training-data-erasure.png",
+  "url": "https://jurocompliant.com/blog/dpdp-ai-training-data-erasure",
+  "datePublished": "2026-08-29",
+  "dateModified": "2026-08-29",
+  "author": { "@id": "https://jurocompliant.com/#organization" },
+  "publisher": { "@id": "https://jurocompliant.com/#organization" },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jurocompliant.com/blog/dpdp-ai-training-data-erasure"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://jurocompliant.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://jurocompliant.com/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "AI Training Data Erasure",
+      "item": "https://jurocompliant.com/blog/dpdp-ai-training-data-erasure"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can personal data be deleted from a trained AI model?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not by deleting the record it came from. Training absorbs personal data into the model's parameters, and you cannot query those parameters to separate what was generalised from what was memorised close to verbatim. Three responses exist, none of them one-click: remove the source data so the next training run does not re-learn it, retrain or re-fine-tune without the record at a cost your team should price before a request arrives, or apply machine unlearning, which approximates removal and is still an active research area."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a RAG system easier to handle an erasure request on than a fine-tuned model?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually. A retrieval system keeps personal data in a vector store rather than baked into weights, so it has an address: erasure means clearing that person's records from the store, the retrieval cache, and the underlying documents, then confirming a fresh query returns nothing. That path closes if the same corpus was also used to fine-tune the model, in which case the harder training-side question applies as well."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does differential privacy solve the erasure problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, it bounds it. Differential privacy limits how much any single training example can influence the model, which reduces the chance that a specific person's data was memorised. It is a mitigation with a measurable budget, not a delete mechanism, and it costs some accuracy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is responsible for erasure after a fine-tuned model is handed to a client?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That is a contract question and should be settled before delivery. Under DPDP the duty follows whoever determines the purpose of the processing, but the technical ability to act often sits with whoever holds the model and the training data. Name the party, the window, the cost, and the evidence produced, in writing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to delete the model if I cannot delete one person from it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not a question anyone can answer generically, and any tool or vendor that answers it for you is overreaching. It depends on the data, the lawful basis, the system design, and facts a lawyer needs to see. What an engineering team can do is establish exactly what is technically removable, document it, and put that in front of counsel rather than guessing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where does Juro fit into this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our scanner checks configuration inside your own cloud and produces signed, verifiable evidence of what it found. It does not make erasure decisions for you and it never receives your data. For the erasure question specifically, the mapper is the starting point: it shows you which lifecycle stage the difficulty lives in."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  .post-wrap {
+    max-width: 680px;
+    margin: var(--s6) auto var(--s7);
+    padding: 0 2rem;
+  }
+
+  .post-header { margin-bottom: var(--s5); }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.45);
+    margin-bottom: var(--s3);
+  }
+  .post-breadcrumb a { color: rgba(255,255,255,0.55); text-decoration: none; }
+  .post-breadcrumb a:hover { color: rgba(255,255,255,0.85); }
+  .post-breadcrumb-sep { color: rgba(255,255,255,0.2); }
+
+  .post-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s3);
+  }
+
+  .post-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    line-height: 1.25;
+    margin-bottom: var(--s3);
+  }
+
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    padding-bottom: var(--s3);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: var(--s4);
+  }
+
+  .post-author { font-size: var(--text-xs); color: rgba(255,255,255,0.72); font-weight: 500; }
+  .post-date-meta { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-reading-time { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
+  .post-meta-sep { color: rgba(255,255,255,0.2); font-size: var(--text-xs); }
+
+  .post-audience {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: var(--s2) var(--s3);
+    margin-bottom: var(--s4);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.65);
+    line-height: var(--lh-reading);
+  }
+  .post-audience strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  .post-body { color: rgba(255,255,255,0.85); font-size: var(--text-base); line-height: var(--lh-reading); }
+  .post-body p { margin-bottom: var(--s3); }
+  .post-body h2 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: var(--ls-display);
+    margin-top: var(--s5);
+    margin-bottom: var(--s2);
+    line-height: var(--lh-snug);
+  }
+  .post-body ul, .post-body ol { padding-left: 1.4rem; margin-bottom: var(--s3); color: rgba(255,255,255,0.85); }
+  .post-body li { margin-bottom: 6px; line-height: var(--lh-reading); }
+  .post-body strong { color: #fff; font-weight: 600; }
+  .post-body a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+  .post-body a:hover { color: #fff; }
+
+  .post-callout {
+    border-left: 3px solid var(--yellow);
+    padding: var(--s2) 0 var(--s2) var(--s3);
+    margin: var(--s4) 0;
+    font-size: var(--text-lg);
+    color: rgba(255,255,255,0.85);
+    line-height: var(--lh-snug);
+    font-style: normal;
+  }
+
+  .post-cta {
+    background: rgba(245,196,0,0.07);
+    border: 1px solid rgba(245,196,0,0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--s4) var(--s5);
+    margin-top: var(--s6);
+  }
+  .post-cta-eyebrow {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    margin-bottom: var(--s1);
+  }
+  .post-cta h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: var(--s1);
+    line-height: var(--lh-snug);
+    letter-spacing: var(--ls-display);
+  }
+  .post-cta p {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72);
+    line-height: var(--lh-reading);
+    margin-bottom: var(--s3);
+  }
+  .post-cta a.post-cta-btn,
+  a.post-cta-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: #0A0A0A !important;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    letter-spacing: 0;
+  }
+  .post-cta a.post-cta-btn:hover,
+  a.post-cta-btn:hover {
+    background: var(--yellow-dark);
+    color: #0A0A0A !important;
+  }
+  .post-cta-secondary {
+    display: inline-block;
+    margin-left: var(--s3);
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.72) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px;
+  }
+  .post-cta-secondary:hover { color: #fff !important; }
+
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--yellow);
+    color: #0A0A0A;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    z-index: 9999;
+    text-decoration: none;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  .post-cta-btn:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-cta a.post-cta-btn,
+    a.post-cta-btn,
+    .post-body a {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
+    .post-cta { padding: var(--s3) var(--s3); }
+    .post-callout { font-size: var(--text-base); }
+    .post-cta-secondary { display: block; margin-left: 0; margin-top: var(--s2); }
+  }
+</style>
+</head>
+<body>
+
+<a href="#post-content" class="skip-nav">Skip to content</a>
+
+<header class="header">
+  <a href="/" class="logo" style="text-decoration:none">juro<span class="accent">compliant</span></a>
+  <nav class="header-right" aria-label="Primary">
+    <a href="/blog/" class="nav-link" aria-current="page">Blog</a>
+    <a href="/checklist" class="nav-link">Self Assessment →</a>
+    <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="framework-tag">DPDP Act 2023</a>
+    <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="framework-tag">GDPR</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="framework-tag">DORA</a>
+  </nav>
+  <button id="navHamburger" class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavDrawer">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<nav id="mobileNavDrawer" class="mobile-nav-drawer" aria-label="Mobile menu">
+  <a href="/blog/" class="drawer-link">Blog</a>
+  <a href="/checklist" class="drawer-link">Self Assessment</a>
+  <a href="https://www.meity.gov.in/content/digital-personal-data-protection-act-2023" target="_blank" rel="noopener noreferrer" class="drawer-link">DPDP Act 2023</a>
+  <a href="https://gdpr-info.eu/" target="_blank" rel="noopener noreferrer" class="drawer-link">GDPR</a>
+  <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj" target="_blank" rel="noopener noreferrer" class="drawer-link">DORA</a>
+</nav>
+
+<main class="post-wrap" aria-label="Article" id="post-content">
+
+  <div class="post-header">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <a href="/blog/">Blog</a>
+      <span class="post-breadcrumb-sep">›</span>
+      <span>AI Training Data Erasure</span>
+    </nav>
+
+    <div class="post-tag">DPDP</div>
+
+    <h1 class="post-title">You Can Delete the Record. You Cannot Un-Train the Model.</h1>
+
+    <div class="post-meta-row">
+      <span class="post-author">JuroCompliant</span>
+      <span class="post-meta-sep">·</span>
+      <time class="post-date-meta" datetime="2026-08-29">29 Aug 2026</time>
+      <span class="post-meta-sep">·</span>
+      <span class="post-reading-time">~9 min read</span>
+    </div>
+  </div>
+
+  <div class="post-audience">
+    <strong>Who this is for:</strong> DPO / CTO / Head of Engineering at a company building or operating AI systems in India.
+  </div>
+
+  <article class="post-body">
+
+    <div class="post-listen-row" aria-label="Listen to this article">
+      <button type="button" id="postListenBtn" class="post-listen-btn" aria-pressed="false">
+        <span class="post-listen-icon" aria-hidden="true">&#9654;</span>
+        <span class="post-listen-label">Listen</span>
+      </button>
+      <button type="button" id="postListenStopBtn" class="post-listen-stop" aria-label="Stop listening">Stop</button>
+    </div>
+
+    <section class="post-share" aria-label="Share this article">
+      <span class="post-share-label">Share this article</span>
+      <div class="post-share-buttons">
+        <a class="post-share-btn" data-share="linkedin" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+        <a class="post-share-btn" data-share="x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Share on X">X</a>
+        <a class="post-share-btn" data-share="email" href="#" aria-label="Share by email">Email</a>
+        <button type="button" class="post-share-btn" data-share="copy" aria-label="Copy link to this article">Copy link</button>
+      </div>
+    </section>
+
+    <p>A deleted database row and a deleted person are not the same thing. If a model was trained or fine-tuned on someone's data, dropping their record from the source table leaves the weights exactly as they were. The model still carries whatever it learned. That gap, between the delete you can execute and the delete a person actually asked for, is the hardest part of the right to erasure under India's Digital Personal Data Protection Act 2023 (DPDP) for any team shipping AI.</p>
+
+    <p>Juro (JeCertis) is a non-custodial compliance scanner: it runs inside a company's own cloud, checks configuration against GDPR, DORA, and DPDP, and produces signed, verifiable evidence of what it found, not a compliance certificate. <a href="/which-juro">Not to be confused with juro.com</a>, an unrelated contract-management tool. We wrote this because our <a href="https://jurocompliant.com/dpdp-data-flow-mapper?utm_source=blog&utm_medium=organic&utm_campaign=dpdp-ai-training-data-erasure">DPDP AI Data Flow Mapper</a> keeps landing engineers on the same red box, and they deserve more than a red box.</p>
+
+    <blockquote class="post-callout">Erasure is a data-lifecycle problem, not a database problem. The lifecycle stage where the data landed decides how hard the delete is.</blockquote>
+
+    <h2>Can you delete a person from a trained model?</h2>
+
+    <p>Usually not directly, and that is the honest answer rather than a pessimistic one.</p>
+
+    <p>During training, personal data does not sit in a row you can find. It is absorbed into the parameters. Some of it is generalised beyond recovery, which is the intended behaviour. Some of it is memorised close to verbatim, which is not intended: rare, high-entropy strings such as a phone number, an account identifier, or an unusual name in a small dataset are exactly the values a model is most likely to retain and, under the right prompt, reproduce. You cannot query the weights to find out which is which.</p>
+
+    <p>That leaves three practical responses, none of them a one-click delete.</p>
+
+    <p><strong>Delete the source and log it.</strong> Removing the record from the training set, the intermediate shards, and the backups is real work and it is worth doing. It stops the data being re-learned by the next training run. It does not touch the current model, and saying otherwise to a person exercising a right is the mistake to avoid.</p>
+
+    <p><strong>Retrain or fine-tune without the record.</strong> Technically clean, financially painful. For a small fine-tune this is often genuinely viable, and the cost of that retrain is a number your team should know before a request arrives rather than after. For a large from-scratch model it is usually out of reach, which is why the design decisions upstream matter so much.</p>
+
+    <p><strong>Machine unlearning.</strong> An active research area with methods that approximate the effect of removing a training example. Treat it as promising, not proven. If you rely on it, you are relying on a technique whose guarantees are still being argued about in the literature, and you should be able to say precisely what it does and does not remove.</p>
+
+    <p>The uncomfortable summary: for training and fine-tuning, erasure is a design decision you make months before the request, not an operation you perform after it.</p>
+
+    <h2>Why RAG and on-device systems are different</h2>
+
+    <p>The mapper marks retrieval and on-device stages differently from training for a reason. They are deletable when they are designed to be.</p>
+
+    <p>In a retrieval system, personal data sits in a vector store and is fetched at query time. That is live personal data, not training data, and it has an address. Deleting a person means deleting their entries from the vector store, plus the retrieval cache, plus any derived summaries, plus the source documents. That is a real delete path with a real test you can run: query for the person after deletion and confirm nothing comes back.</p>
+
+    <p>Two traps sit under this. The first is the delete path that only covers the source database while the embeddings survive in the index, the most common version of this bug in practice. The second is the team that also fine-tuned on the same corpus, which quietly puts a weights problem behind the retrieval problem and turns an easy answer into a hard one.</p>
+
+    <p>On-device and federated designs push the exposure further down. Raw data stays on the user's device and only model updates or noised signals leave it. Centrally there is often little or nothing identifiable to delete, which is a strong position provided you have confirmed that nothing identifiable is aggregated server-side. Confirm that rather than assume it.</p>
+
+    <h2>Mitigations that actually change the erasure picture</h2>
+
+    <p>Everything below is an engineering choice that changes how hard a future request will be. None of it makes anyone compliant, and none of it removes the need for a lawyer to look at your specific facts.</p>
+
+    <p><strong>Prefer retrieval over fine-tuning when the data must stay deletable.</strong> This is the decision that changes the most. If the personal data is there so the system can answer questions about it, retrieval usually does the job, and retrieval keeps the data addressable. Fine-tuning on personal data buys you fluency and costs you the delete path.</p>
+
+    <p><strong>Design so the model never learns identifiable data.</strong> Pseudonymise or tokenise before the data reaches the training pipeline. Strip direct identifiers. If the model only ever saw a token, there is far less to memorise and the erasure question mostly dissolves. A problem you designed out is one you never have to answer for.</p>
+
+    <p><strong>Use differential privacy to bound memorisation.</strong> Differentially-private stochastic gradient descent (DP-SGD) and similar approaches add calibrated noise during training so that no single training example measurably shapes the result. It costs accuracy and it needs a privacy budget you can state and defend. The reason to do it is that it converts "we hope nothing was memorised" into a parameter you wrote down.</p>
+
+    <p><strong>Isolate and minimise fine-tuning datasets.</strong> One tenant per adapter, the least data that gets the result, raw datasets deleted on completion with the deletion logged. Isolation means a single erasure request touches one artefact rather than a shared model that serves everyone.</p>
+
+    <p><strong>Keep the evidence.</strong> Whatever you do, the part that survives scrutiny later is the record: what was deleted, when, from which store, and by which job. An assertion that a delete ran is worth much less than an artefact showing it ran. That is the whole reason our scanner emits signed output rather than a summary email.</p>
+
+    <h2>Who owns erasure under DPDP when a fine-tuned model changes hands?</h2>
+
+    <p>This is where an engineering problem becomes a contract problem, and the answer is almost never written down until it is needed.</p>
+
+    <p>A vendor fine-tunes a model on a client's data and delivers the model. Six months later an individual asks the client to erase everything about them. The raw dataset was deleted by the vendor on delivery. Whatever the weights memorised travelled with the model and now sits with the client. Who runs the erasure? Who pays for the retrain if a retrain is the answer? Who answers the individual within the statutory timeline?</p>
+
+    <p>Under DPDP the fiduciary and processor roles turn on who determines the purpose of the processing, not on who wrote the code, and a team can be fiduciary for some flows and processor for others at the same time. That framing tells you who owes the duty. It does not tell you who holds the technical capability to discharge it, and those two are frequently different people. Note also that DPDP places a duty on the fiduciary to have processing carried out by a processor only under a valid contract, which makes this an item you are expected to have settled in writing rather than negotiated in the moment.</p>
+
+    <p>Settle four things in the contract before delivery:</p>
+
+    <ol>
+      <li>Which party executes an erasure request against the delivered model, and within what window.</li>
+      <li>What "erasure" means concretely here: source deletion only, or a retrain, and who bears that cost.</li>
+      <li>What the vendor retains after delivery, including checkpoints, evaluation sets, and logs, and for how long.</li>
+      <li>What evidence of deletion gets produced and handed over, in what form.</li>
+    </ol>
+
+    <p>A clause that reads "the parties will cooperate in good faith on data subject requests" is a decision deferred, not a decision made. The specific version of that clause is what makes the difference at the moment a request lands.</p>
+
+    <h2>How to check your own system</h2>
+
+    <p>Ask one question at the next design review: if a person asked us tomorrow to delete every trace of them, what exactly would we run?</p>
+
+    <p>If the answer is a DELETE against a table and nothing else, walk the lifecycle and find every place the data went after that table. Training set. Fine-tune shards. Vector index. Retrieval cache. Backups. Logs. Model checkpoints. A third-party model provider's retention window. Each of those is either in your delete path or it is a gap you now know about.</p>
+
+    <p>The <a href="https://jurocompliant.com/dpdp-data-flow-mapper?utm_source=blog&utm_medium=organic&utm_campaign=dpdp-ai-training-data-erasure">DPDP AI Data Flow Mapper</a> walks that lifecycle for you in about two minutes. Three questions about one system, and it returns a stage-by-stage map showing where the data lives, your likely fiduciary or processor role, and how hard erasure is at each stage. It runs entirely in your browser and nothing you enter is sent anywhere. It will not tell you whether you are compliant, because no tool honestly can. It will tell you which stage is going to be the difficult conversation.</p>
+
+    <p>For the safeguard-by-safeguard layer underneath, access control, encryption, retention, and how each maps to specific DPDP provisions, see the <a href="/dpdp-technical-evidence-handbook">DPDP Technical Evidence Handbook</a>.</p>
+
+    <section aria-label="Frequently asked questions" style="margin-top:var(--s6);margin-bottom:var(--s5)">
+      <h2 style="font-size:var(--text-lg);font-weight:600;color:#fff;letter-spacing:var(--ls-display);margin-bottom:var(--s3)">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">Can personal data be deleted from a trained AI model?</summary>
+          <div class="faq-answer"><p>Not by deleting the record it came from. Training absorbs personal data into the model's parameters, and you cannot query those parameters to separate what was generalised from what was memorised close to verbatim. Three responses exist, none of them one-click: remove the source data so the next training run does not re-learn it, retrain or re-fine-tune without the record at a cost your team should price before a request arrives, or apply machine unlearning, which approximates removal and is still an active research area.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is a RAG system easier to handle an erasure request on than a fine-tuned model?</summary>
+          <div class="faq-answer"><p>Usually. A retrieval system keeps personal data in a vector store rather than baked into weights, so it has an address: erasure means clearing that person's records from the store, the retrieval cache, and the underlying documents, then confirming a fresh query returns nothing. That path closes if the same corpus was also used to fine-tune the model, in which case the harder training-side question applies as well.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Does differential privacy solve the erasure problem?</summary>
+          <div class="faq-answer"><p>No, it bounds it. Differential privacy limits how much any single training example can influence the model, which reduces the chance that a specific person's data was memorised. It is a mitigation with a measurable budget, not a delete mechanism, and it costs some accuracy.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Who is responsible for erasure after a fine-tuned model is handed to a client?</summary>
+          <div class="faq-answer"><p>That is a contract question and should be settled before delivery. Under DPDP the duty follows whoever determines the purpose of the processing, but the technical ability to act often sits with whoever holds the model and the training data. Name the party, the window, the cost, and the evidence produced, in writing.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Do I have to delete the model if I cannot delete one person from it?</summary>
+          <div class="faq-answer"><p>Not a question anyone can answer generically, and any tool or vendor that answers it for you is overreaching. It depends on the data, the lawful basis, the system design, and facts a lawyer needs to see. What an engineering team can do is establish exactly what is technically removable, document it, and put that in front of counsel rather than guessing.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Where does Juro fit into this?</summary>
+          <div class="faq-answer"><p>Our scanner checks configuration inside your own cloud and produces signed, verifiable evidence of what it found. It does not make erasure decisions for you and it never receives your data. For the erasure question specifically, the mapper is the starting point: it shows you which lifecycle stage the difficulty lives in.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <div class="post-cta">
+      <div class="post-cta-eyebrow">Check your own system</div>
+      <h3>Map where erasure gets hard, in two minutes.</h3>
+      <p>Three questions about your AI system return a stage-by-stage map of where personal data lives and how hard erasure is at each stage. It runs entirely in your browser; nothing you enter is sent anywhere. For the safeguards underneath, our scanner checks your infrastructure directly and produces signed, verifiable evidence of what it found.</p>
+      <a href="https://jurocompliant.com/dpdp-data-flow-mapper?utm_source=blog&utm_medium=organic&utm_campaign=dpdp-ai-training-data-erasure" class="post-cta-btn">Map your AI system →</a>
+      <a href="https://jurocompliant.com/?utm_source=blog&utm_medium=organic&utm_campaign=dpdp-ai-training-data-erasure" class="post-cta-secondary">Or scan your site →</a>
+    </div>
+
+  </article>
+
+</main>
+
+<footer class="site-footer">
+  <span>&copy; 2026 Jurocompliant</span>
+  <span style="display:flex;gap:1.5rem">
+    <a href="/">Scanner</a>
+    <a href="/checklist">Self Assessment</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about">About</a>
+    <a href="/privacy.html">Privacy notice</a>
+    <a href="mailto:help@jurocompliant.com">Contact</a>
+  </span>
+</footer>
+
+<script src="/config.js"></script>
+<script src="/js/blog-post.js" defer></script>
+<script>
+  // Pageview beacon — fires on every blog post load
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
+<script>
+  const btn = document.getElementById('navHamburger');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (btn && drawer) {
+    btn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -168,6 +168,11 @@ if __name__ == "__main__":
             "CERT-In",
         ),
         (
+            "dpdp-ai-training-data-erasure.png",
+            "You Can Delete the Record. You Cannot Un-Train the Model.",
+            "DPDP",
+        ),
+        (
             "directory.png",
             "DPDP & GDPR Compliance Partner Directory",
             "Directory - Pilot",
