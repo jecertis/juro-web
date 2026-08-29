@@ -33,6 +33,14 @@
  * page only, no shared nav/footer/CSS changes, so no other baselines should
  * diff. Baselines generated 2026-08-21 via the `update-snapshots` label.
  *
+ * 2026-08-29 (BL-MKT-099 directory display feature): directory.html gained a
+ * 4th archetype card (Legal / Advisory), the archetype grid went 3-across ->
+ * 2x2, and an empty `.directory-grid` container (client-rendered from
+ * /data/directory-listings.json, currently `[]`) sits next to the existing
+ * empty-state placeholder. directory-desktop/mobile/mobile-hd baselines WILL
+ * diff and need regenerating via the `update-snapshots` label -- page-local
+ * CSS only, so no other page's baseline should move.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
