@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DPDP &amp; GDPR Compliance Partner Directory | Jurocompliant</title>
-<meta name="description" content="A directory of DPO consultants, audit firms, and RegTech vendors serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.">
+<meta name="description" content="A directory of DPO consultants, audit firms, RegTech vendors, and legal/advisory practices serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://jurocompliant.com/directory" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jurocompliant.com/directory">
 <meta property="og:title" content="DPDP &amp; GDPR Compliance Partner Directory">
-<meta property="og:description" content="A directory of DPO consultants, audit firms, and RegTech vendors serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.">
+<meta property="og:description" content="A directory of DPO consultants, audit firms, RegTech vendors, and legal/advisory practices serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.">
 <meta property="og:site_name" content="JuroCompliant">
 <meta property="og:image" content="https://jurocompliant.com/og/directory.png">
 <meta property="og:image:width" content="1200">
@@ -24,12 +24,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@jurocompliant">
 <meta name="twitter:title" content="DPDP &amp; GDPR Compliance Partner Directory">
-<meta name="twitter:description" content="A directory of DPO consultants, audit firms, and RegTech vendors serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.">
+<meta name="twitter:description" content="A directory of DPO consultants, audit firms, RegTech vendors, and legal/advisory practices serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.">
 <meta name="twitter:image" content="https://jurocompliant.com/og/directory.png">
 
 <!-- ══ Article metadata ══ -->
 <meta property="article:published_time" content="2026-08-20">
-<meta property="article:modified_time" content="2026-08-20">
+<meta property="article:modified_time" content="2026-08-29">
 <meta property="article:author" content="JuroCompliant">
 <meta name="author" content="JuroCompliant">
 
@@ -43,13 +43,13 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "DPDP & GDPR Compliance Partner Directory",
-  "description": "A directory of DPO consultants, audit firms, and RegTech vendors serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.",
+  "description": "A directory of DPO consultants, audit firms, RegTech vendors, and legal/advisory practices serving Indian DPDP, GDPR, and DORA compliance work. Firms can request a listing now.",
   "url": "https://jurocompliant.com/directory",
   "datePublished": "2026-08-20",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-08-29",
   "audience": {
     "@type": "Audience",
-    "audienceType": "DPO consultants, CA/audit firms, RegTech vendors, and companies looking for DPDP/GDPR/DORA practitioners"
+    "audienceType": "DPO consultants, CA/audit firms, RegTech vendors, legal/advisory practices, and companies looking for DPDP/GDPR/DORA practitioners"
   },
   "author": {
     "@type": "Organization",
@@ -70,7 +70,7 @@
       "name": "Does Juro vet, rank, or endorse the firms in this directory?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. This directory is a listing of who practices DPDP, GDPR, and DORA compliance work in India: DPO consultants, CA/audit firms, and RegTech vendors. Juro does not verify, score, rank, or certify any firm's work. Inclusion means a firm asked to be listed and described its own practice, nothing more."
+        "text": "No. This directory is a listing of who practices DPDP, GDPR, and DORA compliance work in India: DPO consultants, CA/audit firms, RegTech vendors, and legal/advisory practices. Juro does not verify, score, rank, or certify any firm's work. Inclusion means a firm asked to be listed and described its own practice, nothing more."
       }
     },
     {
@@ -183,7 +183,7 @@
   /* ── Category cards ── */
   .archetype-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--s3);
     margin: var(--s3) 0 var(--s4);
   }
@@ -251,6 +251,82 @@
     max-width: 440px;
     margin: 0 auto;
     line-height: var(--lh-reading);
+  }
+
+  /* ── Populated directory — listing cards, rendered from
+       /data/directory-listings.json (BL-MKT-099 display feature,
+       2026-08-29). [hidden] alone loses to the display:grid rule below
+       once a class is applied to a hidden element (same specificity bug
+       as BL-ENG-193 on the intake form, c770e92) — the explicit
+       [hidden] override keeps toggling correct regardless of load order. ── */
+  .directory-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s3);
+    margin: var(--s3) 0 var(--s4);
+  }
+  .directory-grid[hidden] { display: none; }
+  .directory-card {
+    display: flex;
+    gap: var(--s3);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--radius-lg);
+    padding: var(--s3);
+  }
+  .directory-card-logo {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    object-fit: contain;
+    background: rgba(255,255,255,0.06);
+  }
+  .directory-card-logo-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: rgba(255,255,255,0.65);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .directory-card-body { min-width: 0; }
+  .directory-card-name {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: #fff;
+    line-height: var(--lh-snug);
+    margin-bottom: 4px;
+  }
+  .directory-card-name a { color: inherit; text-decoration: none; }
+  .directory-card-name a:hover { color: var(--yellow); }
+  .directory-card-category {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+    color: var(--yellow);
+    background: rgba(245,196,0,0.1);
+    border: 1px solid rgba(245,196,0,0.25);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: var(--s2);
+  }
+  .directory-card-desc {
+    font-size: var(--text-sm);
+    color: rgba(255,255,255,0.75);
+    line-height: var(--lh-reading);
+    margin: 0 0 var(--s2);
+  }
+  .directory-card-disclaimer {
+    font-size: var(--text-xs);
+    color: rgba(255,255,255,0.5);
+    margin: 0;
   }
 
   /* ── Inquiry / listing form typography (mirrors partners.html inquiry-block pattern) ── */
@@ -455,6 +531,7 @@
   @media (max-width: 640px) {
     .post-wrap { padding: 0 1.25rem; margin: var(--s4) auto var(--s6); }
     .archetype-grid { grid-template-columns: 1fr; }
+    .directory-grid { grid-template-columns: 1fr; }
     .listing-modal-inner { padding: var(--s3); }
     .directory-empty { padding: var(--s4); }
   }
@@ -503,19 +580,19 @@
     <!-- ══ GET LISTED CTA — top-center teaser, opens the form in a modal ══ -->
     <div class="inquiry-teaser">
       <div class="inquiry-eyebrow">Get listed</div>
-      <p>DPO-as-a-service, audit &amp; attestation, or RegTech tooling: tell us about your practice, takes under a minute.</p>
+      <p>DPO-as-a-service, audit &amp; attestation, RegTech tooling, or legal/advisory practice: tell us about your practice, takes under a minute.</p>
       <button type="button" class="inquiry-form-btn" id="openListingModalBtn" aria-haspopup="dialog" aria-controls="listingModal">List as a Consultant / DPA / Vendor →</button>
       <div class="inquiry-alt">Prefer email? Write to <a href="mailto:help@jurocompliant.com?subject=Directory%20listing%20request">help@jurocompliant.com</a> with your firm name, specialization, and region.</div>
     </div>
 
-    <p class="post-sub">DPO consultants, audit firms, and RegTech vendors, listed by the firms themselves, not ranked by Juro. No listings yet.</p>
+    <p class="post-sub" id="directoryPostSub">DPO consultants, audit firms, RegTech vendors, and legal/advisory practices, listed by the firms themselves, not ranked by Juro. No listings yet.</p>
   </div>
 
   <div class="post-body">
 
     <h2>Which firms can be listed here?</h2>
 
-    <p>Three kinds of practice fit here, each serving a different part of the same compliance work:</p>
+    <p>Four kinds of practice fit here, each serving a different part of the same compliance work:</p>
 
     <div class="archetype-grid">
       <div class="archetype-card">
@@ -530,17 +607,27 @@
         <h3>RegTech vendors</h3>
         <p>Tooling for consent management, data mapping, breach reporting, and related compliance workflows.</p>
       </div>
+      <div class="archetype-card">
+        <h3>Legal / Advisory</h3>
+        <p>Law firms and legal counsel handling DPDP, GDPR, or DORA advisory, contracts, and regulatory response work.</p>
+      </div>
     </div>
 
     <hr class="post-divider">
 
     <h2>Directory</h2>
 
-    <div class="directory-empty">
+    <div class="directory-empty" id="directoryEmpty">
       <div class="directory-empty-icon">Directory: launching soon</div>
       <h3>No listings published yet</h3>
       <p>This directory is in a pilot phase and does not have any published listings yet. Firms that submit the listing request above will be contacted when it opens.</p>
     </div>
+
+    <!-- ══ Populated state — filled in by JS from /data/directory-listings.json.
+         Hidden by default; only revealed once at least one listing loads.
+         See the render script near the end of <body> for the data schema
+         and how a founder adds an approved firm. ══ -->
+    <div class="directory-grid" id="directoryGrid" hidden></div>
 
     <div class="scope-note">
       <div class="scope-note-eyebrow">What this is not</div>
@@ -556,7 +643,7 @@
         <details class="faq-item">
           <summary class="faq-question">Does Juro vet, rank, or endorse the firms in this directory?</summary>
           <div class="faq-answer">
-            <p>No. This directory is a listing of who practices DPDP, GDPR, and DORA compliance work in India: DPO consultants, CA/audit firms, and RegTech vendors. Juro does not verify, score, rank, or certify any firm's work. Inclusion means a firm asked to be listed and described its own practice, nothing more.</p>
+            <p>No. This directory is a listing of who practices DPDP, GDPR, and DORA compliance work in India: DPO consultants, CA/audit firms, RegTech vendors, and legal/advisory practices. Juro does not verify, score, rank, or certify any firm's work. Inclusion means a firm asked to be listed and described its own practice, nothing more.</p>
           </div>
         </details>
         <details class="faq-item">
@@ -635,6 +722,7 @@
           <option value="DPO-as-a-service">DPO-as-a-service</option>
           <option value="Audit / attestation">Audit / attestation</option>
           <option value="RegTech tooling">RegTech tooling</option>
+          <option value="Legal / Advisory">Legal / Advisory</option>
           <option value="Other">Other</option>
         </select>
         <input
@@ -1071,6 +1159,158 @@
           errorEl.style.display = 'block';
         });
     });
+  })();
+</script>
+<script>
+  // Directory listing render (BL-MKT-099 display feature, 2026-08-29).
+  // Reverses the 2026-08-28 "do not build display right now" call --
+  // founder-approved 2026-08-29 because outreach drafts to DPO/legal firms
+  // were blocked waiting for a real render path to point them at.
+  //
+  // Data source: /data/directory-listings.json, a flat JSON array. This is a
+  // static site (GitHub Pages, no backend/DB) -- adding an approved firm is a
+  // one-line PR against that file, not an admin panel. Schema per entry:
+  //   {
+  //     "id": "kebab-case-slug",           // stable, used only as a DOM key
+  //     "name": "Firm Name",               // required
+  //     "category": "dpo|audit|regtech|legal",  // required, see CATEGORY_LABELS
+  //     "description": "One-line practice description (self-reported).",
+  //     "logoUrl": "/directory-logos/firm-slug.svg", // optional; omit/null -> initials fallback
+  //     "website": "https://firm.example",  // optional; renders the name as a link if present
+  //     "approvedDate": "2026-08-29"        // optional, for the founder's own record-keeping
+  //   }
+  // Entries are only ever added here after the founder has approved a firm's
+  // submission by email -- never auto-published from the intake form. No
+  // entry currently ships (file is `[]`): zero submissions have been
+  // approved as of 2026-08-29, so the empty state below is accurate, not a
+  // placeholder.
+  //
+  // Note for whenever the first real entry lands: this script also rewrites
+  // #directoryPostSub away from "No listings yet" once the array is
+  // non-empty, but FAQ #2 ("Why is the directory empty right now?", both the
+  // visible answer and its FAQPage JSON-LD twin near the top of this file)
+  // is intentionally NOT auto-updated -- that copy needs a human edit once
+  // there's something real to say instead, and silently rewriting FAQ copy
+  // client-side would desync it from its JSON-LD counterpart.
+  (function () {
+    var emptyEl = document.getElementById('directoryEmpty');
+    var gridEl = document.getElementById('directoryGrid');
+    var subEl = document.getElementById('directoryPostSub');
+    if (!emptyEl || !gridEl) return;
+
+    var CATEGORY_LABELS = {
+      dpo: 'DPO-as-a-service',
+      audit: 'Audit & attestation',
+      regtech: 'RegTech',
+      legal: 'Legal / Advisory'
+    };
+
+    function initials(name) {
+      return String(name || '')
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(function (w) { return w.charAt(0); })
+        .join('')
+        .toUpperCase();
+    }
+
+    // Only ever set href/src from a value that looks like an https URL or a
+    // site-relative path -- rejects `javascript:` and similar. Returns null
+    // (caller should then omit the attribute) rather than an empty string.
+    function safeUrl(value) {
+      var v = String(value || '').trim();
+      if (/^https:\/\//i.test(v) || /^\//.test(v)) return v;
+      return null;
+    }
+
+    function renderCard(listing) {
+      var card = document.createElement('div');
+      card.className = 'directory-card';
+
+      var logoUrl = safeUrl(listing.logoUrl);
+      if (logoUrl) {
+        var img = document.createElement('img');
+        img.className = 'directory-card-logo';
+        img.loading = 'lazy';
+        img.width = 48;
+        img.height = 48;
+        img.alt = '';
+        img.setAttribute('src', logoUrl);
+        card.appendChild(img);
+      } else {
+        var fallback = document.createElement('div');
+        fallback.className = 'directory-card-logo directory-card-logo-fallback';
+        fallback.setAttribute('aria-hidden', 'true');
+        fallback.textContent = initials(listing.name);
+        card.appendChild(fallback);
+      }
+
+      var body = document.createElement('div');
+      body.className = 'directory-card-body';
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'directory-card-name';
+      var siteUrl = safeUrl(listing.website);
+      if (siteUrl) {
+        var link = document.createElement('a');
+        link.setAttribute('href', siteUrl);
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer nofollow';
+        link.textContent = listing.name || '';
+        nameEl.appendChild(link);
+      } else {
+        nameEl.textContent = listing.name || '';
+      }
+      body.appendChild(nameEl);
+
+      var categoryEl = document.createElement('div');
+      categoryEl.className = 'directory-card-category';
+      categoryEl.textContent = CATEGORY_LABELS[listing.category] || 'Other';
+      body.appendChild(categoryEl);
+
+      if (listing.description) {
+        var descEl = document.createElement('p');
+        descEl.className = 'directory-card-desc';
+        descEl.textContent = listing.description;
+        body.appendChild(descEl);
+      }
+
+      var disclaimerEl = document.createElement('p');
+      disclaimerEl.className = 'directory-card-disclaimer';
+      disclaimerEl.textContent = 'Self-reported listing. Not vetted, ranked, or endorsed by Juro.';
+      body.appendChild(disclaimerEl);
+
+      card.appendChild(body);
+      return card;
+    }
+
+    fetch('/data/directory-listings.json')
+      .then(function (res) {
+        if (!res.ok) throw new Error('fetch_failed');
+        return res.json();
+      })
+      .then(function (listings) {
+        if (!Array.isArray(listings) || listings.length === 0) return;
+
+        listings.forEach(function (listing) {
+          if (listing && listing.name) gridEl.appendChild(renderCard(listing));
+        });
+
+        if (gridEl.childElementCount === 0) return;
+
+        emptyEl.hidden = true;
+        gridEl.hidden = false;
+        if (subEl) {
+          subEl.textContent = 'DPO consultants, audit firms, RegTech vendors, and legal/advisory practices, listed by the firms themselves, not ranked by Juro.';
+        }
+      })
+      .catch(function () {
+        // Fetch failed (offline, malformed JSON from a hand-edit, 404, etc.)
+        // -- leave the static empty state visible. This is a progressive
+        // enhancement layer over a page that already works without it; a
+        // broken data file must never take down the whole page.
+      });
   })();
 </script>
 
