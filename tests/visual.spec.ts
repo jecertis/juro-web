@@ -48,6 +48,20 @@
  * the `update-snapshots` PR label, or regen locally via
  * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
  *
+ * 2026-09-01 (BL-MKT-077, named author bios): added a byline link + an
+ * "About the author" bio card (name/title/bio placeholders pending founder
+ * sign-off) to blog/_template.html and all 13 published posts, plus a Person
+ * node in each post's Article JSON-LD author field. This is page-local .post-*
+ * CSS duplicated per post (no shared stylesheet touched), so the only baseline
+ * in this PAGES list that moves is ai-act-art50-explainer (desktop/mobile/
+ * mobile-hd) — the only blog post this spec screenshots. homepage, checklist,
+ * deploy-evergent, privacy, dpdp-technical-evidence-handbook,
+ * dpdp-data-flow-mapper, directory, and directory-badge are untouched by this
+ * change. Docker unavailable in this environment and the installed
+ * @playwright/test (1.61.1) matches neither Docker tag cited elsewhere in this
+ * file — apply the `update-snapshots` PR label to regenerate baselines rather
+ * than pulling a mismatched local image.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */

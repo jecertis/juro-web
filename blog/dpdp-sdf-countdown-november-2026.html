@@ -53,7 +53,12 @@
   "url": "https://jurocompliant.com/blog/dpdp-sdf-countdown-november-2026",
   "datePublished": "2026-06-01",
   "dateModified": "2026-06-01",
-  "author": { "@id": "https://jurocompliant.com/#organization" },
+  "author": {
+    "@type": "Person",
+    "name": "AUTHOR_NAME_PENDING",
+    "jobTitle": "AUTHOR_ROLE_PENDING",
+    "worksFor": { "@id": "https://jurocompliant.com/#organization" }
+  },
   "publisher": { "@id": "https://jurocompliant.com/#organization" },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -168,9 +173,48 @@
   }
 
   .post-author { font-size: var(--text-xs); color: rgba(255,255,255,0.90); font-weight: 500; }
+  .post-author a.post-author-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+  .post-author a.post-author-link:hover { color: #fff; }
   .post-date-meta { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
   .post-reading-time { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.45); }
   .post-meta-sep { color: rgba(255,255,255,0.2); font-size: var(--text-xs); }
+
+  /* ── Author bio card (BL-MKT-077) ── */
+  .post-author-bio {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s3);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--s3) var(--s4);
+    margin: var(--s5) 0;
+  }
+  .post-author-bio-avatar {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(245,196,0,0.12);
+    border: 1px solid rgba(245,196,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--yellow);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .post-author-bio-name { font-size: var(--text-sm); font-weight: 600; color: #fff; }
+  .post-author-bio-title { font-family: var(--mono); font-size: var(--text-xs); color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  .post-author-bio-text { font-size: var(--text-sm); color: rgba(255,255,255,0.72); line-height: var(--lh-reading); margin: 0; }
+  @media (max-width: 640px) {
+    .post-author-bio { flex-direction: column; align-items: flex-start; }
+  }
 
   /* ── Audience callout ── */
   .post-audience {
@@ -430,7 +474,7 @@
     <h1 class="post-title">DPDP Significant Data Fiduciary: Engineer for November 2026</h1>
 
     <div class="post-meta-row">
-      <span class="post-author">JuroCompliant</span>
+      <span class="post-author">By <a href="/about" class="post-author-link">AUTHOR_NAME_PENDING</a></span>
       <span class="post-meta-sep">·</span>
       <time class="post-date-meta" datetime="2026-06-01">1 Jun 2026</time>
       <span class="post-meta-sep">·</span>
@@ -547,6 +591,16 @@
     </section>
 
     <!-- ══ CTA ══ -->
+    <!-- ══ Author bio (BL-MKT-077) — name/title/bio are founder-supplied; PENDING tokens are placeholders, not copy ══ -->
+    <section class="post-author-bio" aria-label="About the author">
+      <div class="post-author-bio-avatar" aria-hidden="true">PHOTO<br>PENDING</div>
+      <div>
+        <div class="post-author-bio-name">AUTHOR_NAME_PENDING</div>
+        <div class="post-author-bio-title">AUTHOR_ROLE_PENDING</div>
+        <p class="post-author-bio-text">AUTHOR_BIO_PENDING</p>
+      </div>
+    </section>
+
     <div class="post-cta">
       <div class="post-cta-eyebrow">See where your gaps are now</div>
       <h3>Instant DPDP posture scan — no account required</h3>
