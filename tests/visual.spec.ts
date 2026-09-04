@@ -62,6 +62,17 @@
  * file — apply the `update-snapshots` PR label to regenerate baselines rather
  * than pulling a mismatched local image.
  *
+ * 2026-09-02 (BL-MKT-106, disable the badge mint capability): removed the
+ * free-text firm-name generator (`#badgeFirmName` input + snippet output) from
+ * directory-badge.html — it let any visitor mint a Juro-branded badge embed
+ * for an unvalidated firm name, an Axiom 2 overclaim. The page lost visible
+ * content (the generator form + two snippet blocks), so the
+ * directory-badge-desktop/mobile/mobile-hd baselines WILL diff and need
+ * regenerating via the `update-snapshots` label. directory.html's only touch
+ * was rewording its already-hidden (`display:none`) success-message string —
+ * invisible in the default screenshot state — so directory-desktop/mobile/
+ * mobile-hd should NOT diff.
+ *
  * The 0.1% pixel-diff tolerance accommodates anti-aliasing / sub-pixel rounding
  * differences. Genuine layout/contrast regressions exceed it comfortably.
  */
