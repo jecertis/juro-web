@@ -119,7 +119,7 @@
       "name": "Should databases holding personal data sit in a private subnet?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Network segmentation is one of the oldest, most basic technical safeguards, and §8(5) expects it. A data store sitting in a public subnet is one misconfigured rule away from being reachable from anywhere on the internet. DPDP basis: §8(5), reasonable security safeguards. Verified by: rule AWS-VPC-PRI-001, which flags data-processing workloads placed in public subnets, cited to DPDP §8(5)."
+        "text": "Yes. Network segmentation is one of the oldest, most basic technical safeguards, and §8(5) expects it. A database sitting in a public subnet is one misconfigured rule away from being reachable from anywhere on the internet. DPDP basis: §8(5), reasonable security safeguards. Verified by: rule AWS-RDS-PUB-001, which flags an RDS instance configured as publicly accessible, cited to DPDP §8(5)."
       }
     },
     {
@@ -127,7 +127,7 @@
       "name": "Is unrestricted outbound network access a DPDP risk?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, and it's an easy one to miss. A safeguard isn't only about who gets in, it's also about where data can go once inside. A workload that can send traffic to any destination on the internet has no boundary on where personal data ends up if that workload is ever compromised. DPDP basis: §8(5), reasonable security safeguards. Verified by: rule AWS-SG-EGR-001, which flags a security group that permits unrestricted outbound access, cited to DPDP §8(5)."
+        "text": "Yes, and it's an easy one to miss. A safeguard isn't only about who gets in, it's also about where data can go once inside. A workload that can send traffic to any destination on the internet has no boundary on where personal data ends up if that workload is ever compromised. DPDP basis: §8(5), reasonable security safeguards. Juro does not currently have a live check for unrestricted outbound access; treat this as a manual review item until that coverage exists."
       }
     },
     {
@@ -167,7 +167,7 @@
       "name": "Do secrets and parameters need customer-controlled encryption keys?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, if your client wants to be the one who actually controls access. The secrets that unlock personal data, database passwords, API keys, are themselves sensitive. §8(5) treats their protection as part of the safeguard. A customer-managed key means your client, not only the cloud platform, governs who can decrypt them. DPDP basis: §8(5), reasonable security safeguards. Verified by: rule AWS-SSM-CMK-001, which flags SSM parameters (AWS's parameter and secrets store) not encrypted with a customer-managed key, cited to DPDP §8(5)."
+        "text": "Yes, if your client wants to be the one who actually controls access. The secrets that unlock personal data, database passwords, API keys, are themselves sensitive. §8(5) treats their protection as part of the safeguard. A customer-managed key means your client, not only the cloud platform, governs who can decrypt them. DPDP basis: §8(5), reasonable security safeguards. Verified by: rule GCP-SM-CMEK-001, which flags a Secret Manager secret not encrypted with a customer-managed encryption key, cited to DPDP §8(5)."
       }
     },
     {
@@ -183,7 +183,7 @@
       "name": "Does DPDP require logging access to personal data stores?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. An audit trail of who read or changed personal data is what lets your client answer, after the fact, whether an access was legitimate. §8(5) treats that trail as a technical accountability measure, not an optional nicety. DPDP basis: §8(5), accountability and record-keeping. Verified by: rule AWS-CT-DATA-001, which flags missing CloudTrail data-event logging (AWS's activity-logging service) on personal data stores, cited to DPDP §8(5)."
+        "text": "Yes. An audit trail of who read or changed personal data is what lets your client answer, after the fact, whether an access was legitimate. §8(5) treats that trail as a technical accountability measure, not an optional nicety. DPDP basis: §8(5), accountability and record-keeping. Juro does not currently have a live check for CloudTrail data-event logging on AWS; treat this as a manual review item until that coverage exists."
       }
     },
     {
@@ -191,7 +191,7 @@
       "name": "Should you have automated alerting on your logs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. A log nobody watches is a record for the post-mortem, not a safeguard in the moment. §8(5)'s reasonable safeguards include noticing a problem while it's happening, and automated metric filters and alerts are what turn a passive log into active detection. DPDP basis: §8(5), reasonable security safeguards. Verified by: rule AWS-CWL-MF-001, which flags log groups without the expected metric filters and alerting, cited to DPDP §8(5)."
+        "text": "Yes. A log nobody watches is a record for the post-mortem, not a safeguard in the moment. §8(5)'s reasonable safeguards include noticing a problem while it's happening, and automated metric filters and alerts are what turn a passive log into active detection. DPDP basis: §8(5), reasonable security safeguards. Juro does not currently have a live check for metric-filter and alerting configuration on AWS; treat this as a manual review item until that coverage exists."
       }
     },
     {
@@ -207,7 +207,7 @@
       "name": "Does DPDP require you to delete data you no longer need?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, and it needs to be automatic, not a manual promise. §8(9) says personal data must not be retained beyond the period necessary. A bucket that keeps every object forever has no retention limit at all, regardless of what the policy document says. An automated lifecycle policy is the technical safeguard that actually enforces the limit. DPDP basis: §8(9), retention limitation, safeguarded under §8(5). Verified by: rule AWS-S3-LCP-001, which flags an S3 bucket without a lifecycle policy, cited to DPDP §8(9)."
+        "text": "Yes, and it needs to be automatic, not a manual promise. §8(9) says personal data must not be retained beyond the period necessary. A bucket that keeps every object forever has no retention limit at all, regardless of what the policy document says. An automated lifecycle policy is the technical safeguard that actually enforces the limit. DPDP basis: §8(9), retention limitation, safeguarded under §8(5). Juro does not currently have a live check for S3 lifecycle policies; treat this as a manual review item until that coverage exists."
       }
     },
     {
@@ -720,11 +720,11 @@
 
     <div class="control-entry">
       <h3>Should databases holding personal data sit in a private subnet?</h3>
-      <p><strong>Yes.</strong> Network segmentation is one of the oldest, most basic technical safeguards, and §8(5) expects it. A data store sitting in a public subnet is one misconfigured rule away from being reachable from anywhere on the internet.</p>
+      <p><strong>Yes.</strong> Network segmentation is one of the oldest, most basic technical safeguards, and §8(5) expects it. A database sitting in a public subnet is one misconfigured rule away from being reachable from anywhere on the internet.</p>
       <dl>
         <dt>DPDP basis</dt><dd>§8(5), reasonable security safeguards.</dd>
-        <dt>What to check</dt><dd>workloads that process or store personal data run in private subnets with no direct route to or from the public internet.</dd>
-        <dt>Verified by</dt><dd>rule <strong>AWS-VPC-PRI-001</strong>, which flags data-processing workloads placed in public subnets, cited to DPDP §8(5).</dd>
+        <dt>What to check</dt><dd>the database instance's public-accessibility flag is disabled, so it cannot be reached directly from the internet.</dd>
+        <dt>Verified by</dt><dd>rule <strong>AWS-RDS-PUB-001</strong>, which flags an RDS instance configured as publicly accessible, cited to DPDP §8(5).</dd>
       </dl>
       <div class="scan-cta-line">See where your own environment, or a client's, stands on this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
     </div>
@@ -735,9 +735,9 @@
       <dl>
         <dt>DPDP basis</dt><dd>§8(5), reasonable security safeguards.</dd>
         <dt>What to check</dt><dd>security groups on personal-data workloads restrict egress to known destinations rather than allowing all outbound traffic.</dd>
-        <dt>Verified by</dt><dd>rule <strong>AWS-SG-EGR-001</strong>, which flags a security group that permits unrestricted outbound access, cited to DPDP §8(5).</dd>
+        <dt>Verified by</dt><dd>no live Juro rule today. Juro does not yet check outbound security-group rules; treat this as a manual review item.</dd>
       </dl>
-      <div class="scan-cta-line">Scan your own environment, or a client's, for this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+      <div class="scan-cta-line">Scan your own environment, or a client's, for the checks Juro does cover at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
     </div>
 
     <div class="control-entry">
@@ -795,8 +795,8 @@
       <p><strong>Yes, if your client wants to be the one who actually controls access.</strong> The secrets that unlock personal data, database passwords, API keys, are themselves sensitive. §8(5) treats their protection as part of the safeguard. A customer-managed key means your client, not only the cloud platform, governs who can decrypt them.</p>
       <dl>
         <dt>DPDP basis</dt><dd>§8(5), reasonable security safeguards.</dd>
-        <dt>What to check</dt><dd>secure parameters and secrets are encrypted with a customer-managed key rather than only a default platform key.</dd>
-        <dt>Verified by</dt><dd>rule <strong>AWS-SSM-CMK-001</strong>, which flags SSM parameters (AWS's parameter and secrets store) not encrypted with a customer-managed key, cited to DPDP §8(5).</dd>
+        <dt>What to check</dt><dd>secrets are encrypted with a customer-managed key rather than only a default platform key.</dd>
+        <dt>Verified by</dt><dd>rule <strong>GCP-SM-CMEK-001</strong>, which flags a Secret Manager secret not encrypted with a customer-managed encryption key, cited to DPDP §8(5).</dd>
       </dl>
       <div class="scan-cta-line">See where your own environment, or a client's, stands on this at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
     </div>
@@ -828,9 +828,9 @@
       <dl>
         <dt>DPDP basis</dt><dd>§8(5), accountability and record-keeping.</dd>
         <dt>What to check</dt><dd>data-plane event logging is enabled on the stores that hold personal data, capturing object-level and record-level access.</dd>
-        <dt>Verified by</dt><dd>rule <strong>AWS-CT-DATA-001</strong>, which flags missing CloudTrail data-event logging (AWS's activity-logging service) on personal data stores, cited to DPDP §8(5).</dd>
+        <dt>Verified by</dt><dd>no live Juro rule today. Juro does not yet check CloudTrail data-event logging on AWS; treat this as a manual review item.</dd>
       </dl>
-      <div class="scan-cta-line">Run this check against your own environment, or a client's, at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+      <div class="scan-cta-line">Scan your own environment, or a client's, for the checks Juro does cover at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
     </div>
 
     <div class="control-entry">
@@ -839,9 +839,9 @@
       <dl>
         <dt>DPDP basis</dt><dd>§8(5), reasonable security safeguards.</dd>
         <dt>What to check</dt><dd>metric filters and alarms are configured on the log groups that matter, so anomalous activity raises an alert instead of sitting silently.</dd>
-        <dt>Verified by</dt><dd>rule <strong>AWS-CWL-MF-001</strong>, which flags log groups without the expected metric filters and alerting, cited to DPDP §8(5).</dd>
+        <dt>Verified by</dt><dd>no live Juro rule today. Juro does not yet check metric-filter and alerting configuration on AWS; treat this as a manual review item.</dd>
       </dl>
-      <div class="scan-cta-line">Check this for your own environment, or a client's, at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+      <div class="scan-cta-line">Scan your own environment, or a client's, for the checks Juro does cover at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
     </div>
 
     <div class="control-entry">
@@ -867,9 +867,9 @@
       <dl>
         <dt>DPDP basis</dt><dd>§8(9), retention limitation, safeguarded under §8(5).</dd>
         <dt>What to check</dt><dd>object storage holding personal data carries a lifecycle policy that expires or transitions objects on a defined schedule.</dd>
-        <dt>Verified by</dt><dd>rule <strong>AWS-S3-LCP-001</strong>, which flags an S3 bucket without a lifecycle policy, cited to DPDP §8(9).</dd>
+        <dt>Verified by</dt><dd>no live Juro rule today. Juro does not yet check S3 lifecycle policies; treat this as a manual review item.</dd>
       </dl>
-      <div class="scan-cta-line">Verify this against your own environment, or a client's, at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
+      <div class="scan-cta-line">Scan your own environment, or a client's, for the checks Juro does cover at <a href="https://jurocompliant.com">jurocompliant.com</a>.</div>
     </div>
 
     <div class="control-entry">
