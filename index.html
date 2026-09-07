@@ -205,7 +205,7 @@
           "name": "How is Juro different from OneTrust, Vanta, or cookie scanners?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Juro is non-custodial: your data never leaves your perimeter. Legacy compliance suites require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro's VPC-agent scans produce signed, deterministic artifacts that can be independently verified; the public-surface scan is an unsigned starting point. Juro covers DPDP, GDPR, and DORA in a single scan."
+            "text": "Juro's VPC agent keeps infrastructure finding contents in your cloud; this does not mean zero runtime metadata egress. The public-surface scanner fetches public pages on Juro-operated infrastructure and retains analysis output for 90 days. Legacy compliance suites like OneTrust and Vanta require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro's VPC-agent scans produce signed, deterministic artifacts that can be independently verified; the public-surface scan is an unsigned starting point. Juro covers DPDP, GDPR, and DORA in a single scan."
           }
         },
         {
@@ -213,7 +213,7 @@
           "name": "Does Juro store or process my website data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Juro's architecture is non-custodial by design. The surface scanner analyses public-facing pages and produces findings without storing scan content. For infrastructure-level assessments, the agent runs in your VPC with a read-only IAM role, and produces signed findings locally."
+            "text": "Yes. The public-surface scanner fetches your public URL on Juro-operated infrastructure. Submitted URLs, hashed IP and user-agent information, and finding payloads are subject to a configured 90-day retention sweep. For infrastructure assessments, the agent runs inside your VPC with a read-only IAM role and produces findings locally. Infrastructure finding contents stay in your cloud; the agent supports a notary request containing bundle and rule-set hashes, a hashed engagement identifier, the agent version, and a scan timestamp. Optional telemetry and report destinations depend on the deployment configuration."
           }
         },
         {
@@ -471,7 +471,7 @@
     <div class="trust-divider"></div>
     <div class="trust-item"><span class="trust-num">60s</span><span class="trust-label">average scan time</span></div>
     <div class="trust-divider"></div>
-    <div class="trust-item"><span class="trust-num">Zero</span><span class="trust-label">data leaves your perimeter</span></div>
+    <div class="trust-item"><span class="trust-num">In-VPC</span><span class="trust-label">deep scans run in your cloud</span></div>
     <div class="trust-divider"></div>
     <div class="trust-item"><span class="trust-num">80%+</span><span class="trust-label">of scanned sites had pre-consent trackers</span></div>
   </div>
@@ -543,7 +543,7 @@
         <div class="log-line"><span class="log-ts">00:02.341</span><span class="log-icon log-icon-warn">▷</span><span class="log-msg">No equivalent "Reject All" on first layer<span class="log-tag log-tag--pre">← VIOLATION</span></span></div>
         <div class="log-line"><span class="log-ts">00:04.812</span><span class="log-icon log-icon-run">▶</span><span class="log-msg">23 network requests intercepted · 2 pre-consent trackers recorded</span></div>
         <div class="log-line"><span class="log-ts">00:04.813</span><span class="log-icon log-icon-run">▶</span><span class="log-msg">Mapping to DPDP Sec. 5, GDPR Art. 6(1)(a), GDPR Art. 7 …</span></div>
-        <div class="log-line log-line--done"><span class="log-ts">00:04.901</span><span class="log-icon log-icon-ok">✓</span><span class="log-msg">3 violations found. Signed artifact generated.</span></div>
+        <div class="log-line log-line--done"><span class="log-ts">00:04.901</span><span class="log-icon log-icon-ok">✓</span><span class="log-msg">3 findings recorded. Unsigned surface report generated.</span></div>
       </div>
       <p class="how-note">Over 80% of sites scanned on Juro had at least one pre-consent tracker. Each finding cites the exact provision with no vague recommendations. <a href="https://preconsent.io/" target="_blank" rel="noopener" class="stat-cite">85% of websites globally collect data before any user interaction</a> <cite class="stat-source">(PreConsent.io, 10,000+ sites, 2026)</cite>.</p>
     </div>
@@ -756,7 +756,7 @@
           <a href="mailto:help@jurocompliant.com?subject=Single%20scan" class="pricing-cta pricing-cta-outline">Talk to us</a>
         </div>
         <div class="pricing-card pricing-card-highlight">
-          <div class="pricing-badge">Most adopted</div>
+          <div class="pricing-badge">Recurring scans</div>
           <div class="pricing-tier">Continuous</div>
           <div class="pricing-price">&euro;1,850<span class="pricing-unit">/mo</span></div>
           <ul class="pricing-list">
@@ -831,13 +831,13 @@
       <details class="faq-item">
         <summary class="faq-question">How is Juro different from OneTrust, Vanta, or cookie scanners?</summary>
         <div class="faq-answer">
-          <p>Juro is non-custodial: your data never leaves your perimeter. Legacy compliance suites like OneTrust and Vanta require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro's VPC-agent scans produce signed, deterministic artifacts that can be independently verified; the public-surface scan is an unsigned starting point. Juro covers DPDP, GDPR, and DORA in a single scan.</p>
+          <p>Juro's VPC agent keeps infrastructure finding contents in your cloud; this does not mean zero runtime metadata egress. The public-surface scanner fetches public pages on Juro-operated infrastructure and retains analysis output for 90 days. Legacy compliance suites like OneTrust and Vanta require you to upload data to their cloud. Free cookie scanners only check surface cookies and do not map findings to regulatory provisions. Juro's VPC-agent scans produce signed, deterministic artifacts that can be independently verified; the public-surface scan is an unsigned starting point. Juro covers DPDP, GDPR, and DORA in a single scan.</p>
         </div>
       </details>
       <details class="faq-item">
         <summary class="faq-question">Does Juro store or process my website data?</summary>
         <div class="faq-answer">
-          <p>The scanner runs server-side against your public URL. Your page content, cookies, and user data are never written to disk. Only the analysis output is retained, for 90 days, to power the scan cache. For infrastructure assessments, the agent runs inside your VPC with a read-only IAM role and produces signed findings locally. Nothing is uploaded to our cloud.</p>
+          <p>Yes. The public-surface scanner fetches your public URL on Juro-operated infrastructure. Submitted URLs, hashed IP and user-agent information, and finding payloads are subject to a configured 90-day retention sweep. For infrastructure assessments, the agent runs inside your VPC with a read-only IAM role and produces findings locally. Infrastructure finding contents stay in your cloud; the agent supports a notary request containing bundle and rule-set hashes, a hashed engagement identifier, the agent version, and a scan timestamp. Optional telemetry and report destinations depend on the deployment configuration.</p>
         </div>
       </details>
     </div>
