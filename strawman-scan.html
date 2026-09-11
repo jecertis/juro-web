@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Strawman Scan — JuroCompliant</title>
+<meta name="description" content="Watch a live-looking Juro scan run against a demo domain and sign its result, findings and all, in real time.">
+<!-- Business-card QR demo, not a content page: keep it out of the index so it
+     never competes with real content pages in search (same pattern as demo.html). -->
+<meta name="robots" content="noindex, follow">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#EDF0EA">
+
+<script src="/config.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap');
+
+  :root{
+    --paper:#EDF0EA;
+    --ink:#151A17;
+    --ink-soft:#66705F;
+    --line:#D4DACC;
+    --surface:#FAFCF7;
+    --signal:#0E8F72;
+    --signal-soft:#E1F0E6;
+    --alert:#A6402E;
+    --alert-soft:#F5E6DF;
+    --shadow: 0 1px 2px rgba(21,26,23,0.06), 0 8px 24px rgba(21,26,23,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0C1110;
+      --ink:#E6EBE3;
+      --ink-soft:#8B9587;
+      --line:#242C27;
+      --surface:#141A17;
+      --signal:#4FDBAE;
+      --signal-soft:#132520;
+      --alert:#F08769;
+      --alert-soft:#2B1912;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0C1110;
+    --ink:#E6EBE3;
+    --ink-soft:#8B9587;
+    --line:#242C27;
+    --surface:#141A17;
+    --signal:#4FDBAE;
+    --signal-soft:#132520;
+    --alert:#F08769;
+    --alert-soft:#2B1912;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.45;
+    padding-block:24px;
+    padding-bottom:104px;
+    display:flex;
+    justify-content:center;
+    margin:0;
+  }
+  .page{
+    width:100%;
+    max-width:420px;
+    padding-inline:18px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  @media (min-width:540px){
+    .page{ max-width:480px; padding-inline:20px; gap:26px; }
+  }
+
+  /* ---- ledger (the live demo — leads the page) ---- */
+  .ledger{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .ledger-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .ledger-head .target{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink);
+    font-weight:500;
+    line-height:1.4;
+  }
+  .ledger-head .target small{
+    display:block;
+    font-family:'Source Sans 3', sans-serif;
+    font-size:12.5px;
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+  .status-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:12.5px;
+    flex:none;
+    white-space:nowrap;
+    background:var(--line);
+    color:var(--ink-soft);
+    transition:background .4s, color .4s;
+  }
+  .status-pill.bad{ background:var(--alert-soft); color:var(--alert); }
+  .status-pill.signed{ background:var(--signal-soft); color:var(--signal); }
+  .status-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:currentColor;
+    flex:none;
+  }
+  .status-pill.live .status-dot{ animation:pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
+
+  .score-hero{
+    padding:22px 16px 6px;
+    text-align:center;
+  }
+  .score-num{
+    font-family:'Archivo Expanded', sans-serif;
+    font-weight:800;
+    font-size:76px;
+    line-height:1;
+    color:var(--signal);
+    transition:color .4s;
+    font-variant-numeric:tabular-nums;
+  }
+  .score-num sub{
+    font-family:'Source Sans 3', sans-serif;
+    font-weight:600;
+    font-size:18px;
+    color:var(--ink-soft);
+  }
+  .score-label{
+    margin-top:4px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+
+  .beam{
+    position:relative;
+    height:2px;
+    background:var(--line);
+    margin:14px 16px 4px;
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .beam::after{
+    content:'';
+    position:absolute; top:0; left:-30%;
+    width:30%; height:100%;
+    background:linear-gradient(90deg, transparent, var(--alert), transparent);
+    animation:sweep 1.4s linear infinite;
+    opacity:0;
+    transition:opacity .3s;
+  }
+  .beam.live::after{ opacity:1; }
+  @media (prefers-reduced-motion: reduce){ .beam::after{ animation:none; } }
+  @keyframes sweep{ from{ left:-30%; } to{ left:100%; } }
+
+  .checks{ padding:6px 16px 4px; }
+  .check-row{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .check-row:last-child{ border-bottom:none; }
+  .check-mark{
+    width:20px; height:20px;
+    border-radius:50%;
+    flex:none;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px;
+    background:var(--line);
+    color:var(--ink-soft);
+    transition:background .3s, color .3s, transform .3s;
+  }
+  .check-mark.fail{ background:var(--alert-soft); color:var(--alert); }
+  .check-mark.pass{ background:var(--signal-soft); color:var(--signal); }
+  .check-mark.land{ transform:scale(1.3); }
+  .check-label{ flex:1; color:var(--ink-soft); transition:color .3s; }
+  .check-row.done .check-label{ color:var(--ink); }
+  .check-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    flex:none;
+    text-align:right;
+    min-width:52px;
+  }
+
+  /* ---- receipt (the signing moment — reads like real tool output) ---- */
+  .receipt{
+    margin:14px 16px 16px;
+    border-left:2px solid var(--line);
+    padding:2px 0 2px 14px;
+    display:none;
+    flex-direction:column;
+    gap:7px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+  }
+  .receipt.show{ display:flex; border-left-color:var(--signal); }
+  .receipt-line{
+    color:var(--ink-soft);
+    opacity:0;
+    transform:translateY(3px);
+    transition:opacity .25s, transform .25s;
+  }
+  .receipt-line.in{ opacity:1; transform:translateY(0); }
+  .receipt-line::before{ content:'> '; color:var(--ink-soft); }
+  .receipt-final{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    margin-top:2px;
+    padding-top:9px;
+    border-top:1px dashed var(--line);
+    opacity:0;
+    transition:opacity .3s;
+  }
+  .receipt-final.in{ display:flex; opacity:1; }
+  .receipt-row{ display:flex; justify-content:space-between; gap:10px; }
+  .receipt-row span{ color:var(--ink-soft); flex:none; }
+  .receipt-row b{ font-weight:500; color:var(--ink); word-break:break-all; text-align:right; }
+
+  /* ---- what just happened (payoff, below the live moment) ---- */
+  .mast h1{
+    font-family:'Archivo Expanded', sans-serif;
+    font-weight:800;
+    font-size:26px;
+    line-height:1.14;
+    margin:0 0 8px;
+    text-wrap:balance;
+  }
+  .mast p{
+    font-size:15px;
+    color:var(--ink-soft);
+    max-width:36ch;
+    margin:0;
+  }
+  @media (min-width:540px){
+    .mast h1{ font-size:30px; }
+  }
+
+  .cta-bar{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    display:flex;
+    justify-content:center;
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+    background:var(--paper);
+    box-shadow:0 -8px 24px rgba(0,0,0,0.08);
+    z-index:10;
+  }
+  .cta-bar-inner{
+    width:100%;
+    max-width:420px;
+  }
+  @media (min-width:540px){ .cta-bar-inner{ max-width:480px; } }
+  .cta{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background:var(--signal);
+    color:var(--surface);
+    font-family:'Source Sans 3', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    text-decoration:none;
+    padding:15px 18px;
+    min-height:52px;
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    transition:filter .2s, transform .2s;
+  }
+  .cta:hover{ filter:brightness(1.06); }
+  .cta:active{ transform:scale(.99); }
+  .cta:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .cta-sub{
+    margin-top:6px;
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  .caption{
+    font-size:14px;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin:0;
+  }
+  .caption strong{ color:var(--ink); font-weight:600; }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .brand .mark{
+    width:9px; height:9px;
+    border-radius:2px;
+    background:var(--signal);
+    flex:none;
+  }
+  .brand .name{
+    font-family:'Archivo Expanded', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:-0.01em;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="brand"><span class="mark"></span><span class="name">JuroCompliant</span></div>
+
+  <div class="ledger">
+    <div class="ledger-head">
+      <div class="target">acme-payments.example<small>DORA and GDPR checks</small></div>
+      <div class="status-pill live" id="statusPill"><span class="status-dot"></span><span id="statusText">starting scan…</span></div>
+    </div>
+
+    <div class="score-hero">
+      <div class="score-num" id="scoreNum">100<sub>/100</sub></div>
+      <div class="score-label">Posture score</div>
+    </div>
+
+    <div class="beam live" id="beam"></div>
+
+    <div class="checks" id="checks">
+      <div class="check-row" data-result="pass"><div class="check-mark">–</div><div class="check-label">TLS &amp; HSTS configuration</div><div class="check-note" data-text="valid"></div></div>
+      <div class="check-row" data-result="fail"><div class="check-mark">–</div><div class="check-label">Cookie consent mechanism</div><div class="check-note" data-text="missing"></div></div>
+      <div class="check-row" data-result="fail"><div class="check-mark">–</div><div class="check-label">Data Processing Agreement on file</div><div class="check-note" data-text="not found"></div></div>
+      <div class="check-row" data-result="fail"><div class="check-mark">–</div><div class="check-label">Sub-processor register published</div><div class="check-note" data-text="not found"></div></div>
+      <div class="check-row" data-result="fail"><div class="check-mark">–</div><div class="check-label">Incident response SLA disclosed</div><div class="check-note" data-text="not found"></div></div>
+      <div class="check-row" data-result="fail"><div class="check-mark">–</div><div class="check-label">Signed data-flow map</div><div class="check-note" data-text="not found"></div></div>
+    </div>
+
+    <div class="receipt" id="receipt">
+      <div class="receipt-line" data-i="0">hashing scan manifest</div>
+      <div class="receipt-line" data-i="1">signing with Ed25519 key</div>
+      <div class="receipt-line" data-i="2">writing signed artifact</div>
+      <div class="receipt-final" id="receiptFinal">
+        <div class="receipt-row"><span>Signed by</span><b>JuroCompliant</b></div>
+        <div class="receipt-row"><span>Artifact hash</span><b id="sigHash"></b></div>
+        <div class="receipt-row"><span>Signature</span><b>VERIFIED (Ed25519)</b></div>
+        <div class="receipt-row"><span>Timestamped</span><b id="sigTime">—</b></div>
+        <div class="receipt-row"><span>Result</span><b>5 failures, signed as-is</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mast">
+    <h1>The scan is real.<br>So is the signature.</h1>
+    <p>This is what happens the moment someone scans the card. Juro doesn't fix the findings for you — it signs them, pass or fail, so the evidence can't be quietly edited later.</p>
+  </div>
+
+  <p class="caption">Not a claim on a page. <strong>A signed artifact, generated in front of you, findings and all.</strong></p>
+</div>
+
+<div class="cta-bar">
+  <div class="cta-bar-inner">
+    <a class="cta" href="https://jurocompliant.com/?utm_source=business_card&amp;utm_medium=qr&amp;utm_campaign=strawman_scan" target="_blank" rel="noopener noreferrer">Scan your website</a>
+    <p class="cta-sub">Same scanner. No card required.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var scoreNum = document.getElementById('scoreNum');
+  var pill = document.getElementById('statusPill');
+  var statusText = document.getElementById('statusText');
+  var beam = document.getElementById('beam');
+  var receipt = document.getElementById('receipt');
+  var receiptFinal = document.getElementById('receiptFinal');
+  var receiptLines = Array.prototype.slice.call(document.querySelectorAll('.receipt-line'));
+  var sigHash = document.getElementById('sigHash');
+  var sigTime = document.getElementById('sigTime');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.check-row'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var HASH = 'sha256:e6dad89e09655b38f708697c23c8ce9af998a11dc328191106a17fc1e39c793d';
+
+  function animateScore(from, to, dur){
+    var start = performance.now();
+    function tick(now){
+      var t = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - t, 2);
+      var val = Math.round(from + (to - from) * eased);
+      scoreNum.innerHTML = val + '<sub>/100</sub>';
+      scoreNum.style.color = val < 90 ? 'var(--alert)' : 'var(--signal)';
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function resolveRow(row){
+    var ok = row.getAttribute('data-result') === 'pass';
+    var mark = row.querySelector('.check-mark');
+    var note = row.querySelector('.check-note');
+    mark.classList.add('land');
+    setTimeout(function(){ mark.classList.remove('land'); }, 260);
+    mark.textContent = ok ? '✓' : '✕';
+    mark.classList.add(ok ? 'pass' : 'fail');
+    note.textContent = note.getAttribute('data-text');
+    row.classList.add('done');
+  }
+
+  function runScan(){
+    var failCount = 0;
+    var perStep = reduced ? 0 : 640;
+    var startDelay = reduced ? 0 : 450;
+
+    rows.forEach(function(row, i){
+      setTimeout(function(){
+        resolveRow(row);
+        var isFail = row.getAttribute('data-result') === 'fail';
+        if (isFail){
+          failCount++;
+          pill.classList.add('bad');
+          statusText.textContent = failCount + (failCount === 1 ? ' finding open' : ' findings open');
+          animateScore(100 - (failCount - 1) * 19, Math.max(24, 100 - failCount * 19), reduced ? 1 : 400);
+        }
+        if (i === rows.length - 1){
+          setTimeout(function(){
+            beam.classList.remove('live');
+            pill.classList.remove('live');
+            animateScore(100 - failCount * 19 + 5, 24, reduced ? 1 : 400);
+            setTimeout(signScan, reduced ? 0 : 750);
+          }, reduced ? 0 : 400);
+        }
+      }, startDelay + i * perStep);
+    });
+  }
+
+  function signScan(){
+    receipt.classList.add('show');
+
+    var lineDelay = reduced ? 0 : 480;
+    receiptLines.forEach(function(line, i){
+      setTimeout(function(){ line.classList.add('in'); }, i * lineDelay);
+    });
+
+    setTimeout(function(){
+      pill.classList.add('signed');
+      statusText.textContent = 'signed';
+      receiptFinal.classList.add('in');
+
+      var d = new Date();
+      sigTime.textContent = d.toISOString().replace('T',' ').slice(0,19) + ' UTC';
+
+      if (reduced){
+        sigHash.textContent = HASH;
+      } else {
+        var i = 0;
+        var typer = setInterval(function(){
+          i++;
+          sigHash.textContent = HASH.slice(0, i) + (i < HASH.length ? '▍' : '');
+          if (i >= HASH.length) clearInterval(typer);
+        }, 30);
+      }
+    }, receiptLines.length * lineDelay + (reduced ? 0 : 300));
+  }
+
+  runScan();
+})();
+</script>
+</body>
+</html>
