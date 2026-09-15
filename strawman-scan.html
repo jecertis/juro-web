@@ -475,5 +475,34 @@
   runScan();
 })();
 </script>
+<script>
+  // Pageview beacon — fires on every page load, forwards inbound UTM.
+  // Same pattern as directory-badge.html / install.html / about.html etc.
+  // BL-MKT-109: card.html -> strawman-scan.html preserves the UTM query
+  // string but this page never logged it, so business-card QR traffic was
+  // indistinguishable from any other hit. This beacon closes that gap.
+  (function beacon() {
+    try {
+      var base = (window.JURO_API_URL) || 'http://localhost:3000';
+      var q = new URLSearchParams(window.location.search);
+      var payload = {
+        path: window.location.pathname,
+        referrer: document.referrer || undefined,
+        utm_source: q.get('utm_source') || undefined,
+        utm_medium: q.get('utm_medium') || undefined,
+        utm_campaign: q.get('utm_campaign') || undefined,
+        utm_content: q.get('utm_content') || undefined
+      };
+      fetch(base + '/api/v1/pageview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        mode: 'cors',
+        credentials: 'omit'
+      }).catch(function () {});
+    } catch (_) {}
+  })();
+</script>
 </body>
 </html>
