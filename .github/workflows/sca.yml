@@ -6,12 +6,22 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'npm-shrinkwrap.json'
+      - '.github/workflows/sca.yml'
   push:
     branches: [main]
     paths:
       - 'package.json'
       - 'package-lock.json'
       - 'npm-shrinkwrap.json'
+      - '.github/workflows/sca.yml'
+  # BL-ENG-252: npm audit reads a live advisory feed, so an advisory disclosed
+  # after the last dependency change goes unseen until the next PR that happens
+  # to touch the lockfile. A weekly run re-audits the unchanged locked tree.
+  # Mondays 03:30 UTC (09:00 IST). Scheduled runs only fire from the default
+  # branch.
+  schedule:
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
 
 permissions:
   contents: read
