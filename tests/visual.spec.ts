@@ -17,6 +17,11 @@
  * the `update-snapshots` PR label, or regen locally via
  * `mcr.microsoft.com/playwright:v1.59.1-noble`, before merge.
  *
+ * 2026-10-07 (BL-ENG-247): narrowed the Art. 50 explainer's scan-capability copy
+ * to the one shipped probe (AIACT-50-001). Body text in the 'What Juro Scans For'
+ * section and the CTA changed length, so ai-act-art50-explainer desktop/mobile/
+ * mobile-hd baselines can diff (apply `update-snapshots`). No other page touched.
+ *
  * 2026-07-29 (BL-MKT-075): dropped dpdp-processor-guide (root) — the page is
  * now a meta-refresh redirect stub to /blog/dpdp-processor-guide, which is
  * not itself covered by this spec.
