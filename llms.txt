@@ -1,5 +1,5 @@
 # Jurocompliant
-# Last updated: 2026-08-21
+# Last updated: 2026-11-05
 
 Jurocompliant is a non-custodial website compliance scanner for the DPDP Act 2023 (India), GDPR (EU), and DORA (EU). It scans any public URL for consent gaps, pre-consent tracking, and missing privacy notices — mapping findings to specific regulatory provisions.
 
